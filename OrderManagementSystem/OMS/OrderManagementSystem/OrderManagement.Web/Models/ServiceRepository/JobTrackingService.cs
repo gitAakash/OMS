@@ -9,41 +9,50 @@ using System.IO;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-
-
-
-
 namespace OrderManagement.Web.Models.ServiceRepository
 {
     public interface IJobTrackingService
     {
-        IList<JobTrackingModel> GetAllJobs(string search);
+        IList<JobTrackingModel> GetAllJobs(string search, bool IsRefreshCache = false);
         IList<TrackingJobs> GetAllJobsBySp();
-        JobTrackingModel GetjobById(string jobid);
-        IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders();
-        void InsertJobAttachment(string jobis, string groupType, string folderName, HttpPostedFileBase file, string tags, string filePath, int Row_id = 0, int isDeleted = 0);
-        void InsertJobAttachment(string jobid, string groupType, string folderName, string fileName, string fileExt, int fileSize, string tags, string filePath, string OriginalFileName, int Row_id = 0, int isDeleted = 0);
-        
-        IList<SelectJobAttachmentTypes> GetJobAttachmentTypes(int groupid);
-
-        void UpdateJobAttachment(string TagSelected, string FileName,string FilePath, string Job_id, int Row_id = 0, int isDeleted = 0);
-        IList<GetJobAttachments> GetJobAttachments(int? groupType, int? job_Id, string Tags="");
-      
-        void InsertJobCopy(JobCopyModel model);
-        void UpdateJobCopy(JobCopyModel model);
-
+        IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int? job_Id);
+        IList<GetJobAttachments> GetJobAttachments(int? groupType, int? job_Id, string Tags = "");
+        IList<GetJobAttachments> GetJobAttachmentsForMail(int? groupType, int? job_Id, string Tags = "");
         IList<SelectJobCopyType> GetAllJobCopyTypes();
         IList<SelectJobCopy> GetAllJobCopy(int jobid);
-        void DeleteJobCopy(int jobCopyRowid);
-
+        IList<GetJobCommentsById> GetJobCommentsById(int? Row_Id);
+        IList<SelectJobAttachmentTypes> GetJobAttachmentTypes(int groupid);
+        IList<GetFoldersAttachmentCount> GetFoldersAttachmentCount(int? Job_id);
+        IList<GetUserCommentsbyJobId> GetUserCommentsbyJobId(int? Job_id);
+        IList<GetUserCommentsbyJobId> GetUserCommentsbyJobIdForMail(int? Job_id);
+        IList<GetJobAnnotationById> GetJobAnnotationbyFileId(int? FileId);
+        IList<GetJobAnnotationById> GetJobAnnotationbyFileIdForMail(int? FileId);
+        JobTrackingModel GetjobById(string jobid);
+        void UpdateFolderLock(string jobId, int RowId);
+        void InsertJobAttachment(string jobis, string groupType, string folderName, HttpPostedFileBase file, string tags, string filePath, string ThumbImgPath, int Selected=0, int Row_id = 0, int isDeleted = 0);
+        void InsertJobAttachment(string jobid, string groupType, string folderName, string fileName, string fileExt, int fileSize, string tags, string filePath, string OriginalFileName, string ThumbImgPath, int Selected=0, int Row_id = 0, int isDeleted = 0);
+        void InsertJobCopy(JobCopyModel model);
+        void UpdateJobAttachment(string TagSelected, string FileName, string FilePath, string Job_id,int isSelected=0, int Row_id = 0, int isDeleted = 0);
+        void UpdateJobCopy(JobCopyModel model);
         void UpdateJobAttachmentSelected(int rowId, bool isSelected);
+        void UpdateJobAttachmentComments(int Row_Id, String Comments);
+        void InsertJobAnnotation(int Row_Id, String AnnotationText);
 
+        IList<SelectJobAttachmentTemplate_Result> SelectJobAttachmentTemplate(int? groupType, int? job_Id);
+        void DeleteJobCopy(int jobCopyRowid);
         void DeleteJob(int jobid);
+        void UpdateJobAttachmentUploaded(int rowid, string uploadStatus);
+        /// <summary>
+        /// Update email Notification of Job
+        /// </summary>
+        /// <param name="JobId"></param>
+        /// <param name="Email"></param>
+        void UpdateJobEmail_Notification(int JobId, string Email);
+        void UpdateJobStatus(int JobId);
+        void UpdateJobAttachmentTags(string TagSelected, int? Row_id, int? Job_id);
+        void UpdateSelectedImageConfirmed(string RowId, int jobId);
 
     }
-
-
-
 
     public class JobTrackingService : IJobTrackingService
     {
@@ -54,7 +63,33 @@ namespace OrderManagement.Web.Models.ServiceRepository
 
         }
 
-        public IList<JobTrackingModel> GetAllJobs(string search)
+        public void UpdateJobAttachmentUploaded(int rowid, string uploadStatus)
+        {
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+                    int orgid = currentUser.OrgId.Value;
+                    int userid = currentUser.Row_Id;
+                    string userType = currentUser.UserType1.Name;
+                    int? compamyid = null;
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }
+
+                    _repository.UpdateJobAttachmentUploaded(orgid, userid, userType, compamyid, rowid, uploadStatus);
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+
+        }
+
+        public IList<JobTrackingModel> GetAllJobs(string search, bool IsRefreshCache = false)
         {
 
             IList<JobTrackingModel> joblst = new List<JobTrackingModel>();
@@ -77,7 +112,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
                     if (string.IsNullOrEmpty(search))
                         search = string.Empty;
 
-                    var joblist = _repository.GetAllJobs(orgid, userid, userTypeName, compamyid, search).ToList();
+                    var joblist = _repository.GetAllJobs(orgid, userid, userTypeName, compamyid, search, IsRefreshCache).ToList();
                     var joblistgroup = joblist.GroupBy(m => m.Row_Id).ToList();
 
                     foreach (var group in joblistgroup)
@@ -102,13 +137,25 @@ namespace OrderManagement.Web.Models.ServiceRepository
                             jobTrack.CreatedByName = joblistdistinct.Created_ByName;
                             jobTrack.Resource = joblistdistinct.Resource;
                             jobTrack.EventTitle = joblistdistinct.EventTitle;
+                            //   jobTrack.ProductId = joblistdistinct.ProductId;
+                            // if(joblistdistinct.WebOptionMax!=null)
+                            //     jobTrack.Product_Qty = joblistdistinct.WebOptionMax;
                             if (joblistdistinct.Created != null) jobTrack.Created = joblistdistinct.Created.Value;
                             if (joblistdistinct.Updated != null) jobTrack.Updated = joblistdistinct.Updated.Value;
                             if (joblistdistinct.StartDate != null) jobTrack.StartDate = joblistdistinct.StartDate.Value;
                             if (joblistdistinct.EndDate != null) jobTrack.EndDate = joblistdistinct.EndDate.Value;
                             jobTrack.Description = joblistdistinct.Description;
                             jobTrack.JobEventStatus = joblistdistinct.JobEventStatus;
-                          
+                            if (!string.IsNullOrEmpty(joblistdistinct.Email_Notification))
+                                jobTrack.Email_Notification = joblistdistinct.Email_Notification;
+                            if (!string.IsNullOrEmpty(joblistdistinct.Package))
+                                jobTrack.Package = joblistdistinct.Package;
+                            if (joblistdistinct.Package_Qty != null)
+                            {
+                                jobTrack.Product_Qty = joblistdistinct.Package_Qty;
+                            }
+                            else
+                                jobTrack.Product_Qty = 0;
 
 
                         }
@@ -129,7 +176,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
                                 productGroup.EndDate = value.EndDate.Value;
 
                             productGroup.Status = value.JobEventStatus;
-                           // productGroup.Status = value.Status;
+                            // productGroup.Status = value.Status;
 
                             if (value.Created != null)
                                 productGroup.Created = value.Created.Value;
@@ -159,7 +206,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
         class DistinctItemComparer : IEqualityComparer<TrackJobProductGroup>
         {
 
-            public bool Equals(TrackJobProductGroup x, TrackJobProductGroup y )
+            public bool Equals(TrackJobProductGroup x, TrackJobProductGroup y)
             {
                 return x.StartDate == y.StartDate &&
                     x.EndDate == y.EndDate &&
@@ -171,11 +218,11 @@ namespace OrderManagement.Web.Models.ServiceRepository
                 return obj.StartDate.GetHashCode() ^
                     obj.EndDate.GetHashCode() ^
                     obj.ProductGroupName.GetHashCode();
-                   
+
             }
         }
 
-       public void DeleteJob(int jobid)
+        public void DeleteJob(int jobid)
         {
             var currentUser = UserManager.Current();
             if (currentUser != null)
@@ -214,11 +261,6 @@ namespace OrderManagement.Web.Models.ServiceRepository
                 var lst = joblistgroup.Where(m => m.Key == int.Parse(jobid)).FirstOrDefault();
 
             }
-
-
-
-
-
             return null;
         }
 
@@ -281,7 +323,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
             return color;
         }
 
-        public IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders()
+        public IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int? job_Id)
         {
 
             var currentUser = UserManager.Current();
@@ -298,7 +340,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
                 }
 
 
-                var JobFolders = _repository.SelectJobAttachmentFolders(orgId, userid, userTypeName, compamyid).ToList();
+                var JobFolders = _repository.SelectJobAttachmentFolders(orgId, userid, userTypeName, compamyid, job_Id).ToList();
                 return JobFolders;
 
             }
@@ -306,7 +348,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
 
         }
 
-        public void InsertJobAttachment(string jobid, string groupType, string folderName, HttpPostedFileBase file, string tags, string filePath, int Row_id = 0, int isDeleted = 0)
+        public void InsertJobAttachment(string jobid, string groupType, string folderName, HttpPostedFileBase file, string tags, string filePath, string ThumbImgPath, int Selected=0, int Row_id = 0, int isDeleted = 0)
         {
             try
             {
@@ -344,20 +386,20 @@ namespace OrderManagement.Web.Models.ServiceRepository
 
 
                         string fileName = Path.GetFileName(file.FileName);
-                        string fileExt = Path.GetExtension(file.FileName); ;
+                        string fileExt = Path.GetExtension(file.FileName);
                         int fileSize = file.ContentLength;
                         string folder = folderName;
 
-                       //byte[] file = data;
+                        //byte[] file = data;
 
                         //_repository.InsertJobAttachment(orgid, userid, userType, compamyid, jobId, fileName, fileExt, fileSize, data, groupType, tags, folderName);
-                        _repository.InsertJobAttachment(orgid, userid, userType, compamyid, jobId, fileName, fileExt, fileSize, filePath, groupType, tags, folderName);
+                        _repository.InsertJobAttachment(orgid, userid, userType, compamyid, jobId, fileName, fileExt, fileSize, filePath, groupType, tags, folderName, ThumbImgPath, Selected, Row_id, isDeleted);
 
 
                         //InsertJobAttachment(int orgid, int userid, string userType, int companyid, int jobid, string fileName, string fileExt, int fileSize, byte[] file, string grouptype, string tags, string folder);
 
 
-                       // _repository.InsertJobAttachment();
+                        // _repository.InsertJobAttachment();
                     }
                 }
             }
@@ -371,8 +413,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
             //_repository.InsertJobAttachment();
         }
 
-
-        public void InsertJobAttachment(string jobid, string groupType, string folderName, string fileName, string fileExt, int fileSize, string tags, string filePath, string OriginalFileName, int Row_id = 0, int isDeleted = 0)
+        public void InsertJobAttachment(string jobid, string groupType, string folderName, string fileName, string fileExt, int fileSize, string tags, string filePath, string OriginalFileName, string ThumbImgPath, int Row_id = 0, int isDeleted = 0, int Selected=0)
         {
             try
             {
@@ -391,7 +432,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
                         }
                         int jobId = int.Parse(jobid);
 
-                        _repository.InsertJobAttachment(orgid, userid, userType, compamyid, jobId, OriginalFileName, fileExt, fileSize, filePath, groupType, tags, folderName);
+                        _repository.InsertJobAttachment(orgid, userid, userType, compamyid, jobId, OriginalFileName, fileExt, fileSize, filePath, groupType, tags, folderName, ThumbImgPath, Selected);
                     }
                 }
             }
@@ -405,45 +446,64 @@ namespace OrderManagement.Web.Models.ServiceRepository
             //_repository.InsertJobAttachment();
         }
 
-
-       
-        public void UpdateJobAttachment(string TagSelected,string FileName,string FilePath, string Job_id, int Row_id = 0, int isDeleted = 0)
+        public void UpdateJobAttachment(string TagSelected, string FileName, string FilePath, string Job_id,int isSelected=0 ,int Row_id = 0, int isDeleted = 0)
         {
             try
             {
                 var currentUser = UserManager.Current();
                 if (currentUser != null)
                 {
-                   
-                        int orgid = currentUser.OrgId.Value;
-                        int userid = currentUser.Row_Id;
-                        string userType = currentUser.UserType1.Name;
-                        int? compamyid = null;
-                        if (currentUser.UserType == 3)
-                        {
-                            compamyid = currentUser.CompanyId;
-                        }
-                        if (!string.IsNullOrEmpty(Job_id))
-                        {
-                       
-                            int jobId = int.Parse(Job_id);
-                            _repository.InsertJobAttachment(orgid, userid, userType, compamyid, jobId, FileName,"", 0, FilePath, "", TagSelected, string.Empty, Row_id);
-                        }
-                        else if (isDeleted > 0)
-                        {
-                            _repository.InsertJobAttachment(orgid, userid, userType, compamyid, 0, FileName, "", 0, FilePath, "", TagSelected, string.Empty, Row_id,isDeleted);
-                        }
+
+                    int orgid = currentUser.OrgId.Value;
+                    int userid = currentUser.Row_Id;
+                    string userType = currentUser.UserType1.Name;
+                    int? compamyid = null;
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }
+                    if (!string.IsNullOrEmpty(Job_id))
+                    {
+
+                        int jobId = int.Parse(Job_id);
+                        _repository.InsertJobAttachment(orgid, userid, userType, compamyid, jobId, FileName, "", 0, FilePath, "", TagSelected, string.Empty, string.Empty,isSelected, Row_id);
+                    }
+                    else if (isDeleted > 0)
+                    {
+                        _repository.InsertJobAttachment(orgid, userid, userType, compamyid, 0, FileName, "", 0, FilePath, "", TagSelected, string.Empty, string.Empty,isSelected, Row_id, isDeleted);
                     }
                 }
-            
+            }
+
             catch (Exception ex)
             {
                 string msg = ex.Message;
             }
-
-           
         }
 
+        public IList<GetJobAttachments> GetJobAttachmentsForMail(int? groupType, int? job_Id, string Tags = "")
+        {
+            //var currentUser = UserManager.Current();
+            //if (currentUser != null)
+            //{
+            int pagesize = 15; // we are setting page size 15 
+            int orgId = 825;
+            var userid = 1111;
+            var userType = "Super Admin";
+            string userTypeName = "";
+            int? compamyid = null;
+            //if (currentUser.UserType == 3)
+            //{
+            //    compamyid = currentUser.CompanyId;
+            //}
+
+
+            var JobJobAttachment = _repository.GetJobAttachments(orgId, userid, userTypeName, compamyid, groupType, job_Id, Tags).ToList();
+            return JobJobAttachment;
+
+            // }
+            // return null;
+        }
 
         public IList<GetJobAttachments> GetJobAttachments(int? groupType, int? job_Id, string Tags = "")
         {
@@ -492,7 +552,6 @@ namespace OrderManagement.Web.Models.ServiceRepository
             }
             return null;
         }
-
 
         public void InsertJobCopy(JobCopyModel model)
         {
@@ -594,21 +653,20 @@ namespace OrderManagement.Web.Models.ServiceRepository
             try
             {
                 var currentUser = UserManager.Current();
-                if (currentUser!=null)
+                if (currentUser != null)
                 {
-                    _repository.DeleteJobCopy(currentUser.OrgId.Value, currentUser.Row_Id, currentUser.UserType.Value.ToString(), currentUser.CompanyId.Value, jobCopyRowid); 
+                    _repository.DeleteJobCopy(currentUser.OrgId.Value, currentUser.Row_Id, currentUser.UserType.Value.ToString(), currentUser.CompanyId.Value, jobCopyRowid);
 
                 }
-               
+
             }
             catch (Exception ex)
             {
 
                 string msg = ex.Message;
             }
-           
-        }
 
+        }
 
         public void UpdateJobAttachmentSelected(int rowid, bool isSelected)
         {
@@ -627,7 +685,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
                     }
 
                     _repository.UpdateJobAttachmentSelected(orgid, userid, userType, compamyid, rowid, isSelected);
-                   //void UpdateJobAttachmentSelected(int orgid, int userid, string userType, int companyid, int jobRowid, bool IsSelected);
+                    //void UpdateJobAttachmentSelected(int orgid, int userid, string userType, int companyid, int jobRowid, bool IsSelected);
                 }
             }
 
@@ -636,6 +694,279 @@ namespace OrderManagement.Web.Models.ServiceRepository
                 string msg = ex.Message;
             }
 
+        }
+
+        public void UpdateJobAttachmentComments(int Row_Id, string Comments)
+        {
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+
+                    int orgid = currentUser.OrgId.Value;
+                    int userid = currentUser.Row_Id;
+                    string userType = currentUser.UserType1.Name;
+                    int? compamyid = null;
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }
+                    _repository.UpdateJobAttachmentComments(orgid, userid, userType, compamyid, Row_Id, Comments);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+        }
+        public void UpdateFolderLock(string jobId,int RowId)
+        {
+            try
+            {
+                _repository.UpdateFolderLock(Convert.ToInt32(jobId),RowId);
+            }
+
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+        }
+
+        public IList<GetJobCommentsById> GetJobCommentsById(int? Row_Id)
+        {
+
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+                    return _repository.GetJobCommentsById(currentUser.OrgId.Value, currentUser.Row_Id, currentUser.UserType.Value.ToString(), currentUser.CompanyId.Value, Row_Id.Value);
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return null;
+        }
+
+        public IList<GetFoldersAttachmentCount> GetFoldersAttachmentCount(int? Job_id)
+        {
+
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+                    return _repository.GetFoldersAttachmentCount(Job_id, currentUser.OrgId.Value, currentUser.Row_Id, currentUser.UserType.Value.ToString(), currentUser.CompanyId.Value);
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return null;
+        }
+
+        public IList<GetUserCommentsbyJobId> GetUserCommentsbyJobId(int? Job_id)
+        {
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+                    return _repository.GetUserCommentsbyJobId(Job_id, currentUser.OrgId.Value, currentUser.Row_Id, currentUser.UserType.Value.ToString(), currentUser.CompanyId.Value);
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return null;
+        }
+
+        public IList<GetUserCommentsbyJobId> GetUserCommentsbyJobIdForMail(int? Job_id)
+        {
+            try
+            {
+                return _repository.GetUserCommentsbyJobId(Job_id, 825, 1111, "Super Admin", 0);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        //====To get Job Attachment and comment
+        public IList<SelectJobAttachmentTemplate_Result> SelectJobAttachmentTemplate(int? groupType, int? job_Id)
+        {
+            var currentUser = UserManager.Current();
+            if (currentUser != null)
+            {
+                int pagesize = 15; // we are setting page size 15 
+                int orgId = currentUser.OrgId.Value;
+                var userid = currentUser.Row_Id;
+                var userType = currentUser.UserType;
+                string userTypeName = currentUser.UserType1.Name;
+                int? compamyid = null;
+                if (currentUser.UserType == 3)
+                {
+                    compamyid = currentUser.CompanyId;
+                }
+
+
+                var JobJobAttachment = _repository.SelectJobAttachmentTemplate(orgId, userid, userTypeName, compamyid, job_Id,Convert.ToString(groupType)).ToList();
+                return JobJobAttachment;
+
+            }
+            return null;
+        }
+        public void UpdateJobEmail_Notification(int JobId, string Email)
+        {
+            try
+            {
+                _repository.UpdateJobEmail_Notification(JobId, Email);
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+
+        }
+
+        public void UpdateJobStatus(int jobId)
+        {
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+
+                    int orgid = currentUser.OrgId.Value;
+                    int userid = currentUser.Row_Id;
+                    string userType = currentUser.UserType1.Name;
+                    int? compamyid = null;
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }
+                    _repository.UpdateJobstatus(jobId, orgid, userid);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+
+        }
+
+        public void InsertJobAnnotation(int Row_Id, string AnnotationText)
+        {
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+
+                    int orgid = currentUser.OrgId.Value;
+                    int userid = currentUser.Row_Id;
+                    string userType = currentUser.UserType1.Name;
+                    int? compamyid = null;
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }
+                    _repository.InsertJobAnnotation(orgid, userid, userType, compamyid, Row_Id, AnnotationText);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+        }
+
+        public IList<GetJobAnnotationById> GetJobAnnotationbyFileId(int? FileId)
+        {
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+                    return _repository.GetJobAnnotationbyFileId(FileId, currentUser.OrgId.Value, currentUser.Row_Id, currentUser.UserType.Value.ToString(), currentUser.CompanyId.Value);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return null;
+        }
+        public IList<GetJobAnnotationById> GetJobAnnotationbyFileIdForMail(int? FileId)
+        {
+            try
+            {
+
+                return _repository.GetJobAnnotationbyFileId(FileId, 825, 1111, "Super Admin", 0);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            //   return null;
+        }
+        public void UpdateJobAttachmentTags(string TagSelected, int? Row_id, int? Job_id)
+        {
+            try
+            {
+                var currentUser = UserManager.Current();
+                if (currentUser != null)
+                {
+
+                    int orgid = currentUser.OrgId.Value;
+                    int userid = currentUser.Row_Id;
+                    string userType = currentUser.UserType1.Name;
+                    int? compamyid = null;
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }
+                    _repository.UpdateJobAttachmenTags(TagSelected, Row_id, orgid, Job_id);
+             
+                }
+            }
+
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+        }
+
+        public void UpdateSelectedImageConfirmed(string RowId, int jobId)
+        {
+            try
+            {
+                _repository.UpdateConfirmImageSelected(RowId,jobId);
+            }
+
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
         }
 
     }

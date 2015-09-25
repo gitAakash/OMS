@@ -7,20 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Campaign
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Campaign
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrgId { get; set; }
-        public Nullable<int> PropertyId { get; set; }
-        public Nullable<int> ApplicationId { get; set; }
-        public Nullable<int> Type { get; set; }
-        public Nullable<int> OrderId { get; set; }
-        public Nullable<int> AssignedTo { get; set; }
-        public Nullable<int> AssetCountRequirement { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrgId { get; set; }
+    public Nullable<int> PropertyId { get; set; }
+    public Nullable<int> ApplicationId { get; set; }
+    public Nullable<int> Type { get; set; }
+    public Nullable<int> OrderId { get; set; }
+    public Nullable<int> AssignedTo { get; set; }
+    public Nullable<int> AssetCountRequirement { get; set; }
 }

@@ -94,6 +94,9 @@
 </div>
 
 
+
+
+
 @*<script>   
 
     $('input[name="start"]').click(function () { 
@@ -191,6 +194,7 @@
             //.TagTemplate("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
             //.ItemTemplate("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
         .Template("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
+       // .ValueTemplate("<span class='k-scheduler-mark' style='background-color:\\#= data.Color?Color:'' \\#'></span>\\#=Text\\#")
       .DataSource(source =>
       {
           source.Read(read =>
@@ -229,6 +233,12 @@
        
     )
 </div>
+
+
+
+
+
+
 @{
     ViewContext.FormContext = null;
 }

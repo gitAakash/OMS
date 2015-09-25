@@ -35,6 +35,11 @@ namespace OrderManagement.Web.Models
      //   public string EmailExist { get; set; }
         public string AboutMe { get; set; }
         public bool IsDeleted { get; set; }
+        public string MobileNumber { get; set; }
+        public string Rating { get; set; }
+
+        public string Notification_Email { get; set; }
+        public bool Notification { get; set; }
 
     }
 }

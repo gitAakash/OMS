@@ -84,6 +84,7 @@ namespace OrderManagement.Web.Models
         public string OrgName { get; set; }
         public string Logolocation { get; set; }
         public string Subdomain { get; set; }
+        public string ThemeName { get; set; }
         
 
     }

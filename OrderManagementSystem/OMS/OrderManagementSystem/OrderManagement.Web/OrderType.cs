@@ -7,14 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class OrderType
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class OrderType
-    {
-        public int Row_Id { get; set; }
-        public string Type { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string Type { get; set; }
 }

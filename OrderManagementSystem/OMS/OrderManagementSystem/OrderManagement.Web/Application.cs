@@ -7,18 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Application
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Application
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrgId { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> CompanyId { get; set; }
-        public string APIKey { get; set; }
-        public string Status { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrgId { get; set; }
+    public string Name { get; set; }
+    public Nullable<int> CompanyId { get; set; }
+    public string APIKey { get; set; }
+    public string Status { get; set; }
 }

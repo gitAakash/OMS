@@ -7,22 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class CampaignCollateral
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class CampaignCollateral
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> CampaignId { get; set; }
-        public string Type { get; set; }
-        public string Content { get; set; }
-        public Nullable<int> CampaignTimeLineId { get; set; }
-        public Nullable<decimal> DwellTimeMin { get; set; }
-        public Nullable<decimal> DwellTimeMax { get; set; }
-        public Nullable<int> VisitMin { get; set; }
-        public Nullable<int> VisitMax { get; set; }
-        public Nullable<int> MaxMessages { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> CampaignId { get; set; }
+    public string Type { get; set; }
+    public string Content { get; set; }
+    public Nullable<int> CampaignTimeLineId { get; set; }
+    public Nullable<decimal> DwellTimeMin { get; set; }
+    public Nullable<decimal> DwellTimeMax { get; set; }
+    public Nullable<int> VisitMin { get; set; }
+    public Nullable<int> VisitMax { get; set; }
+    public Nullable<int> MaxMessages { get; set; }
 }

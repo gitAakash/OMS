@@ -7,22 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectOrderableProducts
 {
-    using System;
-    
-    public partial class SelectOrderableProducts
-    {
-        public int Row_Id { get; set; }
-        public string PrimaryProductGroup { get; set; }
-        public string CompanyName { get; set; }
-        public string WebName { get; set; }
-        public string WebDescription { get; set; }
-        public string WebType { get; set; }
-        public string WebOptions { get; set; }
-        public Nullable<int> WebOptionMin { get; set; }
-        public Nullable<int> WebOptionMax { get; set; }
-        public Nullable<decimal> SalesUnitPrice { get; set; }
-        public string SecondaryProductGroup { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string PrimaryProductGroup { get; set; }
+    public string CompanyName { get; set; }
+    public string WebName { get; set; }
+    public string WebDescription { get; set; }
+    public string WebType { get; set; }
+    public string WebOptions { get; set; }
+    public Nullable<int> WebOptionMin { get; set; }
+    public Nullable<int> WebOptionMax { get; set; }
+    public Nullable<decimal> SalesUnitPrice { get; set; }
+    public string SecondaryProductGroup { get; set; }
 }

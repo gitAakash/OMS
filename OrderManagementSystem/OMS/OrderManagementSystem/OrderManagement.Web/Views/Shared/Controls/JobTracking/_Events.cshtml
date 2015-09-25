@@ -1,7 +1,4 @@
-﻿@model IList<OrderManagement.Web.TrackingJobs>
-
-
-
+﻿@model List<TrackingJobs>
 
 <div class="targetDiv">
     <table class="table table-hover no-margins">
@@ -13,7 +10,6 @@
                 <th>User</th>
                 <th>Start time</th>
                 <th>End Time</th>
-                <th>Comments</th>
             </tr>
         </thead>
         <tbody>
@@ -30,14 +26,13 @@
                     <td>@job.Resource</td>
                     <td>@job.StartDate</td>
                     <td>@job.EndDate</td>
-                    <td><small>@job.Description</small></td>
-                </tr>
+                   </tr>
 
                 }
             }
             else
             {
-                <span>No Recard Found</span>
+                <span>No Record Found</span>
             }
             @* <tr>
                                             <td><span class="label label-primary"><i class="fa fa-check"></i>Completed</span></td>

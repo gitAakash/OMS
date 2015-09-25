@@ -7,24 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class GetStagingCalenderUsers_Result
 {
-    using System;
-    
-    public partial class GetStagingCalenderUsers_Result
-    {
-        public int Row_Id { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> Org_Id { get; set; }
-        public Nullable<bool> StagingCalendar { get; set; }
-        public string TimeZone { get; set; }
-        public string Kind { get; set; }
-        public string eTag { get; set; }
-        public Nullable<int> ColorId { get; set; }
-        public string Background { get; set; }
-        public string Foreground { get; set; }
-        public string AccessRole { get; set; }
-        public Nullable<bool> IsSelected { get; set; }
-        public string Color { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string Name { get; set; }
+    public Nullable<int> Org_Id { get; set; }
+    public Nullable<bool> StagingCalendar { get; set; }
+    public string TimeZone { get; set; }
+    public string Kind { get; set; }
+    public string eTag { get; set; }
+    public Nullable<int> ColorId { get; set; }
+    public string Background { get; set; }
+    public string Foreground { get; set; }
+    public string AccessRole { get; set; }
+    public Nullable<bool> IsSelected { get; set; }
+    public string Color { get; set; }
 }

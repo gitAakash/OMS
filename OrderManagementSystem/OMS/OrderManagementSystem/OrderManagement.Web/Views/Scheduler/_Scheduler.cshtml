@@ -69,7 +69,6 @@
         e.Remove("DeleteRecurrence");
         e.MoveEnd("onMoveEnd");
         e.MoveStart("onMoveStart");
-        e.Navigate("scheduler_navigate");
 
     })
     
@@ -83,7 +82,6 @@
             .DataColorField("Color")
             .BindTo(allAttendees);
     })
-    
     
     .DataSource(d => d
         .Model(m =>
@@ -121,66 +119,59 @@
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
-      </div>
-      <div class="modal-body">
-        
-          <div class="form-horizontal">
-
-          <div class="form-group">
-            <label for="recipient-name" id="lblErrormsg" style="color: red;display:none;"  class="col-sm-13 control-label"></label>
-          </div>
-
-          <div class="form-group"  >
-            <label for="recipient-name" class="col-sm-2 control-label">To:</label>
-            <div class="col-sm-10 TextboxMess" ><input type="text" class="k-textbox" id="txt_To" name="txt_To" onblur="validateMultipleEmailsCommaSeparated(this,',');" value=""></div>
-          </div>
-
-          <div class="form-group">
-            <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
-            <div class="col-sm-10 TextboxMess">
-                @*<input type="text" id="txt_CC" name="txt_CC" onblur="validateMultipleEmailsCommaSeparated(this,',');" class="form-control" value="">*@
-                <input type="text" id="txt_CC" class="k-textbox" name="txt_CC" onblur="validateMultipleEmailsCommaSeparated(this,',');" value="">
-
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">New message</h4>
             </div>
-          </div>
+            <div class="modal-body">
+        
+                <div class="form-horizontal">
 
-          <div class="form-group">
-            <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
-            <div class="col-sm-10 TextboxMess"><input type="text" id="txt_BCC" class="k-textbox" name="txt_BCC" onblur="validateMultipleEmailsCommaSeparated(this,',');" value=""></div>
-          </div>
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsg" style="color: red;display:none;"  class="col-sm-13 control-label"></label>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">To:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_To" name="txt_To" onblur="validateMultipleEmailsCommaSeparated(this,',');"  class="form-control" value=""></div>
+                    </div>
 
-          <div class="form-group">
-            <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
-            <div class="col-sm-10 TextboxMess1"><span><input type="text" id="txt_Subject" class="k-textbox"  value=""></span></div>
-          </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_CC" name="txt_CC" onblur="validateMultipleEmailsCommaSeparated(this,',');" class="form-control" value=""></div>
+                    </div>
 
-        @*     <div class="ibox-content no-padding">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_BCC" name="txt_BCC" onblur="validateMultipleEmailsCommaSeparated(this,',');"   class="form-control" value=""></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_Subject" class="form-control" value=""></div>
+                    </div>
+
+                    @*     <div class="ibox-content no-padding">
                 <div id="summernote" class="summernote" ></div>
              </div>*@
 
-              <div id="example">
-                    <textarea id="editor" rows="10" cols="30" style="width:100%;height:400px">
+                    <div id="example">
+                        <textarea id="editor" rows="10" cols="30" style="width:100%;height:400px">
                     </textarea>
-              </div>
+                    </div>
         
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="btnSentEmail" >Send message</button>
-          <input type="hidden" id="hdnFromEmail" name="hdnFromEmail" />
-          <input type="hidden" id="hdnFromDisplay" name="hdnFromDisplay" />
-      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSentEmail" >Send message</button>
+                    <input type="hidden" id="hdnFromEmail" name="hdnFromEmail" />
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-</div>
-
 @{
     if (allAttendees != null && allAttendees.Count > 15 && allAttendees.Count < 30)
     {
@@ -278,34 +269,17 @@
        border:none;
     }
 
-  .TextboxMess span{width: 100% !important;background-color: #FFF !important;}
- 
-.TextboxMess1 span {
-    background-color: #fff !important;
-    border: 1px solid #10c4b2;
-    border-radius: 3px;
-    padding:  2px 2px 3px 2px;
-    width: 98% !important;
-}
-.TextboxMess1 span input {
-    background: none repeat scroll 0 0 #fff;
-  border: 0 none;
-  padding: 0;
-  line-height: 18px;
-  width: 98% !important;
-  font-size: 12px;
-  height:18px;
-}
-    </style>
+
+    </style> 
 
 }
 <script type="text/javascript">
-
+    
 
     function validateEmail(field) {
 
         var regex = /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        //  var regex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
+      //  var regex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
         return (regex.test(field)) ? true : false;
     }
     function validateMultipleEmailsCommaSeparated(emailcntl, seperator) {
@@ -347,9 +321,9 @@
         }
         $("#scheduler").data("kendoScheduler").dataSource.read();
     });
+  
 
-
-
+      
 
     function scheduler_Save(e) {
 
@@ -382,37 +356,14 @@
         if (e.event.EventId === lockedRecordId) {
             e.preventDefault();
         }
-
-
-    }
-
-    ///This function is used for check Which navigation link Clicked by the user.
-    function scheduler_navigate(e) {
-        // alert(e.action);
-        //  alert(e.view);
-        //  alert(e.date);
-        if((e.action != "previous")  && (e.action != "next"))
-        {
-            var strMix = "Scheduler : ";
-            var viewName = firstToUpperCase(e.view);
-            var strView = firstToUpperCase(e.view).concat(" View");
-            strMix = strMix.concat(strView);
-            // alert(strMix);
-            mixpanel.track(strMix);
-            //  mixpanel.track("Scheduler : strView");
-        }
-    }
-
-    function firstToUpperCase(str) {
-        return str.substr(0, 1).toUpperCase() + str.substr(1);
     }
 
 
     function scheduler_edit(e) {
-        // debugger;
+       // debugger;
         var TimestartInputs = null;
         var DatestartInputs = null;
-
+        
         var model = e.event;
         var container = e.container;
         // focus input
@@ -453,8 +404,9 @@
                 });
             }
 
-            if (e.field === "end") {
-
+            if (e.field === "end")
+            {
+              
                 var endDate = new Date(scheduler_event.end);
                 var startDate = new Date(scheduler_event.start);
                 DatestartInputs = days_between(startDate, endDate);
@@ -462,45 +414,37 @@
             }
         });
 
-        if (e.event.isNew()) {
-
-                mixpanel.track("Scheduler : New Event");
-        }
         if (!e.event.isNew()) {
-
-            mixpanel.track("Scheduler : Edit Event");
-
             $(".k-edit-buttons.k-state-default").prepend('<a class="k-button" id="btnPrint">Print</a>');
             addClickPrintEvent(e);
-            //    $(".k-edit-buttons.k-state-default").prepend('<a class="k-button" id="btnEmail">Email</a>');
-            //    addClickEmailEvent(e);
+        //    $(".k-edit-buttons.k-state-default").prepend('<a class="k-button" id="btnEmail">Email</a>');
+        //    addClickEmailEvent(e);
 
             $(".k-edit-buttons.k-state-default").prepend('<a class="k-button" id="btnpopup" data-toggle="modal" data-target="#exampleModal">Email</a>');
 
-            //http://dojo.telerik.com/IqIYI/21
+        //http://dojo.telerik.com/IqIYI/21
         }
 
     }
 
     $(document).ready(function () {
-     
         loadscheduler();
-        //  $('#summernote').summernote();
-        // $(".note-editable").html("<a class='k-button btn btn-primary' id='btnpopup'>popup</a>")
-        //////////////////////////////////////////////////////////////////////////////
+      //  $('#summernote').summernote();
+       // $(".note-editable").html("<a class='k-button btn btn-primary' id='btnpopup'>popup</a>")
+    //////////////////////////////////////////////////////////////////////////////
         $('#summernote').summernote({
-            toolbar: [
-             // ['style', ['style']], // no style button
-              ['style', ['bold', 'italic', 'underline', 'clear']],
-              ['fontsize', ['fontsize']],
-              ['color', ['color']],
-              ['para', ['ul', 'ol', 'paragraph']],
-             // ['height', ['height']],
-              //['insert', ['picture', 'link']], // no insert buttons
-              //['table', ['table']], // no table button
-              //['help', ['help']] //no help button
-            ]
-        });
+        toolbar: [
+         // ['style', ['style']], // no style button
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['fontsize', ['fontsize']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+         // ['height', ['height']],
+          //['insert', ['picture', 'link']], // no insert buttons
+          //['table', ['table']], // no table button
+          //['help', ['help']] //no help button
+        ]
+    });
         ////////////////////////////////////////////////////////////////////////
 
         //////////////////////// Kendo ///
@@ -545,186 +489,261 @@
         // Clear text box 
     });
 
+    ///
+
+
+    ///
+
+
+
+
+
     $('#exampleModal').on('show.bs.modal', function (event) {
+      
+      
+       
+      
 
         var scheduler = $("#scheduler").data("kendoScheduler");
         var event_Id = $("#hdneventid").val();
-        scheduler.cancelEvent();
 
+        scheduler.cancelEvent();
+        //http://getbootstrap.com/javascript/#modals
+        //http://www.codeproject.com/Tips/639578/jQuery-Autocomplete-MVC-and-WebAPI
+        //http://vijayt.com/Post/AutoComplete-TextBox-with-ASP.NET-MVC-and-jQuery
+        //http://jqueryui.com/autocomplete/
+       
         var button = $(event.relatedTarget) // Button that triggered the modal
-        //  var recipient = button.data('whatever') // Extract info from data-* attributes
+      //  var recipient = button.data('whatever') // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
-    
-        $("#scheduler").data("kendoScheduler").dataSource.read();
 
+        //   scheduler.cancelEvent();
+        $("#scheduler").data("kendoScheduler").dataSource.read();
+      
         var MESSAGE_BODY = "";
         var FromEmail = "";
         var MailSubject = "";
-        var EmailFromDisplay = "";
-        var EmailCC = "";
-        var EmailBCC = "";
-
-        $("#lblErrormsg").text('');
 
         $.get('@Url.Action("LoadMailContent", "Scheduler")', { event_Id: event_Id }, function (data) {
-            if (data != null) {
-
-                for (var i = 0; i < data.length; i++) {
-                  
-                    MESSAGE_BODY = (data[i].EmailContent);
-                    FromEmail = (data[i].EmailFrom);
-                    MailSubject = (data[i].EmailSubject);
-                    EmailFromDisplay = (data[i].EmailFromDisplay);
-                    EmailCC = (data[i].EmailCC);
-                    EmailBCC = (data[i].EmailBCC);
-
-                    // alert(data[i].EmailFromDisplay);
-                    //  alert(data[i].EmailFrom);
-                }
-
-                var editor = $("#editor").data("kendoEditor");
-                // set value
-                editor.value(MESSAGE_BODY);
-                // get value
-                // var htmlValue = editor.value();
-              
-                var test = $("input[name=hdnFromEmail]:hidden");
-                test.val(FromEmail);
-
-                var hdnfrom = $("input[name=hdnFromDisplay]:hidden");
-                hdnfrom.val(EmailFromDisplay);
-                
-                var test1 = $("input[name=txt_Subject]:text");
-                test1.val(MailSubject);
-                $("#txt_Subject").val(MailSubject);
-                $("#txt_CC").val(EmailCC);
-                $("#txt_BCC").val(EmailBCC);
-
-            }
-        });
-
-        //////
-
-        $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
-            if (Emaildata != null) {
-
-                $("#lblErrormsg").text('');
-                $("#txt_To").val('');
-              //  $("#txt_CC").val('');
-              //  $("#txt_BCC").val('');
-
-                //create AutoComplete UI component
-                $("#txt_To").kendoAutoComplete({
-                    dataSource: Emaildata,
-                    //filter: "startswith",
-                    placeholder: "Enter your email address..",
-                    separator: ","
-                });
-               
-                $("#txt_CC").kendoAutoComplete({
-                    dataSource: Emaildata,
-                    //filter: "startswith",
-                    placeholder: "Enter your email address..",
-                    separator: ","
-                });
-
-                $("#txt_BCC").kendoAutoComplete({
-                    dataSource: Emaildata,
-                    //filter: "startswith",
-                    placeholder: "Enter your email address...",
-                    separator: ","
-                });
-
-            }
-        });
-
-    })
-
-    function addClickPrintEvent(e) {
-
-        $('#btnPrint').click(function () {
-
-            mixpanel.track("Scheduler : Print Event");
-
-            var scheduler = $("#scheduler").data("kendoScheduler");
-            //   scheduler.cancelEvent();
-            $("#scheduler").data("kendoScheduler").dataSource.read();
-
-            var MESSAGE_BODY = "";
-            var event_Id = $("#hdneventid").val();
-            $.get('@Url.Action("Event_Print", "Scheduler")', { event_Id: event_Id }, function (data) {
                 if (data != null) {
 
                     for (var i = 0; i < data.length; i++) {
                         //   MESSAGE_BODY = (data[i].MESSAGE_BODY);
-                        MESSAGE_BODY = (data[i]);
+                        //  MESSAGE_BODY = (data[i]);
+                        MESSAGE_BODY = (data[i].EmailContent);
+                        FromEmail = (data[i].EmailFrom);
+                        MailSubject = (data[i].EmailSubject);
+                      //  alert(data[i].EmailContent);
+                      //  alert(data[i].EmailFrom);
                     }
-                    var printWindow = window.open('', '', 'height=400,width=800');
-                    printWindow.document.write(MESSAGE_BODY);
-                    printWindow.document.close();
-                    printWindow.print();
+                   
+                    var editor = $("#editor").data("kendoEditor");
+                    // set value
+                    editor.value(MESSAGE_BODY);
+
+                    // get value
+                    // var htmlValue = editor.value();
+                    //alert(htmlValue);
+
+                 //   modal.find('.note-editable').html(MESSAGE_BODY);
+                    var test = $("input[name=hdnFromEmail]:hidden");
+                    test.val(FromEmail);
+                  
+                    var test1 = $("input[name=txt_Subject]:text");
+                    test1.val(MailSubject);
+                    $("#txt_Subject").val(MailSubject);
+                  
+                    
+
+                  //  $(".note-editable").html(MESSAGE_BODY);
+                  //  $(".note-editable").html().toString();
                 }
+        });
+
+      //  modal.find('.modal-title').text('New message to ' + "test")
+        //   modal.find('.modal-body input').val("test1")
+
+    })
+
+    function addClickPrintEvent(e) {
+        
+        $('#btnPrint').click(function () {
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            //   scheduler.cancelEvent();
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+
+          //  var divContents = $("#dvContainer").html();
+          //  var strEventId = $("#hdneventid").val();
+
+           
+            var MESSAGE_BODY = "";
+            var event_Id = $("#hdneventid").val();
+            $.get('@Url.Action("Event_Print", "Scheduler")', { event_Id: event_Id }, function (data) {
+                  if (data != null) {
+                  
+                      for (var i = 0; i < data.length; i++) {
+                          //   MESSAGE_BODY = (data[i].MESSAGE_BODY);
+                          MESSAGE_BODY = (data[i]);
+                      }
+                      var printWindow = window.open('', '', 'height=400,width=800');
+                      printWindow.document.write(MESSAGE_BODY);
+                      printWindow.document.close();
+                      printWindow.print();
+            }
             });
+
+
+         //   var printWindow = window.open('', '', 'height=400,width=800');
+
+         //   printWindow.document.write('<html><head><title>DIV Contents</title>');
+         //   printWindow.document.write('</head><body >');
+         ////   printWindow.document.write(divContents);
+         //   printWindow.document.write('</body></html>');
+         //   printWindow.document.close();
+         //   printWindow.print();
+
+            //setTimeout(function () {
+            //    console.log("add new event now");
+            //    scheduler.print({ title: "(No title)" });
+            //}, 2000);
+
         });
     }
 
-    $('#btnSentEmail').click(function () {
-        //  alert("aaya");
-        mixpanel.track("Scheduler : Send Email Event");
+    function addClickEmailEvent(e) {
+     
+        $('#btnEmail').click(function () {
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            //   scheduler.cancelEvent();
+            $("#scheduler").data("kendoScheduler").dataSource.read();
 
-        var MailTo = "";
-        var MailCC = "";
-        var MailBCC = "";
-        var MailSubject = "";
-        var MailBody = "";
-        var MailFrom = "";
-        var MailFromDisplay = "";
+            //  var divContents = $("#dvContainer").html();
+            //  var strEventId = $("#hdneventid").val();
 
-        var editor = $("#editor").data("kendoEditor");
-        // get value
-        var MailBody = editor.value();
+           // debugger;
+            var MESSAGE_BODY = "";
+            var event_Id = $("#hdneventid").val();
+            $.get('@Url.Action("Event_Mail", "Scheduler")', { event_Id: event_Id }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                        alert("E-mail has been sent to your account.");
+                }
+            });
 
+        });
+    }
+   
+
+  
+
+        $('#btnSentEmail').click(function () {
+          //  alert("aaya");
+
+            var MailTo = "";
+            var MailCC = "";
+            var MailBCC = "";
+            var MailSubject = "";
+            var MailBody = "";
+            var MailFrom = "";
+
+          //  alert($("#summernote").val());
+          //  MailBody = $("#summernote").val();
+
+            //   MailBody = ($(".note-editable").html());
+            var editor = $("#editor").data("kendoEditor");
+            // get value
+            var MailBody = editor.value();
+
+
+        @*    $.get('@Url.Action("Event_MailSent", "Scheduler")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                    alert("E-mail has been sent to your account.");
+                }
+            });*@
+       //     var sst= MailBody.serialize();
+            
+            
             MailTo = $("#txt_To").val();
-
+           
             var FromEmail = $("input[name=hdnFromEmail]:hidden");
             MailFrom = FromEmail.val();
 
-            var FromDisplayEmail = $("input[name=hdnFromDisplay]:hidden");
-            MailFromDisplay = FromDisplayEmail.val();
-
             if (MailTo == '') {
+
                 $("#lblErrormsg").show();
                 $("#lblErrormsg").text('Email To field can not be left blank! ');
                 $("#txt_To").focus();
             }
             else {
 
+               // debugger;
+               // MailTo = $("#txt_To").val();
+               // //  var txt = $("#txt_To");
+               // if (MailTo != '') {
+               //     validateMultipleEmailsCommaSeparated(MailTo, ',');
+               // }
+               // debugger;
+               // MailCC = $("#txt_CC").val();
+
+               // var txt_cc = $("#txt_CC").val();
+
+               // if (MailCC != '') {
+               //     validateMultipleEmailsCommaSeparated(MailCC, ',');
+               // }
+
+               ///// MailCC = $("#txt_CC").val();
+               // MailBCC = $("#txt_BCC").val();
+               // var txt_bcc = $("#MailBCC").val();
+
+               // if (MailBCC != '') {
+               //     validateMultipleEmailsCommaSeparated(txt_bcc, ',');
+               // }
+
                 MailCC = $("#txt_CC").val();
                 MailBCC = $("#txt_BCC").val();
                 MailSubject = $("#txt_Subject").val();
 
-                $.post('@Url.Action("Event_MailSent", "Scheduler")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom, MailFromDisplay: MailFromDisplay }, function (Emaildata) {
-                    if (Emaildata != null && Emaildata == 200) {
-                        //  alert("E-mail has been sent to your account.");
-                        $("#txt_To").val('');
-                        $("#txt_CC").val('');
-                        $("#txt_BCC").val('');
-                        $("#txt_Subject").val('');
-                        $('#exampleModal').modal('hide');
-                        $(".modal-backdrop.in").css("display", "none");
-                    }
-                    else {
-                        $("#lblErrormsg").show();
-                        $("#lblErrormsg").text('Mail could not be sent, please try after some time.');
-                        return false;
-                        // $('#exampleModal').modal('hide');
-                        //$(".modal-backdrop.in").css("display", "none");
-                    }
-                });
+               $.post('@Url.Action("Event_MailSentNew", "Scheduler")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom }, function (Emaildata) {
+                   if (Emaildata != null && Emaildata == 200) {
+                     //  alert("E-mail has been sent to your account.");
+                       $("#txt_To").val('');
+                       $("#txt_CC").val('');
+                       $("#txt_BCC").val('');
+                       $("#txt_Subject").val('');
+                       $('#exampleModal').modal('hide');
+                       $(".modal-backdrop.in").css("display", "none");
+                   }
+                   else {
+                       $("#lblErrormsg").show();
+                       $("#lblErrormsg").text('Mail could not be sent, please try after some time.');
+                       return false;
+                      // $('#exampleModal').modal('hide');
+                       //$(".modal-backdrop.in").css("display", "none");
+                   }
+                 });
             }
+           
+         @*   var scheduler = $("#scheduler").data("kendoScheduler");
+            //   scheduler.cancelEvent();
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+
+            //  var divContents = $("#dvContainer").html();
+            //  var strEventId = $("#hdneventid").val();
+
+            // debugger;
+            var MESSAGE_BODY = "";
+            var event_Id = $("#hdneventid").val();
+            $.get('@Url.Action("Event_Mail", "Scheduler")', { event_Id: event_Id }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                    alert("E-mail has been sent to your account.");
+                }
+            });*@
+
         });
+    
+
+
 
     function DeleteRecurrence(e) {
         kendo.ui.progress($("#scheduler"), true);
@@ -784,7 +803,8 @@
 
 
     function onRequestEnd(e) {
-       
+
+
         if (e.type == "update") {
             kendo.ui.progress($("#scheduler"), true);
             $("#scheduler").data("kendoScheduler").dataSource.read();
@@ -804,8 +824,8 @@
         // debugger;
         if (e.type == "read") {
             kendo.ui.progress($("#scheduler"), false);
-           
-            //  var Searchitem = $("#search-text-input").val();
+
+          //  var Searchitem = $("#search-text-input").val();
 
             //if (Searchitem != "") {
 
@@ -837,7 +857,7 @@
         var scheduler = $("#scheduler").data("kendoScheduler");
         // alert(scheduler.view().startDate().toISOString());
         // alert(scheduler.view().endDate().toISOString());
-       // debugger;
+      //  debugger;
 
         var Searchitem = $("#search-text-input").val();
 
@@ -848,7 +868,7 @@
             Search: Searchitem
         };
 
-        return result;
+               return result;
     }
 
     function getAdditionalDataForUpdate() {
@@ -921,7 +941,7 @@
         //    }
         //});
     }
-
+    
     function createDropArea(scheduler) {
         //debugger;
         scheduler.view().content.kendoDropTargetArea({
@@ -1020,12 +1040,11 @@
     });
 
     function loadscheduler() {
-        
+
         var view = getretainview();
         var date = getretaindate();
         var slecteddate = new Date(date);
         var scheduler = $("#scheduler").data("kendoScheduler");
-      
         if (view != null && view != "") {
             scheduler.view(view);
         }
@@ -1044,12 +1063,11 @@
 
     function getretainview() {
         var view = localStorage.getItem("slectedview");
-       
         return view;
     }
 
     function days_between(dateTo, dateFrom) {
-
+     
         // The number of milliseconds in one day
         var ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -1070,7 +1088,7 @@
     }
 
     function StringTodDate(startInputstring) {
-        //debugger;
+        debugger;
         var dateString = startInputstring;
         //var dateString = '17-09-2013 10:08',
         dateParts = dateString.split(' ');
@@ -1117,7 +1135,7 @@
 
 
         var time = end_Time;
-        // var time = "11:00 AM";
+       // var time = "11:00 AM";
         var hrs = Number(time.match(/^(\d+)/)[1]);
         var mnts = Number(time.match(/:(\d+)/)[1]);
         var format = time.match(/\s(.*)$/)[1];
@@ -1145,7 +1163,7 @@
         var total_time = hours + ":" + mins;
 
         return total_time;
-        // alert(hours + " hours : " + mins + " minutes : ");
+       // alert(hours + " hours : " + mins + " minutes : ");
     }
 
     function timeDiffrence(datestart, dateend) {
@@ -1181,14 +1199,17 @@
         }
 
 
-        var startInputs = _minutes;
+      var  startInputs = _minutes;
 
-        return startInputs;
+      return startInputs;
 
     }
-
+    $('.navbar-minimalize').on('click', function () {
+        setTimeout(function () {
+            $('.eventcolor').trigger('resize');
+        }, 600);
+       
+    });
 </script>
-
-
 
 

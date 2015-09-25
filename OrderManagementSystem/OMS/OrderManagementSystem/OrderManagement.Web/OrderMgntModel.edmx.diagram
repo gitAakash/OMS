@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bea90dc1f5924cc6abd0c677da2973ba" Name="Diagram1" ZoomLevel="55">
+      <Diagram DiagramId="bea90dc1f5924cc6abd0c677da2973ba" Name="Diagram1" ZoomLevel="64" DisplayType="true">
         <EntityTypeShape EntityType="OrderManagementModel.Asset" Width="1.5" PointX="8.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.AssetAllocation" Width="1.5" PointX="8.75" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.AssetConfig" Width="1.5" PointX="5.75" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.AssetHealthMeasure" Width="1.5" PointX="10.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.AssetService" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.AssetStatu" Width="1.5" PointX="2.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.BusinessProcess" Width="1.5" PointX="10.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.BusinessProcess" Width="1.5" PointX="15" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.Calendar" Width="1.5" PointX="12.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.CalendarUser" Width="1.5" PointX="12.75" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.Campaign" Width="1.5" PointX="2.75" PointY="14.25" IsExpanded="true" />
@@ -24,26 +24,25 @@
         <EntityTypeShape EntityType="OrderManagementModel.ColorMaster" Width="1.5" PointX="16.75" PointY="16.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.Company" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.CompanyMail" Width="1.5" PointX="0.75" PointY="18.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.CompanyOrder" Width="1.5" PointX="6.75" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.CompanyOrder" Width="1.5" PointX="6.875" PointY="21" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.Contact" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.EventTracking" Width="1.5" PointX="14" PointY="8.5" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.Mail" Width="1.5" PointX="13.75" PointY="18.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.OrderContact" Width="1.5" PointX="18.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.OrderEvent" Width="1.5" PointX="11" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.OrderItem" Width="1.5" PointX="11" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.Order" Width="1.5" PointX="8.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.OrderEvent" Width="1.5" PointX="12.625" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.OrderItem" Width="1.5" PointX="11" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.Order" Width="1.5" PointX="9.875" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.OrderType" Width="1.5" PointX="2.75" PointY="19.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.Organisation" Width="1.5" PointX="11.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.ProductCompany" Width="1.5" PointX="18.75" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.ProductGroup" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.Product" Width="1.5" PointX="18.75" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.ProductSchedule" Width="1.5" PointX="8.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.ProductSchedule" Width="1.5" PointX="8.75" PointY="23.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.ProductUser" Width="1.5" PointX="18.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.Property" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.PropertyInvoice" Width="1.5" PointX="10.75" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.PropertyInvoice" Width="1.5" PointX="8.375" PointY="18.625" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.User" Width="1.5" PointX="6" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="OrderManagementModel.UserType" Width="1.5" PointX="3.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="OrderManagementModel.Visitor_Fact" Width="1.5" PointX="19.75" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OrderManagementModel.Visitor_Fact" Width="1.5" PointX="14.625" PointY="21.625" IsExpanded="true" />
         <AssociationConnector Association="OrderManagementModel.FK_Contacts_Company" ManuallyRouted="false" />
         <AssociationConnector Association="OrderManagementModel.FK_Property_Company" ManuallyRouted="false" />
         <AssociationConnector Association="OrderManagementModel.FK_OrderItemEvents_Orders" ManuallyRouted="false" />
@@ -53,24 +52,30 @@
         <AssociationConnector Association="OrderManagementModel.FK_Table_PGid" />
         <AssociationConnector Association="OrderManagementModel.FK_Table_UID" />
         <EntityTypeShape EntityType="OrderManagementModel.Attachment" Width="1.5" PointX="20.75" PointY="1.25" />
-        <AssociationConnector Association="OrderManagementModel.FK_EventTracking_Organisation" />
         <AssociationConnector Association="OrderManagementModel.FK_User_UserType" />
-        <EntityTypeShape EntityType="OrderManagementModel.OrderAttachment" Width="1.5" PointX="14" PointY="13.125" />
+        <EntityTypeShape EntityType="OrderManagementModel.OrderAttachment" Width="1.5" PointX="14.625" PointY="12.5" />
         <AssociationConnector Association="OrderManagementModel.FK_Order_OrderAttachment" />
-        <AssociationConnector Association="OrderManagementModel.FK_Organisation_OrderAttachment" />
         <EntityTypeShape EntityType="OrderManagementModel.OrderStatus" Width="1.5" PointX="20.75" PointY="4.25" />
         <EntityTypeShape EntityType="OrderManagementModel.ForgotPwd" Width="1.5" PointX="4.75" PointY="21.25" />
         <EntityTypeShape EntityType="OrderManagementModel.OrderSubItem" Width="1.5" PointX="20.75" PointY="8.25" />
         <EntityTypeShape EntityType="OrderManagementModel.ProductSubGroup" Width="1.5" PointX="20.75" PointY="11.25" />
         <EntityTypeShape EntityType="OrderManagementModel.ErrorLog" Width="1.5" PointX="12.75" PointY="21.25" />
         <EntityTypeShape EntityType="OrderManagementModel.EventException" Width="1.5" PointX="9.1679039584323316" PointY="4.4083164503836612" />
-        <EntityTypeShape EntityType="OrderManagementModel.Job" Width="1.5" PointX="10.387698226788872" PointY="19.8151418360952" />
+        <EntityTypeShape EntityType="OrderManagementModel.Job" Width="1.5" PointX="10.625" PointY="23.5" />
         <EntityTypeShape EntityType="OrderManagementModel.JobAttachment" Width="1.5" PointX="3.03574129707913" PointY="20.320962945148796" />
         <EntityTypeShape EntityType="OrderManagementModel.JobCopy" Width="1.5" PointX="1.2317577084674303" PointY="24.111476209066563" />
-        <EntityTypeShape EntityType="OrderManagementModel.JobCopyType" Width="1.5" PointX="9.35594850841721" PointY="12.281634247061627" />
-        <EntityTypeShape EntityType="OrderManagementModel.JobStatus" Width="1.5" PointX="8.6680375564228918" PointY="4.977151411109209" />
+        <EntityTypeShape EntityType="OrderManagementModel.JobCopyType" Width="1.5" PointX="7.5" PointY="11.625" />
+        <EntityTypeShape EntityType="OrderManagementModel.JobStatus" Width="1.5" PointX="1.75" PointY="0.875" />
         <EntityTypeShape EntityType="OrderManagementModel.Application" Width="1.5" PointX="11.547886261505953" PointY="18.613395535672733" />
-        <EntityTypeShape EntityType="OrderManagementModel.JobEvent" Width="1.5" PointX="9.373240061743763" PointY="4.2036354859376495" />
+        <EntityTypeShape EntityType="OrderManagementModel.JobEvent" Width="1.5" PointX="10.75" PointY="4" />
+        <EntityTypeShape EntityType="OrderManagementModel.Eventlog" Width="1.5" PointX="6.75" PointY="25.375" />
+        <EntityTypeShape EntityType="OrderManagementModel.EventEmailORPrint" Width="1.5" PointX="11.75" PointY="14.25" />
+        <EntityTypeShape EntityType="OrderManagementModel.Client" Width="1.5" PointX="2.125" PointY="28.5" />
+        <EntityTypeShape EntityType="OrderManagementModel.Video" Width="1.5" PointX="4.125" PointY="25.625" />
+        <EntityTypeShape EntityType="OrderManagementModel.JobAnnotation" Width="1.5" PointX="4.75889790838533" PointY="17.113913797360805" />
+        <EntityTypeShape EntityType="OrderManagementModel.Organisation" Width="1.5" PointX="0.91754989182462432" PointY="28.375999836426228" />
+        <AssociationConnector Association="OrderManagementModel.FK_EventTracking_Organisation" />
+        <AssociationConnector Association="OrderManagementModel.FK_Organisation_OrderAttachment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

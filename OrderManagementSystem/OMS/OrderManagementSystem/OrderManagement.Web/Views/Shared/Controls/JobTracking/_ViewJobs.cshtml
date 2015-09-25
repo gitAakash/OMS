@@ -1,32 +1,32 @@
-﻿@model OrderManagement.Web.Models.JobTrackingModel
+﻿@using System.Configuration
+@model OrderManagement.Web.Models.JobTrackingModel
 
 @{
-
-
     var currentuser = OrderManagement.Web.Helper.Utilitties.UserManager.Current();
-    
 }
+
 <!DOCTYPE html>
 <html>
 
 <head>
-@*    <script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
-<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
-<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />*@
-    @* <script type="text/javascript" src="@Url.Content("~/Content/Track/icheck.min.js")"></script>
-       <script type="text/javascript" src="@Url.Content("~/Content/Track/summernote.min.js")"></script>
-    <link href="~/Content/Track/summernote-bs3.css" rel="stylesheet" />
-    <link href="~/Content/Track/summernote.css" rel="stylesheet" />
-    <link href="~/Content/Track/custom.css" rel="stylesheet" />*@
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.taggd.min.js")" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
 
     <style>
-        .info {
-            float: left;
-            width: 100%;
+        .modal-lg {
+            width: 900px;
         }
+         .info {
+             float: left;
+             width: 100%;
+         }
 
         .status {
             width: 16.2%;
@@ -34,7 +34,7 @@
         }
 
         .Contract {
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .info > .col-sm-8 {
@@ -67,9 +67,10 @@
 
 <body>
 
-    <div class="row wrapper border-bottom white-bg page-heading">
-        <div class="col-lg-10">
-            <h2>Job List</h2>
+    <div class="wrapper border-bottom white-bg page-heading ibox">
+        <div class="ibox-title">
+            <button class="btn btn-primary pull-right" id="gotoJob"><i class="fa fa-chevron-left"></i>&nbsp;Back</button>
+            <h5>Job List</h5>
             <ol class="breadcrumb">
                 <li>
                     <a href="#" onclick="javascript:JobList();">Home</a>
@@ -91,42 +92,41 @@
                     </li>
                 </ol>-->
         </div>
-        <div class="col-lg-2">
-        </div>
-    </div>
-    @if (Model != null)
+       @if (Model != null)
     {
-        <div class="wrapper wrapper-content">
+      
             <div class="row animated fadeInRight">
 
                 <div class="col-md-12">
-                    <div class="ibox float-e-margins">
+                    <div class="ibox float-e-margins no-margin">
 
                         <div class="ibox-content">
 
                             <div>
                                 <div class="Contract">
-                                  @*     @Model.CompanyName*@
+                                    @*     @Model.CompanyName*@
                                     @Model.JobTitle 
+                                    <input type="hidden" id="hndTitle" value="@Model.JobTitle" />
                                     @*<div class="pull-right">
                                         <button type="submit" class="btn btn-xs btn-white">Edit project</button>
                                     </div>*@
+                                    @*@if (currentuser != null && currentuser.UserType != 3)
+                                    {*@
+                                        <div class="pull-right">
+                                            <button type="button" class="btn btn-primary" id="EmailNotifyButton" title="Add Mail" onclick=" OpenMailNotification() " style="right: 80px"><i class="fa fa-plus"></i>&nbsp;Add Notification Emails</button>
+                                        </div>
+                                    @*}*@
                                 </div>
+
                                 <div class="feed-element">
-                                    <div class="col-lg-12 m-b-md">
-                                        <label class="col-sm-2 control-label status">Status:</label>
-                                        <div class="col-sm-1 pull-left">
+                                    <div class="col-xs-6 ">
+                                        <div class="info">
+                                            <label class="col-xs-4 control-label">Status:</label>
+                                        <div class="col-xs-8 ">
                                             <span class="label label-primary">@Model.Active</span>
                                         </div>
-                                    </div>
-
-                                    <div class="col-lg-6 ">
-                                        <div class="info">
-                                            <label class="col-sm-4 control-label text-right">Created By:</label>
-                                            <div class="col-sm-8 pull-left">
-                                                @Model.CreatedByName
-                                            </div>
                                         </div>
+                                        
                                         @*  <div class="info">
                                             <label class="col-sm-4 control-label text-right">Services:</label>
                                             <div class="col-sm-8 pull-left">
@@ -134,29 +134,14 @@
                                             </div>
                                         </div>*@
                                         <div class="info">
-                                            <label class="col-sm-4 control-label text-right">Client:</label>
-                                            <div class="col-sm-8 pull-left text-navy">
+                                            <label class="col-xs-4 control-label">Client:</label>
+                                            <div class="col-xs-8 text-navy">
                                                 @Model.CompanyName @*Zender Company*@
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="col-lg-6 ">
                                         <div class="info">
-                                            <label class="col-sm-4 control-label text-right">Last Updated</label>
-                                            <div class="col-sm-8 pull-left">
-                                                @Model.Updated
-                                            </div>
-                                        </div>
-                                        <div class="info">
-                                            <label class="col-sm-4 control-label text-right">Created:</label>
-                                            <div class="col-sm-8 pull-left">
-                                                @Model.Created
-                                            </div>
-                                        </div>
-                                        <div class="info">
-                                            <label class="col-sm-4 control-label text-right">Product Groups:</label>
-                                            <div class="col-sm-8 pull-left">
+                                            <label class="col-xs-4 control-label">Product Groups:</label>
+                                            <div class="col-xs-8 pull-left">
 
                                                 @* <a href="" class="a">
                                                     <span class="label label-warning">Photography</span>
@@ -176,17 +161,88 @@
 
                                                     foreach (var prodgrp in Model.ProductGroup)
                                                     {
-                                                    <span class="label@(" " + prodgrp.CssClass)">@prodgrp.ProductGroupName</span>      
+                                                        <span class="label@(" " + prodgrp.CssClass)">@prodgrp.ProductGroupName</span>      
                                                     }
 
                                                 }
 
                                             </div>
                                         </div>
+                                        <div class="info">
+                                            <label class="col-xs-4 control-label">Package Order</label>
+                                            <div class="col-xs-8 control-label pull-left">
+                                                @Model.Package
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <label class="col-xs-4 control-label">Package Quantity</label>
+                                            <div class="col-xs-8 control-label pull-left">
+                                                @Model.Product_Qty
+                                                <input type="hidden" id="PackageQty"value="@Model.Product_Qty" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 ">
+                                        @Html.HiddenFor(model => model.Email_Notification)
+                                        @*@if (currentuser != null && currentuser.UserType != 3)
+                                        {*@
+                                            <div class="info">
+                                                <label class="col-xs-4 control-label">Notification</label>
+                                               
+                                                <div class="col-xs-8" id ="divEmailNotify">
+                                                    @if (Model.Email_Notify != null)
+                                                    {
+                                                        if (Model.Email_Notify.Count > 0)
+                                                        {
+                                                            foreach (string t in Model.Email_Notify)
+                                                            {
+                                                                <label>
+                                                                    @Html.Raw("[") 
+                                                                    @t
+                                                                    <a onclick=" return deleteEmail(this) " EmailId="@t" style="cursor: pointer">X</a>
+                                                                    @Html.Raw("]; ")
+                                                                </label>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Raw("[No Email Address]")
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        @*}*@
+                                        
+                                        
+
+                                        <div class="info">
+                                            <label class="col-xs-4 control-label">Last Updated</label>
+                                            <div class="col-xs-8 pull-left">
+                                                @Model.Updated
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <label class="col-xs-4 control-label">Order Date:</label>
+                                            <div class="col-xs-8 pull-left">
+                                                @Model.Created
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <label class="col-xs-4 control-label ">Ordered By:</label>
+                                            <div class="col-xs-8">
+                                                @Model.CreatedByName
+                                            </div>
+                                        </div>
 
                                     </div>
-                                    <div class="col-lg-12 m-t-md  m-b-md">
-                                        <label class="col-sm-2 control-label status">Completed:</label>
+                                    
+
+                                    @* 
+                                     <div class="col-lg-12 m-t-md  m-b-md">
+                                       
+                                         <label class="col-sm-2 control-label status">Completed:</label>
+                                       
+                                         
                                         <div class="col-sm-6">
                                             <div class="progress progress-striped m-b-none">
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:@Model.Completion%">
@@ -205,7 +261,12 @@
                                             }
                                            
                                         </div>
+
+                                        
                                     </div>
+                                    *@
+
+
                                 </div>
 
                                 <!-- <div class="row">
@@ -215,14 +276,15 @@
                                          </div>
                                      </div> -->
 
-                                <div class="m-b-md">
-                                    <a onclick=" ShowEvents('@Model.JobId') " class="btn btn-w-m btn-primary" href="javascript:void(0);">Events</a>
-
+                                <div class="m-b-md tabs">
+                                    <a onclick="ShowEvents('@Model.JobId') " class="btn btn-w-m active" href="javascript:void(0);">Times</a>
+                                    <a onclick="ShowGallery('@Model.JobId') " class="btn btn-w-m" href="javascript:void(0);">Files</a>
                                     @if (currentuser.UserType == 4)
                                     {
-                                    <a onclick=" ShowGallery('@Model.JobId') " class="btn btn-w-m btn-success" href="javascript:void(0);">Gallery</a>
-                                    <a onclick=" ShowCopyWriting('@Model.JobId') " class="btn btn-w-m btn-warning" href="javascript:void(0);">Copywriting</a>
+                                    <a onclick="ShowCopyWriting('@Model.JobId') " class="btn btn-w-m" href="javascript:void(0);">Copywriting</a>
+                                   @* <a onclick=" ShowGiftframe('@Model.JobId') " class="btn btn-w-m btn-warning" href="javascript:void(0);">Gift frame</a>*@
                                     }
+                                    <div class="clearfix"></div>
                                 </div>
 
                                 <div id="divContent"></div>
@@ -236,8 +298,10 @@
 
             </div>
 
-        </div>
+        
     }
+    </div>
+    
 
 
 
@@ -248,18 +312,731 @@
 </body>
 
 </html>
+@*===================Mail Send Popup====================*@
+<div id="photographMailSendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mailSendModalLabel">New message</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsgp" style="color: red;display:none;" class="col-sm-13 control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">To:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_ToP" name="txt_ToP" class="form-control" onblur="validateMultipleEmailsCommaSeparated1(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_CCP" name="txt_CCP" class="form-control" onblur="validateMultipleEmailsCommaSeparated1(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_BCCP" name="txt_BCCP" class="form-control" onblur="validateMultipleEmailsCommaSeparated1(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_SubjectP" class="form-control" value="" style="width:100%;"></div>
+                    </div>
+
+                    @*     <div class="ibox-content no-padding">
+                           <div id="summernote" class="summernote" ></div>
+                        </div>*@<div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote1" class="summernote"></div>
+                    </div>
+
+                    <div id="example1">
+                        <textarea id="editor1" rows="10" cols="30" style="width:100%;height:400px"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSentEmailPhotography" onclick="btnSentEmailPhotographysent()">Send message</button>
+                    <input type="hidden" id="hdnFromEmailP" name="hdnFromEmailP" />
+                    <input type="hidden" id="hdnFromEmaildisplayP" name="hdnFromEmaildisplayP" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="FloorPlanMailSendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mailSendModalLabel">Floor Plan Email </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsgF" style="color: red;display:none;" class="col-sm-13 control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">To:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_ToF" name="txt_ToF" class="form-control" onblur="validateMultipleEmailsCommaSeparated1(this, ',');" value="" style="width: 100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_CCF" name="txt_CCF" class="form-control" onblur="validateMultipleEmailsCommaSeparated1(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_BCCF" name="txt_BCCF" class="form-control" onblur="validateMultipleEmailsCommaSeparated1(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_SubjectF" class="form-control" value=""></div>
+                    </div>
+
+                    @*     <div class="ibox-content no-padding">
+                           <div id="summernote" class="summernote" ></div>
+                        </div>*@<div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote1" class="summernote"></div>
+                    </div>
+
+                    <div id="example2">
+                        <textarea id="editor2" rows="10" cols="30" style="width:100%;height:400px"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSentEmailFloorPlan" onclick="btnEmailFloorPlanClick()">Send message</button>
+                    <input type="hidden" id="hdnFromEmail1" name="hdnFromEmailF" />
+                    <input type="hidden" id="hdnFromEmaildisplayF" name="hdnFromEmaildisplayF" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*=====================EMail Notification add Modal==============*@
+<div id="EmailNotificationModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="EmailAddModalLabel">Add Email Notification</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsgEmail" style="color: red;display:none;" class="col-sm-13 control-label"></label>
+                    </div>
+                    <div class="alert alert-info alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                               Separate email addresses using a <b>comma</b> e.g. <b>to@schedly.com.au</b>, <b>meetoo@schedly.com.au</b>.
+                            </div>
+          
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Email:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_Email" name="txt_Email" class="form-control" onblur="validateMultipleEmailsCommaSeparatedNotify(this, ',');" value="" style="width: 100%;"></div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnEmailNotification" onclick="btnAddEmailNotification()">Add Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*==========================Progress Modal======================*@
+<div id="progressBarModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-center modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Publish images to CT </h4>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center;" id="divImg">
+                    <div class="loader"></div>
+                    @*<img src="~/Images/FadingSquares.gif" />
+                        <div><b>Publishing Image to CT...</b> </div>*@
+                </div>
+                <div style="max-height:500px; overflow-y: auto;">
+                    <div class="list-group1" id="imagePublishedToCT"></div>
+                    <div class="list-group1" id="imagePublishing"></div>
+                </div>
+                <div class="modal-footer" style=" padding: 10px 0px 0px 0px !important; margin-top: 0px !important; text-align: right; border-top: 0 !important; " id="ClosePublishTOCtModal">
+                    <span style="float: left;" id="publishedfilesResult"></span>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Okay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*=======================Email Confirm Popup======================*@
+<div id="CompleteStatusMailSendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mailSendModalLabel">Job Status Confirm </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsgC" style="color: red;display:none;" class="col-sm-13 control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">To:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_ToC" name="txt_ToC" class="form-control" onblur="validateMultipleEmailsCommaSeparatedConfirmStatus(this, ',');" value="" style="width: 100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_CCC" name="txt_CCC" class="form-control" onblur="validateMultipleEmailsCommaSeparatedConfirmStatus(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_BCCC" name="txt_BCCC" class="form-control" onblur="validateMultipleEmailsCommaSeparatedConfirmStatus(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_SubjectC" class="form-control" value=""></div>
+                    </div>
+
+                    @*     <div class="ibox-content no-padding">
+                           <div id="summernote" class="summernote" ></div>
+                        </div>*@<div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote1" class="summernote"></div>
+                    </div>
+
+                    <div id="example2">
+                        <textarea id="editorConfirm" rows="10" cols="30" style="width:100%;height:400px"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSentEmailComplete" onclick="btnSentEmailCompleteClick()">Send message</button>
+                    <input type="hidden" id="hdnFromEmail1" name="hdnFromEmailComplete" />
+                    <input type="hidden" id="hdnFromEmaildisplayComplete" name="hdnFromEmaildisplayComplete" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+@*====================Email FeedBack Popup Modal==================*@
+
+<div id="FloorPlanFeedBackMailSendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mailSendModalLabel">Floor Plan FeedBack Email </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsgFeedback" style="color: red;display:none;" class="col-sm-13 control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">To:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_ToFeedback" name="txt_ToFeedback" class="form-control" onblur="validateMultipleEmailsCommaSeparatedFeedback(this, ',');" value="" style="width: 100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_CCFeedback" name="txt_CCFeedback" class="form-control" onblur="validateMultipleEmailsCommaSeparatedFeedback(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_BCCFeedback" name="txt_BCCFeedback" class="form-control" onblur="validateMultipleEmailsCommaSeparatedFeedback(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_SubjectFeedback" class="form-control" value=""></div>
+                    </div>
+
+                    @*     <div class="ibox-content no-padding">
+                           <div id="summernote" class="summernote" ></div>
+                        </div>*@<div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote1" class="summernote"></div>
+                    </div>
+
+                    <div id="example2">
+                        <textarea id="editorFeedback" rows="10" cols="30" style="width:100%;height:400px"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSentEmailFloorPlanFeedBack" onclick="btnEmailFloorPlanFeedbackClick()">Send message</button>
+                    <input type="hidden" id="hdnFromEmailFeedback" name="hdnFromEmailFeedback" />
+                    <input type="hidden" id="hdnFromEmaildisplayfeedback" name="hdnFromEmaildisplayfeedback" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*====================Email Approve Popup Modal===================*@
+<div id="FloorPlanApproveMailSendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mailSendModalLabel">Floor Plan Approve Email </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsgApprove" style="color: red;display:none;" class="col-sm-13 control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">To:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_ToApprove" name="txt_ToApprove" class="form-control" onblur="validateMultipleEmailsCommaSeparatedApprove(this, ',');" value="" style="width: 100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_CCApprove" name="txt_CCApprove" class="form-control" onblur="validateMultipleEmailsCommaSeparatedApprove(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_BCCApprove" name="txt_BCCApprove" class="form-control" onblur="validateMultipleEmailsCommaSeparatedApprove(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_SubjectApprove" class="form-control" value=""></div>
+                    </div>
+
+                    @*     <div class="ibox-content no-padding">
+                           <div id="summernote" class="summernote" ></div>
+                        </div>*@<div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote1" class="summernote"></div>
+                    </div>
+
+                    <div id="example2">
+                        <textarea id="editorApprove" rows="10" cols="30" style="width:100%;height:400px"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSentEmailFloorPlanApprove" onclick="btnEmailFloorPlanApproveClick()">Send message</button>
+                    <input type="hidden" id="hdnFromEmailApprove" name="hdnFromEmailApprove" />
+                    <input type="hidden" id="hdnFromEmaildisplayapprove" name="hdnFromEmaildisplayapprove" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*===================Confirm Selection Popup Modal1=================*@
+<div id="confirmSelectionEmailModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mailSendModalLabel">Confirm Selection Email </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="recipient-name" id="lblErrormsgConfirmSelect" style="color: red;display:none;" class="col-sm-13 control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">To:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_ToConfirmSelect" name="txt_ToConfirmSelect" class="form-control" onblur="validateMultipleEmailsCommaSeparatedConfirmSelect(this, ',');" value="" style="width: 100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">CC:</label>
+                        <div class="col-sm-10"><input type="text" id="txt_CCConfirmSelect" name="txt_CCConfirmSelect" class="form-control" onblur="validateMultipleEmailsCommaSeparatedConfirmSelect(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">BCC:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_BCCConfirmSelect" name="txt_BCCConfirmSelect" class="form-control" onblur="validateMultipleEmailsCommaSeparatedConfirmSelect(this, ',');" value="" style="width:100%;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-sm-2 control-label">Subject:</label>
+                        <div class="col-sm-10 TextboxMess"><input type="text" id="txt_SubjectConfirmSelect" class="form-control" value=""></div>
+                    </div>
+
+                    @*     <div class="ibox-content no-padding">
+                           <div id="summernote" class="summernote" ></div>
+                        </div>*@<div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote" class="summernote"></div>
+                    </div><div class="ibox-content no-padding">
+                        <div id="summernote1" class="summernote"></div>
+                    </div>
+
+                    <div id="example2">
+                        <textarea id="editorConfirmSelect" rows="10" cols="30" style="width:100%;height:400px"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="RefreshImageGalleryAfterSelection();">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnSentEmailConfirmSelect" onclick="btnEmailConfirmSelectClick()">Send message</button>
+                    <input type="hidden" id="hdnFromEmailConfirmSelect" name="hdnFromEmailConfirmSelect" />
+                    <input type="hidden" id="hdnFromEmaildisplayconfirmselect" name="hdnFromEmaildisplayconfirmselect" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*===================Confirm Selection Popup Modal2=================*@
+<div id="confirmSelectionImageModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-center modal-dialog modal-sm text-center">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div style="text-align: center;" id="divImgselect">
+                    OH NO!
+                    ITS SEEMS LIKE YOU HAVE
+                    SELECTED TOO MANY IMAGES
+                    THIS WILL INCURR AN
+                    ADDITIONAL FEE IF YOU
+                    PROCEED.
+                </div>
+
+                <div class="modal-footer" style=" padding: 10px 0px 0px 0px !important; margin-top: 0px !important; text-align: center; border-top: 0 !important; " id="ClosePublishTOCtModal">
+                    <button type="button" class="btn btn-primary btn-block" id="btnConfirmAndOrderSelectImageModal" onclick="OpenConfirmSelectImage('Image Confirmation','1')" style="margin-bottom: 10px">Confirm And Order Addition Images Through CT</button>
+                    <button type="button" class="btn btn-primary" id="btnConfirmSelectImageModal" onclick="OpenConfirmSelectImage('Image Confirmation','2')">Confirm</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Go Back</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script language="javascript" type="text/javascript">
-
+    var openPhotographEmailModal = 0;
+    var openFloorPlanEmailModal = 0;
+    var openConfirmModal = 0;
+    var openeditorFeedbackModal = 0;
+    var openeditorApproveModal = 0;
+    var openConfirmSelectModal = 0;
+    var openNotificationEmail = 0;
+    var GroupIdAnchor = 0;
     $(document).ready(function () {
         if ('@Model.JobId' != 0 && '@Model.JobId' != null) {
             ShowEvents('@Model.JobId');
         }
-
     });
+
+
+    //Modal Popup Button Floor Plan FeedBack Validation
+    function validateMultipleEmailsCommaSeparatedFeedback(emailcntl, seperator) {
+      
+        $("#lblErrormsgFeedback").hide();
+        var value = emailcntl.value;     
+        if (value != '') {
+            var result = value.split(seperator);
+            for (var i = 0; i < result.length; i++) {
+                if (result[i] != '') {
+                    if (!validateEmail(result[i])) {
+                        emailcntl.focus();
+                        $("#lblErrormsgFeedback").text('Please check, `' + result[i] + '` email addresses not valid!');
+                        $("#lblErrormsgFeedback").show();
+
+                        //alert('Please check, `' + result[i] + '` email addresses not valid!');
+                        return false;
+                    }
+                    else {
+                        $("#lblErrormsgFeedback").val('');
+                        $("#lblErrormsgFeedback").hide();
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    //End Feedback Floor Plan
+
+    //Modal popup confirm Selection Validation
+    function validateMultipleEmailsCommaSeparatedConfirmSelect(emailcntl, seperator) {
+     //   debugger;
+        $("#lblErrormsgConfirmSelect").hide();
+        var value = emailcntl.value;
+        if (value != '') {
+            var result = value.split(seperator);
+            for (var i = 0; i < result.length; i++) {
+                if (result[i] != '') {
+                    if (!validateEmail(result[i])) {
+                        emailcntl.focus();
+                        $("#lblErrormsgConfirmSelect").text('Please check, `' + result[i] + '` email addresses not valid!');
+                        $("#lblErrormsgConfirmSelect").show();
+                        return false;
+                    }
+                    else {
+                        $("#lblErrormsgConfirmSelect").val('');
+                        $("#lblErrormsgConfirmSelect").hide();
+                    }
+                }
+            }
+        } return true;
+    }
+
+    //Modal Popup Button Floor Plan Approve Validation
+    function validateMultipleEmailsCommaSeparatedApprove(emailcntl, seperator) {
+      //  alert("manoj1");
+      //  debugger;
+        $("#lblErrormsgApprove").hide();
+        var value = emailcntl.value;
+        if (value != '') {
+            var result = value.split(seperator);
+            for (var i = 0; i < result.length; i++) {
+                if (result[i] != '') {
+                    if (!validateEmail(result[i])) {
+                        emailcntl.focus();
+                        $("#lblErrormsgApprove").text('Please check, `' + result[i] + '` email addresses not valid!');
+                        $("#lblErrormsgApprove").show();
+                         return false;
+                    }
+                    else {
+                        $("#lblErrormsgApprove").val('');
+                        $("#lblErrormsgApprove").hide();
+                    }
+                }
+                }
+        }return true;
+        }
+        
+   // }
+   // End Approve Floor Plan
+    //update Email
+    function btnAddEmailNotification() {
+      //  debugger;
+      //  alert("manoj5");
+        $("#lblErrormsgEmail").hide();
+        $("#lblErrormsgEmail").val('');
+      
+        var txtEmailAdd = $("#txt_Email").val();
+        if (txtEmailAdd != '') {
+            var jobId = $("#GlobleJobId").val();
+            $.get('@Url.Action("DeleteEmailNotifyResult", "JobTracking")', { jobId: jobId, email_Notification: txtEmailAdd }, function(data) {
+              //  debugger;
+                if (data) {
+                    var emailId = "";
+                //    debugger;
+                    $('#divEmailNotify').empty();
+                    $('#Email_Notification').val(txtEmailAdd);
+                  
+                    var emailNotify = $('#Email_Notification').val().split(',');
+                    for (var idx = 0; idx < emailNotify.length; idx++) {
+                        if (emailNotify[idx] != '') {
+                          var label = $('<label>');
+                        label.append('[ ');
+                        label.append(emailNotify[idx]);
+                         //   var a = $(document.createElement('a')).attr('href', 'javascript:void(0)').text("X");
+
+                        var anchor = $('<a>');
+                            anchor.on('click', function(event) {
+                                deleteEmail(this);
+                            });
+                            anchor.attr("EmailId", emailNotify[idx]);
+                        anchor.css({"cursor": "pointer"});
+                        anchor.append(' X');
+                        label.append(anchor);
+                        label.append(' ]; ');
+                        $('#divEmailNotify').append(label);
+                    }
+                    }
+                    $('#EmailNotificationModal').modal('hide');
+                } 
+                });
+        } else {
+            $("#lblErrormsgEmail").show();
+            $("#lblErrormsgEmail").text('Please enter atleast one Email!');
+        }
+    }
+  
+    //delete particular Email
+    function deleteEmail(id) {
+       debugger;
+       var emailVal = "";
+       var Email = $(id).attr('EmailId');
+        var jobId = $("#GlobleJobId").val();
+        if ($('#Email_Notification').val() != '') {
+            var emailNotify = $('#Email_Notification').val().split(',');
+            for (var idx = 0; idx < emailNotify.length; idx++) {
+                if (emailNotify[idx]!=''){
+                  if (!(emailNotify[idx] == Email)) {
+                      if (emailVal == "") {
+                          emailVal = emailNotify[idx] + ',';
+                      }
+                      else
+                          emailVal+=emailNotify[idx] + ',';
+                  }
+                }
+              }
+              $.get('@Url.Action("DeleteEmailNotifyResult", "JobTracking")', { jobId: jobId, email_Notification: emailVal }, function(data) {
+           //     debugger;
+                if (data) {
+                    debugger;
+                    $('#Email_Notification').val(emailVal);
+                    $(id).parent().remove();
+                    $("#txt_Email").data("kendoAutoComplete").value(""); 
+                    openNotificationEmail=0;
+                }
+            });
+
+        }
+    }
+
+    function OpenMailNotification() {
+        //  debugger;
+        debugger;
+        $("#txt_Email").val('');
+        $("#lblErrormsgEmail").hide();
+        $("#lblErrormsgEmail").val('');
+        openConfirmSelectModal = 0;
+        openNotificationEmail = 0;
+        if(openNotificationEmail==0){
+            debugger;
+            var results = 0;
+            $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (result) {
+                debugger;
+              
+                $("#txt_Email").kendoAutoComplete({
+                   // delay: 500,
+                    dataSource: result,
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+                results = 1;
+                var emailNotify = $('#Email_Notification').val().split(',');
+                if ($('#Email_Notification').val() != '') {
+                    var autocomplete = $("#txt_Email").data("kendoAutoComplete");
+                    //  autocomplete.bind('open', function (e) {
+                    //    e.preventDefault();
+                    // });
+                    autocomplete.value(emailNotify);
+                } $('#EmailNotificationModal').modal('show');
+            });openNotificationEmail=1;}
+        //if (results > 0) {
+        //    debugger;
+        //    var emailNotify = $('#Email_Notification').val().split(',');
+        //    if ($('#Email_Notification').val() != '') {
+        //        var autocomplete = $("#txt_Email").data("kendoAutoComplete");
+        //        //  autocomplete.bind('open', function (e) {
+        //        //    e.preventDefault();
+        //        // });
+        //        autocomplete.value(emailNotify);
+        //    } $('#EmailNotificationModal').modal('show');
+        //}
+        
+       
+    }
+
     function JobList() {
         $.get('@Url.Action("Index", "JobTracking")', function (data) {
             if (data != null) {
@@ -270,6 +1047,77 @@
         });
     }
 
+
+    function validateEmail(field) {
+
+        var regex = /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //  var regex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
+        return (regex.test(field)) ? true : false;
+    }
+    function validateMultipleEmailsCommaSeparated1(emailcntl, seperator) {
+     
+        var value = emailcntl.value;
+        $("#lblErrormsgF").hide();
+        $("#lblErrormsgp").hide();
+        if (value != '') {
+            var result = value.split(seperator);
+            for (var i = 0; i < result.length; i++) {
+                if (result[i] != '') {
+                    if (!validateEmail(result[i])) {
+                        emailcntl.focus();
+                        $("#lblErrormsgp").show();
+                        $("#lblErrormsgp").text('Please check, `' + result[i] + '` email addresses not valid!');
+                        $("#lblErrormsgF").show();
+                        $("#lblErrormsgF").text('Please check, `' + result[i] + '` email addresses not valid!');
+                        //alert('Please check, `' + result[i] + '` email addresses not valid!');
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    //Validate email Notification popup email
+    function validateMultipleEmailsCommaSeparatedNotify(emailcntl, seperator) {
+     //   debugger;
+        var value = emailcntl.value;
+        $("#lblErrormsgEmail").hide();
+        if (value != '') {
+            var result = value.split(seperator);
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].trim() != '') {
+                    if (!validateEmail(result[i].trim())) {
+                        emailcntl.focus();
+                        $("#lblErrormsgEmail").show();
+                        $("#lblErrormsgEmail").text('Please check, `' + result[i] + '` email addresses not valid!');
+                         return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    //Validate email Confirm
+    function validateMultipleEmailsCommaSeparatedConfirmStatus(emailcntl, seperator) {
+        var value = emailcntl.value;
+       // $("#lblErrormsgF").hide();
+      //  $("#lblErrormsgp").hide();
+        if (value != '') {
+            var result = value.split(seperator);
+            for (var i = 0; i < result.length; i++) {
+                if (result[i] != '') {
+                    if (!validateEmail(result[i])) {
+                        emailcntl.focus();
+                        $("#lblErrormsgC").show();
+                        $("#lblErrormsgC").text('Please check, `' + result[i] + '` email addresses not valid!');
+                        //alert('Please check, `' + result[i] + '` email addresses not valid!');
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     function ShowGallery(id) {
 
@@ -313,6 +1161,40 @@
             }
         });
     }
+
+    function ShowGiftframe(id) {
+        $("#GlobleJobId").val("");
+        $("#GlobleJobId").val(id);
+
+        $.get('@Url.Action("ViewGiftframe", "JobTracking")', { jobid: id }, function (data) {
+            if (data != null) {
+                $('#divContent').html("");
+                $('#divContent').html(data);
+            
+            }
+        });
+    }
+
+    $(document).ready(function(){
+
+        @*$.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
+            $("#txt_Email").kendoAutoComplete({
+                dataSource: Emaildata,
+                placeholder: "Enter your email address..",
+                separator: ","
+            });*@
+        
+        $('.tabs a').on('click', function () {
+            $('.tabs a').removeClass('active');
+            $(this).addClass('active');
+        });
+        $('#gotoJob').on('click', function () {
+            $('#liJobTracking').trigger('click');
+        })
+    });
+
+
+  
 
 </script>
 

@@ -7,20 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Eventlog
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Eventlog
-    {
-        public int Row_Id { get; set; }
-        public string Event_Id { get; set; }
-        public string Event_Title { get; set; }
-        public string Operation { get; set; }
-        public Nullable<int> User_Id { get; set; }
-        public string Source_calendar { get; set; }
-        public string Destination_calendar { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string Event_Id { get; set; }
+    public string Event_Title { get; set; }
+    public string Operation { get; set; }
+    public Nullable<int> User_Id { get; set; }
+    public string Source_calendar { get; set; }
+    public string Destination_calendar { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
 }

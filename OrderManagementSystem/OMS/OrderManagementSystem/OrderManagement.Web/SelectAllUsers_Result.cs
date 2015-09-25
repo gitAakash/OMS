@@ -7,22 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectAllUsers_Result
 {
-    using System;
-    
-    public partial class SelectAllUsers_Result
-    {
-        public int Row_Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailAddress { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
-        public Nullable<int> CompanyId { get; set; }
-        public string XeroName { get; set; }
-        public string UserRoll { get; set; }
-        public Nullable<int> ProductGroupId { get; set; }
-        public string GroupsName { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string EmailAddress { get; set; }
+    public Nullable<bool> IsActive { get; set; }
+    public Nullable<bool> IsDeleted { get; set; }
+    public Nullable<int> CompanyId { get; set; }
+    public string XeroName { get; set; }
+    public string UserRoll { get; set; }
+    public Nullable<int> ProductGroupId { get; set; }
+    public string GroupsName { get; set; }
 }

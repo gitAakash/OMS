@@ -7,26 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Job
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Job
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> Org_Id { get; set; }
-        public string Title { get; set; }
-        public Nullable<int> Order_Id { get; set; }
-        public Nullable<int> Property_Id { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> Company_Id { get; set; }
-        public Nullable<int> Primary_Contact_Id { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
-        public Nullable<System.DateTime> Required_By_Date { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> Updated { get; set; }
-        public Nullable<System.DateTime> UpdatedBy { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> Org_Id { get; set; }
+    public string Title { get; set; }
+    public Nullable<int> Order_Id { get; set; }
+    public Nullable<int> Property_Id { get; set; }
+    public string Status { get; set; }
+    public Nullable<int> Company_Id { get; set; }
+    public Nullable<int> Primary_Contact_Id { get; set; }
+    public Nullable<bool> IsDeleted { get; set; }
+    public Nullable<System.DateTime> Required_By_Date { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<int> CreatedBy { get; set; }
+    public Nullable<System.DateTime> Updated { get; set; }
+    public Nullable<System.DateTime> UpdatedBy { get; set; }
+    public string Email_Notification { get; set; }
+    public string Package { get; set; }
+    public Nullable<int> Package_Qty { get; set; }
+    public Nullable<bool> Image_locked_to_client { get; set; }
+    public Nullable<bool> Floorplan_locked_to_client { get; set; }
 }

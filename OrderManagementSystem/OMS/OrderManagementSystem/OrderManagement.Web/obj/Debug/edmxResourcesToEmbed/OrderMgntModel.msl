@@ -393,15 +393,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Organisations">
-      <EntityTypeMapping TypeName="OrderManagementModel.Organisation">
-        <MappingFragment StoreEntitySet="Organisation">
-          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProductCompanies">
       <EntityTypeMapping TypeName="OrderManagementModel.ProductCompany">
         <MappingFragment StoreEntitySet="ProductCompany">
@@ -512,6 +503,10 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="OrderManagementModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Notification" ColumnName="Notification" />
+          <ScalarProperty Name="Notification_Email" ColumnName="Notification_Email" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
           <ScalarProperty Name="AboutMe" ColumnName="AboutMe" />
           <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
@@ -531,6 +526,10 @@
     <EntitySetMapping Name="UserTypes">
       <EntityTypeMapping TypeName="OrderManagementModel.UserType">
         <MappingFragment StoreEntitySet="UserTypes">
+          <ScalarProperty Name="Order" ColumnName="Order" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+          <ScalarProperty Name="SubType" ColumnName="SubType" />
           <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
@@ -767,6 +766,11 @@
     <EntitySetMapping Name="Jobs">
       <EntityTypeMapping TypeName="OrderManagementModel.Job">
         <MappingFragment StoreEntitySet="Job">
+          <ScalarProperty Name="Floorplan_locked_to_client" ColumnName="Floorplan_locked_to_client" />
+          <ScalarProperty Name="Image_locked_to_client" ColumnName="Image_locked_to_client" />
+          <ScalarProperty Name="Package_Qty" ColumnName="Package_Qty" />
+          <ScalarProperty Name="Package" ColumnName="Package" />
+          <ScalarProperty Name="Email_Notification" ColumnName="Email_Notification" />
           <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
           <ScalarProperty Name="Updated" ColumnName="Updated" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -787,6 +791,13 @@
     <EntitySetMapping Name="JobAttachments">
       <EntityTypeMapping TypeName="OrderManagementModel.JobAttachment">
         <MappingFragment StoreEntitySet="JobAttachment">
+          <ScalarProperty Name="ConfirmSelectionStatus" ColumnName="ConfirmSelectionStatus" />
+          <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+          <ScalarProperty Name="UPLOAD_STATUS" ColumnName="UPLOAD_STATUS" />
+          <ScalarProperty Name="UPLOAD_BY" ColumnName="UPLOAD_BY" />
+          <ScalarProperty Name="UPLOAD_DATETIME" ColumnName="UPLOAD_DATETIME" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
           <ScalarProperty Name="FilePath" ColumnName="FilePath" />
           <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
           <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
@@ -902,7 +913,6 @@
       <ResultMapping>
         <ComplexTypeMapping TypeName="OrderManagementModel.SelectJobAttachmentFolders">
           <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
-          <ScalarProperty Name="FOLDER" ColumnName="FOLDER" />
           <ScalarProperty Name="PARENT_FOLDER_ID" ColumnName="PARENT_FOLDER_ID" />
           <ScalarProperty Name="PARENT_FOLDER_NAME" ColumnName="PARENT_FOLDER_NAME" />
           <ScalarProperty Name="TAGS" ColumnName="TAGS" />
@@ -969,34 +979,6 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ParentId" ColumnName="ParentId" />
           <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SelectJobs" FunctionName="OrderManagementModel.Store.SelectJobs">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="OrderManagementModel.TrackingJobs">
-          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
-          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-          <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
-          <ScalarProperty Name="Property_Id" ColumnName="Property_Id" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="Completion_Percent" ColumnName="Completion_Percent" />
-          <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
-          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
-          <ScalarProperty Name="Required_By_Date" ColumnName="Required_By_Date" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="Updated" ColumnName="Updated" />
-          <ScalarProperty Name="Created_ByName" ColumnName="Created_ByName" />
-          <ScalarProperty Name="Created_ByValue" ColumnName="Created_ByValue" />
-          <ScalarProperty Name="Product_Group" ColumnName="Product_Group" />
-          <ScalarProperty Name="Resource" ColumnName="Resource" />
-          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-          <ScalarProperty Name="EventTitle" ColumnName="EventTitle" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Status_Colour" ColumnName="Status_Colour" />
-          <ScalarProperty Name="JobEventStatusColour" ColumnName="JobEventStatusColour" />
-          <ScalarProperty Name="JobEventStatus" ColumnName="JobEventStatus" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -1089,6 +1071,15 @@
           <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
           <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
           <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="UPLOAD_DATETIME" ColumnName="UPLOAD_DATETIME" />
+          <ScalarProperty Name="UPLOAD_BY" ColumnName="UPLOAD_BY" />
+          <ScalarProperty Name="UPLOAD_STATUS" ColumnName="UPLOAD_STATUS" />
+          <ScalarProperty Name="Property_Id" ColumnName="Property_Id" />
+          <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+          <ScalarProperty Name="Image_locked_to_client" ColumnName="Image_locked_to_client" />
+          <ScalarProperty Name="Floorplan_locked_to_client" ColumnName="Floorplan_locked_to_client" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -1224,5 +1215,461 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <EntitySetMapping Name="Eventlogs">
+      <EntityTypeMapping TypeName="OrderManagementModel.Eventlog">
+        <MappingFragment StoreEntitySet="Eventlog">
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Destination_calendar" ColumnName="Destination_calendar" />
+          <ScalarProperty Name="Source_calendar" ColumnName="Source_calendar" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="Operation" ColumnName="Operation" />
+          <ScalarProperty Name="Event_Title" ColumnName="Event_Title" />
+          <ScalarProperty Name="Event_Id" ColumnName="Event_Id" />
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="InsertEventslog" FunctionName="OrderManagementModel.Store.InsertEventslog" />
+    <FunctionImportMapping FunctionImportName="SelectOrg" FunctionName="OrderManagementModel.Store.SelectOrg">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectOrg">
+          <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+          <ScalarProperty Name="OrgName" ColumnName="OrgName" />
+          <ScalarProperty Name="Logolocation" ColumnName="Logolocation" />
+          <ScalarProperty Name="subdomain" ColumnName="subdomain" />
+          <ScalarProperty Name="BH_StartTime" ColumnName="BH_StartTime" />
+          <ScalarProperty Name="BH_EndTime" ColumnName="BH_EndTime" />
+          <ScalarProperty Name="ThemeName" ColumnName="ThemeName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectEventsBySearchValue" FunctionName="OrderManagementModel.Store.SelectEventsBySearchValue">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectEventsBySearchValue">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="RecurringEventId" ColumnName="RecurringEventId" />
+          <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+          <ScalarProperty Name="Attendees" ColumnName="Attendees" />
+          <ScalarProperty Name="AttendeesOmitted" ColumnName="AttendeesOmitted" />
+          <ScalarProperty Name="AnyoneCanAddSelf" ColumnName="AnyoneCanAddSelf" />
+          <ScalarProperty Name="Locked" ColumnName="Locked" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Kind" ColumnName="Kind" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="MovedOn" ColumnName="MovedOn" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Recurrence" ColumnName="Recurrence" />
+          <ScalarProperty Name="Organizer" ColumnName="Organizer" />
+          <ScalarProperty Name="Creator" ColumnName="Creator" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="Transperancy" ColumnName="Transperancy" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+          <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEventDetails" FunctionName="OrderManagementModel.Store.GetEventDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetEventDetails">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="RecurringEventId" ColumnName="RecurringEventId" />
+          <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+          <ScalarProperty Name="Attendees" ColumnName="Attendees" />
+          <ScalarProperty Name="AttendeesOmitted" ColumnName="AttendeesOmitted" />
+          <ScalarProperty Name="AnyoneCanAddSelf" ColumnName="AnyoneCanAddSelf" />
+          <ScalarProperty Name="Locked" ColumnName="Locked" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Kind" ColumnName="Kind" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="MovedOn" ColumnName="MovedOn" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Recurrence" ColumnName="Recurrence" />
+          <ScalarProperty Name="Organizer" ColumnName="Organizer" />
+          <ScalarProperty Name="Creator" ColumnName="Creator" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="Transperancy" ColumnName="Transperancy" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+          <ScalarProperty Name="RecurrenceID" ColumnName="RecurrenceID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEventEmailORPrintData" FunctionName="OrderManagementModel.Store.GetEventEmailORPrintData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetEventEmailORPrintData">
+          <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
+          <ScalarProperty Name="TO_EMAIL" ColumnName="TO_EMAIL" />
+          <ScalarProperty Name="FROM_EMAIL" ColumnName="FROM_EMAIL" />
+          <ScalarProperty Name="SUBJECT" ColumnName="SUBJECT" />
+          <ScalarProperty Name="MESSAGE_BODY" ColumnName="MESSAGE_BODY" />
+          <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="EventEmailORPrints">
+      <EntityTypeMapping TypeName="OrderManagementModel.EventEmailORPrint">
+        <MappingFragment StoreEntitySet="EventEmailORPrint">
+          <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+          <ScalarProperty Name="MESSAGE_BODY" ColumnName="MESSAGE_BODY" />
+          <ScalarProperty Name="SUBJECT" ColumnName="SUBJECT" />
+          <ScalarProperty Name="FROM_EMAIL" ColumnName="FROM_EMAIL" />
+          <ScalarProperty Name="TO_EMAIL" ColumnName="TO_EMAIL" />
+          <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SelectEmailAddressAutoComplete" FunctionName="OrderManagementModel.Store.SelectEmailAddressAutoComplete" />
+    <FunctionImportMapping FunctionImportName="InsertEventMailToEmailInbox" FunctionName="OrderManagementModel.Store.InsertEventMailToEmailInbox" />
+    <FunctionImportMapping FunctionImportName="SelectCommunicationTemplate" FunctionName="OrderManagementModel.Store.SelectCommunicationTemplate">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectCommunicationTemplate">
+          <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
+          <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+          <ScalarProperty Name="TEMPLATE" ColumnName="TEMPLATE" />
+          <ScalarProperty Name="MERGE_ATTRIBUTE" ColumnName="MERGE_ATTRIBUTE" />
+          <ScalarProperty Name="EMAIL_SUBJECT" ColumnName="EMAIL_SUBJECT" />
+          <ScalarProperty Name="TEMPLATE1" ColumnName="TEMPLATE1" />
+          <ScalarProperty Name="EMAIL_PRIORITY" ColumnName="EMAIL_PRIORITY" />
+          <ScalarProperty Name="TO" ColumnName="TO" />
+          <ScalarProperty Name="CC_TO" ColumnName="CC_TO" />
+          <ScalarProperty Name="BCC_TO" ColumnName="BCC_TO" />
+          <ScalarProperty Name="FROM" ColumnName="FROM" />
+          <ScalarProperty Name="FROM_DISPLAY_AS" ColumnName="FROM_DISPLAY_AS" />
+          <ScalarProperty Name="REPLY_TO" ColumnName="REPLY_TO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectCommunicationTemplates" FunctionName="OrderManagementModel.Store.SelectCommunicationTemplates">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectCommunicationTemplates">
+          <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
+          <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+          <ScalarProperty Name="EMAIL_SUBJECT" ColumnName="EMAIL_SUBJECT" />
+          <ScalarProperty Name="TEMPLATE" ColumnName="TEMPLATE" />
+          <ScalarProperty Name="EMAIL_PRIORITY" ColumnName="EMAIL_PRIORITY" />
+          <ScalarProperty Name="TO" ColumnName="TO" />
+          <ScalarProperty Name="CC_TO" ColumnName="CC_TO" />
+          <ScalarProperty Name="BCC_TO" ColumnName="BCC_TO" />
+          <ScalarProperty Name="FROM" ColumnName="FROM" />
+          <ScalarProperty Name="FROM_DISPLAY_AS" ColumnName="FROM_DISPLAY_AS" />
+          <ScalarProperty Name="REPLY_TO" ColumnName="REPLY_TO" />
+          <ScalarProperty Name="MERGE_ATTRIBUTE" ColumnName="MERGE_ATTRIBUTE" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="OrderManagementModel.Client">
+        <MappingFragment StoreEntitySet="Clients">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Main_URL" ColumnName="Main_URL" />
+          <ScalarProperty Name="Main_Email" ColumnName="Main_Email" />
+          <ScalarProperty Name="Main_Phone" ColumnName="Main_Phone" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Videos">
+      <EntityTypeMapping TypeName="OrderManagementModel.Video">
+        <MappingFragment StoreEntitySet="Video">
+          <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Host_Secondary_Link" ColumnName="Host_Secondary_Link" />
+          <ScalarProperty Name="Host_Secondary" ColumnName="Host_Secondary" />
+          <ScalarProperty Name="Host_Primary_Link" ColumnName="Host_Primary_Link" />
+          <ScalarProperty Name="Host_Primary" ColumnName="Host_Primary" />
+          <ScalarProperty Name="Reference" ColumnName="Reference" />
+          <ScalarProperty Name="File_s3_Location" ColumnName="File_s3_Location" />
+          <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+          <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Client_Id" ColumnName="Client_Id" />
+          <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SelectClients" FunctionName="OrderManagementModel.Store.SelectClients">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectClients">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Main_Phone" ColumnName="Main_Phone" />
+          <ScalarProperty Name="Main_Email" ColumnName="Main_Email" />
+          <ScalarProperty Name="Main_URL" ColumnName="Main_URL" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeleteClients" FunctionName="OrderManagementModel.Store.DeleteClients" />
+    <FunctionImportMapping FunctionImportName="UpdateClients" FunctionName="OrderManagementModel.Store.UpdateClients" />
+    <FunctionImportMapping FunctionImportName="SelectVideo" FunctionName="OrderManagementModel.Store.SelectVideo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectVideo">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+          <ScalarProperty Name="Client_Id" ColumnName="Client_Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+          <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+          <ScalarProperty Name="File_s3_Location" ColumnName="File_s3_Location" />
+          <ScalarProperty Name="Reference" ColumnName="Reference" />
+          <ScalarProperty Name="Host_Primary" ColumnName="Host_Primary" />
+          <ScalarProperty Name="Host_Primary_Link" ColumnName="Host_Primary_Link" />
+          <ScalarProperty Name="Host_Secondary" ColumnName="Host_Secondary" />
+          <ScalarProperty Name="Host_Secondary_Link" ColumnName="Host_Secondary_Link" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertVideo" FunctionName="OrderManagementModel.Store.InsertVideo" />
+    <FunctionImportMapping FunctionImportName="UpdateVideo" FunctionName="OrderManagementModel.Store.UpdateVideo" />
+    <FunctionImportMapping FunctionImportName="DeleteVideo" FunctionName="OrderManagementModel.Store.DeleteVideo" />
+    <FunctionImportMapping FunctionImportName="GetAllJobs" FunctionName="OrderManagementModel.Store.GetAllJobs">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetAllJobs">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectVideoById" FunctionName="OrderManagementModel.Store.SelectVideoById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectVideoById">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+          <ScalarProperty Name="Client_Id" ColumnName="Client_Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+          <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+          <ScalarProperty Name="File_s3_Location" ColumnName="File_s3_Location" />
+          <ScalarProperty Name="Reference" ColumnName="Reference" />
+          <ScalarProperty Name="Host_Primary" ColumnName="Host_Primary" />
+          <ScalarProperty Name="Host_Primary_Link" ColumnName="Host_Primary_Link" />
+          <ScalarProperty Name="Host_Secondary" ColumnName="Host_Secondary" />
+          <ScalarProperty Name="Host_Secondary_Link" ColumnName="Host_Secondary_Link" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="JobId" ColumnName="JobId" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetJobCommentsById" FunctionName="OrderManagementModel.Store.GetJobCommentsById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetJobCommentsById">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateJobAttachmentComments" FunctionName="OrderManagementModel.Store.UpdateJobAttachmentComments" />
+    <FunctionImportMapping FunctionImportName="GetFoldersAttachmentCount" FunctionName="OrderManagementModel.Store.GetFoldersAttachmentCount">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetFoldersAttachmentCount">
+          <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetUserCommentsbyJobId" FunctionName="OrderManagementModel.Store.GetUserCommentsbyJobId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetUserCommentsbyJobId">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="File_Id" ColumnName="File_Id" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Buffer" ColumnName="Buffer" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateJobAttachmentUploaded" FunctionName="OrderManagementModel.Store.UpdateJobAttachmentUploaded" />
+    <FunctionImportMapping FunctionImportName="UpdateJobEmail_Notification" FunctionName="OrderManagementModel.Store.UpdateJobEmail_Notification" />
+    <FunctionImportMapping FunctionImportName="SelectJobAttachmentFolders1" FunctionName="OrderManagementModel.Store.SelectJobAttachmentFolders">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectJobAttachmentFolders">
+          <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
+          <ScalarProperty Name="PARENT_FOLDER_ID" ColumnName="PARENT_FOLDER_ID" />
+          <ScalarProperty Name="PARENT_FOLDER_NAME" ColumnName="PARENT_FOLDER_NAME" />
+          <ScalarProperty Name="TAGS" ColumnName="TAGS" />
+          <ScalarProperty Name="Folder" ColumnName="Folder" />
+          <ScalarProperty Name="CountFolder" ColumnName="CountFolder" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetJobAnnotationById" FunctionName="OrderManagementModel.Store.GetJobAnnotationById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetJobAnnotationById">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertJobAnnotation" FunctionName="OrderManagementModel.Store.InsertJobAnnotation" />
+    <EntitySetMapping Name="JobAnnotations">
+      <EntityTypeMapping TypeName="OrderManagementModel.JobAnnotation">
+        <MappingFragment StoreEntitySet="JobAnnotation">
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="File_Id" ColumnName="File_Id" />
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetEmailTemplateData" FunctionName="OrderManagementModel.Store.GetEmailTemplateData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.GetEmailTemplateData_Result">
+          <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="GroupType" ColumnName="GroupType" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Organizer" ColumnName="Organizer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateJobAttachmentTags" FunctionName="OrderManagementModel.Store.UpdateJobAttachmentTags" />
+    <FunctionImportMapping FunctionImportName="UpdateImageSelection" FunctionName="OrderManagementModel.Store.UpdateImageSelection" />
+    <FunctionImportMapping FunctionImportName="SelectJobs" FunctionName="OrderManagementModel.Store.SelectJobs">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.TrackingJobs">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+          <ScalarProperty Name="Property_Id" ColumnName="Property_Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Completion_Percent" ColumnName="Completion_Percent" />
+          <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+          <ScalarProperty Name="Required_By_Date" ColumnName="Required_By_Date" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="Created_ByName" ColumnName="Created_ByName" />
+          <ScalarProperty Name="Created_ByValue" ColumnName="Created_ByValue" />
+          <ScalarProperty Name="Product_Group" ColumnName="Product_Group" />
+          <ScalarProperty Name="Resource" ColumnName="Resource" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="EventTitle" ColumnName="EventTitle" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status_Colour" ColumnName="Status_Colour" />
+          <ScalarProperty Name="JobEventStatusColour" ColumnName="JobEventStatusColour" />
+          <ScalarProperty Name="JobEventStatus" ColumnName="JobEventStatus" />
+          <ScalarProperty Name="Email_Notification" ColumnName="Email_Notification" />
+          <ScalarProperty Name="Package" ColumnName="Package" />
+          <ScalarProperty Name="Package_Qty" ColumnName="Package_Qty" />
+          <ScalarProperty Name="Image_locked_to_client" ColumnName="Image_locked_to_client" />
+          <ScalarProperty Name="Floorplan_locked_to_client" ColumnName="Floorplan_locked_to_client" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateFolderLock" FunctionName="OrderManagementModel.Store.UpdateFolderLock" />
+    <FunctionImportMapping FunctionImportName="SelectJobAttachmentTemplate" FunctionName="OrderManagementModel.Store.SelectJobAttachmentTemplate">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OrderManagementModel.SelectJobAttachmentTemplate_Result">
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+          <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+          <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+          <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+          <ScalarProperty Name="File" ColumnName="File" />
+          <ScalarProperty Name="GroupType" ColumnName="GroupType" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="Folder" ColumnName="Folder" />
+          <ScalarProperty Name="Selected" ColumnName="Selected" />
+          <ScalarProperty Name="SelectedBy" ColumnName="SelectedBy" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+          <ScalarProperty Name="UPLOAD_DATETIME" ColumnName="UPLOAD_DATETIME" />
+          <ScalarProperty Name="UPLOAD_BY" ColumnName="UPLOAD_BY" />
+          <ScalarProperty Name="UPLOAD_STATUS" ColumnName="UPLOAD_STATUS" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="PackageNumber" ColumnName="PackageNumber" />
+          <ScalarProperty Name="CommentCount" ColumnName="CommentCount" />
+          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="Fname2" ColumnName="Fname2" />
+          <ScalarProperty Name="ConfirmSelectionStatus" ColumnName="ConfirmSelectionStatus" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="DAY_PHOTOGRAPHER" ColumnName="DAY_PHOTOGRAPHER" />
+          <ScalarProperty Name="DUSK_PHOTOGRAPHER" ColumnName="DUSK_PHOTOGRAPHER" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertEmailsToEmailInbox" FunctionName="OrderManagementModel.Store.InsertEmailsToEmailInbox" />
+    <EntitySetMapping Name="Organisations">
+      <EntityTypeMapping TypeName="OrderManagementModel.Organisation">
+        <MappingFragment StoreEntitySet="Organisation">
+          <ScalarProperty Name="ThemeName" ColumnName="ThemeName" />
+          <ScalarProperty Name="BH_EndTime" ColumnName="BH_EndTime" />
+          <ScalarProperty Name="BH_StartTime" ColumnName="BH_StartTime" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="companylogo" ColumnName="companylogo" />
+          <ScalarProperty Name="subdomain" ColumnName="subdomain" />
+          <ScalarProperty Name="OrgKey" ColumnName="OrgKey" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -7,16 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectJobAttachmentFolders
 {
-    using System;
-    
-    public partial class SelectJobAttachmentFolders
-    {
-        public int ROW_ID { get; set; }
-        public string FOLDER { get; set; }
-        public Nullable<int> PARENT_FOLDER_ID { get; set; }
-        public string PARENT_FOLDER_NAME { get; set; }
-        public string TAGS { get; set; }
-    }
+    public int ROW_ID { get; set; }
+    public Nullable<int> PARENT_FOLDER_ID { get; set; }
+    public string PARENT_FOLDER_NAME { get; set; }
+    public string TAGS { get; set; }
+    public string Folder { get; set; }
+    public Nullable<int> CountFolder { get; set; }
 }

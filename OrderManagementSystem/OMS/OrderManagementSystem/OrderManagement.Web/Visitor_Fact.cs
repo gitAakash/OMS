@@ -7,18 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Visitor_Fact
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Visitor_Fact
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrgId { get; set; }
-        public Nullable<int> ReceiverUDID { get; set; }
-        public Nullable<int> VisitCount { get; set; }
-        public Nullable<int> MessageCount { get; set; }
-        public Nullable<int> CampaignId { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrgId { get; set; }
+    public Nullable<int> ReceiverUDID { get; set; }
+    public Nullable<int> VisitCount { get; set; }
+    public Nullable<int> MessageCount { get; set; }
+    public Nullable<int> CampaignId { get; set; }
 }

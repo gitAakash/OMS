@@ -7,19 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class CampaignAsset
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class CampaignAsset
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> CampaignId { get; set; }
-        public Nullable<int> AssetId { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<int> AssetConfigId { get; set; }
-        public Nullable<int> ConfiguredBy { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> CampaignId { get; set; }
+    public Nullable<int> AssetId { get; set; }
+    public Nullable<System.DateTime> StartDate { get; set; }
+    public Nullable<System.DateTime> EndDate { get; set; }
+    public Nullable<int> AssetConfigId { get; set; }
+    public Nullable<int> ConfiguredBy { get; set; }
 }

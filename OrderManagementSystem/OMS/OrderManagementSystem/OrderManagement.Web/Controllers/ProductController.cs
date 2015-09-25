@@ -45,40 +45,48 @@ namespace OrderManagement.Web.Controllers
         //    }
         //    return Json(productmodellist, JsonRequestBehavior.AllowGet);
         //}
-        public ActionResult Products_Read([DataSourceRequest] DataSourceRequest request)
-        {
-            var currentUser = UserManager.Current();
-            if (currentUser != null)
-            {
-                var products = _productService.GetAllProductBySp(currentUser.OrgId.Value).ToList();
+        //public ActionResult Products_Read([DataSourceRequest] DataSourceRequest request)
+        //{
+        //    var currentUser = UserManager.Current();
+        //    if (currentUser != null)
+        //    {
+        //        var products = _productService.GetAllProductBySp(currentUser.OrgId.Value).ToList();
 
-                if (request.Filters.Count > 0)
-                {
-                    if (request.Filters.Any())
-                    {
-                        foreach (var filter in request.Filters)
-                        {
-                            var descriptor = filter as FilterDescriptor;
-                            if (descriptor != null && descriptor.Member == "ProductGroupId")
-                            {
-                                var prodlist = products.Where(m => m.ProductGroupId == int.Parse(descriptor.Value.ToString())).ToList();
-                                request.Filters = new List<IFilterDescriptor>();
-                                return Json(prodlist.ToDataSourceResult(request));
-                            }
-                        }
-                    }
+        //        if (request.Filters.Count > 0)
+        //        {
+        //            if (request.Filters.Any())
+        //            {
+        //                foreach (var filter in request.Filters)
+        //                {
+        //                    var descriptor = filter as FilterDescriptor;
+        //                    if (descriptor != null && descriptor.Member == "ProductGroupId")
+        //                    {
+        //                        var prodlist = products.Where(m => m.ProductGroupId == int.Parse(descriptor.Value.ToString())).ToList();
+        //                       // request.Filters = new List<IFilterDescriptor>();
+        //                        request.Filters.Clear();
+        //                        return Json(prodlist.ToDataSourceResult(request));
+        //                    }
+        //                }
+        //            }
 
-                }
+        //        }
 
-                return Json(products.ToDataSourceResult(request));
+        //        return Json(products.ToDataSourceResult(request));
 
-            }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
+
         public ActionResult Index(string id)
         {
-            return PartialView("Controls/Product/_ProductList");
+               var currentUser = UserManager.Current();
+               if (currentUser != null)
+               {
+                   var products = _productService.GetAllProductBySp(currentUser.OrgId.Value).ToList();
+                   return PartialView("Controls/Product/_ProductList", products);
+               }
+               return null;
         }
 
         public ActionResult ProductCompanyList(string id)

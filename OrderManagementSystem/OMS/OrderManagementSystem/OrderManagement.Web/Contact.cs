@@ -7,25 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Contact
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Contact
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> CompanyId { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public string ContactType { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public string First_Name { get; set; }
-        public string Last_Name { get; set; }
-        public string Email_Address { get; set; }
-        public string Phone_Number { get; set; }
-    
-        public virtual Company Company { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> CompanyId { get; set; }
+    public string Name { get; set; }
+    public string Value { get; set; }
+    public string ContactType { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<int> CreatedBy { get; set; }
+    public string First_Name { get; set; }
+    public string Last_Name { get; set; }
+    public string Email_Address { get; set; }
+    public string Phone_Number { get; set; }
+
+    public virtual Company Company { get; set; }
 }

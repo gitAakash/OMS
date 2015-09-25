@@ -7,23 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class CampaignNotification
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class CampaignNotification
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrgId { get; set; }
-        public Nullable<int> CampaignId { get; set; }
-        public Nullable<int> CampaignSittingId { get; set; }
-        public string NotificationType { get; set; }
-        public string NotificationMsg { get; set; }
-        public string ReceiverUDID { get; set; }
-        public Nullable<System.DateTime> FireDatetime { get; set; }
-        public Nullable<int> Badge { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrgId { get; set; }
+    public Nullable<int> CampaignId { get; set; }
+    public Nullable<int> CampaignSittingId { get; set; }
+    public string NotificationType { get; set; }
+    public string NotificationMsg { get; set; }
+    public string ReceiverUDID { get; set; }
+    public Nullable<System.DateTime> FireDatetime { get; set; }
+    public Nullable<int> Badge { get; set; }
+    public string Status { get; set; }
+    public Nullable<int> CreatedBy { get; set; }
 }

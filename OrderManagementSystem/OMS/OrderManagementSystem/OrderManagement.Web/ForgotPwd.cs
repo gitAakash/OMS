@@ -7,17 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class ForgotPwd
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class ForgotPwd
-    {
-        public int ID { get; set; }
-        public string UserID { get; set; }
-        public string ResetURL { get; set; }
-        public Nullable<bool> Isused { get; set; }
-        public System.DateTime createddate { get; set; }
-    }
+    public int ID { get; set; }
+    public string UserID { get; set; }
+    public string ResetURL { get; set; }
+    public Nullable<bool> Isused { get; set; }
+    public System.DateTime createddate { get; set; }
 }

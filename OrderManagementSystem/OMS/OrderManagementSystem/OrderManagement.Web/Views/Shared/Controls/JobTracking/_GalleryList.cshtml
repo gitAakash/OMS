@@ -1,128 +1,18 @@
-﻿@model OrderManagement.Web.Models.GalleryModel
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.GalleryModel
+@{
+    var currentuser = UserManager.Current();
+}
 
-<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")" rel="stylesheet" type="text/css" />
 <link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
 <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
-
+<script src="@Url.Content("~/Scripts/jquery.taggd.min.js")" type="text/javascript"></script>
+<script src="~/Scripts/bootstrap.js"></script>
 
 
 <style>
-    
-
-    /*#overlay {
-opacity: 0;
-background-color: #fff;
-position: absolute;
-top: 0px;
-left: 0px;
-z-index: 50;
-width: 100%;
-height: 100%;
-display:none;
-}*/
- 
-/*.info {
-margin:auto;
-padding:20px;
-width:400px;
-background:#fff;
-box-shadow: 0 4px 16px #999;
-z-index: 51;
-border:1px solid #acacac;
-position:absolute;
-display:none;
-left: -190px !important;
-top: 14px !important;
-}*/
-
-/*#overlay {
-opacity: 0.7;
-background: #000;
-width: 132%;
-height: 100.5%;
-position: fixed;
-top: -20px;
-left: -257px;
-display: none;
-    z-index: 9;
-}
-
-.info {
-margin:auto;
-padding:20px;
-width:400px;
-background:#fff;
-box-shadow: 0 4px 16px #999;
-z-index: 9999;
-border:1px solid #acacac;
-position:fixed;
-display:none;
-left:0 !important;
-top:50px !important;
-}
-.info:hover{z-index:9999;}*/
-
-.info{
-background:url(../Images/lightBoxBG_RB.png) repeat left top;
-width:133%;
-height: 100.5%;
-position: fixed;
-top: -19px !important;
-left: -259px !important;
-display:none;
-    z-index: 9;}
-
-#results{margin:195px auto 0;
-padding:20px;
-width:400px;
-background:#fff;
-box-shadow: 0 4px 16px #999;
-z-index: 9999;
-border:1px solid #acacac;
-/*position:fixed;
-left:50px !important;
-top:50px !important;*/
-    height:310px;
-    position: relative;
-}
-
-#close {
-background: url(../Images/fancybox_sprite.png) repeat;
-width: 35px;
-height: 35px;
-position: absolute;
-font-size: 0;
-display: block;
-top: -15px;
-right: -16px;
-z-index: 9;}
-
-
-
-
-
-
-
-
-
-
-
-    div.k-dropzone {
-        /*border: 1px solid #c5c5c5;  For Default; Different for each theme */
-        border: 1px dashed #C5C5C6;
-        margin: 0 0 15px -13px;
-        padding: 75px 10px;
-    }
-
-        div.k-dropzone:after {
-            content: 'Drop Zone';
-            color: #000;
-            font-style: italic;
-            font-size: 30px;
-            font-weight: bold;
-        }
-
     div.em {
         visibility: visible;
     }
@@ -135,7 +25,7 @@ z-index: 9;}
         left: 20px;
         padding: 5px;
         border-radius: 4px;
-        color: #A31010;
+        color: #000;
         box-shadow: 0 0 2px #fff;
     }
 
@@ -160,10 +50,7 @@ z-index: 9;}
             margin-right: 10px;
         }
 
-    .wrapper.wrapper-content.gray-bg .file-box {
-        float: left;
-        width: 195px;
-    }
+
 
     .height {
         height: 50px;
@@ -171,13 +58,49 @@ z-index: 9;}
     }
 
     .gallery-group .fancybox img {
-      margin-bottom: 5px;
-      width: 100%;
+        margin-bottom: 5px;
+        width: 100%;
     }
 
-    .star_empty
-    {
-        
+    /*.star_empty {
+            background-image: url("../Images/star_empty.png");
+            background-repeat: no-repeat;
+            width: 16px;
+            height: 16px;
+            background-size: 16px;
+            display: inline-block;
+            float: right;
+        }
+
+            .star_empty:hover {
+                background-image: url("../Images/star.png");
+            }*/
+
+    /*.star {
+            background-image: url("../Images/star.png");
+            background-repeat: no-repeat;
+            width: 16px;
+            height: 16px;
+            background-size: 16px;
+            display: inline-block;
+            float: right;
+        }*/
+
+    /*.star_empt {
+            background-image: url("../Images/star_empty.png");
+            background-repeat: no-repeat;
+            width: 16px;
+            height: 16px;
+            background-size: 16px;
+            display: inline-block;
+            float: right;
+        }
+
+            .star_empt:hover {
+                background-image: url("../Images/star.png");
+            }*/
+
+    .star {
         background-image: url("../Images/star_empty.png");
         background-repeat: no-repeat;
         width: 16px;
@@ -185,41 +108,15 @@ z-index: 9;}
         background-size: 16px;
         display: inline-block;
         float: right;
-    }
-    .star_empty:hover
-    {
-        background-image: url("../Images/star.png");
-    }
-    .star
-    {
-        background-image: url("../Images/star.png");
-        background-repeat: no-repeat;
-        width: 16px;
-        height: 16px;
-        background-size: 16px;
-        display: inline-block;
-        float: right;
-    }
-    .star_empt
-    {
-        
-        background-image: url("../Images/star_empty.png");
-        background-repeat: no-repeat;
-        width: 16px;
-        height: 16px;
-        background-size: 16px;
-        display: inline-block;
-        float: right;
-    }
-    .star_empt:hover
-    {
-        background-image: url("../Images/star.png");
+        cursor: pointer;
     }
 
-    .mousechange:hover {
-        cursor:pointer;
-    }
-
+        .star.active {
+            background-image: url("../Images/star.png");
+        }
+    /*.mousechange:hover {
+            cursor: pointer;
+        }*/
 </style>
 
 
@@ -227,42 +124,30 @@ z-index: 9;}
 
 
     <div>
-        @* @(Html.Kendo().Upload()
-                                                            .Name("files")
-                                                            .Async(a => a
-                                                                .Save("Save", "JobTracking")
-                                                                .Remove("Remove", "JobTracking")
-                                                                .AutoUpload(false)
-
-                                                            )
-                                                                     .Events(events => events.Upload("onUpload")
-                                                                     .Select("onSelect")
-                                    // .Success("onSuccess")
-
-                                                                )
-                                                        )*@
-
-
-
+        <a href="javascript:;" id="hideDiv" class="fancy-icons close-btn btnDelete" title="Cancel" style="z-index: 9999999" onclick="HideFileUploadModelPopUp()"></a>
         @(Html.Kendo().Upload()
-                      .Name("files")
-                      .TemplateId("fileTemplate")
-                      .Async(a => a
-                          .Save("Save", "JobTracking")
-                          .Remove("Remove", "JobTracking")
-                          .AutoUpload(false)
-                      )
-                      .Events(events => events.Upload("onUpload")
-                          .Select("onSelect")
-                          .Success("onSuccess")
-                      )
-                       .Events(c => c.Success("onSuccess"))
-                      )
+
+              .Name("files")
+              .TemplateId("fileTemplate")
+                .Async(a => a
+                  .Save("Save", "JobTracking")
+                  .Remove("Remove", "JobTracking")
+                  .AutoUpload(false)
 
 
+              )
+
+              .Events(events => events.Upload("onUpload")
+                  .Success("onSuccess")
+                   .Cancel("onCancel")
+                           .Select("onSelect")
+              )
+
+        )
     </div>
 
     <div id="divFolderUploadMessage" class="divTagM"></div>
+
     @*  <div id="divTag" class="divTagM">
 
             @if ((Model != null && Model.TagList != null ) &&  (Model.TagList.Count > 0))
@@ -275,13 +160,33 @@ z-index: 9;}
             <div style="clear:both;"></div>
         </div> *@
 </div>
-<div class="row">
-    <div class="gallery-group" id="divGalImagelList">
 
+
+@if (Model.JobAttachmentlist.Any())
+{
+    if (Model.JobAttachmentlist.FirstOrDefault().GroupType != "2")
+    {
+    <button class="btn btn-sm btn-white pull-right" style="margin-right: 55px" onclick="DownlaodAsPdf();" id="btnDownloadPDF">Download As Pdf</button>
+    <button class="btn btn-sm btn-white pull-right" style="margin-right: 10px" onclick="DownlaodAsZip();" id="btnDownloadZip">Download As Zip</button>}
+}
+@if (@ViewBag.ImgCount != null && @ViewBag.SelectedImgCount != null)
+{
+    <div id="imgcount" class="imageCount">
+        <input type="hidden" id="imgCount" value="@ViewBag.ImgCount" />
+        <span id="spnSelectedImgCount" style="font-weight: bold;"><b>@ViewBag.SelectedImgCount</b></span>&nbsp;images of <span id="spnImgCount" groupid="@(ViewBag.GroupId)" style="font-weight: bold;">@ViewBag.ImgCount</span>&nbsp;images selected.
+        <input type="hidden" id="imgCountOfSelected" value="@ViewBag.SelectedImgCount images of  @ViewBag.ImgCount images selected" />
+        <a href="javascript:void(0);" style="padding-left: 10px; display: none;" onclick="FilerSelected()" id="filter">filter selected.. </a>
+    </div>
+}
+
+
+<div class="row">
+    <div class="gallery-group col-xs-12" id="divGalImagelList" value="@Model.JobAttachmentlist.Count">
         @if (Model.JobAttachmentlist.Count > 0)
         {
-
-            string strImagesExt = ".bmp .dds .gif .jpg .png .psd .pspimage .tga .thm .tif .tiff .yuv .ai .eps .ps .svg .3dm .3ds .max .obj";
+            <input type="hidden" value="@Model.JobAttachmentlist.FirstOrDefault().Image_locked_to_client.ToString()" id="hdnimageLock" />
+            <input type="hidden" value="@Model.JobAttachmentlist.FirstOrDefault().Floorplan_locked_to_client.ToString()" id="hdnfloorplanLock" />
+            string strImagesExt = ".bmp .dds .gif .jpg .png .psd .pspimage .tga .thm .tif .tiff .yuv .ai .eps .ps .svg .3dm .3ds .max .obj .jpeg ";
             string strDocuments = ".doc .docx .log .msg .odt .pages .rtf .tex .txt .wpd .wps .pdf";
             string strAudioVideo = ".aif .iff .m3u .m4a .mid .mp3 .mpa .ra .wav .wma .mov .3gp";
 
@@ -291,15 +196,15 @@ z-index: 9;}
                 string FileType = string.Empty;
 
 
-                if (strImagesExt.Contains(image.FileExtension))
+                if (strImagesExt.Contains(image.FileExtension.ToLower()))
                 {
                     FileType = "Images";
                 }
-                else if (strDocuments.Contains(image.FileExtension)) 
+                else if (strDocuments.Contains(image.FileExtension.ToLower()))
                 {
                     FileType = "Documents";
                 }
-                else if (strAudioVideo.Contains(image.FileExtension))
+                else if (strAudioVideo.Contains(image.FileExtension.ToLower()))
                 {
                     FileType = "AudioVideo";
                 }
@@ -311,261 +216,422 @@ z-index: 9;}
                 switch (FileType)
                 {
                     case "Images":
-                         <div class="file-box">
-                            <div class="file">
 
-                                    <span class="corner"></span>
-                                    <div class="image">
-                                      <!--  <a class="fileDownloadPromise">-->
-                                            @*   <img  src= "@Url.Content(image.FilePath)" class="img-responsive"  alt="@image.FileName" />*@
+            <div class="file-box">
+
+                <div class="file">
+
+                    <span class="corner"></span>
+                    <div class="image">
+                        <!--  <a class="fileDownloadPromise">-->
+                        @*   <img  src= "@Url.Content(image.FilePath)" class="img-responsive"  alt="@image.FileName" />*@
+                        @*@if (currentuser != null && currentuser.UserType != 2 && @image.GroupType == "1")
+                                        {
+                                            if (image.Image_locked_to_client == false && currentuser != null && currentuser.UserType == 3)
+                                            {
+                                                <input type="checkbox" id="chkbox_@image.Row_Id" />
+                                            }
+                                            else
+                                            {
+                                                if ((currentuser != null && currentuser.UserType != 3))
+                                                {
+                                                    <input type="checkbox" id="chkbox_@image.Row_Id" />
+                                                }
+                                            }
+                                        }*@
 
                         <a href="javascript:void(0);" onclick="openlightbox('@image.Row_Id')" id="open">
-                                            <img  src="@Url.Content(image.FilePath)" class="img-responsive"  alt="@image.FileName" />
+
+                            @if (image.Thumbnail != null && (image.Thumbnail.Length > 0))
+                            {
+                                <img src="@Url.Content(image.Thumbnail)" class="img-responsive" alt="@image.FileName" />
+
+@* <img  src="~/Images/room21.jpg" class="img-responsive"  alt="@image.FileName" />*@
+                            }
+                            else
+                            {
+                                <img src="@Url.Content(image.FilePath)" class="img-responsive" alt="@image.FileName" />
+
+                            }
+
                         </a>
-                        <!--   </a>-->//
-                         <div id="info_@(image.Row_Id)" class="info">
-                        <div id="results">
-                           @* <img src="sample.jpg" width="140" style="float: left; margin-right: 20px; margin-bottom: 10px;"/>*@
-                              <img  src="@Url.Content(image.FilePath)" class="img-responsive"  alt="@image.FileName" width="540" height="500" style="float: left; margin-right: 20px; margin-bottom: 10px;" />
-                            <p style="margin-top: 20px; text-align: right;"><a href="javascript:void(0);" onclick="closelightbox('@image.Row_Id')" id="close">Close1</a></p>
-                        </div>
+
                     </div>
-                                    </div>
+                    @if (image.GroupType == "1")
+                    {
+                        <div class="file-name overflowDiv">
+                            @image.FileName
+                            @if ((currentuser != null))
+                            {
+                                if (((currentuser.UserType == 3 || currentuser.UserType == 1)))
+                                {
+                                    //Client loggedIn
+                                    if ((image.Image_locked_to_client == false))
+                                    {
 
 
-
-                                    <div class="file-name">
-                                        @image.FileName
-                                       
-                                        @if (image.Selected.Value)
+                                        if (image.Selected.Value)
                                         {
-                                        <span class="star mousechange"   row_id="@image.Row_Id"  title="@image.SelectedBy"></span>
+                                <span class="star active" row_id="@image.Row_Id" id="StarImage_@image.Row_Id" @*title="@image.SelectedBy*@></span>
                                         }
-                                        
                                         else
                                         {
-                                            <span class="star_empty mousechange"  row_id="@image.Row_Id"  title="@image.SelectedBy"></span> 
+                                <span class="star " row_id="@image.Row_Id" id="StarImage_@image.Row_Id" @*title="@image.SelectedBy"*@></span>
                                         }
-                                        
 
-                                        <br>
-                                        <small>Added: @image.Created</small>
-                                    </div>
-
-                                    <div class="file-name height">
-                                        <small><b>Tags: </b>@image.Tags.TrimEnd(',') </small>
-                                    </div>
-
-                                
-                    <form id="frmDownloadDemo" method="post">
-                                            <a  href="javascript:;" class="fancy-icons-download"  title="Download"  id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')"  >dddd</a>
-                                           @* <input type="button" class="fileDownloadPromise"  onclick="Download('@image.Row_Id')"  id="1btnDownload_@image.Row_Id" value="Download" row_id="@image.Row_Id" />  *@
-                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
-                                 </form> 
-
-                                @*onclick="window.open('http://localhost:50858/FileDownload/DownloadReport/0', 'asdas', 'toolbars=0,width=400,height=320,left=200,top=200');" value="Open the window"  *@
-                                <a  href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete"  id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"  ></a>
-                                @*  <a  href="javascript:;" class="fancy-icons close-btn fileDownloadPromise" title="Download"  id="btn_download_@image.Row_Id" target: '_blank'  onclick="GetGalleryFile('@image.Row_Id')"  ></a>*@
-                                @*<a  href="javascript:;" class="fancy-icons close-btn fileDownloadPromise" title="Download"  id="btn_download_@image.Row_Id"  onclick="downloadGalleryFile('@image.Row_Id')"   ></a>*@
-                    
-                                
-
-                                <a href="#" class="slider-icon fancy-icons" title=""></a>
-
-                            </div>
-                            <div class="divSlide" id="divTagHower">
-                                <div class="file-name m-b-xs">
-                                    <input type="text" id="txt_@image.Row_Id" class="form-control" oldFileName="@image.FileName" value="@image.FileName"/>
-                                </div>
-
-                                @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
-                                {
-                                    foreach (var item in Model.TagList)
+                                    }
+                                    else
                                     {
-                                    <div>
-                            <input type="checkbox" value='@item.TagName' class="chkTag">@item.TagName
-                        </div>
+
+                                        if (image.Selected.Value)
+                                        {
+                                <span class="star active" style="cursor:default" row_id="0" id="StarImage_@image.Row_Id" @*title="@image.SelectedBy*@></span>
+                                        }
+                                        else
+                                        {
+                                <span class="star " style="cursor:default" row_id="0" id="StarImage_@image.Row_Id" @*title="@image.SelectedBy"*@></span>
+                                        }
+
                                     }
                                 }
+                                else
+                                {
 
-                                <div style="clear: both;"></div>
-                                <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')" >Update File</button>
-                            </div>
+                                    if (image.Selected.Value)
+                                    {
+                                <span class="star active" row_id="@image.Row_Id" id="StarImage_@image.Row_Id" @*title="@image.SelectedBy*@></span>
+                                    }
+                                    else
+                                    {
+                                <span class="star " row_id="@image.Row_Id" id="StarImage_@image.Row_Id" @*title="@image.SelectedBy"*@></span>
+                                    }
+
+
+                                }
+                            }
+
+                            <span class="spanSelectedTags" id="spanSelectedTags_@image.Row_Id">@image.Tags</span>
+
                         </div>
-                            break;
+                    }
+                    else if (image.GroupType == "4")
+                    {
+                        <div class="file-name overflowDiv">
+                            @image.FileName
+
+                            @*@if ((currentuser != null))
+                                        {
+                                            if (((currentuser.UserType == 3 || currentuser.UserType == 1)))
+                                            {
+                                                //Client loggedIn
+                                                if ((image.Image_locked_to_client == false))
+                                                {
+                                                    if (image.Selected.Value)
+                                                    {
+                                                        <span class="star active" row_id="@image.Row_Id" id="StarImage_@image.Row_Id"></span>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <span class="star " row_id="@image.Row_Id id="StarImage_@image.Row_Id" ></span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (image.Selected.Value)
+                                                    {
+                                                        <span class="star active" style="cursor:default" row_id="0" id="StarImage_@image.Row_Id"></span>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <span class="star " style="cursor:default" row_id="0" id="StarImage_@image.Row_Id" ></span>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (image.Selected.Value)
+                                                {
+                                                    <span class="star active" row_id="@image.Row_Id" id="StarImage_@image.Row_Id"></span>
+                                                }
+                                                else
+                                                {
+
+                                                    <span class="star " row_id="@image.Row_Id" id="StarImage_@image.Row_Id"></span>
+                                                }
+
+                                            }
+                                        }*@
+                            <span class="spanSelectedTags" id="spanSelectedTags_@image.Row_Id">@image.Tags</span>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="file-name overflowDiv">
+                            @image.FileName
+                            @*
+                                        @if (image.Selected.Value)
+                                        {
+                                            <span class="star active" row_id="@image.Row_Id" id="StarImage_@image.Row_Id" ></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="star " row_id="@image.Row_Id" id="StarImage_@image.Row_Id" ></span>
+                                        }
+
+                                        *@
+
+                            <span class="spanSelectedTags" id="spanSelectedTags_@image.Row_Id">@image.Tags</span>
+
+                        </div>
+                    }
+
+
+
+
+                    <form id="frmDownloadDemo" method="post">
+                        <a href="javascript:;" class="fancy-icons-download" title="Download" id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')">dddd</a>
+                        @* <input type="button" class="fileDownloadPromise"  onclick="Download('@image.Row_Id')"  id="1btnDownload_@image.Row_Id" value="Download" row_id="@image.Row_Id" />  *@
+                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                    </form>
+
+
+                    @*onclick="window.open('http://localhost:50858/FileDownload/DownloadReport/0', 'asdas', 'toolbars=0,width=400,height=320,left=200,top=200');" value="Open the window"  *@
+
+                    @if (currentuser != null && currentuser.UserType != 3 && currentuser.UserType != 1)
+                    {
+                        <a href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete" id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"></a>
+                        <a href="#" class="slider-icon fancy-icons hide" title=""></a>
+                    }
+                    @if (currentuser != null && currentuser.UserType == 1 && image.Floorplan_locked_to_client == false && image.GroupType == "4")
+                    {
+                        <a href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete" id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"></a>
+                        <a href="#" class="slider-icon fancy-icons hide" title=""></a>
+                    }
+                    else if (currentuser != null && currentuser.UserType == 1 && image.Image_locked_to_client == false && image.GroupType == "1")
+                    {
+                        <a href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete" id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"></a>
+                        <a href="#" class="slider-icon fancy-icons hide" title=""></a>
+                    }
+
+
+
+@*  <a  href="javascript:;" class="fancy-icons close-btn fileDownloadPromise" title="Download"  id="btn_download_@image.Row_Id" target: '_blank'  onclick="GetGalleryFile('@image.Row_Id')"  ></a>*@
+@*<a  href="javascript:;" class="fancy-icons close-btn fileDownloadPromise" title="Download"  id="btn_download_@image.Row_Id"  onclick="downloadGalleryFile('@image.Row_Id')"   ></a>*@
+
+
+                    @if ((image.Comments != null || image.Annotation != null) @*&& (image.Image_locked_to_client != true && currentuser.UserType == 3)*@)
+                    {
+                        <a href="javascript:;" class="comment-btn" title="Comment" onclick="openlightbox('@image.Row_Id')"><i class="fa fa-comments"></i></a>
+                    }
+
+
+                </div>
+                <div class="divSlide" id="divTagHower">
+                    <div class="file-name m-b-xs">
+                        <input type="text" id="txt_@image.Row_Id" class="form-control" oldfilename="@image.FileName" value="@image.FileName" />
+                    </div>
+
+                    @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
+                    {
+                        foreach (var item in Model.TagList)
+                        {
+                            if ((item.TagName.Trim() != "Download as Zip file") && (item.TagName.Trim() != "Download as Pdf file"))
+                            {
+                        <div>
+                            <input type="checkbox" value='@item.TagName' class="chkTag">@item.TagName
+                        </div>
+                            }
+                        }
+                    }
+
+                    <div style="clear: both;"></div>
+                    <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')">Update File</button>
+                </div>
+            </div>
+
+
+                    break;
                     case "Documents":
-                        <div class="file-box">
-                        <div class="file">
-                            <a href="javascript:;" class="">
-                                <span class="corner"></span>
-                              
-                                @if (".xls".Contains(@image.FileExtension))
-                                {
-                                  <div class="icon">
-                                    <i class="fa fa-bar-chart-o"></i>
-                                 </div>
-                                }
-                                else
-                                {
-                                 <div class="icon">
-                                    <i class="fa fa-file"></i>
-                                 </div>
-                                }
+            <div class="file-box">
+                <div class="file">
+                    <a href="javascript:;" class="">
+                        <span class="corner"></span>
 
-                                <div class="file-name">
-                                    @image.FileName
-                                    <br>
-                                    <small>Added: @image.Created</small>
-                                </div>
-
-                                <div class="file-name height">
-                                    <small><b>Tags: </b>@image.Tags.TrimEnd(',') </small>
-                                </div>
-
-                            </a>
-                    
-                    <form id="frmDownloadDemo" method="post">
-                                            <a  href="javascript:;" class="fancy-icons-download"  title="Download"  id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')"  >dddd</a>
-                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
-                             </form> 
-
-                            <a  href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete"  id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"  ></a>
-                            <a href="#" class="slider-icon fancy-icons" title=""></a>
-
-                        </div>
-                        <div class="divSlide" id="divTagHower">
-                            <div class="file-name m-b-xs">
-                                <input type="text" id="txt_@image.Row_Id" class="form-control" oldFileName="@image.FileName" value="@image.FileName"/>
+                        @if (".xls".Contains(@image.FileExtension))
+                        {
+                            <div class="icon">
+                                <i class="fa fa-bar-chart-o"></i>
                             </div>
+                        }
+                        else
+                        {
+                            <div class="icon">
+                                <i class="fa fa-file"></i>
+                            </div>
+                        }
 
-                            @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
-                            {
-                                foreach (var item in Model.TagList)
-                                {
-                                <div>
+                        <div class="file-name">
+                            @image.FileName
+                            <br>
+                            <small>Added: @image.Created</small>
+                        </div>
+
+                        <div class="file-name height">
+                            <small><b>Tags: </b>@image.Tags.TrimEnd(',') </small>
+                        </div>
+
+                    </a>
+
+                    <form id="frmDownloadDemo" method="post">
+                        <a href="javascript:;" class="fancy-icons-download" title="Download" id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')">dddd</a>
+                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                    </form>
+                    @if (currentuser != null && currentuser.UserType != 3 && currentuser.UserType != 1)
+                    {
+                        <a href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete" id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"></a>
+                        <a href="#" class="slider-icon fancy-icons" title=""></a>
+                    }
+                </div>
+
+                <div class="divSlide" id="divTagHower">
+                    <div class="file-name m-b-xs">
+                        <input type="text" id="txt_@image.Row_Id" class="form-control" oldfilename="@image.FileName" value="@image.FileName" />
+                    </div>
+
+                    @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
+                    {
+                        foreach (var item in Model.TagList)
+                        {
+                        <div>
                             <input type="checkbox" value='@item.TagName' class="chkTag">@item.TagName
                         </div>
-                                }
-                            }
+                        }
+                    }
 
-                            <div style="clear: both;"></div>
-                            <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')" >Update File</button>
-                        </div>
-                       </div>
-                            break;
+                    <div style="clear: both;"></div>
+                    <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')">Update File</button>
+                </div>
+            </div>
+                    break;
                     case "AudioVideo":
-                        <div class="file-box">
-                        <div class="file">
-                            <a href="javascript:;" class="">
-                                <span class="corner"></span>
-                               
-                                @if (".mp4.mov.3gp".Contains(@image.FileExtension))
-                                {
-                                 <div class="icon">
-                                    <i class="img-responsive fa fa-film"></i>
-                                </div>
-                                }
-                                else
-                                {
-                                 <div class="icon">
-                                    <i class="fa fa-music"></i>
-                                 </div>
-                                }
+            <div class="file-box">
+                <div class="file">
+                    <a href="javascript:;" class="">
+                        <span class="corner"></span>
 
-                                <div class="file-name">
-                                    @image.FileName
-                                    <br>
-                                    <small>Added: @image.Created</small>
-                                </div>
-
-                                <div class="file-name height">
-                                    <small><b>Tags: </b>@image.Tags.TrimEnd(',') </small>
-                                </div>
-
-                            </a>
-                    
-                    <form id="frmDownloadDemo" method="post">
-                                            <a  href="javascript:;" class="fancy-icons-download"  title="Download"  id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')"  >dddd</a>
-                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
-                             </form> 
-
-                            <a  href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete"  id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"  ></a>
-                            <a href="#" class="slider-icon fancy-icons" title=""></a>
-
-                        </div>
-                        <div class="divSlide" id="divTagHower">
-                            <div class="file-name m-b-xs">
-                                <input type="text" id="txt_@image.Row_Id" class="form-control" oldFileName="@image.FileName" value="@image.FileName"/>
+                        @if (".mp4.mov.3gp".Contains(@image.FileExtension))
+                        {
+                            <div class="icon">
+                                <i class="img-responsive fa fa-film"></i>
                             </div>
+                        }
+                        else
+                        {
+                            <div class="icon">
+                                <i class="fa fa-music"></i>
+                            </div>
+                        }
 
-                            @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
-                            {
-                                foreach (var item in Model.TagList)
-                                {
-                                <div>
+                        <div class="file-name">
+                            @image.FileName
+                            <br>
+                            <small>Added: @image.Created</small>
+                        </div>
+
+                        <div class="file-name height">
+                            <small><b>Tags: </b>@image.Tags.TrimEnd(',') </small>
+                        </div>
+
+                    </a>
+
+                    <form id="frmDownloadDemo" method="post">
+                        <a href="javascript:;" class="fancy-icons-download" title="Download" id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')">dddd</a>
+                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                    </form>
+                    @if (currentuser != null && currentuser.UserType != 3 && currentuser.UserType != 1)
+                    {
+                        <a href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete" id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"></a>
+                        <a href="#" class="slider-icon fancy-icons" title=""></a>
+                    }
+                </div>
+                <div class="divSlide" id="divTagHower">
+                    <div class="file-name m-b-xs">
+                        <input type="text" id="txt_@image.Row_Id" class="form-control" oldfilename="@image.FileName" value="@image.FileName" />
+                    </div>
+
+                    @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
+                    {
+                        foreach (var item in Model.TagList)
+                        {
+                        <div>
                             <input type="checkbox" value='@item.TagName' class="chkTag">@item.TagName
                         </div>
-                                }
-                            }
+                        }
+                    }
 
-                            <div style="clear: both;"></div>
-                            <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')" >Update File</button>
-                        </div>
-                       </div>
-                            break;
+                    <div style="clear: both;"></div>
+                    <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')">Update File</button>
+                </div>
+            </div>
+                    break;
                     case "Default":
-                        <div class="file-box">
-                        <div class="file">
-                            <a href="javascript:;" class="">
-                                <span class="corner"></span>
-                                <div class="image">
-                                    <img  src= "@Url.Content(image.FilePath)" class="img-responsive"  alt="@image.FileName" />
-                                </div>
-                                <div class="file-name">
-                                    @image.FileName
-                                    <br>
-                                    <small>Added: @image.Created</small>
-                                </div>
-
-                                <div class="file-name height">
-                                    <small><b>Tags: </b>@image.Tags.TrimEnd(',') </small>
-                                </div>
-
-                            </a>
-                    
-                    <form id="frmDownloadDemo" method="post">
-                                            <a  href="javascript:;" class="fancy-icons-download"  title="Download"  id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')"  >dddd</a>
-                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
-                             </form> 
-                            <a  href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete"  id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"  ></a>
-                            <a href="#" class="slider-icon fancy-icons" title=""></a>
-
+            <div class="file-box">
+                <div class="file">
+                    <a href="javascript:;" class="">
+                        <span class="corner"></span>
+                        <div class="image">
+                            <img src="@Url.Content(image.FilePath)" class="img-responsive" alt="@image.FileName" />
                         </div>
-                        <div class="divSlide" id="divTagHower">
-                            <div class="file-name m-b-xs">
-                                <input type="text" id="txt_@image.Row_Id" class="form-control" oldFileName="@image.FileName" value="@image.FileName"/>
-                            </div>
+                        <div class="file-name">
+                            @image.FileName
+                            <br>
+                            <small>Added: @image.Created</small>
+                        </div>
 
-                            @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
-                            {
-                                foreach (var item in Model.TagList)
-                                {
-                                <div>
+                        <div class="file-name height">
+                            <small><b>Tags: </b>@image.Tags.TrimEnd(',') </small>
+                        </div>
+
+                    </a>
+
+                    <form id="frmDownloadDemo" method="post">
+                        <a href="javascript:;" class="fancy-icons-download" title="Download" id="btnDownload_@image.Row_Id" onclick="Download('@image.Row_Id')">dddd</a>
+                        <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                    </form>
+                    @if (currentuser != null && currentuser.UserType != 3 && currentuser.UserType != 1)
+                    {
+                        <a href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete" id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"></a>
+                        <a href="#" class="slider-icon fancy-icons" title=""></a>
+                    }
+                </div>
+                <div class="divSlide" id="divTagHower">
+                    <div class="file-name m-b-xs">
+                        <input type="text" id="txt_@image.Row_Id" class="form-control" oldfilename="@image.FileName" value="@image.FileName" />
+                    </div>
+
+                    @if ((Model != null && Model.TagList != null) && (Model.TagList.Count > 0))
+                    {
+                        foreach (var item in Model.TagList)
+                        {
+                        <div>
                             <input type="checkbox" value='@item.TagName' class="chkTag">@item.TagName
                         </div>
-                                }
-                            }
+                        }
+                    }
 
-                            <div style="clear: both;"></div>
-                            <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')" >Update File</button>
-                        </div>
-                       </div>
-                            break;
+                    <div style="clear: both;"></div>
+                    <button class="btn btn-primary btn-xs m-t-xs" onclick="UpdateFileInfo('@image.Row_Id')">Update File</button>
+                </div>
+            </div>
+                    break;
                 }
             }
 
             <div id="overlay"></div>
-            
+
         }
         else
         {
@@ -573,402 +639,533 @@ z-index: 9;}
                 <div class="middle-box text-center animated fadeInDown">
                     <h3 class="font-bold">Record Not Found</h3>
                     <div class="error-desc">
-                        Sorry, but the record you are looking for has note been found. Try checking with other available link in our app.
+                        Sorry, but the record you are looking for has not been found. Try checking with other available link in our app.
                     </div>
                 </div>
             </div>
         }
 
-
-        @*<div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-file"></i>
-                    </div>
-                    <div class="file-name">
-                        Document_2014.doc
-                                                                <br>
-                        <small>Added: Jan 11, 2014</small>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p1.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        Italy street.jpg
-                                                                <br>
-                        <small>Added: Jan 6, 2014</small>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p2.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        My feel.png
-                                                                <br>
-                        <small>Added: Jan 7, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-music"></i>
-                    </div>
-                    <div class="file-name">
-                        Michal Jackson.mp3
-                                                                <br>
-                        <small>Added: Jan 22, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p3.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        Document_2014.doc
-                                                                <br>
-                        <small>Added: Fab 11, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="img-responsive fa fa-film"></i>
-                    </div>
-                    <div class="file-name">
-                        Monica's birthday.mpg4
-                                                                <br>
-                        <small>Added: Fab 18, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <a href="#">
-                <div class="file">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-bar-chart-o"></i>
-                    </div>
-                    <div class="file-name">
-                        Annual report 2014.xls
-                                                                <br>
-                        <small>Added: Fab 22, 2014</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-file"></i>
-                    </div>
-                    <div class="file-name">
-                        Document_2014.doc
-                                                                <br>
-                        <small>Added: Jan 11, 2014</small>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p1.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        Italy street.jpg
-                                                                <br>
-                        <small>Added: Jan 6, 2014</small>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p2.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        My feel.png
-                                                                <br>
-                        <small>Added: Jan 7, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-music"></i>
-                    </div>
-                    <div class="file-name">
-                        Michal Jackson.mp3
-                                                                <br>
-                        <small>Added: Jan 22, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p3.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        Document_2014.doc
-                                                                <br>
-                        <small>Added: Fab 11, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="img-responsive fa fa-film"></i>
-                    </div>
-                    <div class="file-name">
-                        Monica's birthday.mpg4
-                                                                <br>
-                        <small>Added: Fab 18, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <a href="#">
-                <div class="file">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-bar-chart-o"></i>
-                    </div>
-                    <div class="file-name">
-                        Annual report 2014.xls
-                                                                <br>
-                        <small>Added: Fab 22, 2014</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-file"></i>
-                    </div>
-                    <div class="file-name">
-                        Document_2014.doc
-                                                                <br>
-                        <small>Added: Jan 11, 2014</small>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p1.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        Italy street.jpg
-                                                                <br>
-                        <small>Added: Jan 6, 2014</small>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p2.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        My feel.png
-                                                                <br>
-                        <small>Added: Jan 7, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-music"></i>
-                    </div>
-                    <div class="file-name">
-                        Michal Jackson.mp3
-                                                                <br>
-                        <small>Added: Jan 22, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="image">
-                        <img src="img/p3.jpg" class="img-responsive" alt="image">
-                    </div>
-                    <div class="file-name">
-                        Document_2014.doc
-                                                                <br>
-                        <small>Added: Fab 11, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <div class="file">
-                <a href="#">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="img-responsive fa fa-film"></i>
-                    </div>
-                    <div class="file-name">
-                        Monica's birthday.mpg4
-                                                                <br>
-                        <small>Added: Fab 18, 2014</small>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="file-box">
-            <a href="#">
-                <div class="file">
-                    <span class="corner"></span>
-
-                    <div class="icon">
-                        <i class="fa fa-bar-chart-o"></i>
-                    </div>
-                    <div class="file-name">
-                        Annual report 2014.xls
-                                                                <br>
-                        <small>Added: Fab 22, 2014</small>
-                    </div>
-                </div>
-            </a>
-        </div>*@
-
     </div>
 </div>
+<input type="hidden" id="hdnTags">
 
 <div id="spaUploadForm"></div>
 
 
 <script type="text/javascript">
- 
+    window.onbeforeunload = function () { return 'Drop the image within a the rectangular box to UPLOAD' }
+    var kendoFileUploadCount = 0;
+    var taggd;
+    //Javscript Added by Vinit
+    function onCancel(e) {
+        //Array with information about the uploaded files
+        var files = e.files;
+        e.preventDefault();
+    }
+    $(document).ready(function () {
+        $('.aLogout').on('click', function () {
+            window.onbeforeunload = null;
+        });
+       // $('.info.finalimages').find('img.taggd').removeAttr('id');
+        var idNum = 0;
+
+        var groupid = $("#GlobleGroupId").val();
+        divId = "";
+        $('.modal-navigation li a').on('click', function () {
+            var dirClick = $(this).attr('data-dir'),
+            $prev = "",
+            $next = "";
+            var Modaldata = "";
+            var ModalFirst1 = "";
+            var ModalLast = "";
+            var liclickEvent = "";
+            var groupid = $("#GlobleGroupId").val();
+
+            if (groupid == "1") {
+                liclickEvent = $(this).hasClass('images');
+                if (liclickEvent) {
+                    Modaldata = '.modal-bg .info.images';
+                    ModalFirst1 = '.modal-bg .info.images:first';
+                    ModalLast = '.modal-bg .info.images:last';
+                    $prev = $(this).parents('.modal-bg .info.images').prev('.info.images');
+                    $next = $(this).parents('.modal-bg .info.images').next('.info.images');
+                }
+
+            } else if (groupid == "4") {
+                liclickEvent = $(this).hasClass('floorplan');
+                if (liclickEvent) {
+                    Modaldata = '.modal-bg .info.floorplan';
+                    ModalFirst1 = '.modal-bg .info.floorplan:first';
+                    ModalLast = '.modal-bg .info.floorplan:last';
+
+                    $prev = $(this).parents('.modal-bg .info.floorplan').prev('.info.floorplan');
+                    $next = $(this).parents('.modal-bg .info.floorplan').next('.info.floorplan');
+                }
+            }
+            else {
+                liclickEvent = $(this).hasClass('finalimages');
+                if (liclickEvent) {
+                    Modaldata = '.modal-bg .info.finalimages';
+                    ModalFirst1 = '.modal-bg .info.finalimages:first';
+                    ModalLast = '.modal-bg .info.finalimages:last';
+
+                    $prev = $(this).parents('.modal-bg .info.finalimages').prev('.info.finalimages');
+                    $next = $(this).parents('.modal-bg .info.finalimages').next('.info.finalimages');
+                }
+            }
+
+            $(this).parents(Modaldata).fadeOut();
+            if (dirClick === 'left') {
+                if ($prev.length) {
+                    $prev.show();
+                    idNum = $($prev).attr('Id').split('_')[1];
+                    divId = $($prev);
+                }
+                else {
+                    $(ModalLast).fadeIn();
+                    idNum = $(ModalLast).attr('Id').split('_')[1];
+                    divId = $(ModalLast).next();
+                    console.log("in else");
+                }
+                $("#imgcount1_" + idNum).html($("#imgCountOfSelected").val());
+
+            }
+            else {
+                if ($next.length) {
+                    $next.fadeIn();
+                    idNum = $($next).attr('Id').split('_')[1];
+                    divId = $($next);
+                }
+                else {
+                    $(ModalFirst1).fadeIn();
+                    idNum = $(ModalFirst1).attr('Id').split('_')[1];
+                    divId = $(ModalFirst1).next();
+
+                }
+
+                $("#imgcount1_" + idNum).html($("#imgCountOfSelected").val());
+
+            }
+
+            //  if (taggd != undefined) {
+            //   taggd.clear(); taggd.dispose();
+            // }
+            // if (($("#Annotation_" + idNum).val() != 'true')) { 
+            //  if(isDeleted==0){
+            //if (($("#Annotation_" + idNum).val() != 'true')) {
+            GetJobAnnotation(idNum); loadComment(idNum);
+            // }
+            //  }
+
+
+            return false;
+        });
+
+    });
+    function loadComment(imageid) {
+        $.get('@Url.Action("GetComments", "JobTracking")', { Row_Id: imageid }, function (data) {
+            if (data != null) {
+                // //////debugger;;
+                $('#divinnerWrap_' + imageid).html("");
+                $("#spanMsgCount_" + imageid).text(data.length);
+                var imgsrc = "";
+                var AnnotaionText = "";
+
+                for (var i = 0; i < data.length; i++) {
+                    AnnotaionText = data[i].Annotaion;
+                    $("#hdnTags").val(data[i].Tags);
+                    $("#divinnerWrap_" + imageid).append("<div class='feed-element' ><span style='color:#1AB394' >" + data[i].FirstName + " " + data[i].LastName + "</span><span class='media-body'> " + data[i].Comments + " <br> <small class='text-muted'> " + data[i].TimeOfComment + "</small></span></div>");
+                }
+
+
+            }
+            //$("html, body").animate({ scrollTop: 250 }, "slow");
+            //$('#divModal .modal-bg .info').fadeOut();
+            //$('#divModal .modal-bg').show();
+            ////////debugger;;
+            //var taggedarr = [];
+            ////////debugger;;
+            //var liIndiv = $($('#divModal .modal-bg #info_' + imageid)).find('#results #divTag li');
+
+            //if ($("#hdnTags").val() != "") {
+            //    taggedarr = $("#hdnTags").val().split(',');
+            //    //////debugger;;
+            //    for (var i = 0; i < liIndiv.length; i++) {
+            //        $(liIndiv[i]).removeClass('active')
+            //        for (var j = 0; j < taggedarr.length; j++) {
+            //            if (liIndiv.find('a')[i].text == taggedarr[j]) {
+            //                // liIndiv[i].addClass('active');
+            //                $(liIndiv[i]).addClass('active')
+            //            }
+            //        }
+            //    }
+
+
+            //}
+            //   divId = $('#divModal .modal-bg #info_' + imageid);
+            //$('#divModal .modal-bg #info_' + imageid).fadeIn();
+
+        });
+    }
     function openlightbox(imageid) {
 
-       // alert("info_" + imageid);
-        $('#overlay, #info').animate({ 'opacity': '0.7' }, 300, 'linear');
-        $('#info_' + imageid).animate({ 'opacity': '1.00' }, 300, 'linear');
-        $('#overlay').css('display', 'block');
-        $('#info_' + imageid).css('display', 'block');
+        $(".AddressTitle").html("");
+        $(".AddressTitle").html($("#hndTitle").val());
+        $("#imgcount1").html("");
+        $("#imgcount1_" + imageid).html($("#imgCountOfSelected").val());
+        $.get('@Url.Action("GetComments", "JobTracking")', { Row_Id: imageid }, function (data) {
 
-        $('#info_' + imageid).css({ 'left': (($(document).width() / 2) - ($('#info_' + imageid).width() / 2)) });
-        $('#info_' + imageid).css({ 'top': (($(document).height() / 2) - ($('#info_' + imageid).height() / 2) - 50) });
+            if (data != null) {
+                $('#divinnerWrap_' + imageid).html("");
+                $("#spanMsgCount_" + imageid).text(data.length);
+                var imgsrc = "";
+                var AnnotaionText = "";
 
-        $("html, body").animate({ scrollTop: 400 }, "slow");
+                for (var i = 0; i < data.length; i++) {
+                    AnnotaionText = data[i].Annotaion;
+                    $("#hdnTags").val(data[i].Tags);
+                    // $("#divinnerWrap_" + imageid).empty();
+                    $("#divinnerWrap_" + imageid).append("<div class='feed-element' ><span style='color:#1AB394' >" + data[i].FirstName + " " + data[i].LastName + "</span><span class='media-body'> " + data[i].Comments + " <br> <small class='text-muted'> " + data[i].TimeOfComment + "</small></span></div>");
+                }
+
+                GetJobAnnotation(imageid);
+            }
+            $("html, body").animate({ scrollTop: 250 }, "slow");
+            $('#divModal .modal-bg .info').fadeOut();
+            $('#divModal .modal-bg').show();
+            var taggedarr = [];
+            var liIndiv = $($('#divModal .modal-bg #info_' + imageid)).find('#results #divTag li');
+
+            if ($("#hdnTags").val() != "") {
+                taggedarr = $("#hdnTags").val().split(',');
+                //////debugger;;
+                for (var i = 0; i < liIndiv.length; i++) {
+                    $(liIndiv[i]).removeClass('active')
+                    for (var j = 0; j < taggedarr.length; j++) {
+                        if (liIndiv.find('a')[i].text == taggedarr[j]) {
+                            // liIndiv[i].addClass('active');
+                            $(liIndiv[i]).addClass('active')
+                        }
+                    }
+                }
 
 
+            }
+            divId = $('#divModal .modal-bg #info_' + imageid);
+            $('#divModal .modal-bg #info_' + imageid).fadeIn();
+
+        });
+        //isDeleted == 0 ||
+        //  if (($("#Annotation_" + imageid).val() != 'true')) {
+
+        // if (isdeleted = 0) {
+
+        //  $("#Annotation_" + imageid).val('true');
+        // }
+        // }
+
+    };
+
+
+
+    //New Job Annotation
+    function GetJobAnnotation(imageid) {
+        var flag = 0;
+        if (taggd != undefined) {
+            // $("#info_"+imageid).unwrapInner(".taggd-wrapper");
+            // $("#info_3").unwrap('<div class="taggd-wrapper"></div>');
+            // $('.taggd-wrapper').unwrap();
+            //  taggd.clear();
+            //  taggd.dispose();
+        }
+        //taggd.dispose();
+        //modal-img-wrapper
+
+        var groupId = $("#GlobleGroupId").val();
+        // $('.taggd-item-hover').remove();
+        // $('.taggd-item').remove();
+        $.get('@Url.Action("GetJobAnnotation", "JobTracking")', { Row_Id: imageid }, function (data) {
+            if (data.length > 0) {
+                //   //////debugger;;
+                var AnnotaionText = "";
+                for (var i = 0; i < data.length; i++) {
+                    AnnotaionText = data[i].MyAnnotaion;
+                    var data1 = JSON.parse(AnnotaionText);
+                    var options;
+                    ////debugger;;
+                    if (groupId == "1") {
+                        if (("@(currentuser.UserType)" == "3" || ("@(currentuser.UserType)" == "1")) && $('#hdnimageLock').val() == "True") {
+                            options = {
+                                edit: false,
+
+                                align: {
+                                    y: 'top'
+                                },
+
+                                offset: {
+                                    top: 15
+                                },
+                                handlers: {
+                                    click: 'toggle'
+                                }
+                            }
+                        }
+                        else {
+                            options = {
+                                edit: true,
+
+                                align: {
+                                    y: 'top'
+                                },
+
+                                offset: {
+                                    top: 15
+                                },
+                                handlers: {
+                                    click: 'toggle'
+                                }
+                            };
+                        }
+                    }
+                    else if (groupId == "4") {
+                        if (("@(currentuser.UserType)" == "3" || "@(currentuser.UserType)" == "1") && $('#hdnfloorplanLock').val() == "True") {
+                            options = {
+                                edit: false,
+
+                                align: {
+                                    y: 'top'
+                                },
+
+                                offset: {
+                                    top: 15
+                                },
+                                handlers: {
+                                    click: 'toggle'
+                                }
+                            }
+                        }
+                        else {
+                            options = {
+                                edit: true,
+
+                                align: {
+                                    y: 'top'
+                                },
+
+                                offset: {
+                                    top: 15
+                                },
+                                handlers: {
+                                    click: 'toggle'
+                                }
+                            };
+                        }
+                    }
+                    else {
+                        options = {
+                            edit: false,
+
+                            align: {
+                                y: 'top'
+                            },
+
+                            offset: {
+                                top: 15
+                            },
+                            handlers: {
+                                click: 'toggle'
+                            }
+                        };
+
+                    }
+                setTimeout(function () {
+
+                    taggd = $('#taggd_' + imageid).taggd(options, data1);//.attr('Done','Done');
+
+                    var inputdata = taggd.element.parent().parent().find('input');//.attr('Done', 'Done');
+
+                    taggd.on('change', function () {
+
+
+                    });
+
+                }, 500);
+            }
+        }
+        else {
+                //////debugger;;
+            var data11 = [];
+
+            var options; ////debugger;;
+            if (groupId == "1") {
+                if (("@(currentuser.UserType)" == "3" || ("@(currentuser.UserType)" == "1")) && $('#hdnimageLock').val() == "True") {
+                    options = {
+                        edit: false,
+
+                        align: {
+                            y: 'top'
+                        },
+
+                        offset: {
+                            top: 15
+                        },
+                        handlers: {
+                            click: 'toggle'
+                        }
+                    }
+                }
+                else {
+                    options = {
+                        edit: true,
+
+                        align: {
+                            y: 'top'
+                        },
+
+                        offset: {
+                            top: 15
+                        },
+                        handlers: {
+                            click: 'toggle'
+                        }
+                    };
+                }
+            }
+            else if (groupId == "4") {
+                if (("@(currentuser.UserType)" == "3" || "@(currentuser.UserType)" == "1") && $('#hdnfloorplanLock').val() == "True") {
+                    options = {
+                        edit: false,
+
+                        align: {
+                            y: 'top'
+                        },
+
+                        offset: {
+                            top: 15
+                        },
+                        handlers: {
+                            click: 'toggle'
+                        }
+                    }
+                }
+                else {
+                    options = {
+                        edit: true,
+
+                        align: {
+                            y: 'top'
+                        },
+
+                        offset: {
+                            top: 15
+                        },
+                        handlers: {
+                            click: 'toggle'
+                        }
+                    };
+                }
+            }
+            else {
+                options = {
+                    edit: true,
+
+                    align: {
+                        y: 'top'
+                    },
+
+                    offset: {
+                        top: 15
+                    },
+                    handlers: {
+                        click: 'toggle'
+                    }
+                };
+
+            }
+                @*if (("@(currentuser.UserType)" == "3" || "@(currentuser.UserType)" == "1") && $('#hdnimageLock').val() == "True") {
+                    options = {
+                        edit: false,
+
+                        align: {
+                            y: 'top'
+                        },
+
+                        offset: {
+                            top:15
+                        },
+                        handlers: {
+                            click: 'toggle'
+                        }
+                    }
+                }
+                else {
+                    options = {
+                        edit: true,
+
+                        align: {
+                            y: 'top'
+                        },
+
+                        offset: {
+                            top:15
+                        },
+                        handlers: {
+                            click: 'toggle'
+                        }
+                    };
+                }*@
+                setTimeout(function () {
+
+
+                    taggd = $('#taggd_' + imageid).taggd(options, data11);
+
+                    taggd.on('change', function () {
+
+
+                    });
+
+                }, 1500);
+            }
+        });
     }
 
     function closelightbox(imageid) {
         //alert(imageid);
-        $('#overlay').animate({ 'opacity': '0' }, 300, 'linear', function () {
-            $('#overlay').css('display', 'none');
-        });
-        $('#info_' + imageid).animate({ 'opacity': '0' }, 300, 'linear', function () {
-            $('#info_' + imageid).css('display', 'none');
-        });
-    }
-</script>
+        //$('.modal-bg').hide();
+        //$('#overlay').animate({ 'opacity': '0' }, 300, 'linear', function () {
+        //    $('#overlay').css('display', 'none');
+        //});
+        //$('#info_' + imageid).animate({ 'opacity': '0' }, 300, 'linear', function () {
+        //    $('#info_' + imageid).css('display', 'none');
+        //});
 
 
-<script type="text/javascript">
+        @*<script src="@Url.Content("~/Scripts/jquery.taggd.min.js")" type="text/javascript"></script>*@
+        $('#divModal .modal-bg #info_' + imageid).fadeOut();
+        $('#divModal .modal-bg').fadeOut();
 
+        var getCommentStatechange = $("#FlagComment").val();
+        //var getAnnotationChange = $("#FlagAnnotation").val();
+        if (getCommentStatechange != '') {
+            Refreshgallery();
+            $("#FlagComment").val('');
+        }
+
+    };
     $(document).ready(function () {
+
+        $('.k-delete').click(function () {
+            if ($('.k-upload-files') != undefined) {
+                if ($('.k-upload-files').find('li').length == 0) {
+                    uploadButtonStatus = 0;
+                }
+            }
+        });
 
         $('.folder-list li a').click(function () {
             $('.folder-list li a').removeClass("active-tab");
             $(this).addClass("active-tab");
         });
-
-
         $('.file a.slider-icon').click(function (e) {
 
             var aParent = $(this).parent();
@@ -977,43 +1174,31 @@ z-index: 9;}
             e.stopPropagation();
             e.preventDefault();
         });
-
-        $('.star_empty').click(function () {
-           /* debugger;
-            $(this).removeClass('star_empty')
-            $(this).addClass('star')*/
-           
-            var row_id = $(this).attr('row_id');
-            SaveSeletecd(row_id, 'true');
-            $(this).toggleClass('star');
-        });
-
         $('.star').click(function () {
-           /* debugger;
-            $(this).removeClass('star')
-            $(this).addClass('star_empty')*/
-           
-      
             var row_id = $(this).attr('row_id');
-            SaveSeletecd(row_id,'false');
-            //row_id
+            if (row_id > 0) {
+                $(this).toggleClass('active');
+                if ($(this).hasClass('active')) {
+                    SaveSeletecd(row_id, 'true');
 
-
-            $(this).toggleClass('star_empt');
-      
+                    $('#Image_' + row_id).toggleClass('active');
+                }
+                else {
+                    SaveSeletecd(row_id, 'false');
+                    $('#Image_' + row_id).toggleClass('active');
+                }
+            }
         });
-
 
         $('.file-box').mouseleave(function (e) {
 
             $(".divSlide").hide();
 
         });
+
     });
-
-
     $(".page-number").click(function () {
-        alert("Handler for .click() called.");
+        swal("Handler for .click() called.");
         var page = parseInt($(this).html());
         // var page = 0;
         $.get('@Url.Action("ImageListing", "JobTracking")', { page: page }, function (data) {
@@ -1025,31 +1210,1098 @@ z-index: 9;}
 
             );
     });
+    //Confirm Selection Images Modal Popup To open
+    function ConfirmSelectionImages() {
+        ////;
+        var lengthSelected = $('#showGalleryFloder .file-box').find('.star.active').length;
+        if ($('#PackageQty').val() < lengthSelected && lengthSelected > 0) {
+            $('#divImgselect').empty();
+            $('#divImgselect').append('OH NO! ITS SEEMS LIKE YOU HAVE SELECTED TOO MANY IMAGES THIS WILL INCURR AN ADDITIONAL FEE IF YOU PROCEED.');
+            $('#btnConfirmAndOrderSelectImageModal').removeClass('hide');
+            $('#confirmSelectionImageModal').modal('show');
+
+        }
+        else if ($('#PackageQty').val() >= lengthSelected && lengthSelected > 0) {
+            $('#divImgselect').empty();
+            $('#divImgselect').append(' ARE YOU SURE? ONCE SELECTION ARE CONFIRMED YOU WONT BE ABLE TO MAKE ANY CHANGES.');
+            $('#btnConfirmAndOrderSelectImageModal').addClass('hide');
+            $('#confirmSelectionImageModal').modal('show');
+
+        }
+        else {
+            swal('No Images Selected,Please Select image to Proceed..')
+        }
+
+    }
+    //Open Popup confirm selection Button
+    function btnConfirmSelectImageModalClick() {
+        ////;
+
+        var RowID = "1";
+        var lengthSelected = $('#showGalleryFloder .file-box').find('.star.active').length; //$('#showGalleryFloder .image').find('[type=checkbox]:checked').length
+        //for (var i = 0; i < lengthSelected; i++) {
+        //    RowID += $($('#showGalleryFloder .image').find('[type=checkbox]:checked')[i]).attr('id').split('_')[1] + ","
+        //}
+        // var RowId=
+        if (lengthSelected > 0) {
+            ////;
+            var JobId = $("#GlobleJobId").val();
+            $.get('@Url.Action("UpdateConfirmedImageSelected", "JobTracking")', { Rowid: RowID, jobId: JobId }, function (data) {
+                if (data) {
+                    ////;
+                    $('#confirmSelectionImageModal').modal('hide');
+                    // OpenConfirmSelectImage('Image Confirmation');
+                    //  $("#divGalImagelList").text("");
+                    //  $("#divGalImagelList").html(data);
+                }
+            });
+        }
+
+    }
+
+    function btnConfirmAndOrderSelectImageModalClick() {
+        var RowID = "1";
+        var lengthSelected = $('#showGalleryFloder .file-box').find('.star.active').length;
+        //for (var i = 0; i < lengthSelected; i++) {
+        //    RowID += $($('#showGalleryFloder .image').find('[type=checkbox]:checked')[i]).attr('id').split('_')[1] + ","
+        //}
+        ////debugger;;
+        // var RowId=
+        if (lengthSelected > 0) {
+            ////debugger;;
+            var JobId = $("#GlobleJobId").val();
+            $.get('@Url.Action("UpdateConfirmedImageSelected", "JobTracking")', { Rowid: RowID, jobId: JobId }, function (data) {
+                if (data) {
+                    opennewwindow();
+                    // $('#confirmSelectionImageModal').modal('hide');
+                    //  OpenConfirmSelectImage('Image Confirmation');
+
+                    //  $("#divGalImagelList").text("");
+                    //  $("#divGalImagelList").html(data);
+                }
+            });
+        }
+        //opennewwindow();
+
+    }
+    function opennewwindow() {
+        window.open('http://new.campaigntrack.com/CtLogin/main.aspx?Width=1280&Height=850', '_blank');
+    }
+    //Load mail Content for Confirm Image selection
+    function OpenConfirmSelectImage(Template, Type) {
+        ////debugger;;
+        window.ConfirmImageSelectType = Type;
+        var groupId = $("#GlobleGroupId").val();
+        var JobId = $("#GlobleJobId").val();
+        if (window.openConfirmSelectModal == "0") {
+            $("#editorConfirmSelect").kendoEditor({
+                tools: [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "justifyLeft",
+                    "justifyCenter",
+                    "justifyRight",
+                    "justifyFull",
+                    "insertUnorderedList",
+                    "insertOrderedList",
+                    "indent",
+                    "outdent",
+                    "createLink",
+                    "unlink",
+                    "subscript",
+                    "superscript",
+                    "createTable",
+                    "addRowAbove",
+                    "addRowBelow",
+                    "addColumnLeft",
+                    "addColumnRight",
+                    "deleteRow",
+                    "deleteColumn",
+                    "viewHtml",
+                    "formatting",
+                    "cleanFormatting",
+                    "fontName",
+                    "fontSize",
+                    "foreColor",
+                    "backColor",
+                    "print"
+                ]
+            });
+            window.openConfirmSelectModal = 1;
+        }
+
+
+        $("#txt_ToConfirmSelect").val('');
+        var JobId = $("#GlobleJobId").val();
+        var MESSAGE_BODY = "";
+        var FromEmail = "";
+        var MailSubject = "";
+        var EmailFromDisplay = "";
+        var EmailCC = "";
+        var EmailBCC = "";
+
+        $("#lblErrormsgConfirmSelect").text('');
+
+        $.get('@Url.Action("GetJobAttachmentAndCommentTemplateResult", "JobTracking")', { groupid: groupId, job_Id: JobId, MailTemplate: Template }, function (data) {
+            if (data != null) {
+                // for (var i = 0; i < data.length; i++) {
+                var editor = $("#editorConfirmSelect").data("kendoEditor");
+                editor.value(data[0].EmailContent);
+                FromEmail = (data[0].EmailFrom);
+                MailSubject = (data[0].EmailSubject);
+                EmailFromDisplay = (data[0].EmailFromDisplay);
+                EmailCC = (data[0].EmailCC);
+                EmailBCC = (data[0].EmailBCC);
+                $("#txt_ToConfirmSelect").val(data[0].TO);
+                $('#hdnFromEmaildisplayconfirmselect').val(data[0].EmailFromDisplay);
+
+                var test = $("input[name=hdnFromEmailConfirmSelect]:hidden");
+                test.val(FromEmail);
+
+                //var hdnfrom = $("input[name=hdnFromDisplay]:hidden");
+                //hdnfrom.val(EmailFromDisplay);
+
+                var test1 = $("input[name=txt_SubjectConfirmSelect]:text");
+                test1.val(MailSubject);
+                $("#txt_SubjectConfirmSelect").val(MailSubject);
+                $("#txt_CCConfirmSelect").val(EmailCC);
+                $("#txt_BCCConfirmSelect").val(EmailBCC);
+                //  $("#txt_ToConfirmSelect").val($('#Email_Notification').val());
+                if ($("#txt_ToConfirmSelect").val() != "") {
+                    ////debugger;;
+                    $('#confirmSelectionImageModal').modal('hide');
+                    ////debugger;;
+                    btnEmailConfirmSelectClick()
+
+                }
+                else {
+                    $('#confirmSelectionImageModal').modal('hide');
+                    $('#confirmSelectionEmailModal').modal('show');
+                }
+
+            }
+        });
+        $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
+            if (Emaildata != null) {
+                //create AutoComplete UI component
+                $("#txt_ToConfirmSelect").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    //filter: "startswith",
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_CCConfirmSelect").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    //filter: "startswith",
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_BCCConfirmSelect").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    //filter: "startswith",
+                    placeholder: "Enter your email address...",
+                    separator: ","
+                });
+            }
+        });
+
+    }
+    function RefreshImagesSelected() {
+        ////debugger;;
+        var RowID = $($('#showGalleryFloder .image').find('[type=checkbox]:checked'));
+        $(RowID).each(function () {
+            $(this).attr('checked', false);
+        })
+
+    }
+
+    function btnEmailConfirmSelectClick() {
+        ////debugger;;
+
+        var MailTo = "";
+        var MailCC = "";
+        var MailBCC = "";
+        var MailSubject = "";
+        var MailBody = "";
+        var MailFrom = "";
+        var FromEmail = $("input[name=hdnFromEmailConfirmSelect]:hidden");
+        MailFrom = FromEmail.val();
+        var MailBody = $('#confirmSelectionEmailModal iframe').contents().find('body').html();
+        MailTo = $("#txt_ToConfirmSelect").val();
+        var MailDisplayFrom = $('#hdnFromEmaildisplayconfirmselect').val();
+        if (MailTo == '') {
+
+            $("#lblErrormsgConfirmSelect").show();
+            $("#lblErrormsgConfirmSelect").text('Email To field can not be left blank! ');
+            $("#txt_ToConfirmSelect").focus();
+        }
+        else {
+            MailCC = $("#txt_CCConfirmSelect").val();
+            MailBCC = $("#txt_BCCConfirmSelect").val();
+            MailSubject = $("#txt_SubjectConfirmSelect").val();
+
+            $.post('@Url.Action("Event_MailSent", "JobTracking")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom, FromEmailDisplayAsText: MailDisplayFrom }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+
+                    if (window.ConfirmImageSelectType == '1') {
+                        btnConfirmAndOrderSelectImageModalClick();
+                        window.ConfirmImageSelectType = 0;
+
+
+                    }
+                    if (window.ConfirmImageSelectType == '2') {
+                        btnConfirmSelectImageModalClick();
+                        window.ConfirmImageSelectType = 0;
+                    }
+                    window.openConfirmSelectModal = "0"
+                    RefreshImageGalleryAfterSelection();
+                    $("#txt_ToConfirmSelect").val('');
+                    $("#txt_SubjectConfirmSelect").val('');
+                    $('#confirmSelectionEmailModal').modal('hide');
+                    $('#editorConfirmSelect').empty();//val('');
+                    $('#confirmSelectionEmailModal iframe').contents().find('body').empty();
+                    $("#editorConfirmSelect").data('kendoEditor').wrapper.find("iframe").remove();
+                    $("#editorConfirmSelect").data('kendoEditor').destroy();
+
+
+                    //  window.openConfirmSelectModal = "0"
+                    //  RefreshImageGalleryAfterSelection();
+                } else {
+                    swal("Mail could not be sent, please try after some time.");
+                    $("#lblErrormsgC").show();
+                    // $("#lblErrormsgC").text('Mail could not be sent, please try after some time.');
+
+                    return false;
+
+                }
+            });
+        }
+
+    };
+
+    function RefreshImageGalleryAfterSelection() {
+        var job_Id = $("#GlobleJobId").val();
+
+        $.get('@Url.Action("ViewGallery", "JobTracking")', { jobid: job_Id }, function (data) {
+            if (data != null) {
+                $('#divContent').html("");
+                $('#divContent').html(data);
+                GroupIdAnchor = $("#GlobleGroupId").val();
+
+            }
+        });
+    }
+
+    //End Confirm Image select click
+
+
+    //Confirm Email Send on button Click
+    function btnSentEmailCompleteClick() {
+
+        var MailTo = "";
+        var MailCC = "";
+        var MailBCC = "";
+        var MailSubject = "";
+        var MailBody = "";
+        var MailFrom = "";
+        var MailBody = $('#CompleteStatusMailSendModal iframe').contents().find('body').html();
+        var FromEmail = $("input[name=hdnFromEmailComplete]:hidden");
+        MailFrom = FromEmail.val();
+        MailTo = $("#txt_ToC").val();
+        var MailDisplayFrom = $('#hdnFromEmaildisplayComplete').val();
+        if (MailTo == '') {
+
+            $("#lblErrormsgC").show();
+            $("#lblErrormsgC").text('Email To field can not be left blank! ');
+            $("#txt_ToC").focus();
+        }
+        else {
+            MailCC = $("#txt_CCC").val();
+            MailBCC = $("#txt_BCCC").val();
+            MailSubject = $("#txt_SubjectC").val();
+            $.post('@Url.Action("Event_MailSent", "JobTracking")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom, FromEmailDisplayAsText: MailDisplayFrom }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                    $("#txt_ToC").val('');
+                    $("#txt_SubjectC").val('');
+                    $('#CompleteStatusMailSendModal').modal('hide');
+                    $('#editorConfirm').val('');
+                    $('#CompleteStatusMailSendModal iframe').contents().find('body').empty();
+                } else {
+                    swal("Mail could not be sent, please try after some time.");
+                    $("#lblErrormsgC").show();
+                    $("#lblErrormsgC").text('Mail could not be sent, please try after some time.');
+                    return false;
+
+                }
+            });
+        }
+
+    };
+
+    function btnSentEmailPhotographysent() {
+        ////debugger;;
+        var MailTo = "";
+        var MailCC = "";
+        var MailBCC = "";
+        var MailSubject = "";
+        var MailBody = "";
+        var MailFrom = "";
+        var MailBody = $('#photographMailSendModal iframe').contents().find('body').html();
+        MailTo = $("#txt_ToP").val();
+        var MailDisplayFrom = $('#hdnFromEmaildisplayP').val();
+        //debugger;
+        var FromEmail = $("input[name=hdnFromEmailP]:hidden");
+        MailFrom = FromEmail.val();
+
+        if (MailTo == '') {
+
+            $("#lblErrormsgP").show();
+            $("#lblErrormsgP").text('Email To field can not be left blank! ');
+            $("#txt_ToP").focus();
+        }
+        else {
+            // //////debugger;;
+            MailCC = $("#txt_CCP").val();
+            MailBCC = $("#txt_BCCP").val();
+            MailSubject = $("#txt_SubjectP").val();
+            $.post('@Url.Action("Event_MailSent", "JobTracking")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom, FromEmailDisplayAsText: MailDisplayFrom }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                    $("#txt_ToP").val('');
+                    $("#txt_SubjectP").val('');
+                    $('#photographMailSendModal').modal('hide');
+                    $('#editor1').val('');
+                    $('#photographMailSendModal iframe').contents().find('body').empty();
+                } else {
+                    swal("Mail could not be sent, please try after some time.");
+                    $("#lblErrormsgP").show();
+                    $("#lblErrormsgP").text('Mail could not be sent, please try after some time.');
+                    return false;
+
+                }
+            });
+        }
+
+
+    }//);
+    //Floorplan  Email Send Functionality
+    function btnEmailFloorPlanClick() {
+        // //////debugger;;
+        var MailTo = "";
+        var MailCC = "";
+        var MailBCC = "";
+        var MailSubject = "";
+        var MailBody = "";
+        var MailFrom = "";
+        var MailBody = $('#FloorPlanMailSendModal iframe').contents().find('body').html();
+        MailTo = $("#txt_ToF").val();
+        // //////debugger;;
+        var FromEmail = $("input[name=hdnFromEmailF]:hidden");
+        MailFrom = FromEmail.val();
+        var MailDisplayFrom = $('#hdnFromEmaildisplayF').val();
+
+        if (MailTo == '') {
+
+            $("#lblErrormsgF").show();
+            $("#lblErrormsgF").text('Email To field can not be left blank! ');
+            $("#txt_ToF").focus();
+        } else {
+
+
+            //  //////debugger;;
+            MailCC = $("#txt_CCF").val();
+            MailBCC = $("#txt_BCCF").val();
+            MailSubject = $("#txt_SubjectF").val();
+            $.post('@Url.Action("Event_MailSent", "JobTracking")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom, FromEmailDisplayAsText: MailDisplayFrom }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                    $("#txt_ToF").val('');
+                    $("#txt_SubjectF").val('');
+                    $('#FloorPlanMailSendModal').modal('hide');
+                    $('#editor2').val('');
+                    $('#FloorPlanMailSendModal iframe').contents().find('body').empty();
+                }
+                else {
+                    swal("Mail could not be sent, please try after some time.");
+                    $("#lblErrormsgF").show();
+                    $("#lblErrormsgF").text('Mail could not be sent, please try after some time.');
+                    return false;
+
+                }
+            });
+        }
+    };
+
+    function OpenPhotographMail(Template) {
+        ////debugger;;
+        var groupId = $("#GlobleGroupId").val();
+        var JobId = $("#GlobleJobId").val();
+        if (window.openPhotographEmailModal == "0") {
+            window.openPhotographEmailModal = 1;
+            $("#editor1").kendoEditor({
+                tools: [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "justifyLeft",
+                    "justifyCenter",
+                    "justifyRight",
+                    "justifyFull",
+                    "insertUnorderedList",
+                    "insertOrderedList",
+                    "indent",
+                    "outdent",
+                    "createLink",
+                    "unlink",
+                    "subscript",
+                    "superscript",
+                    "createTable",
+                    "addRowAbove",
+                    "addRowBelow",
+                    "addColumnLeft",
+                    "addColumnRight",
+                    "deleteRow",
+                    "deleteColumn",
+                    "viewHtml",
+                    "formatting",
+                    "cleanFormatting",
+                    "fontName",
+                    "fontSize",
+                    "foreColor",
+                    "backColor",
+                    "print"
+                ]
+            });
+        }
+
+
+        $("#txt_ToP").val('');
+        var JobId = $("#GlobleJobId").val();
+        var MESSAGE_BODY = "";
+        var FromEmail = "";
+        var MailSubject = "";
+        var EmailFromDisplay = "";
+        var EmailCC = "";
+        var EmailBCC = "";
+
+        $("#lblErrormsgP").text('');
+
+        $.get('@Url.Action("GetJobAttachmentAndCommentTemplateResult", "JobTracking")', { groupid: groupId, job_Id: JobId, MailTemplate: Template }, function (data) {
+            if (data != null) {
+                ////debugger;;
+                // for (var i = 0; i < data.length; i++) {
+                var editor = $("#editor1").data("kendoEditor");
+                editor.value(data[0].EmailContent);
+                FromEmail = (data[0].EmailFrom);
+                MailSubject = (data[0].EmailSubject);
+                EmailFromDisplay = (data[0].EmailFromDisplay);
+                EmailCC = (data[0].EmailCC);
+                EmailBCC = (data[0].EmailBCC);
+                $("#txt_ToP").val($('#Email_Notification').val());
+                var test = $("input[name=hdnFromEmailP]:hidden");
+                test.val(FromEmail);
+                $('#hdnFromEmaildisplayP').val(data[0].EmailFromDisplay);
+                //var hdnfrom = $("input[name=hdnFromDisplay]:hidden");
+                //hdnfrom.val(EmailFromDisplay);
+
+                var test1 = $("input[name=txt_SubjectP]:text");
+                test1.val(MailSubject);
+                $("#txt_SubjectP").val(MailSubject);
+                $("#txt_CCP").val(EmailCC);
+                $("#txt_BCCP").val(EmailBCC);
+                if ($("#txt_ToP").val() != "") {
+                    btnSentEmailPhotographysent();
+                }
+                else {
+                    $('#photographMailSendModal').modal('show');
+                }
+                // alert(data[i].EmailFromDisplay);
+                //  alert(data[i].EmailFrom);
+                //  }
+
+
+                // set value
+                // editor.value(MESSAGE_BODY);
+                // get value
+                // var htmlValue = editor.value();
 
 
 
-    //$(document).ready(function () {
-    //    var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-    //    elems.forEach(function (html) {
-    //        var switchery = new Switchery(html, { color: '#1AB394' });
-    //    });
-    //});
+            }
+        });
+        $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
+            if (Emaildata != null) {
+                //create AutoComplete UI component
+                $("#txt_ToP").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    //filter: "startswith",
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_CCP").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    //filter: "startswith",
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_BCCP").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    //filter: "startswith",
+                    placeholder: "Enter your email address...",
+                    separator: ","
+                });
+            }
+        });
+        //$('#photographMailSendModal').modal('show');
+    }
+
+    function OpenFloorPlanMail(Template) {
+        // //////debugger;;
+        if (window.openFloorPlanEmailModal == "0") {
+            window.openFloorPlanEmailModal = 1;
+            $("#editor2").kendoEditor({
+                tools: [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "justifyLeft",
+                    "justifyCenter",
+                    "justifyRight",
+                    "justifyFull",
+                    "insertUnorderedList",
+                    "insertOrderedList",
+                    "indent",
+                    "outdent",
+                    "createLink",
+                    "unlink",
+                    "subscript",
+                    "superscript",
+                    "createTable",
+                    "addRowAbove",
+                    "addRowBelow",
+                    "addColumnLeft",
+                    "addColumnRight",
+                    "deleteRow",
+                    "deleteColumn",
+                    "viewHtml",
+                    "formatting",
+                    "cleanFormatting",
+                    "fontName",
+                    "fontSize",
+                    "foreColor",
+                    "backColor",
+                    "print"
+                ]
+            });
+        }
+
+        $("#txt_ToF").val('');
+        var MESSAGE_BODY = "";
+        var FromEmail = "";
+        var MailSubject = "";
+        var EmailFromDisplay = "";
+        var EmailCC = "";
+        var EmailBCC = "";
+        var JobId = $("#GlobleJobId").val();
+        $("#lblErrormsgF").text('');
+
+        $.get('@Url.Action("LoadMailContentJobTracking", "Scheduler")', { template: Template, JobId: JobId }, function (data) {
+            if (data != null) {
+                ////debugger;;
+                for (var i = 0; i < data.length; i++) {
+
+                    MESSAGE_BODY = (data[i].EmailContent);
+                    FromEmail = (data[i].EmailFrom);
+                    MailSubject = (data[i].EmailSubject);
+                    EmailFromDisplay = (data[i].EmailFromDisplay);
+                    EmailCC = (data[i].EmailCC);
+                    EmailBCC = (data[i].EmailBCC);
+                    $('#hdnFromEmaildisplayF').val(data[0].EmailFromDisplay);
+
+                }
+                var editor = $("#editor2").data("kendoEditor");
+
+                editor.value(MESSAGE_BODY);
+                var test = $("input[name=hdnFromEmailF]:hidden");
+                test.val(FromEmail);
+                var test1 = $("input[name=txt_SubjectF]:text");
+                test1.val(MailSubject);
+                $("#txt_SubjectF").val(MailSubject);
+                $("#txt_CCF").val(EmailCC);
+                $("#txt_BCCF").val(EmailBCC);
+                $("#txt_ToF").val($('#Email_Notification').val());
+
+                if ($("#txt_ToF").val() != "") {
+                    ////debugger;;
+                    btnEmailFloorPlanClick();
+                }
+                else {
+                    $('#FloorPlanMailSendModal').modal('show');
+                }
+
+            }
+        });
+        $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
+            if (Emaildata != null) {
+                //  //////debugger;;
+                //create AutoComplete UI component
+                $("#txt_ToF").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_CCF").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_BCCF").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address...",
+                    separator: ","
+                });
+            }
+        });
+        //$('#FloorPlanMailSendModal').modal('show');
+    }
+
+    //===============Confirm Mail Send===================
+
+
+
+    function CompleteStatus() {
+        ////debugger;;
+        var JobId = $("#GlobleJobId").val();
+        $.get('@Url.Action("UpdateJobStatus", "JobTracking")', { jobid: $("#GlobleJobId").val() }, function (data) {
+            if (data) {
+
+                if (window.openConfirmModal == "0") {
+                    window.openConfirmModal = 1;
+                    $("#editorConfirm").kendoEditor({
+                        tools: [
+                            "bold",
+                            "italic",
+                            "underline",
+                            "strikethrough",
+                            "justifyLeft",
+                            "justifyCenter",
+                            "justifyRight",
+                            "justifyFull",
+                            "insertUnorderedList",
+                            "insertOrderedList",
+                            "indent",
+                            "outdent",
+                            "createLink",
+                            "unlink",
+                            "subscript",
+                            "superscript",
+                            "createTable",
+                            "addRowAbove",
+                            "addRowBelow",
+                            "addColumnLeft",
+                            "addColumnRight",
+                            "deleteRow",
+                            "deleteColumn",
+                            "viewHtml",
+                            "formatting",
+                            "cleanFormatting",
+                            "fontName",
+                            "fontSize",
+                            "foreColor",
+                            "backColor",
+                            "print"
+                        ]
+                    });
+                }
+
+                $.get('@Url.Action("LoadMailContentJobTracking", "Scheduler")', { template: "Final Image Upload Confirmation", JobId: JobId }, function (data) {
+                    if (data != null) {
+                        // //////debugger;;
+                        for (var i = 0; i < data.length; i++) {
+
+                            MESSAGE_BODY = (data[i].EmailContent);
+                            FromEmail = (data[i].EmailFrom);
+                            MailSubject = (data[i].EmailSubject);
+                            EmailFromDisplay = (data[i].EmailFromDisplay);
+                            EmailCC = (data[i].EmailCC);
+                            EmailBCC = (data[i].EmailBCC);
+                            $('#hdnFromEmaildisplayComplete').val(data[0].EmailFromDisplay);
+
+                        }
+                        var test = $("input[name=hdnFromEmailComplete]:hidden");
+                        test.val(FromEmail);
+                        var editor = $("#editorConfirm").data("kendoEditor");
+
+                        editor.value(MESSAGE_BODY);
+                        var test1 = $("input[name=txt_SubjectC]:text");
+                        test1.val(MailSubject);
+                        $("#txt_SubjectC").val(MailSubject);
+                        $("#txt_CCC").val(EmailCC);
+                        $("#txt_BCCC").val(EmailBCC);
+                        $("#txt_ToC").val($('#Email_Notification').val());
+                        if ($("#txt_ToC").val() != "") {
+                            btnSentEmailCompleteClick();
+                        }
+                        else {
+                            $('#CompleteStatusMailSendModal').modal('show');
+                        }
+
+                    }
+                });
+                $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
+                    if (Emaildata != null) {
+                        //  //////debugger;;
+                        //create AutoComplete UI component
+                        $("#txt_ToC").kendoAutoComplete({
+                            dataSource: Emaildata,
+                            placeholder: "Enter your email address..",
+                            separator: ","
+                        });
+
+                        $("#txt_CCC").kendoAutoComplete({
+                            dataSource: Emaildata,
+                            placeholder: "Enter your email address..",
+                            separator: ","
+                        });
+
+                        $("#txt_BCCC").kendoAutoComplete({
+                            dataSource: Emaildata,
+                            placeholder: "Enter your email address...",
+                            separator: ","
+                        });
+                    }
+                });
+            }
+        });
+
+    }
+
+
+    //Modal Popup Button Floor Plan FeedBack
+
+    function FeedbackMailSend() {
+        ////////debugger;;
+        $("#lblErrormsgFeedback").text('');
+        var MailTemplate = "Job Attachments Feedback";
+        var groupId = $("#GlobleGroupId").val();
+        var JobId = $("#GlobleJobId").val();
+        if (window.openeditorFeedbackModal == "0") {
+            window.openeditorFeedbackModal = 1;
+            $("#editorFeedback").kendoEditor({
+                tools: [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "justifyLeft",
+                    "justifyCenter",
+                    "justifyRight",
+                    "justifyFull",
+                    "insertUnorderedList",
+                    "insertOrderedList",
+                    "indent",
+                    "outdent",
+                    "createLink",
+                    "unlink",
+                    "subscript",
+                    "superscript",
+                    "createTable",
+                    "addRowAbove",
+                    "addRowBelow",
+                    "addColumnLeft",
+                    "addColumnRight",
+                    "deleteRow",
+                    "deleteColumn",
+                    "viewHtml",
+                    "formatting",
+                    "cleanFormatting",
+                    "fontName",
+                    "fontSize",
+                    "foreColor",
+                    "backColor",
+                    "print"
+                ]
+            });
+        }
+        $.get('@Url.Action("GetJobAttachmentAndCommentTemplateResult", "JobTracking")', { groupid: groupId, job_Id: JobId, MailTemplate: MailTemplate }, function (data) {
+            if (data) {
+                ////debugger;;
+                var editor = $("#editorFeedback").data("kendoEditor");
+
+                editor.value(data[0].EmailContent);
+                $("#txt_SubjectFeedback").val(data[0].EmailSubject);
+                $("#txt_CCFeedback").val(data[0].EmailCC);
+                $("#txt_BCCFeedback").val(data[0].EmailBCC);
+                $("#txt_ToFeedback").val(data[0].TO);
+                var test = $("input[name=hdnFromEmailFeedback]:hidden");
+                test.val(data[0].EmailFrom);
+                $('#hdnFromEmaildisplayfeedback').val(data[0].EmailFromDisplay);
+                if ($("#txt_ToFeedback").val() != "") {
+                    btnEmailFloorPlanFeedbackClick();
+                }
+                else {
+                    $('#FloorPlanFeedBackMailSendModal').modal('show');
+                }
+            }
+
+        });
+        $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
+            if (Emaildata != null) {
+                //  //////debugger;;
+                //create AutoComplete UI component
+                $("#txt_ToFeedback").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_CCFeedback").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_BCCFeedback").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address...",
+                    separator: ","
+                });
+            }
+        });
+    }
+
+    //Floorplan  Email Send Functionality
+    function btnEmailFloorPlanFeedbackClick() {
+        ////debugger;;
+        var MailTo = "";
+        var MailCC = "";
+        var MailBCC = "";
+        var MailSubject = "";
+        var MailBody = "";
+        var MailFrom = "";
+        var MailBody = $('#FloorPlanFeedBackMailSendModal iframe').contents().find('body').html();
+        MailTo = $("#txt_ToFeedback").val();
+        var MailDisplayFrom = $('#hdnFromEmaildisplayfeedback').val();
+
+        //var FromEmail = $("input[name=hdnFromEmailFeedBack]:hidden");
+        MailFrom = $('#hdnFromEmailFeedback').val();
+
+        if (MailTo == '') {
+
+            $("#lblErrormsgFeedback").show();
+            $("#lblErrormsgFeedback").text('Email To field can not be left blank! ');
+            $("#txt_ToFeedback").focus();
+        } else {
+
+            //  //////debugger;;
+            MailCC = $("#txt_CCFeedback").val();
+            MailBCC = $("#txt_BCCFeedback").val();
+            MailSubject = $("#txt_SubjectFeedback").val();
+            $.post('@Url.Action("Event_MailSent", "JobTracking")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom, FromEmailDisplayAsText: MailDisplayFrom }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                    $("#txt_ToFeedback").val('');
+                    $("#txt_CCFeedback").val('');
+                    $("#txt_BCCFeedback").val('');
+                    $("#txt_SubjectFeedback").val('');
+                    $('#FloorPlanFeedBackMailSendModal').modal('hide');
+                    $('#editorFeedback').val('');
+                    $('#FloorPlanFeedBackMailSendModal iframe').contents().find('body').empty();
+                }
+                else {
+                    swal("Mail could not be sent, please try after some time.");
+                    $("#lblErrormsgFeedback").show();
+                    $("#lblErrormsgFeedback").text('Mail could not be sent, please try after some time.');
+                    return false;
+
+                }
+            });
+        }
+    };
+    // End Feedback Popup
+
+    //Modal Popup Button Floor Plan FeedBack
+
+    function ApproveMailSend() {
+        $("#lblErrormsgApprove").text('');
+        var MailTemplate = "Job Attachments Approve";
+        var groupId = $("#GlobleGroupId").val();
+        var JobId = $("#GlobleJobId").val();
+
+        if (window.openeditorApproveModal == "0") {
+            window.openeditorApproveModal = 1;
+            $("#editorApprove").kendoEditor({
+                tools: [
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "justifyLeft",
+                    "justifyCenter",
+                    "justifyRight",
+                    "justifyFull",
+                    "insertUnorderedList",
+                    "insertOrderedList",
+                    "indent",
+                    "outdent",
+                    "createLink",
+                    "unlink",
+                    "subscript",
+                    "superscript",
+                    "createTable",
+                    "addRowAbove",
+                    "addRowBelow",
+                    "addColumnLeft",
+                    "addColumnRight",
+                    "deleteRow",
+                    "deleteColumn",
+                    "viewHtml",
+                    "formatting",
+                    "cleanFormatting",
+                    "fontName",
+                    "fontSize",
+                    "foreColor",
+                    "backColor",
+                    "print"
+                ]
+            });
+        }
+        $.get('@Url.Action("GetJobAttachmentAndCommentTemplateResult", "JobTracking")', { groupid: groupId, job_Id: JobId, MailTemplate: MailTemplate }, function (data) {
+            if (data) {
+
+                var editor = $("#editorApprove").data("kendoEditor");
+
+                editor.value(data[0].EmailContent);
+                $("#txt_SubjectApprove").val(data[0].EmailSubject);
+                $("#txt_CCApprove").val(data[0].EmailCC);
+                $("#txt_BCCApprove").val(data[0].EmailBCC);
+                $("#txt_ToApprove").val(data[0].TO);
+                $('#hdnFromEmaildisplayapprove').val(data[0].EmailFromDisplay);
+                $("#hdnFromEmailApprove").val(data[0].EmailFrom);
+                if ($("#txt_ToApprove").val() != "") {
+                    btnEmailFloorPlanApproveClick();
+
+                } else {
+                    $('#FloorPlanApproveMailSendModal').modal('show');
+                }
+            }
+
+        });
+
+        $.get('@Url.Action("LoadAutoCompleteEMails", "Scheduler")', { Search: "" }, function (Emaildata) {
+            if (Emaildata != null) {
+                //  //////debugger;;
+                //create AutoComplete UI component
+                $("#txt_ToApprove").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_CCApprove").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address..",
+                    separator: ","
+                });
+
+                $("#txt_BCCApprove").kendoAutoComplete({
+                    dataSource: Emaildata,
+                    placeholder: "Enter your email address...",
+                    separator: ","
+                });
+            }
+        });
+
+        // }
+        //  });
+    }
+
+    // }
+
+    //Floorplan  Email Send Functionality
+    function btnEmailFloorPlanApproveClick() {
+        ////debugger;;
+        var MailTo = "";
+        var MailCC = "";
+        var MailBCC = "";
+        var MailSubject = "";
+        var MailBody = "";
+        var MailFrom = "";
+        var MailBody = $('#FloorPlanApproveMailSendModal iframe').contents().find('body').html();
+        MailTo = $("#txt_ToApprove").val();
+        var MailDisplayFrom = $('#hdnFromEmaildisplayapprove').val();
+        //debugger;;
+        var FromEmail = $("input[name=hdnFromEmailApprove]:hidden");
+        MailFrom = FromEmail.val();
+
+        if (MailTo == '') {
+
+            $("#lblErrormsgApprove").show();
+            $("#lblErrormsgApprove").text('Email To field can not be left blank! ');
+            $("#txt_ToApprove").focus();
+        } else {
+
+
+            //  //////debugger;;
+            MailCC = $("#txt_CCApprove").val();
+            MailBCC = $("#txt_BCCApprove").val();
+            MailSubject = $("#txt_SubjectApprove").val();
+            $.post('@Url.Action("Event_MailSent", "JobTracking")', { MailTo: MailTo, MailCC: MailCC, MailBCC: MailBCC, MailSubject: MailSubject, MailBody: MailBody, MailFrom: MailFrom, FromEmailDisplayAsText: MailDisplayFrom }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                    $("#txt_ToApprove").val('');
+                    $("#txt_CCApprove").val('');
+                    $("#txt_BCCApprove").val('');
+                    $("#txt_SubjectApprove").val('');
+                    $('#FloorPlanApproveMailSendModal').modal('hide');
+                    $('#editorApprove').val('');
+                    $('#FloorPlanApproveMailSendModal iframe').contents().find('body').empty();
+                    var RowID = "2";
+                    // var lengthSelected = $('#showGalleryFloder .file-box').find('.star.active').length;
+                    //for (var i = 0; i < lengthSelected; i++) {
+                    //    RowID += $($('#showGalleryFloder .image').find('[type=checkbox]:checked')[i]).attr('id').split('_')[1] + ","
+                    //}
+                    ////debugger;;
+                    // var RowId=
+                    // if (lengthSelected > 0) {
+                    var JobId = $("#GlobleJobId").val();
+                    $.get('@Url.Action("UpdateConfirmedImageSelected", "JobTracking")', { Rowid: RowID, jobId: JobId }, function (data) {
+                        if (data) {
+                            RefreshImageGalleryAfterSelection();
+                        }
+                    });
+
+                    // }
+                }
+                else {
+                    swal("Mail could not be sent, please try after some time.");
+                    $("#lblErrormsgApprove").show();
+                    $("#lblErrormsgApprove").text('Mail could not be sent, please try after some time.');
+                    return false;
+
+                }
+            });
+        }
+    };
+
+
+
+    // End Feedback Popup
 
 
     function onUpload(e) {
+        //debugger;
+        this.disable();
+        $('#hideDiv').hide();
         var groupname = $("#GlobleFolderName").val();
         var groupType = $("#GlobleGroupId").val();
         var JobId = $("#GlobleJobId").val();
-
-        //var tagIds = [];
-
-        //$("#divTag :checked").each(function () {
-        //    tagIds.push($(this).val());
-        //    tagIds.push($(this).id);
-        //    alert( tagIds.push($(this).id));
-        //    alert( tagIds.push($(this).name));
-        //});
-
 
         /* declare an checkbox array */
         var chkArray = [];
@@ -1064,7 +2316,7 @@ z-index: 9;}
         selectedTags = chkArray.join(';') + ";";
 
         if (selectedTags.length <= 1) {
-            selectedTags = selectedTags.substring(0, selectedTags.length - 1)
+            selectedTags = selectedTags.substring(0, selectedTags.length - 1);
         }
 
         /* check if there is selected checkboxes, by default the length is 1 as it contains one single comma */
@@ -1080,36 +2332,57 @@ z-index: 9;}
     }
 
     function onSuccess(e) {
+        // debugger;
+        kendoFileUploadCount--;
 
-        $(".k-upload-files").remove();
-        $(".k-upload-status").remove();
-        $(".k-upload.k-header").addClass("k-upload-empty");
-        $(".k-upload-button").removeClass("k-state-focused");
+        var job_Id = $("#GlobleJobId").val();
+        var groupId = $("#GlobleGroupId").val();
+        if (kendoFileUploadCount == 0) {
+            $(".k-upload-files").remove();
+            $(".k-upload-status").remove();
+            $(".k-upload.k-header").addClass("k-upload-empty");
+            $(".k-upload-button").removeClass("k-state-focused");
+            $.get('@Url.Action("UpdateFolderLock", "JobTracking")', { JobId: job_Id, groupType: groupId }, function (data) {
 
-        Refreshgallery();
+                RefreshImageGalleryAfterSelection();
+            });
+
+            @*$.get('@Url.Action("ViewGallery", "JobTracking")', { jobid: job_Id }, function (data) {
+                if (data != null) {
+                    $('#divContent').html("");
+                    $('#divContent').html(data);
+                    GroupIdAnchor = $("#GlobleGroupId").val();
+                    kendoFileUploadCount = 0;
+                    //Refreshgallery();
+                   //
+                }
+            });*@
+        }
+        //
+        $('#btnDownloadZip, #btnDownloadPDF').show();
+    }
+    function onSelect(e) {
+        $('#btnDownloadZip, #btnDownloadPDF').hide();
+        kendoFileUploadCount = e.files.length;
+        if ($('.k-dropzone').next().hasClass('k-button k-upload-selected')) {
+            $('.k-dropzone').next().remove();
+        }
+        setTimeout(function () {
+            if ($('.k-upload-files') != undefined) {
+                if ($('.k-upload-files').find('li').length > 0) {
+                    $('.k-dropzone').after('<button type="button" class="k-button k-upload-selected">Upload files</button>');
+                }
+            }
+        }, 100);
 
     }
 
-    //function onSelect(e) {
 
-    //    var GroupId =  ($("#GlobleGroupId").val());
+    //File upload validations
+    function onSelect1(e) {
+        // debugger;;
 
-
-    //    var flag = false;
-    //    $.each(e.files, function (index, value) {
-    //        if (value.extension.toLowerCase() == ".jpeg" || value.extension.toLowerCase() == ".jpg" || value.extension.toLowerCase() == ".png" || value.extension.toLowerCase() == ".cs") {
-    //            flag = true;
-    //        }
-    //        if (!flag) {
-    //            alert("Please upload jpeg image files");
-    //            e.files.destroy();
-    //        }
-    //    });
-    //}
-
-
-    function onSelect(e) {
-        //  debugger;
+        //alert("total file : " +e.files.length);
         var FileExt = ($("#GlobleFileExtensions").val());
         var MaxFileSize = ($("#GlobleFileSize").val());
         var msgFileSize = CheckFileSize(MaxFileSize);
@@ -1146,22 +2419,20 @@ z-index: 9;}
             }
 
             if (!IsValid) {
-                alert("Sorry, " + value.extension.toLowerCase() + " File extension is invalid, allowed extensions are: " + FileExt);
+                swal("Sorry, " + value.extension.toLowerCase() + " File extension is invalid, allowed extensions are: " + FileExt);
                 e.files.destroy();
 
             }
             else if (!FileSizeError) {
-                alert("Sorry, File must be under " + msgFileSize + " in size. Your file is too large. Please try again.");
+                swal("Sorry, File must be under " + msgFileSize + " in size. Your file is too large. Please try again.");
                 e.files.destroy();
             }
 
         });
     }
-
-
     function onError(e, status) {
-        alert('This file already Exist..');
-        //debugger;
+        swal('This file already Exist..');
+        ////////debugger;;
         //if (e.status == "customerror") {
 
         //    switch (e.errors) {
@@ -1174,8 +2445,6 @@ z-index: 9;}
         //    // alert("Generic server error.");
         //}
     }
-
-
     function CheckFileSize(FileSize) {
 
         var iSize = (FileSize / 1024);
@@ -1195,80 +2464,141 @@ z-index: 9;}
             return (iSize + " kb");
         }
     }
-
-    //function onUpload(e) {
-    //    // Array with information about the uploaded files
-
-    //    var totalSize = 0;
-    //    // Check the extension of each file and abort the upload if it is not .jpg
-    //    $.each(e.files, function (index, value) {
-
-    //        alert(value.size / 1024);
-    //        var kb = (value.size / 1024);
-    //        totalSize = totalSize + kb;
-
-    //        if (totalSize / 1024 > 25)
-    //        {
-    //            e.files.destroy();
-    //            value.destroy();
-    //            alert("You can upload maximum 24 MB");
-
-
-    //        }
-
-    //    });
-
-
-    //   // alert(totalSize);
-    //}
-
-
     function LoadUploadFiles() {
         var page = 0;
         $.get('@Url.Action("ImageListing", "JobTracking")', { page: page }, function (data) {
-            if (data != null) {
-                $("#spaUploadForm").text("");
-                $("#spaUploadForm").html(data);
-            }
-        });
-    }
+                 if (data != null) {
+                     $("#spaUploadForm").text("");
+                     $("#spaUploadForm").html(data);
+                 }
+             });
+         }
+         function SaveSeletecd(rowid, iselected) {
+             // //////debugger;;
+
+             //  var groupid = $("#GlobleGroupId").val();
+             var groupid = parseInt($("#GlobleGroupId").val());
+             var job_Id = parseInt($("#GlobleJobId").val());
+        @*$.get('@Url.Action("UpdateJobAttachmentSelected", "JobTracking")', { rowId: rowid, isSelected: iselected, groupid: groupid, job_Id: job_Id }, function (JsonInfo) {
+                var retSelectionSave;
+                var retSave;
+                var FileNotSaveReason;
+                // //////debugger;;
+                if (JsonInfo !== null) {
+                    if (JsonInfo != null) {
+                        for (var i = 0; i < JsonInfo.length; i++) {
+                            $("#spnSelectedImgCount").text(JsonInfo[i].SelectedImgCount);
+                            $("#spnImgCount").text(JsonInfo[i].TotalImgCount);
+                        }
+                    }
+
+                    //  retSave = JsonInfo.Save;
+                    // FileNotSaveReason = JsonInfo.FileNotSaveReason;
+                    return true;
+                    if ((!retSave) && (FileNotSaveReason === 'FileNameExist')) {
+                        //   alert("Selection has not been Updated..");
+                        //  return false;
+                    }
+                    else {
+                        return false;
+                        //  alert("Selection has been Updated..");
+                        // Refresh the page with New Data
+                        // Refreshgallery();
+                    }
+                }
 
 
+            });*@
+        // //////debugger;;
+        $.ajax({
+            url: '@Url.Action("UpdateJobAttachmentSelected", "JobTracking")',//"~/JobTracking/UpdateJobAttachmentSelected?rowId=" + rowid + "&isSelected=" + iselected+"&groupid="+groupid+"&job_Id="+job_Id
+            data: { rowId: rowid, isSelected: iselected, groupid: groupid, job_Id: job_Id },
+            type: 'POST',
+            dataType: 'JSON',
+            async: true,
+            success: function (JsonInfo) {
+                //////debugger;;
+                var retSelectionSave;
+                var retSave;
+                var FileNotSaveReason;
+                // //////debugger;;
+                if (JsonInfo !== null) {
+                    for (var i = 0; i < JsonInfo.length; i++) {
+                        $("#spnSelectedImgCount").text(JsonInfo[i].SelectedImgCount);
+                        $("#spnImgCount").text(JsonInfo[i].TotalImgCount);
+                        $("#imgCountOfSelected").val("");
+                        $("#imgCountOfSelected").val(JsonInfo[i].SelectedImgCount + "&nbsp;images of " + JsonInfo[i].TotalImgCount + "&nbsp;images selected")
+                    }
+                }
 
-    
-
-    function SaveSeletecd(rowid, iselected)
-    {
-
-        $.get('@Url.Action("UpdateJobAttachmentSelected", "JobTracking")', { rowId: rowid, isSelected: iselected }, function (JsonInfo) {
-            var retSelectionSave;
-            var retSave;
-            var FileNotSaveReason;
-           // debugger;
-            if (JsonInfo !== null) {
-              //  retSave = JsonInfo.Save;
-               // FileNotSaveReason = JsonInfo.FileNotSaveReason;
+                //  retSave = JsonInfo.Save;
+                // FileNotSaveReason = JsonInfo.FileNotSaveReason;
                 return true;
                 if ((!retSave) && (FileNotSaveReason === 'FileNameExist')) {
-                 //   alert("Selection has not been Updated..");
-                  //  return false;
+                    //   alert("Selection has not been Updated..");
+                    //  return false;
                 }
                 else {
                     return false;
-                  //  alert("Selection has been Updated..");
+                    //  alert("Selection has been Updated..");
                     // Refresh the page with New Data
-                   // Refreshgallery();
+                    // Refreshgallery();
                 }
+                //  if (userStatus == 'Disabled') { // check if user if disabled
+                // } else if (userStatus == 'Deleted') { // check if user if deleted
+                // } else {
+                //  };
+            },
+            error: function () {
+                // connectionError();
             }
-
-          
         });
-        
 
     }
+    function SaveComments(rowid) {
 
+        var groupid = parseInt($("#GlobleGroupId").val());
+        var job_Id = parseInt($("#GlobleJobId").val());
+        var retSave;
+        var FileNotSaveReason;
+        var Comments = $("#txtComment_" + rowid).val();
+        $("#FlagComment").val('true');
+
+        if (Comments.indexOf("<i class=") == -1) {
+            Comments = '<i class="fa fa-comments-o"></i>  ' + $("#txtComment_" + rowid).val();
+
+        }
+        if (isDeleted == 1) {
+
+            Comments = $(divId).find('.file-name input').val();
+        }
+
+        $.get('@Url.Action("SaveComments", "JobTracking")', { Row_Id: rowid, Comments: Comments }, function (JsonInfo) {
+            // //////debugger;;
+            if (JsonInfo !== null) {
+                if (JsonInfo != null) {
+                    $("#txtComment_" + rowid).val('');
+                    //closelightbox(rowid);
+                    // openlightbox(rowid);
+                    loadComment(rowid);
+                    isDeleted = 0;
+                }
+
+                retSave = JsonInfo.Save;
+                FileNotSaveReason = JsonInfo.FileNotSaveReason;
+                // return true;
+                // if ((!retSave) && (FileNotSaveReason === 'FileNameExist')) {
+                //   alert("Selection has not been Updated..");
+                //  return false;
+                // }
+                //  else {
+                // return false;
+                //  }
+            }
+        });
+    }
     function UpdateFileInfo(rowid) {
-        // debugger;
+        //////debugger;;
         var NewFileName = $("#txt_" + rowid).val();
         var oldFileName = $("#txt_" + rowid).attr("oldFileName");
 
@@ -1294,7 +2624,7 @@ z-index: 9;}
 
             /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
             $(".chkTag:checked").each(function () {
-                chkArray.push($(this).val());
+                chkArray.push($(this).val().trim(' '));
             });
 
             /* we join the array separated by the comma */
@@ -1312,51 +2642,91 @@ z-index: 9;}
             Job_id = parseInt($("#GlobleJobId").val());
             oldFileName = oldFileName;
 
-
+            //////debugger;;
             $.get('@Url.Action("UpdateGallery", "JobTracking")', { Row_Id: Row_Id, TagSelected: TagSelected, NewFileName: NewFileName, Job_id: Job_id, oldFileName: oldFileName, groupname: groupname }, function (JsonInfo) {
                 var retFileName;
                 var retSave;
                 var FileNotSaveReason;
-
+                //////debugger;;
                 if (JsonInfo != null) {
 
                     retSave = JsonInfo.Save;
                     FileNotSaveReason = JsonInfo.FileNotSaveReason;
 
                     if ((!retSave) && (FileNotSaveReason == 'FileNameExist')) {
-                        alert("You can not rename the file becuase same file name exists..");
+                        swal("You can not rename the file because same file name exists..");
                         return false;
                     }
                     else {
-                        // Refresh the page with New Data
-                        Refreshgallery();
+
+                        //  alert(JsonInfo.IsTagUpdated);
+                        //  alert(JsonInfo.IsFileNameUpdated);
+
+                        if ((JsonInfo.IsTagUpdated) && (!JsonInfo.IsFileNameUpdated)) {
+                            // not Refresh the whole page with New Data
+                            //   $("#spanSelectedTags").text(JsonInfo.Tags);
+                            //alert(JsonInfo.Tags);
+                            $("#spanSelectedTags_" + Row_Id).text(JsonInfo.Tags);
+                            // uncheck all checkbox
+                            $('.chkTag').prop('checked', false);
+                        }
+                        else {
+                            // Refresh the page with New Data
+                            Refreshgallery();
+                        }
                     }
                 }
             });
         }
     }
-
     function DeleteGalleryFile(rowid) {
-        // debugger;
+        // //////debugger;;
+
         var groupname = $("#GlobleFolderName").val();
         var groupType = $("#GlobleGroupId").val();
-        var FileName = $("#GlobleGroupId").val();
+
+        var FolderCount = $('#Folderdata_' + FileName);
+        var title = $("#hndTitle").val();
+        var JobId = $("#GlobleJobId").val();
+        var FileName = $("#txt_" + rowid).attr("oldFileName");
+
         var Row_Id = 0;
         Row_Id = parseInt(rowid);
-        if (confirm("Are you sure you want to delete this?")) {
-            $.get('@Url.Action("DeleteGalleryFile", "JobTracking")', { Row_Id: Row_Id }, function (data) {
-                var message = data.Message;
-                if (data != null) {
-                    Refreshgallery();
-                }
-                //  $("#resultMessage").html(message);
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete this image?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: true
+        },
+            function () {
+                $.get('@Url.Action("DeleteGalleryFile", "JobTracking")', { Row_Id: Row_Id, groupname: groupname, jobid: JobId, FileName: FileName }, function (data) {
+
+                    var message = data.Message;
+                    if (data != null) {
+
+                        Refreshgallery();
+                        // var groupId = $('#spnImgCount').attr('groupId');
+                        var countFolder = $($('#Folderdata_' + groupType).text().split(')'))[0].split('(')[1];
+                        if (parseInt(countFolder - 1) == 0) {
+                            $('#Folderdata_' + FileName).text('');
+                            $("#Folderdata_" + groupType).text('')
+                        }
+                        else {
+                            $('#Folderdata_' + FileName).text('(' + parseInt(countFolder - 1) + ')');
+                            $("#Folderdata_" + groupType).text('(' + parseInt(countFolder - 1) + ')')
+                        }
+                    }
+
+                });
+
             });
-        }
+
     }
-
-
     function GetGalleryFile(rowid) {
-        // debugger;
+        // //////debugger;;
         var groupname = $("#GlobleFolderName").val();
         var groupType = $("#GlobleGroupId").val();
         var FileName = $("#txt_" + rowid).attr("oldFileName");
@@ -1372,14 +2742,33 @@ z-index: 9;}
         });
     }
 
+    function DownlaodAsZip() {
+        var title = $("#hndTitle").val();
+        var groupname = $("#GlobleFolderName").val();
+        var groupType = $("#GlobleGroupId").val();
+        var JobId = $("#GlobleJobId").val();
+        var actionUrl = '@Url.Action("DownloadAllFilesInZip", "JobTracking")' + "?groupname=" + groupname + "&jobid=" + JobId + "&Title=" + title;
+        $("#frmDownloadZip").attr("action", actionUrl);
+        $("#frmDownloadZip").attr("target", "myIframeZip");
+        $("#frmDownloadZip").submit();
+    }
+    function DownlaodAsPdf() {
+        // //////debugger;;
+        var title = $("#hndTitle").val();
+        var groupname = $("#GlobleFolderName").val();
+        var groupId = $("#GlobleGroupId").val();
+        var JobId = $("#GlobleJobId").val();
+        var actionUrl = '@Url.Action("DowloadAllFilesAsPdf", "JobTracking")' + "?groupId=" + groupId + "&jobid=" + JobId + "&Title=" + title + "&groupPDF=" + groupname;
+        $("#frmDownloadPdf").attr("action", actionUrl);
+        $("#frmDownloadPdf").attr("target", "myIframePdf");
+        $("#frmDownloadPdf").submit();
 
-
-
-    
+    }
 
 
     function Refreshgallery() {
-        $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        // $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $('#showGalleryFloder').html('<div class="loader"></div>');
         var folderName = $("#GlobleFolderName").val();
         var groupid = $("#GlobleGroupId").val();
         var job_Id = $("#GlobleJobId").val();
@@ -1391,14 +2780,25 @@ z-index: 9;}
             }
         });
     }
+    function FilerSelected() {
+        //$('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $('#showGalleryFloder').html('<div class="loader"></div>');
+        var folderName = $("#GlobleFolderName").val();
+        var groupid = $("#GlobleGroupId").val();
+        var job_Id = $("#GlobleJobId").val();
 
+        $.get('@Url.Action("FiltersFolderSelectedItems", "JobTracking")', { folderName: folderName, groupid: groupid, job_Id: job_Id }, function (data) {
+            if (data != null) {
+                $('#showGalleryFloder').html("");
+                $('#showGalleryFloder').html(data);
+            }
+        });
+    }
     function downloadGalleryFile(rowid) {
         var url = 'http://test.zerofootprint.com.au/FileDownload/DownloadReport/' + rowid;
         var myWindow = window.open(url, "myWindow", "width=200, height=100");
     }
-
     $(document).on("click", "a.fileDownloadPromise", function () {
-
         e.preventDefault();  //stop the browser from following
         var link = $(this).prop('href');
         window.location.href = link;
@@ -1406,39 +2806,60 @@ z-index: 9;}
         return false; //this is critical to stop the click event which will trigger a normal file download
     });
 
-
     $("#btnDownload2").click(function () {
-        debugger;
+        ////////debugger;;
         var groupname = $("#GlobleFolderName").val();
         var groupType = $("#GlobleGroupId").val();
         var JobId = $("#GlobleJobId").val();
         var Row_Id = $("#btnDownload").attr("row_id");
         var FileName = $("#txt_" + Row_Id).attr("oldFileName");
-      
-        var actionUrl = '@Url.Action("DownloadReport", "JobTracking")' + "?Row_Id=" + Row_Id + "&JobId=" + JobId + "&groupname=" + groupname + "&FileName=" + FileName;
-        $("#frmDownloadDemo").attr("action", actionUrl);
-        $("#frmDownloadDemo").attr("target", "myIframe");
-       // $("#frmDownloadDemo").attr("method", "POST");
-        $("#frmDownloadDemo").submit();
-    });
-
-
-    function Download(Row_Id) {
-        debugger;
-        var groupname = $("#GlobleFolderName").val();
-        var groupType = $("#GlobleGroupId").val();
-        var JobId = $("#GlobleJobId").val();
-      
-      //  var Row_Id = $("#btnDownload").attr("row_id");
-        //Row_Id = $("#btnDownload_" + Row_Id).attr("row_id");
-        var FileName = $("#txt_" + Row_Id).attr("oldFileName");
-
         var actionUrl = '@Url.Action("DownloadReport", "JobTracking")' + "?Row_Id=" + Row_Id + "&JobId=" + JobId + "&groupname=" + groupname + "&FileName=" + FileName;
         $("#frmDownloadDemo").attr("action", actionUrl);
         $("#frmDownloadDemo").attr("target", "myIframe");
         // $("#frmDownloadDemo").attr("method", "POST");
         $("#frmDownloadDemo").submit();
-   }
+    });
+
+    function Download(Row_Id) {
+        ////////debugger;;
+        var groupname = $("#GlobleFolderName").val();
+        var groupType = $("#GlobleGroupId").val();
+        var JobId = $("#GlobleJobId").val();
+        //  var Row_Id = $("#btnDownload").attr("row_id");
+        //Row_Id = $("#btnDownload_" + Row_Id).attr("row_id");
+        var FileName = $("#txt_" + Row_Id).attr("oldFileName");
+        var actionUrl = '@Url.Action("DownloadReport", "JobTracking")' + "?Row_Id=" + Row_Id + "&JobId=" + JobId + "&groupname=" + groupname + "&FileName=" + FileName;
+        $("#frmDownloadDemo").attr("action", actionUrl);
+        $("#frmDownloadDemo").attr("target", "myIframe");
+        // $("#frmDownloadDemo").attr("method", "POST");
+        $("#frmDownloadDemo").submit();
+    }
+
+
+    function SaveAnnotaion(rowid, AnnotationText) {
+        var groupid = parseInt($("#GlobleGroupId").val());
+        var job_Id = parseInt($("#GlobleJobId").val());
+        $.get('@Url.Action("SaveAnnotation", "JobTracking")', { Row_Id: rowid, AnnotationText: AnnotationText }, function (JsonInfo) {
+            // //////debugger;;
+            if (JsonInfo !== null) {
+                if (JsonInfo != null) {
+                    //debugger;
+                    if (isDeleted == 1) {
+                        SaveComments(rowid);
+                    }
+                }
+
+                return true;
+                if ((!retSave) && (FileNotSaveReason === 'FileNameExist')) {
+                    //   alert("Selection has not been Updated..");
+                    //  return false;
+                }
+                else {
+                    return false;
+                }
+            }
+        });
+    }
 
 
 

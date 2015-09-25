@@ -7,12 +7,12 @@ namespace OrderManagement.Web.Models.Repository
 {
     public interface IJobTrackingRepository
     {
-        IList<TrackingJobs> GetAllJobs(int orgid, int? userid, string userType, int? compamyid, string search);
-        IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int orgid, int? userid, string userType, int? compamyid);
+        IList<TrackingJobs> GetAllJobs(int orgid, int? userid, string userType, int? compamyid, string search, bool IsRefreshCache = false);
+        IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int orgid, int? userid, string userType, int? compamyid, int? jobId);
 
         void InsertJobCopy(int orgid, int userid, string userType, int companyid, int jobid, int typeid, string title, int titleWordCount, string body, int bodyWordCount, string status);
 
-        void InsertJobAttachment(int orgid, int userid, string userType, int? companyid, int jobid, string fileName, string fileExt, int fileSize, string filePath, string grouptype, string tags, string folder, int Row_id = 0, int isDeleted = 0);
+        void InsertJobAttachment(int orgid, int userid, string userType, int? companyid, int jobid, string fileName, string fileExt, int fileSize, string filePath, string grouptype, string tags, string folder, string ThumbImgPath="", int Selected=0, int Row_id = 0, int isDeleted = 0);
 
         IList<GetJobAttachments> GetJobAttachments(int orgid, int? userid, string userType, int? compamyid, int? groupType, int? job_Id, string Tags = "");
 
@@ -25,6 +25,25 @@ namespace OrderManagement.Web.Models.Repository
         void UpdateJobAttachmentSelected(int orgid, int userid, string userType, int? compamyid, int rowid, bool isSelected);
 
         void DeleteJob(int orgid, int? userid, string userType, int? compamyid, int? jobid);
+
+        void UpdateJobAttachmentComments(int orgid, int userid, string userType, int? compamyid, int rowid, string Comments);
+        void InsertJobAnnotation(int orgid, int userid, string userType, int? compamyid, int rowid, string AnnotationText);
+        void UpdateJobEmail_Notification(int JobId, string EmailId);
+        int UpdateJobstatus(int JobId, int orgId, int UpdatedBy);
+        void UpdateFolderLock(int JobId, int RowId);
+
+    //    IList<GetJobAttachments> GetJobAttachments(int orgid, int? userid, string userType, int? compamyid, int? groupType, int? job_Id, string Tags = "");
+
+        IList<GetJobCommentsById> GetJobCommentsById(int orgid, int? userid, string userType, int? compamyid, int? Row_id);
+
+        IList<GetFoldersAttachmentCount> GetFoldersAttachmentCount(int? Job_id, int orgid, int userid, string userType, int? compamyid);
+        IList<GetUserCommentsbyJobId> GetUserCommentsbyJobId(int? Job_id, int orgid, int userid, string userType, int? compamyid);
+
+        IList<GetJobAnnotationById> GetJobAnnotationbyFileId(int? File_id, int orgid, int userid, string userType, int? compamyid);
+         void UpdateJobAttachmenTags(string TagSelected, int? Row_id, int? OrgId, int? Job_id);
+        void UpdateJobAttachmentUploaded(int orgid, int userid, string userType, int? compamyid, int rowid, string uploadStatus);
+        IList<SelectJobAttachmentTemplate_Result> SelectJobAttachmentTemplate(int orgid, int? userid, string userType, int? compamyid, int? job_Id, string folder);
+        void UpdateConfirmImageSelected(string RowId, int jobId);
     }
 
     public class JobTrackingRepository:IJobTrackingRepository
@@ -41,14 +60,30 @@ namespace OrderManagement.Web.Models.Repository
             this.db = db;
         }
 
+        public void UpdateJobAttachmentUploaded(int orgid, int userid, string userType, int? compamyid, int rowid, string uploadStatus)
+        {
+            db.UpdateJobAttachmentUploaded(orgid, userid, userType, compamyid, rowid, uploadStatus);
+        }
 
-        public IList<TrackingJobs> GetAllJobs(int orgid, int? userid, string userType, int? compamyid, string search)
+        public virtual IList<TrackingJobs> GetAllJobs(int orgid, int? userid, string userType, int? compamyid, string search, bool IsRefreshCache=false)
        {
-            //db.InsertJobAttachment()
-           return db.SelectJobs(orgid,userid,userType,compamyid,search).ToList();
-          
-          
+           if (search.Length <= 0)
+           {
+               return CachedJobTrackingRepository.Instance.GetAllJobs(orgid, userid, userType, compamyid, search, IsRefreshCache).ToList();
+           }
+           else
+           {
+               return CachedJobTrackingRepository.Instance.GetAllJobs(orgid, userid, userType, compamyid, search, IsRefreshCache).ToList().Where(s => s.EventTitle.Contains(search)).ToList();
+               
+
+           }
+       //    //return db.SelectJobs(orgid,userid,userType,compamyid,search).ToList();
        }
+
+        //public IList<TrackingJobs> GetAllJobs(int orgid, int? userid, string userType, int? compamyid, string search)
+        //{
+        //    return db.SelectJobs(orgid, userid, userType, compamyid, search).ToList();
+        //}
 
         public void DeleteJob(int orgid, int? userid, string userType, int? compamyid, int? jobid)
         {
@@ -63,9 +98,9 @@ namespace OrderManagement.Web.Models.Repository
        //    return   db.SelectJobAttachmentFolders(orgid, userid, userType, compamyid).ToList();
        //}
 
-        public virtual IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int orgid, int? userid, string userType, int? compamyid)
+        public virtual IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int orgid, int? userid, string userType, int? compamyid,int? job_Id)
         {
-            return CachedJobTrackingRepository.Instance.SelectJobAttachmentFolders(orgid, userid, userType, compamyid).ToList();
+            return CachedJobTrackingRepository.Instance.SelectJobAttachmentFolders(orgid, userid, userType, compamyid,job_Id).ToList();
             //  return   db.SelectJobAttachmentFolders(orgid, userid, userType, compamyid).ToList();
         }
 
@@ -79,9 +114,9 @@ namespace OrderManagement.Web.Models.Repository
        //    db.InsertJobAttachment(orgid, userid, userType, companyid, jobid, fileName, fileExt, fileSize, file, grouptype, tags, folder);
        //}
 
-       public void InsertJobAttachment(int orgid, int userid, string userType, int? companyid, int jobid, string fileName, string fileExt, int fileSize, string filePath, string grouptype, string tags, string folder, int Row_id = 0, int isDeleted=0 )
+        public void InsertJobAttachment(int orgid, int userid, string userType, int? companyid, int jobid, string fileName, string fileExt, int fileSize, string filePath, string grouptype, string tags, string folder, string ThumbImgPath="",int Selected=0, int Row_id = 0, int isDeleted = 0)
        {
-           db.InsertJobAttachment(orgid, userid, userType, companyid, jobid, fileName, fileExt, fileSize, grouptype, tags, folder, filePath,Row_id,isDeleted);
+           db.InsertJobAttachment(orgid, userid, userType, companyid, jobid, fileName, fileExt, fileSize, grouptype, tags, folder, filePath, ThumbImgPath,Selected, Row_id, isDeleted);
        }
 
 
@@ -97,6 +132,7 @@ namespace OrderManagement.Web.Models.Repository
 
        public IList<SelectJobAttachmentTypes> GetJobAttachmentTypes(int orgid, int? userid, string userType, int? compamyid, int? groupid)
        {
+          
            return db.SelectJobAttachmentTypes(orgid, userid, userType, compamyid, groupid).ToList();
        }
 
@@ -124,14 +160,68 @@ namespace OrderManagement.Web.Models.Repository
         {
             db.DeleteJobCopy(orgid, userid, userType, companyid, jobCopyRowid);
         }
-
-
+        
         public void UpdateJobAttachmentSelected(int orgid, int userid, string userType, int? compamyid, int rowid, bool isSelected)
          {
              db.UpdateJobAttachmentSelected(orgid, userid, userType, compamyid, rowid, isSelected);
         }
 
+        public void UpdateJobAttachmentComments(int orgid, int userid, string userType, int? compamyid, int rowid, string Comments)
+        {
+            //db.UpdateJobAttachmentComments(orgid, userid, userType, compamyid, rowid, Comments);
+            db.UpdateJobAttachmentComments(orgid,userid,userType,compamyid,rowid,Comments,false,0);
+        }
 
-      
+        public IList<GetJobCommentsById> GetJobCommentsById(int orgid, int? userid, string userType, int? compamyid, int? Row_id)
+        {
+            return db.GetJobCommentsById(orgid, userid, userType, compamyid, Row_id).ToList();
+        }
+
+        public IList<GetFoldersAttachmentCount> GetFoldersAttachmentCount(int? Job_id, int orgid, int userid, string userType, int? compamyid)
+        {
+            return db.GetFoldersAttachmentCount(Job_id,orgid, userid, userType, compamyid).ToList();
+        }
+
+        public IList<GetUserCommentsbyJobId> GetUserCommentsbyJobId(int? Job_id, int orgid, int userid, string userType, int? compamyid)
+        {
+            return db.GetUserCommentsbyJobId(Job_id, orgid, userid, userType, compamyid).ToList();
+        }
+
+        public IList<GetJobAnnotationById> GetJobAnnotationbyFileId(int? File_id, int orgid, int userid, string userType, int? compamyid)
+        {
+            return db.GetJobAnnotationById(orgid, userid, userType, compamyid, File_id).ToList();
+        }
+
+
+        public IList<SelectJobAttachmentTemplate_Result> SelectJobAttachmentTemplate(int orgid, int? userid, string userType, int? compamyid, int? job_Id, string folder)
+        {
+            return db.SelectJobAttachmentTemplate(orgid, userid, userType, compamyid, job_Id,folder).ToList();
+        }
+
+        public void UpdateJobEmail_Notification(int JobId, string EmailId)
+        {
+            db.UpdateJobEmail_Notification(JobId, EmailId);
+        }
+        public int UpdateJobstatus(int jobId, int orgId, int updatedBy)
+        {
+           int i= db.UpdateJobstatus(jobId,updatedBy,orgId);
+            return i;
+        }
+
+        public void InsertJobAnnotation(int orgid, int userid, string userType, int? compamyid, int rowid, string AnnotationText)
+        {
+            db.InsertJobAnnotation(orgid, userid, userType, compamyid, rowid, AnnotationText, false);
+        }
+        public void UpdateJobAttachmenTags(string TagSelected, int? Row_id, int? OrgId, int? Job_id)
+        {
+            db.UpdateJobAttachmentTags(TagSelected, Row_id, OrgId, Job_id);
+        }
+        public void UpdateConfirmImageSelected(string RowId,int jobId) {
+            db.UpdateImageSelection(RowId,jobId);
+        }
+        public void UpdateFolderLock(int jobId,int RowId)
+        {
+            db.UpdateFolderLock(jobId, RowId);
+        }
     }
 }

@@ -7,15 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class ColorMaster
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class ColorMaster
-    {
-        public int Row_Id { get; set; }
-        public string Color { get; set; }
-        public string ColorName { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string Color { get; set; }
+    public string ColorName { get; set; }
 }

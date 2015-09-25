@@ -19,17 +19,21 @@
     <EntitySet Name="CampaignSitting" EntityType="OrderManagementModel.Store.CampaignSitting" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CampaignTimeLine" EntityType="OrderManagementModel.Store.CampaignTimeLine" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CancelledOrders" EntityType="OrderManagementModel.Store.CancelledOrders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Clients" EntityType="OrderManagementModel.Store.Clients" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ColorMaster" EntityType="OrderManagementModel.Store.ColorMaster" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Company" EntityType="OrderManagementModel.Store.Company" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CompanyMail" EntityType="OrderManagementModel.Store.CompanyMail" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CompanyOrders" EntityType="OrderManagementModel.Store.CompanyOrders" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Contacts" EntityType="OrderManagementModel.Store.Contacts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ErrorLog" EntityType="OrderManagementModel.Store.ErrorLog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventEmailORPrint" EntityType="OrderManagementModel.Store.EventEmailORPrint" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EventException" EntityType="OrderManagementModel.Store.EventException" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Eventlog" EntityType="OrderManagementModel.Store.Eventlog" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Events" EntityType="OrderManagementModel.Store.Events" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EventTracking" EntityType="OrderManagementModel.Store.EventTracking" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ForgotPwd" EntityType="OrderManagementModel.Store.ForgotPwd" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Job" EntityType="OrderManagementModel.Store.Job" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobAnnotation" EntityType="OrderManagementModel.Store.JobAnnotation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobAttachment" EntityType="OrderManagementModel.Store.JobAttachment" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobCopy" EntityType="OrderManagementModel.Store.JobCopy" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="JobCopyType" EntityType="OrderManagementModel.Store.JobCopyType" store:Type="Tables" Schema="dbo" />
@@ -69,6 +73,7 @@
     <EntitySet Name="User" EntityType="OrderManagementModel.Store.User" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserProductGroup" EntityType="OrderManagementModel.Store.UserProductGroup" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserTypes" EntityType="OrderManagementModel.Store.UserTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Video" EntityType="OrderManagementModel.Store.Video" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Visitor-Fact" EntityType="OrderManagementModel.Store.Visitor-Fact" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Attachment_User" Association="OrderManagementModel.Store.FK_Attachment_User">
       <End Role="User" EntitySet="User" />
@@ -359,6 +364,22 @@
     <Property Name="FileName" Type="varchar" MaxLength="50" />
     <Property Name="OrgId" Type="int" />
   </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="datetime" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Name" Type="varchar(max)" />
+    <Property Name="Main_Phone" Type="varchar(max)" />
+    <Property Name="Main_Email" Type="varchar(max)" />
+    <Property Name="Main_URL" Type="varchar(max)" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
   <EntityType Name="ColorMaster">
     <Key>
       <PropertyRef Name="Row_Id" />
@@ -424,6 +445,17 @@
     <Property Name="ErrorDetail" Type="nvarchar(max)" />
     <Property Name="created" Type="datetime" />
   </EntityType>
+  <EntityType Name="EventEmailORPrint">
+    <Key>
+      <PropertyRef Name="ROW_ID" />
+    </Key>
+    <Property Name="ROW_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TO_EMAIL" Type="varchar" MaxLength="2000" />
+    <Property Name="FROM_EMAIL" Type="varchar" MaxLength="2000" />
+    <Property Name="SUBJECT" Type="varchar" MaxLength="2000" />
+    <Property Name="MESSAGE_BODY" Type="varchar(max)" />
+    <Property Name="IS_ACTIVE" Type="bit" />
+  </EntityType>
   <EntityType Name="EventException">
     <Key>
       <PropertyRef Name="Row_Id" />
@@ -431,6 +463,19 @@
     <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="EventId" Type="varchar" MaxLength="500" />
     <Property Name="Exception" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Eventlog">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Event_Id" Type="varchar" MaxLength="500" />
+    <Property Name="Event_Title" Type="varchar" MaxLength="500" />
+    <Property Name="Operation" Type="varchar" MaxLength="100" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Source_calendar" Type="varchar" MaxLength="100" />
+    <Property Name="Destination_calendar" Type="varchar" MaxLength="100" />
+    <Property Name="Created" Type="datetime" />
   </EntityType>
   <EntityType Name="Events">
     <Key>
@@ -506,6 +551,23 @@
     <Property Name="CreatedBy" Type="int" />
     <Property Name="Updated" Type="datetime" />
     <Property Name="UpdatedBy" Type="datetime" />
+    <Property Name="Email_Notification" Type="varchar(max)" />
+    <Property Name="Package" Type="varchar" MaxLength="100" />
+    <Property Name="Package_Qty" Type="int" />
+    <Property Name="Image_locked_to_client" Type="bit" />
+    <Property Name="Floorplan_locked_to_client" Type="bit" />
+  </EntityType>
+  <EntityType Name="JobAnnotation">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="File_Id" Type="int" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Annotation" Type="varchar(max)" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" />
   </EntityType>
   <EntityType Name="JobAttachment">
     <Key>
@@ -529,6 +591,13 @@
     <Property Name="UpdatedBy" Type="int" />
     <Property Name="isDeleted" Type="bit" />
     <Property Name="FilePath" Type="varchar" MaxLength="2000" />
+    <Property Name="UPLOAD_DATETIME" Type="datetime" />
+    <Property Name="UPLOAD_BY" Type="int" />
+    <Property Name="UPLOAD_STATUS" Type="varchar" MaxLength="100" />
+    <Property Name="Comments" Type="varchar(max)" />
+    <Property Name="Thumbnail" Type="varchar" MaxLength="2000" />
+    <Property Name="Annotation" Type="int" />
+    <Property Name="ConfirmSelectionStatus" Type="bit" />
   </EntityType>
   <EntityType Name="JobCopy">
     <Key>
@@ -563,7 +632,7 @@
     <Property Name="UpdatedBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
-      warning 6002: The table/view 'CampaignTrack_OMS_Prod.dbo.JobEvents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'CampaignTrack_OMS_Prod_Restore08092015.dbo.JobEvents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
   <EntityType Name="JobEvents">
     <Key>
@@ -710,6 +779,13 @@
     <Property Name="Row_Id" Type="int" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="100" />
     <Property Name="IsActive" Type="bit" />
+    <Property Name="OrgKey" Type="uniqueidentifier" />
+    <Property Name="subdomain" Type="varchar" MaxLength="100" />
+    <Property Name="companylogo" Type="varchar" MaxLength="2000" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="BH_StartTime" Type="time" />
+    <Property Name="BH_EndTime" Type="time" />
+    <Property Name="ThemeName" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="ProductCompany">
     <Key>
@@ -840,6 +916,10 @@
     <Property Name="CompanyId" Type="int" />
     <Property Name="AboutMe" Type="nvarchar(max)" />
     <Property Name="IsDeleted" Type="bit" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="100" />
+    <Property Name="Rating" Type="varchar" MaxLength="100" />
+    <Property Name="Notification_Email" Type="varchar" MaxLength="255" />
+    <Property Name="Notification" Type="bit" />
   </EntityType>
   <EntityType Name="UserProductGroup">
     <Key>
@@ -856,6 +936,36 @@
     </Key>
     <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="SubType" Type="varchar" MaxLength="100" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Order" Type="int" />
+  </EntityType>
+  <EntityType Name="Video">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="datetime" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Client_Id" Type="int" />
+    <Property Name="Title" Type="varchar" MaxLength="500" />
+    <Property Name="FileName" Type="varchar" MaxLength="225" />
+    <Property Name="FileExtension" Type="varchar" MaxLength="10" />
+    <Property Name="FileSize" Type="int" />
+    <Property Name="File_s3_Location" Type="varchar(max)" />
+    <Property Name="Reference" Type="varchar" MaxLength="500" />
+    <Property Name="Host_Primary" Type="varchar" MaxLength="100" />
+    <Property Name="Host_Primary_Link" Type="varchar(max)" />
+    <Property Name="Host_Secondary" Type="varchar" MaxLength="100" />
+    <Property Name="Host_Secondary_Link" Type="varchar(max)" />
+    <Property Name="Comments" Type="varchar" MaxLength="500" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Job_Id" Type="int" />
   </EntityType>
   <EntityType Name="Visitor-Fact">
     <Key>
@@ -1001,6 +1111,10 @@
     </ReferentialConstraint>
   </Association>
   <Function Name="DailyScheduleDusk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="DeleteClients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Row_Id" Type="int" Mode="In" />
+    <Parameter Name="user_Id" Type="int" Mode="In" />
+  </Function>
   <Function Name="DeleteJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
     <Parameter Name="USER_ID" Type="int" Mode="In" />
@@ -1022,7 +1136,20 @@
     <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
     <Parameter Name="JOB_COPY_ID" Type="int" Mode="In" />
   </Function>
+  <Function Name="DeleteVideo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="VIDEO_ID" Type="int" Mode="In" />
+  </Function>
   <Function Name="GetAllEventException" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetAllJobs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
   <Function Name="GetAllUsersJobStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="OrgId" Type="int" Mode="In" />
   </Function>
@@ -1032,15 +1159,46 @@
   <Function Name="GetDataforCalenderEntry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="OrderId" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="GetEmailTemplateData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Job_Id" Type="int" Mode="In" />
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetEventDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="EventId" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetEventEmailORPrintData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
   <Function Name="GetEventId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="EventId" Type="varchar" Mode="In" />
   </Function>
   <Function Name="GetEventRowId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="EventId" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="GetFoldersAttachmentCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="job_Id" Type="int" Mode="In" />
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
   <Function Name="GetGroupCalendarUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Org_Id" Type="int" Mode="In" />
     <Parameter Name="UserList" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetJobAnnotationById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="ROW_ID" Type="int" Mode="In" />
   </Function>
   <Function Name="GetJobAttachments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
@@ -1050,6 +1208,13 @@
     <Parameter Name="GroupType" Type="int" Mode="In" />
     <Parameter Name="job_Id" Type="int" Mode="In" />
     <Parameter Name="Tags" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="GetJobCommentsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="ROW_ID" Type="int" Mode="In" />
   </Function>
   <Function Name="GetOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="GetProductCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1061,6 +1226,13 @@
   </Function>
   <Function Name="GetStagingCalenderUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Org_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetUserCommentsbyJobId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="File_id" Type="int" Mode="In" />
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
   </Function>
   <Function Name="GetUserProductCalendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Org_Id" Type="int" Mode="In" />
@@ -1084,6 +1256,31 @@
     <Parameter Name="RequiredDate" Type="varchar(max)" Mode="In" />
     <Parameter Name="FileName" Type="varchar(max)" Mode="In" />
   </Function>
+  <Function Name="InsertEmailsToEmailInbox" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TO_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="FROM_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="CC_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="BCC_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="SUBJECT" Type="varchar" Mode="In" />
+    <Parameter Name="MESSAGE_BODY" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="FOLDER_NAME" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertEventMailToEmailInbox" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TO_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="FROM_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="CC_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="BCC_EMAIL" Type="varchar" Mode="In" />
+    <Parameter Name="SUBJECT" Type="varchar" Mode="In" />
+    <Parameter Name="MESSAGE_BODY" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
   <Function Name="InsertEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Calendar" Type="varchar" Mode="In" />
     <Parameter Name="OrderId" Type="varchar(max)" Mode="In" />
@@ -1092,6 +1289,14 @@
     <Parameter Name="EndDate" Type="datetime" Mode="In" />
     <Parameter Name="MovedOn" Type="datetime" Mode="In" />
     <Parameter Name="Status" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertEventslog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Event_Id" Type="varchar" Mode="In" />
+    <Parameter Name="Event_Title" Type="varchar" Mode="In" />
+    <Parameter Name="Operation" Type="varchar" Mode="In" />
+    <Parameter Name="User_Id" Type="int" Mode="In" />
+    <Parameter Name="Source_calendar" Type="varchar" Mode="In" />
+    <Parameter Name="Destination_calendar" Type="varchar" Mode="In" />
   </Function>
   <Function Name="InsertGooglePushNotification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ChannelId" Type="varchar" Mode="In" />
@@ -1129,6 +1334,15 @@
     <Parameter Name="Keys" Type="varchar" Mode="In" />
     <Parameter Name="AdminId" Type="int" Mode="In" />
   </Function>
+  <Function Name="InsertJobAnnotation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="FILE_ID" Type="int" Mode="In" />
+    <Parameter Name="AnnotationText" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ISDELETED" Type="bit" Mode="In" />
+  </Function>
   <Function Name="InsertJobAttachment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
     <Parameter Name="USER_ID" Type="int" Mode="In" />
@@ -1142,8 +1356,10 @@
     <Parameter Name="Tags" Type="varchar(max)" Mode="In" />
     <Parameter Name="Folder" Type="varchar" Mode="In" />
     <Parameter Name="FilePath" Type="varchar" Mode="In" />
+    <Parameter Name="ThumbImgPath" Type="varchar" Mode="In" />
     <Parameter Name="Row_id" Type="int" Mode="In" />
     <Parameter Name="isDeleted" Type="int" Mode="In" />
+    <Parameter Name="Selected" Type="int" Mode="In" />
   </Function>
   <Function Name="InsertJobCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
@@ -1203,6 +1419,25 @@
   <Function Name="InsertPropertyInvoiceNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PropertyId" Type="int" Mode="In" />
     <Parameter Name="InvoiceNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertVideo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="Client_Id" Type="int" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+    <Parameter Name="Title" Type="varchar" Mode="In" />
+    <Parameter Name="FileName" Type="varchar" Mode="In" />
+    <Parameter Name="FileExtension" Type="varchar" Mode="In" />
+    <Parameter Name="FileSize" Type="int" Mode="In" />
+    <Parameter Name="File_s3_location" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Reference" Type="varchar" Mode="In" />
+    <Parameter Name="Host_Primary" Type="varchar" Mode="In" />
+    <Parameter Name="Host_Primary_Link" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Host_Secondary" Type="varchar" Mode="In" />
+    <Parameter Name="Host_Secondary_Link" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Comments" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+    <Parameter Name="Job_Id" Type="int" Mode="In" />
   </Function>
   <Function Name="InsertWebContact" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Company_Id" Type="int" Mode="In" />
@@ -1282,17 +1517,66 @@
     <Parameter Name="orgId" Type="int" Mode="In" />
     <Parameter Name="Name" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="SelectClients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="SearchValue" Type="varchar" Mode="In" />
+    <Parameter Name="Row_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectCommunicationTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="TEMPLATE_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="PRINT" Type="bit" Mode="In" />
+    <Parameter Name="EMAIL" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="SelectCommunicationTemplates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="TEMPLATE_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="PRINT" Type="bit" Mode="In" />
+    <Parameter Name="EMAIL" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="SelectEmailAddressAutoComplete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="EVENT_ROW_ID" Type="int" Mode="In" />
+    <Parameter Name="SEARCH_VALUE" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SelectEventsBySearchValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="SearchValue" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="SelectJobAttachmentFolders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
     <Parameter Name="USER_ID" Type="int" Mode="In" />
     <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
     <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JobId" Type="int" Mode="In" />
   </Function>
   <Function Name="SelectJobAttachments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
     <Parameter Name="USER_ID" Type="int" Mode="In" />
     <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
     <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectJobAttachmentTemplate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JOB_ID" Type="int" Mode="In" />
+    <Parameter Name="FOLDER" Type="varchar" Mode="In" />
   </Function>
   <Function Name="SelectJobAttachmentTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
@@ -1330,12 +1614,31 @@
     <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
     <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
   </Function>
+  <Function Name="SelectOrg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="subdomain" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="SelectProductGroupOptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
     <Parameter Name="USER_ID" Type="int" Mode="In" />
     <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
     <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
     <Parameter Name="PRODUCT_ROW_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectVideo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="SearchValue" Type="varchar" Mode="In" />
+    <Parameter Name="ClientId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectVideoById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="SearchValue" Type="varchar" Mode="In" />
+    <Parameter Name="VideoId" Type="int" Mode="In" />
   </Function>
   <Function Name="split" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="del" Type="char" Mode="In" />
@@ -1370,9 +1673,27 @@
     <Parameter Name="X" Type="xml" Mode="In" />
     <Parameter Name="OrgId" Type="int" Mode="In" />
   </Function>
+  <Function Name="UpdateClients" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="Client_Id" Type="int" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+    <Parameter Name="Name" Type="varchar" Mode="In" />
+    <Parameter Name="Main_Phone" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Main_Email" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Main_URL" Type="varchar(max)" Mode="In" />
+    <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+  </Function>
   <Function Name="UpdateEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Event_id" Type="varchar" Mode="In" />
     <Parameter Name="OldCalendarUser" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateFolderLock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="jobId" Type="int" Mode="In" />
+    <Parameter Name="RowId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateImageSelection" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RowId" Type="varchar(max)" Mode="In" />
+    <Parameter Name="JobId" Type="int" Mode="In" />
   </Function>
   <Function Name="UpdateJobAttachment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
@@ -1389,6 +1710,16 @@
     <Parameter Name="Folder" Type="varchar" Mode="In" />
     <Parameter Name="Selected" Type="bit" Mode="In" />
   </Function>
+  <Function Name="UpdateJobAttachmentComments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="FILE_ID" Type="int" Mode="In" />
+    <Parameter Name="COMMENTS" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ISDELETED" Type="bit" Mode="In" />
+    <Parameter Name="COMMENT_ID" Type="int" Mode="In" />
+  </Function>
   <Function Name="UpdateJobAttachmentSelected" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
     <Parameter Name="USER_ID" Type="int" Mode="In" />
@@ -1396,6 +1727,20 @@
     <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
     <Parameter Name="JobAttachmentId" Type="int" Mode="In" />
     <Parameter Name="Selected" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="UpdateJobAttachmentTags" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Tags" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Row_Id" Type="int" Mode="In" />
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="Job_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateJobAttachmentUploaded" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JobAttachmentId" Type="int" Mode="In" />
+    <Parameter Name="UPLOAD_STATUS" Type="varchar" Mode="In" />
   </Function>
   <Function Name="UpdateJobCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ORG_ID" Type="int" Mode="In" />
@@ -1410,6 +1755,10 @@
     <Parameter Name="BodyWordCount" Type="int" Mode="In" />
     <Parameter Name="Status" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="UpdateJobEmail_Notification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="JobId" Type="int" Mode="In" />
+    <Parameter Name="Email__Notification" Type="varchar(max)" Mode="In" />
+  </Function>
   <Function Name="UpdateJobEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="EventId" Type="varchar" Mode="In" />
     <Parameter Name="CalendarName" Type="varchar" Mode="In" />
@@ -1418,5 +1767,25 @@
   </Function>
   <Function Name="UpdateOrderEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="OrderId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateVideo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="Client_Id" Type="int" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+    <Parameter Name="Title" Type="varchar" Mode="In" />
+    <Parameter Name="FileName" Type="varchar" Mode="In" />
+    <Parameter Name="FileExtension" Type="varchar" Mode="In" />
+    <Parameter Name="FileSize" Type="int" Mode="In" />
+    <Parameter Name="File_s3_location" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Reference" Type="varchar" Mode="In" />
+    <Parameter Name="Host_Primary" Type="varchar" Mode="In" />
+    <Parameter Name="Host_Primary_Link" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Host_Secondary" Type="varchar" Mode="In" />
+    <Parameter Name="Host_Secondary_Link" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Comments" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+    <Parameter Name="Row_Id" Type="int" Mode="In" />
+    <Parameter Name="Job_Id" Type="int" Mode="In" />
   </Function>
 </Schema>

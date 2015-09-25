@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectCalendarsForPushNotification_Result
 {
-    using System;
-    
-    public partial class SelectCalendarsForPushNotification_Result
-    {
-        public string Column1 { get; set; }
-        public Nullable<int> Org_Id { get; set; }
-    }
+    public string Column1 { get; set; }
+    public Nullable<int> Org_Id { get; set; }
 }

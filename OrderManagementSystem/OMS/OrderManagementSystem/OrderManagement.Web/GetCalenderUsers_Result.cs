@@ -7,17 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class GetCalenderUsers_Result
 {
-    using System;
-    
-    public partial class GetCalenderUsers_Result
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Nullable<int> UserType { get; set; }
-        public int UserId { get; set; }
-        public string Color { get; set; }
-        public Nullable<int> CalendarId { get; set; }
-    }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public Nullable<int> UserType { get; set; }
+    public int UserId { get; set; }
+    public string Color { get; set; }
+    public Nullable<int> CalendarId { get; set; }
 }

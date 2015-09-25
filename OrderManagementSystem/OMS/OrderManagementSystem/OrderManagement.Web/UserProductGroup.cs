@@ -7,19 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class UserProductGroup
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class UserProductGroup
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public Nullable<int> ProductGroupId { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-    
-        public virtual ProductGroup ProductGroup { get; set; }
-        public virtual User User { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> UserId { get; set; }
+    public Nullable<int> ProductGroupId { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+
+    public virtual ProductGroup ProductGroup { get; set; }
+    public virtual User User { get; set; }
 }

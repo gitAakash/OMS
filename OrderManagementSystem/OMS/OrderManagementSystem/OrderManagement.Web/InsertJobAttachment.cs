@@ -7,12 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class InsertJobAttachment
 {
-    using System;
-    
-    public partial class InsertJobAttachment
-    {
-        public Nullable<decimal> NEW_RECORD_ID { get; set; }
-    }
+    public Nullable<decimal> NEW_RECORD_ID { get; set; }
 }

@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class QFN_SPLIT_Result
 {
-    using System;
-    
-    public partial class QFN_SPLIT_Result
-    {
-        public string COL { get; set; }
-        public Nullable<int> ID { get; set; }
-    }
+    public string COL { get; set; }
+    public Nullable<int> ID { get; set; }
 }

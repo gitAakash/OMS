@@ -7,16 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class CompanyOrder
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class CompanyOrder
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> CompanyId { get; set; }
-        public Nullable<int> OrderId { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> CompanyId { get; set; }
+    public Nullable<int> OrderId { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
 }

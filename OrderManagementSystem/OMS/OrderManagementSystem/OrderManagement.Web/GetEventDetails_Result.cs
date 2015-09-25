@@ -7,37 +7,35 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class GetEventDetails_Result
 {
-    using System;
-    
-    public partial class GetEventDetails_Result
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> CalendarId { get; set; }
-        public string EventId { get; set; }
-        public string RecurringEventId { get; set; }
-        public string ColorId { get; set; }
-        public string Attendees { get; set; }
-        public Nullable<bool> AttendeesOmitted { get; set; }
-        public Nullable<bool> AnyoneCanAddSelf { get; set; }
-        public Nullable<bool> Locked { get; set; }
-        public string Title { get; set; }
-        public string Location { get; set; }
-        public string Description { get; set; }
-        public string Kind { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<System.DateTime> MovedOn { get; set; }
-        public string Status { get; set; }
-        public string Recurrence { get; set; }
-        public string Organizer { get; set; }
-        public string Creator { get; set; }
-        public Nullable<int> Sequence { get; set; }
-        public string Transperancy { get; set; }
-        public Nullable<System.DateTime> Updated { get; set; }
-        public string Visibility { get; set; }
-        public Nullable<bool> IsAllDay { get; set; }
-        public string RecurrenceID { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> CalendarId { get; set; }
+    public string EventId { get; set; }
+    public string RecurringEventId { get; set; }
+    public string ColorId { get; set; }
+    public string Attendees { get; set; }
+    public Nullable<bool> AttendeesOmitted { get; set; }
+    public Nullable<bool> AnyoneCanAddSelf { get; set; }
+    public Nullable<bool> Locked { get; set; }
+    public string Title { get; set; }
+    public string Location { get; set; }
+    public string Description { get; set; }
+    public string Kind { get; set; }
+    public Nullable<System.DateTime> StartDate { get; set; }
+    public Nullable<System.DateTime> EndDate { get; set; }
+    public Nullable<System.DateTime> MovedOn { get; set; }
+    public string Status { get; set; }
+    public string Recurrence { get; set; }
+    public string Organizer { get; set; }
+    public string Creator { get; set; }
+    public Nullable<int> Sequence { get; set; }
+    public string Transperancy { get; set; }
+    public Nullable<System.DateTime> Updated { get; set; }
+    public string Visibility { get; set; }
+    public Nullable<bool> IsAllDay { get; set; }
+    public string RecurrenceID { get; set; }
 }

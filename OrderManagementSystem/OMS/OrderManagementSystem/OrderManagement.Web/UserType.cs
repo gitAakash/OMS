@@ -7,21 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class UserType
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class UserType
+    public UserType()
     {
-        public UserType()
-        {
-            this.Users = new HashSet<User>();
-        }
-    
-        public int Row_Id { get; set; }
-        public string Name { get; set; }
-    
-        public virtual ICollection<User> Users { get; set; }
+        this.Users = new HashSet<User>();
     }
+
+    public int Row_Id { get; set; }
+    public string Name { get; set; }
+    public string SubType { get; set; }
+    public Nullable<int> Org_Id { get; set; }
+    public Nullable<bool> IsDeleted { get; set; }
+    public Nullable<int> Order { get; set; }
+
+    public virtual ICollection<User> Users { get; set; }
 }

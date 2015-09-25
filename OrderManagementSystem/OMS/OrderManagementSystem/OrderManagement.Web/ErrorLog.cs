@@ -7,15 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class ErrorLog
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class ErrorLog
-    {
-        public int id { get; set; }
-        public string ErrorDetail { get; set; }
-        public Nullable<System.DateTime> created { get; set; }
-    }
+    public int id { get; set; }
+    public string ErrorDetail { get; set; }
+    public Nullable<System.DateTime> created { get; set; }
 }

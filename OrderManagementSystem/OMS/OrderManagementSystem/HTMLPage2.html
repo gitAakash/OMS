@@ -1,0 +1,417 @@
+﻿
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Search Areart</title>
+      <link rel="stylesheet" type="text/css" href="<?php echo CSSPATH; ?>bootstrap.css"/>
+      <link rel="stylesheet" type="text/css" href="<?php echo CSSPATH; ?>style.css"/>
+      <link rel="stylesheet" type="text/css" href="<?php echo CSSPATH; ?>multiple-select.css" />
+      <link rel="stylesheet" type="text/css" href="<?php echo JSPATH; ?>bootstrap-datepicker.css"/>
+      <script src="<?php echo JSPATH; ?>jquery.js"></script>    
+      <script src="<?php echo JSPATH; ?>bootstrap.js"></script>
+      <script src="<?php echo JSPATH; ?>script.js"></script>    
+      <script src="<?php echo JSPATH; ?>jquery.timepicker.js"></script>
+      <script src="<?php echo JSPATH; ?>bootstrap-datepicker.js"></script>
+   </head>
+   <body>
+      <!-- START container -->
+      <div class="container-fluid wrapper">
+         <!-- HEADER START HERE -->
+         <nav class="navbar navbar-inverse topNavBar">
+            <div class="container">
+               <div class="companyLogo">
+                  <a class="navbar-brand" href="index.html">
+                  <span></span>
+                  </a>
+               </div>
+            </div>
+         </nav>
+         <!-- HEADER END HERE -->
+         <!-- MID TEXT START HERE -->
+         <div class="CreaeAccoutHolder reset">
+            <div class="col-sm-12 col-md-12 alertHeader setMob">SEARCH ALERTS</div>
+            <div class="col-sm-12 col-md-12 reset">
+               <div class="col-sm-9 setMob">
+                  <!--SEARCH ALERTS START here-->
+                  <div class="col-sm-12 col-md-12 searchAlert CreaeAccoutTextBox">
+                     <div class="col-sm-12 col-md-3 borderRight resetMob">
+                        <div class="form-group">
+                           <label class="font14">Search by Keyword<span class="required">*</span></label>
+                           <input type="email" class="form-control" id="" placeholder="Search by Keyword">
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-md-3 borderRight resetMob">
+                        <div class="form-group posiRel selectDd" id="selectDd1">
+                           <label class="font14">Search by Authorities<span class="required">*</span></label>         
+                           <div class="pull-left mulitSelectText1">
+                              <div class="form-group">
+                                 <select id="ms1" multiple="multiple">
+                                    <option value="1">FDA</option>
+                                    <option value="2">CDSCO</option>
+                                    <option value="3">FDA</option>
+                                    <option value="4">CDSCO</option>
+                                    <option value="5">FDA</option>
+                                    <option value="6">CDSCO</option>
+                                    <option value="7">FDA</option>
+                                    <option value="8">CDSCO</option>
+                                    <option value="9">FDA</option>
+                                    <option value="10">CDSCO</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-12 col-md-6 resetMob searchdate" id="basicExample">
+                        <div class="form-group">
+                           <label class="font14 pull-left masReq">Search by Date<span class="required">*</span>
+                           </label> 
+                           <div class="pull-left datePickerHolder">
+                              <div class="input-append date form_datetime checkbox">
+                                 <input type="text" value="" readonly class="datePickerInput date end" placeholder="From">
+                                 <span class="add-on datePickerIcon"><i class="icon-th glyphicon glyphicon-calendar"></i></span>
+                              </div>
+                           </div>
+                           <div class="pull-left datePickerHolder">
+                              <div class="input-append date form_datetime checkbox">
+                                 <input type="text" value="" readonly class="datePickerInput date end" placeholder="To">
+                                 <span class="add-on datePickerIcon"><i class="icon-th glyphicon glyphicon-calendar"></i></span>
+                              </div>
+                           </div>
+                           <div class="pull-left">
+                              <div class="checkbox">
+                                 <button type="button" class="btn OrangeBtn btn-black" data-dismiss="modal">SEARCH</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!--SEARCH ALERTS END here-->
+                  <!--LATEST ALERTS links start here-->
+                  <div class="col-sm-12 CreaeAccoutTextBox resetMob colorSet">
+                     <div class="col-sm-12 reset">
+                        <div class="col-sm-9 reset">
+                           <div class="alertHeader">SEARCH RESULTS</div>
+                           <div class="SearchResultCount">
+                              <ul>
+                                 <li><a>Drugs Banned <span>(5)</span></a></li>
+                                 <li><a>CDSCO <span>(15)</span></a></li>
+                                 <li><a>FDA <span>(35)</span></a></li>
+                                 <li><a>CDSCO <span>(5)</span></a></li>
+                                 <li><a>FDA <span>(45)</span></a></li>
+                                 <li><a>CDSCO <span>(25)</span></a></li>
+                                 <li><a>FDA <span>(5)</span></a></li>
+                                 <li><a>CDSCO <span>(35)</span></a></li>
+                                 <li><a>FDA <span>(5)</span></a></li>
+                                 <li><a>CDSCO <span>(12)</span></a></li>
+                              </ul>
+                           </div>
+                           <div class="linkHolder LatestAlert">
+                              <ul>
+                                 <li>
+                                    Drugs banned in the country.pdf<br>
+                                    <a href="#">http://www.cdsco.nic.in/writereaddata_druge_banned_country.pdf</a>
+                                    <div class="shareBtn"><button class="btn btn-xs btn-white" type="button" data-toggle="modal" data-target="#shareEmail"><span class="glyphicon glyphicon-envelope feedbackLink"></span>Share</button></div>
+                                 </li>
+                                 <li>
+                                    Drugs banned in the country.pdf<br>
+                                    <a href="#">http://www.cdsco.nic.in/writereaddata_druge_banned_country.pdf</a>
+                                    <div class="shareBtn"><button class="btn btn-xs btn-white" type="button" data-toggle="modal" data-target="#shareEmail"><span class="glyphicon glyphicon-envelope feedbackLink"></span>Share</button></div>
+                                 </li>
+                                 <li>
+                                    Drugs banned in the country.pdf<br>
+                                    <a href="#">http://www.cdsco.nic.in/writereaddata_druge_banned_country.pdf</a>
+                                    <div class="shareBtn"><button class="btn btn-xs btn-white" type="button" data-toggle="modal" data-target="#shareEmail"><span class="glyphicon glyphicon-envelope feedbackLink"></span>Share</button></div>
+                                 </li>
+                              </ul>
+                           </div>
+                           <button type="button" class="btn btn-xs btn-black moreUpdateBtn" data-dismiss="modal">More Updates &raquo;</button>
+                        </div>
+                     </div>
+                  </div>
+                  <!--LATEST ALERTS links END here-->
+               </div>
+               <div class="col-sm-3">
+                  <!--SUBSCRIBE ALERTS START here-->
+                  <div class="col-sm-12 pull-left subscribeAlert" >
+                     <form class="form-horizontal registerForm" role="form">
+                        <div class="subscribeCheck">
+                           <span>Enter your email address to subscribe to latest alerts related to clinical trial </span>
+                           <h4 class="alertHeader">SUBSCRIBE FOR ALERTS FROM</h4>
+                           <div class="pull-left subscribeText">
+                              <div class="pull-left width100"><input type="email" class="form-control" id="Email1" placeholder="Your Email"></div>
+                              <div class="alert alert-danger" style="display:none;">
+                                 Please enter a valid email address.
+                              </div>
+                           </div>
+                           <div class="pull-left subscribeText">
+                              <div class="pull-left mulitSelectText">
+                                 <div class="form-group" id="selectDd2">
+                                    <select id="ms" multiple="multiple">
+                                       <option value="1">FDA</option>
+                                       <option value="2">CDSCO</option>
+                                       <option value="3">FDA</option>
+                                       <option value="4">CDSCO</option>
+                                       <option value="5">FDA</option>
+                                       <option value="6">CDSCO</option>
+                                       <option value="7">FDA</option>
+                                       <option value="8">CDSCO</option>
+                                       <option value="9">FDA</option>
+                                       <option value="10">CDSCO</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="pull-left mulitSelectBtn"><button type="button" class="btn OrangeBtn btn-black" data-dismiss="modal">SUBSCRIBE </button></div>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <!--SUBSCRIBE ALERTS END here-->
+                  <div class="col-sm-12 col-xs-12 timeLine colorSetNone">
+                     <div class="alertHeader">SEARCH ALERTS</div>
+                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                           <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              <h4 class="panel-title">
+                                 <span class="toggle-icon glyphicon glyphicon-plus"></span>
+                                 <a class="collapsed"  >
+                                 2015
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                              <div class="panel-body">
+                                 <!---------------SUB-------------------->
+                                 <div class="accordion subAccordion" id="accordion2" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                       <div class="accordion-toggle " >
+                                          <a class="accordion-toggle accordionInnerIcon" role="tab"  data-toggle="collapse" data-parent="#accordion2" href="#collapseInner15_Jan" aria-expanded="true" aria-controls="collapseInner">
+                                          <span class="toggle-icon glyphicon glyphicon-triangle-right"></span>
+                                          January <span>(3)</span>
+                                          </a>
+                                       </div>
+                                       <div id="collapseInner15_Jan" class="accordion-body collapse">
+                                          <div class="accordion-inner">
+                                             <ul>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                                <li>
+                                                   <a>
+                                                      FDA <span>(3)</span></a/li>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                       <div class="accordion-toggle " >
+                                          <a class="accordion-toggle accordionInnerIcon" role="tab"  data-toggle="collapse" data-parent="#accordion2" href="#collapseInner15_Feb" aria-expanded="true" aria-controls="collapseInner">
+                                          <span class="toggle-icon glyphicon glyphicon-triangle-right"></span>
+                                          february<span>(3)</span>
+                                          </a>
+                                       </div>
+                                       <div id="collapseInner15_Feb" class="accordion-body collapse">
+                                          <div class="accordion-inner">
+                                             <ul>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                                <li>
+                                                   <a>
+                                                      FDA <span>(3)</span></a/li>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-------------------SUB--------------------->
+                              </div>
+                           </div>
+                        </div>
+                        <div class="panel panel-default">
+                           <div class="panel-heading" role="tab" id="headingTwo" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                              <h4 class="panel-title">
+                                 <span class="toggle-icon glyphicon glyphicon-plus"></span>
+                                 <a class="collapsed" >
+                                 2014
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                              <div class="panel-body">
+                                 <!---------------SUB-------------------->
+                                 <div class="accordion subAccordion" id="accordion3" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                       <div class="accordion-toggle " >
+                                          <a class="accordion-toggle accordionInnerIcon" role="tab"  data-toggle="collapse" data-parent="#accordion3" href="#collapseInner14_Jan" aria-expanded="true" aria-controls="collapseInner">
+                                          <span class="toggle-icon glyphicon glyphicon-triangle-right"></span>
+                                          January <span>(3)</span>
+                                          </a>
+                                       </div>
+                                       <div id="collapseInner14_Jan" class="accordion-body collapse">
+                                          <div class="accordion-inner">
+                                             <ul>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                                <li>
+                                                   <a>
+                                                      FDA <span>(3)</span></a/li>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                       <div class="accordion-toggle " >
+                                          <a class="accordion-toggle accordionInnerIcon" role="tab"  data-toggle="collapse" data-parent="#accordion3" href="#collapseInner14_Feb" aria-expanded="true" aria-controls="collapseInner">
+                                          <span class="toggle-icon glyphicon glyphicon-triangle-right"></span>
+                                          february<span>(3)</span>
+                                          </a>
+                                       </div>
+                                       <div id="collapseInner14_Feb" class="accordion-body collapse">
+                                          <div class="accordion-inner">
+                                             <ul>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                                <li>
+                                                   <a>
+                                                      FDA <span>(3)</span></a/li>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-------------------SUB--------------------->
+                              </div>
+                           </div>
+                        </div>
+                        <div class="panel panel-default">
+                           <div class="panel-heading" role="tab" id="headingThree" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              <h4 class="panel-title">
+                                 <span class="toggle-icon glyphicon glyphicon-plus"></span>
+                                 <a class="collapsed">
+                                 2013
+                                 </a>
+                              </h4>
+                           </div>
+                           <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                              <div class="panel-body">
+                                 <!---------------SUB-------------------->
+                                 <div class="accordion subAccordion" id="accordion4" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                       <div class="accordion-toggle " >
+                                          <a class="accordion-toggle accordionInnerIcon" role="tab"  data-toggle="collapse" data-parent="#accordion4" href="#collapseInner13_Jan" aria-expanded="true" aria-controls="collapseInner">
+                                          <span class="toggle-icon glyphicon glyphicon-triangle-right"></span>
+                                          January <span>(3)</span>
+                                          </a>
+                                       </div>
+                                       <div id="collapseInner13_Jan" class="accordion-body collapse">
+                                          <div class="accordion-inner">
+                                             <ul>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                                <li>
+                                                   <a>
+                                                      FDA <span>(3)</span></a/li>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                       <div class="accordion-toggle " >
+                                          <a class="accordion-toggle accordionInnerIcon" role="tab"  data-toggle="collapse" data-parent="#accordion4" href="#collapseInner13_Feb" aria-expanded="true" aria-controls="collapseInner">
+                                          <span class="toggle-icon glyphicon glyphicon-triangle-right"></span>
+                                          february<span>(3)</span>
+                                          </a>
+                                       </div>
+                                       <div id="collapseInner13_Feb" class="accordion-body collapse">
+                                          <div class="accordion-inner">
+                                             <ul>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                                <li>
+                                                   <a>
+                                                      FDA <span>(3)</span></a/li>
+                                                <li><a>CDSCO <span>(3)</span></a></li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-------------------SUB--------------------->
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- MID TEXT END HERE --> 
+         <div class="push"></div>
+      </div>
+      <!-- FOOTER START HERE -->
+      <div class="footer">
+         <p>Copyright &copy; CReATE, Path Technologies</p>
+      </div>
+      <!-- FOOTER END HERE -->
+      <!-- Share email modul Start -->
+      <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="shareEmail">
+         <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+               <!--  <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="mySmallModalLabel">Share the link<a class="anchorjs-link" href="#mySmallModalLabel"><span class="anchorjs-icon"></span></a></h4>
+                  </div>-->
+               <div class="modal-body">
+                  <form class="form-signin">
+                     <div class="form-group emailIdChange">
+                        <label >Enter Email Id:<span class="required">*</span></label>
+                        <input type="email" class="form-control" id="Email2" placeholder="Enter Email Id">
+                     </div>
+                     <div class="alert alert-danger" style="display:none;">
+                        Please enter a valid email address.
+                     </div>
+                     <div class="MandatoryFields">
+                        <span class="required MandatoryStar">*</span>
+                        Mandatory fields
+                     </div>
+                     <button class="btn btn-green" type="submit">SHARE</button>
+                     <button class="btn btn-black" type="submit">CANCEL</button>
+              </form>
+                        </div>
+              
+            </div>
+         </div>
+      </div>
+      
+      <!-- Share email modul Start -->
+      <script src="js/jquery.multiple.select.js"></script>
+      <script>
+          /*MuliSelect START*/
+          $(function () {
+              $('#ms, #ms1').change(function () {
+                  console.log($(this).val());
+              }).multipleSelect({
+                  width: '100%'
+              });
+          });
+          /*MuliSelect END*/
+          /*DATE PICKAR START*/
+          $('#basicExample .time').timepicker({
+              'showDuration': true,
+              'timeFormat': 'g:ia'
+          });
+          $('#basicExample .date').datepicker({
+              'format': 'd/m/yyyy',
+              'autoclose': true
+          });
+          var basicExampleEl = document.getElementById('basicExample');
+          //var datepair = new Datepair(basicExampleEl);    
+          /*DATE PICKAR END*/
+      </script>
+   </body>
+</html>
+

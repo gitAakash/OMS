@@ -7,27 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Asset
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Asset
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrgId { get; set; }
-        public Nullable<System.Guid> AssetGUID { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> ManufactureId { get; set; }
-        public string ManufactureModel { get; set; }
-        public string Battery { get; set; }
-        public string FactorySerialNo { get; set; }
-        public Nullable<int> ProductId { get; set; }
-        public Nullable<decimal> PurchasePriceExGST { get; set; }
-        public string PurchaseCurrency { get; set; }
-        public Nullable<decimal> PurchaseExchangeRate { get; set; }
-        public string MaxRange { get; set; }
-        public string Passcode { get; set; }
-        public Nullable<int> PurchaseInvoiceId__PurchaseInvoiceId { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrgId { get; set; }
+    public Nullable<System.Guid> AssetGUID { get; set; }
+    public string Name { get; set; }
+    public Nullable<int> ManufactureId { get; set; }
+    public string ManufactureModel { get; set; }
+    public string Battery { get; set; }
+    public string FactorySerialNo { get; set; }
+    public Nullable<int> ProductId { get; set; }
+    public Nullable<decimal> PurchasePriceExGST { get; set; }
+    public string PurchaseCurrency { get; set; }
+    public Nullable<decimal> PurchaseExchangeRate { get; set; }
+    public string MaxRange { get; set; }
+    public string Passcode { get; set; }
+    public Nullable<int> PurchaseInvoiceId__PurchaseInvoiceId { get; set; }
 }

@@ -74,6 +74,21 @@ namespace OrderManagement.Web.Helper.Utilitties
             Quantity
         }
 
+        public enum EStatus
+        {
+            Active,
+            Inactive
+        }
+
+
+        public enum EHosts
+        {
+            Youtube,
+            Vimeo,
+            [EnumDisplayName("File System")]
+            Filesystem
+        }
+
 
     }
 }

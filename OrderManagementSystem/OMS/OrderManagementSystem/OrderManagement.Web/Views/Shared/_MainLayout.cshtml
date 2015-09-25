@@ -1,22 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
-
-
-
 <head>
-
-        <!-- start Mixpanel -->
- <script type="text/javascript">(function (f, b) {
-    if (!b.__SV) {
-        var a, e, i, g; window.mixpanel = b; b._i = []; b.init = function (a, e, d) {
-            function f(b, h) { var a = h.split("."); 2 == a.length && (b = b[a[0]], h = a[1]); b[h] = function () { b.push([h].concat(Array.prototype.slice.call(arguments, 0))) } } var c = b; "undefined" !== typeof d ? c = b[d] = [] : d = "mixpanel"; c.people = c.people || []; c.toString = function (b) { var a = "mixpanel"; "mixpanel" !== d && (a += "." + d); b || (a += " (stub)"); return a }; c.people.toString = function () { return c.toString(1) + ".people (stub)" }; i = "disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-            for (g = 0; g < i.length; g++) f(c, i[g]); b._i.push([a, e, d])
-        }; b.__SV = 1.2; a = f.createElement("script"); a.type = "text/javascript"; a.async = !0; a.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; e = f.getElementsByTagName("script")[0]; e.parentNode.insertBefore(a, e)
-    }
-})(document, window.mixpanel || []);
-     mixpanel.init("8f5b5c2f56e7ffdc79ae7323204c0142");
-
- </script><!-- end Mixpanel -->
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +29,7 @@
 
 
 
-
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <style type="text/css">
         .nav > li.activeOnload {
@@ -83,11 +67,7 @@
         }
     </style>
 
-  
-
     <script type="text/javascript">
-
-    
         // Set timeout variables.
         //   var timoutWarning = 60000; // Display warning in 1Mins.
         var timoutWarning = 600000;
@@ -123,8 +103,10 @@
         // Logout the user.
         function IdleTimeout() {
             // debugger;
+            window.onbeforeunload = null;
             window.location = logoutUrl;
         }
+        
     </script>
 </head>
 <body class="">
@@ -147,8 +129,6 @@
 
     }
 
- 
-
     <div id="wrapper" onload="StartTimers();" onmousemove="ResetTimers();">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
@@ -163,17 +143,14 @@
                                 </span>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <span class="clear"><span class="block m-t-xs"><strong id="dashboardUserName" class="font-bold">@currentUserName</strong>
-                                    </span><span id="currentUserRole" class="text-muted text-xs block">@currentUserRole<b class="caret"></b></span></span></a>
+                                    </span><span class="text-muted text-xs block">@currentUserRole<b class="caret"></b></span></span></a>
                                 <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                    <li><a id="currentuserId" href="#" onclick="javascript:UserProfile('@currentUser.Row_Id');">Profile</a></li>
+                                    <li><a href="#" onclick="javascript:UserProfile('@currentUser.Row_Id');">Profile</a></li>
                                     <li><a href="#" onclick="javascript:UserActivities();">Users</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="../Account/Logout">Logout</a></li>
+                                    <li><a href="../Account/Logout" class="aLogout">Logout</a></li>
                                 </ul>
                             </div>
-
-                       
-
                             <div class="logo-element">
                                 <i class="fa fa-user"></i>
                             </div>
@@ -181,7 +158,7 @@
                         </li>
 
                         @* <li  data-getpage="../Home/Dashboard">
-                        dn
+
                                 <a href="#"><i class="fa fa-th-large"></i><span class="nav-label">Dashboard</span> </a>
                                 <ul class="nav">
                                 </ul>
@@ -191,8 +168,6 @@
                             <ul class="nav">
                             </ul>
                         </li>
-
-                    
 
                         <li id="liCompany" data-getpage="../company/Company">
                             <a href="#"><i class="fa fa-bar-chart-o"></i><span class="nav-label">Company</span>@*<span class="fa arrow"></span>*@</a>
@@ -214,8 +189,6 @@
                             </ul>
                         </li>
 
-
-
                         @* <li data-getpage="../Order/Index">
                                 <a href="#"><i class="fa fa-phone"></i><span class="nav-label">Orders</span></a>
                                 <ul class="nav">
@@ -232,14 +205,82 @@
                             <ul class="nav">
                             </ul>
                         </li>
-                      
                        
                     </ul>
                    
                 }
-                
-                 else if (currentUser != null && currentUser.UserType == 2)
+
+                ////////////////////////////
+                else if (currentUser != null && (currentUser.UserType == 6))
                 {
+                    <ul class="nav" id="side-menu">
+                        <li class="nav-header">
+                            <div class="dropdown profile-element">
+                                <span>
+                                    <img alt="image" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new { id = @currentUser.Row_Id })" />
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <span class="clear"><span class="block m-t-xs"><strong id="dashboardUserName" class="font-bold">@currentUserName</strong>
+                                    </span><span class="text-muted text-xs block">@currentUserRole<b class="caret"></b></span></span></a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a href="#" onclick="javascript:UserProfile('@currentUser.Row_Id');">Profile</a></li>
+                                    <li><a href="#" onclick="javascript:UserActivities();">Users</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="../Account/Logout" class="aLogout">Logout</a></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                                <i class="fa fa-user"></i>
+                            </div>
+
+                        </li>
+                     
+                        <li id="liProduct" data-getpage="../Product/Index">
+                            <a href="#"><i class="fa fa-video-camera"></i><span class="nav-label">Products</span> </a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                        <li id="liCompany" data-getpage="../company/Company">
+                            <a href="#"><i class="fa fa-bar-chart-o"></i><span class="nav-label">Company</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                        <li id="liUser" data-getpage="../User/Index">
+                            <a href="#"><i class="fa fa-user"></i><span class="nav-label">Users </span>
+                            
+                            </a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                        <li id="liScheduler" data-getpage="../Scheduler/Index">
+
+                            <a href="#"><i class="fa fa-calendar"></i><span class="nav-label">Scheduler</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                      
+                        <li id="liJobTracking" data-getpage="../JobTracking/Index">
+                            <a href="#"><i class="fa fa-tachometer"></i><span class="nav-label">Job Tracking</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                         <li id="liVideo" data-getpage="../Video/Index">
+                            <a href="#"><i class="fa fa-tachometer"></i><span class="nav-label">Video</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                    </ul>
+                   
+                      }
+
+                //////////////////////
+
+                      else if (currentUser != null && currentUser.UserType == 2)
+                      {
                     <ul class="nav" id="side-menu">
                         <li class="nav-header">
 
@@ -257,7 +298,7 @@
                                     <li><a href="#">Profile</a></li>
                                     <li><a href="#">Users</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="../Account/Logout">Logout</a></li>
+                                    <li><a href="../Account/Logout" class="aLogout">Logout</a></li>
                                 </ul>
                             </div>
                             <div class="logo-element">
@@ -266,17 +307,18 @@
 
                         </li>
 
-                        <li class="active" data-getpage="../Staff/Jobtracking">
+                       @* <li class="active" data-getpage="../Staff/Jobtracking">*@
+                         <li class="active" id="liJobTracking" data-getpage="../JobTracking/Index">
 
-                            <a href="#"><i class="fa fa-th-large"></i><span class="nav-label">Track Order</span> </a>
+                            <a href="#"><i class="fa fa-th-large"></i><span class="nav-label">Job Tracking</span> </a>
                             <ul class="nav">
                             </ul>
                         </li>
-                        <li data-getpage="../Staff/StaffProfile">
+                      @*  <li data-getpage="../Staff/StaffProfile">
                             <a href="#"><i class="fa fa-video-camera"></i><span class="nav-label">Profile</span> </a>
                             <ul class="nav">
                             </ul>
-                        </li>
+                        </li>*@
 
                        @*  <li data-getpage="../NewOrder/Index">
                             <a href="#"><i class="fa fa-phone"></i><span class="nav-label">New Order</span></a>
@@ -285,15 +327,15 @@
                         </li>
                         *@
                     </ul>
-                }
-                else
-                {
+                      }
+                      else
+                      {
                     <ul class="nav" id="side-menu">
                         <li class="nav-header">
 
                             <div class="dropdown profile-element">
                                 <span>
-                                    <img alt="image" style="height:100px;width:100px" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new { id = @currentUser.Row_Id, width = 100, height = 100 })" />
+                                    <img alt="image" @*style="height:100px;width:100px"*@ class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new { id = @currentUser.Row_Id, width = 100, height = 100 })" />
                                 </span>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#"></a>
                                 <span class="clear"><span class="block m-t-xs"><strong id="dashboardUserName2" class="font-bold">@currentUserName</strong>
@@ -303,7 +345,7 @@
                                     <li><a href="#">Profile</a></li>
                                     <li><a href="#">Users</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="../Account/Logout">Logout</a></li>
+                                    <li><a href="../Account/Logout" class="aLogout">Logout</a></li>
                                 </ul>
                             </div>
                             <div class="logo-element">
@@ -317,10 +359,7 @@
                             <ul class="nav">
                             </ul>
                         </li>
-
-                     
-
-                       
+                        
                          @*
                         <li  data-getpage="../Client/UserProfile">
 
@@ -337,10 +376,13 @@
                         </li>
                          *@
                     </ul>
-                }
+                      }
             </div>
         </nav>
         <div id="page-wrapper" class="gray-bg">
+            <div id="divModal">
+
+            </div>
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
@@ -453,8 +495,21 @@
                                     </li>
                                 </ul>
                             </li>*@
+                       @* <li>
+                            <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="skin-pallete" data-toggle="dropdown">Color Palete
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="skin-pallete">
+        <li role="presentation" id="default-skin"><a role="menuitem" tabindex="-1" href="#">Default Skin</a></li>
+      <li role="presentation" id="skin"><a role="menuitem" tabindex="-1" href="#">Skin 1</a></li>
+      <li role="presentation"  id="skin1"><a role="menuitem" tabindex="-1" href="#">Skin 2</a></li>
+      <li role="presentation"  id="skin2"><a role="menuitem" tabindex="-1" href="#">Skin 3</a></li>
+      
+    </ul>
+  </div>
+                        </li>*@
                         <li>
-                            <a href="../Account/Logout">
+                            <a href="../Account/Logout" class="aLogout">
                                 <i class="fa fa-sign-out"></i>Logout
                             </a>
                         </li>
@@ -498,8 +553,6 @@
     @*   <script src="~/Scripts/icheck.js"></script>*@
 
     <!-- Kendo UI Grid Script  -->
-
-
 
 
 
@@ -585,33 +638,28 @@
 
             }
 
+        $(document).ready(function () {
+            GetSkin();
+            $('ul.dropdown-menu li').on('click', function () {
+               
+                $('body').removeClass('skin skin1 skin2');
+                $('body').addClass($(this).attr('id'));
+            });
+        });
 
+
+        function GetSkin() {
+            $.get('@Url.Action("GetSkin", "Account")', function (data) {
+                            if (data != null) {
+                                var SkinName = data[0].SkinName;
+                               // alert(SkinName);
+                                $('body').removeClass('skin skin1 skin2');
+                                $('body').addClass(SkinName);
+                            }
+                        });
+        }
 
     </script>
-
-    <script type="text/javascript">
-
-       
-        mixpanel.people.set({ "Role": "@currentUserRole"});
-        mixpanel.people.set({ "OrgId": "@currentUser.OrgId" });
-      
-        mixpanel.people.set({ "first_name": "@currentUser.FirstName" });
-        mixpanel.people.set({ "last_name": "@currentUser.LastName" });
-        mixpanel.people.set({ "email": "@currentUser.EmailAddress" });
-        mixpanel.identify("@currentUser.Row_Id");
-
-        // track click for link id #liProduct
-        mixpanel.track_links("#liProduct a", "Product : List View");
-        // track click for link id #liCompany 
-        mixpanel.track_links("#liCompany a", "Company : List View");
-        // track click for link id #liUser
-        mixpanel.track_links("#liUser a", "User : List View");
-        // track click for link id #liJobTracking
-        mixpanel.track_links("#liJobTracking a", "Job Tracking : List View");
-        
-</script>
-
-
 
 </body>
 </html>

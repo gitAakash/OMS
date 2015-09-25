@@ -137,6 +137,8 @@ namespace OrderManagement.Web.Controllers
            return PartialView("Controls/User/_UserAcivities", activities);
 
         }
+
+
         
         public ActionResult GetDatabaseImage(string id, int width=0, int height=0)
          {
@@ -150,8 +152,11 @@ namespace OrderManagement.Web.Controllers
              if (databyte==null)
              {
 
-                 width = 100;
-                 height = 100;
+                 //width = 100;
+                 //height = 44;
+
+                 width = 150;
+                 height = 84;
                  var imageFile = Path.Combine(Server.MapPath("~/App_Data/uploads"), "DPIlogo.jpg");
                  using (var srcImage = Image.FromFile(imageFile))
                  using (var newImage = new Bitmap(width, height))

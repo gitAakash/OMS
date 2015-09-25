@@ -1,4 +1,5 @@
-﻿@model OrderManagement.Web.Models.ProductModel
+﻿
+@model IEnumerable<SpGetAllProduct>
 @*@model IEnumerable<OrderManagement.Web.SpGetAllProduct>*@
 
 @*@using OrderManagement.Web.Helper.Utilitties
@@ -42,7 +43,7 @@
 
 
 <div class="row">
-    <div class="col-lg-12 animated fadeInRight">
+    <div class="animated fadeInRight">
 
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
@@ -50,7 +51,7 @@
                     <h5>Products</h5>
                 </div>
                 <div class="ibox-content">
-                    @(Html.Kendo().Grid<OrderManagement.Web.SpGetAllProduct>() // Bind the grid to the Model property of the view
+                  @(Html.Kendo().Grid(Model) // Bind the grid to the Model property of the view
                           .Name("productgrid")
                           // .Scrollable()
                           .Selectable()
@@ -64,7 +65,7 @@
                                   columns.Bound(p => p.SalesUnitPrice);   //Create a column bound to the "UnitPrice" property
                                   columns.Bound(p => p.SalesAccountCode);//Create a column bound to the "UnitsInStock" property
                                   columns.Bound(p => p.Name).Title("Product Group");//Create a column bound to the "UnitsInStock" property
-                                  columns.Bound(p => p.ProductGroupId).Hidden(true);
+                                  columns.Bound(p => p.ProductGroupId).Visible(false);
                                 
                               })
      
@@ -76,8 +77,8 @@
                           .DataSource(dataSource => dataSource        
                                                         .Ajax()
                                                         .PageSize(10)
-                                                        .Read(read => read.Action("Products_Read", "Product"))
-                                                        //.ServerOperation(false)  
+                                                       // .Read(read => read.Action("Products_Read", "Product")).Events(e => e.RequestEnd("onRequestEnd"))
+                                                        .ServerOperation(false)  
                                                         .Model(model => model.Id(e => e.Row_Id))      
                           )
                           )
@@ -108,7 +109,7 @@
 @Html.Hidden("globleProdGrpName")
 <span id="loadCompaniesforProduct"></span>
 <span id="loadProductgroup"></span>
-<span id="loadWebOrderable" style="display:none;" ></span>
+<span id="loadWebOrderable" ></span>
 <script language="javascript" type="text/javascript">
 
     function entSelChange() {
@@ -135,13 +136,12 @@
 
     function loadProductbygroup(filterby) {
         $filter = new Array();
-        $filterName = filterby;
+        $filterName = parseInt(filterby);
         if ($filterName) {
             $filter.push({ field: "ProductGroupId", operator: "eq", value: $filterName });
         }
         var grid = $("#productgrid").data("kendoGrid");
         grid.dataSource.filter($filter);
-
     };
 
  
@@ -183,6 +183,24 @@
             });
 
         }
+    }
+
+
+
+    function onRequestEnd(e) {
+
+        debugger;
+
+        var d = e;
+       // e.$filter([]);
+       // alert("ok");
+        // gridDataSource.filter([]);
+
+        //var grid = $("#productgrid").data("kendoGrid");
+   //     grid.dataSource.filter([]);
+
+       
+
     }
 
 </script>

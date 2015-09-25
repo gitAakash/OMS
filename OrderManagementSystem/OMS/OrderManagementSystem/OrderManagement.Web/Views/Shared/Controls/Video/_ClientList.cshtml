@@ -1,0 +1,210 @@
+﻿@model IEnumerable<SelectClients>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+<div style="margin: 4px 0 2px 15px;">
+    <button type="button" class="btn btn-primary" onclick="javascript:addclient();">New</button>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <button class="btn btn-primary" onclick="javascript:editUser();">Edit</button>
+        <button class="btn btn-primary" onclick="javascript:deleteUser();">Delete</button>
+        @Html.Hidden("globleClientid");
+    }
+</div>
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Clients</h5>
+                </div>
+                              
+                <div class="ibox-content">
+                  @(Html.Kendo().Grid(Model) // Bind the grid to the Model property of the view
+                          .Name("clientgrid")
+                          // .Scrollable()
+                        //  .HtmlAttributes(new { style = "height: 218px" })
+                         
+                          .Events(events => events.Change("entSelClientChange"))
+                          .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                          .Columns(columns =>
+                              {
+                                  columns.Bound(p => p.Row_Id).Visible(false) ;   //Create a column bound to the "ProductID" property
+                                  columns.Bound(p => p.Name); //Create a column bound to the "ProductName" property
+                                  columns.Bound(p => p.Main_Phone).Title("Main Phone");   //Create a column bound to the "UnitPrice" property
+                                  columns.Bound(p => p.Main_Email).Title("Main Email");//Create a column bound to the "UnitsInStock" property
+                                  columns.Bound(p => p.Main_URL).Title("Main URL"); ;
+                              })
+                          //.HtmlAttributes(new { style = "height: 380px;" })
+                          .Selectable()
+                          .Sortable()
+     
+                          .Pageable(pager => pager  
+                                                 .PageSizes(new int[]{10,25,50})   
+                                                 .Refresh(true)
+                          )
+                            //Enable paging
+                          .DataSource(dataSource => dataSource        
+                                                        .Ajax()
+                                                        .PageSize(5)
+                                                       // .Read(read => read.Action("Products_Read", "Product")).Events(e => e.RequestEnd("onRequestEnd"))
+                                                        .ServerOperation(false)  
+                                                        .Model(model => model.Id(e => e.Row_Id))      
+                          )
+                          
+                          
+                          
+                          )
+                </div>
+
+                     
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id='scrol'></div>
+
+@Html.Hidden("GlobleFileExtensions")
+@Html.Hidden("GlobleFileSize")
+
+<div id="divClientform" >
+    <span id="spaCreateClientForm"></span>
+</div>
+<div>
+<span id="loadVideoGrid" style="display:none;" ></span>
+</div>
+<script language="javascript" type="text/javascript">
+
+   
+    function entSelClientChange() {
+        $("#globleClientid").val("");
+        var entityGrid = $("#clientgrid").data("kendoGrid");
+        var selectedItem = entityGrid.dataItem(entityGrid.select());
+        if (selectedItem != null && selectedItem != 'undefined') {
+            $("#globleClientid").val(selectedItem.id);
+           // alert($("#globleClientid").val());
+          //  editUser();
+            loadVideolst(selectedItem.id);
+        } else {
+            // alert("NO Row Is SELECTED");
+            $("#globleClientid").val("");
+        }
+    }
+
+    function loadVideolst(id) {
+
+        $.get('@Url.Action("VideoList", "Video")', { id: id }, function (data) {
+            if (data != null) {
+                $("#loadVideoGrid").html("");
+                $("#loadVideoGrid").html(data);
+                $("#loadVideoGrid").show();
+            }
+        });
+
+
+        $.get('@Url.Action("GetFileTypesDataJson", "JobTracking")', { groupid: 7 }, function (data) {
+            if (data != null) {
+                for (var i = 0; i < data.length; i++) {
+                    $("#GlobleFileExtensions").val(data[i].AllowedFileExtensions);
+                    $("#GlobleFileSize").val(data[i].MaxFileSize);
+                }
+            }
+
+           // $('#showloadingimg').removeClass("width200px");
+        });
+
+    }
+
+    function onRequestEnd(e) {
+        debugger;
+        var d = e;
+    }
+
+    function addclient() {
+       var grid = $("#clientgrid").data("kendoGrid");
+       grid.clearSelection();
+        $.get('@Url.Action("NewClient", "Video")', function (data) {
+              if (data != null) {
+                  scrollPage();
+                  $("#loadVideoGrid").html("");
+                  $("#spaCreateClientForm").text("");
+                  $("#globleClientid").val("");
+                  $("#spaCreateClientForm").html(data);
+              }
+          });
+      }
+
+      function editUser() {
+          var userid = $("#globleClientid").val();
+          if (userid != null && userid != 0) {
+              $.get('@Url.Action("NewClient", "Video")', { userid: userid }, function (data) {
+                if (data != null) {
+                    scrollPage();
+                    $("#spaCreateClientForm").text("");
+                    // $("#userRowId").val("");
+                    $("#spaCreateClientForm").html(data);
+                    $("#lblheading").hide();
+                    $("#divCreateClient").hide();
+                    $("#lblheadingUpdate").show();
+                    $("#divUpdateClient").show();
+                    
+                }
+            });
+        } else {
+            alert("Please select row to Edit");
+        }
+    }
+
+    function deleteUser() {
+        var userid = $("#globleClientid").val();
+       
+        if (userid != null && userid != 0) {
+
+        // Check if video exist for Client
+
+        $.get('@Url.Action("IsVideosAvailable", "Video")', { id: userid }, function (JsonInfo) {
+            
+            if (JsonInfo != null) {
+
+             if (JsonInfo.IsDataAvail) {
+                    alert("Please delete videos before deleting the client !");
+                    return false;
+                }
+                else {
+                  
+                 ////////// Code for deletion of video /////
+                
+                     if (confirm("Are you sure want to delete?")) {
+                         $.get('@Url.Action("DeleteClient", "Video")', { userid: userid }, function (data) {
+                            if (data != null) {
+                                //alert(data);
+                                $('#divPageBody').html("");
+                                $('#divPageBody').html(data);
+                                  }
+                             });
+                         }
+                 ///////////////////////////////////////
+                    }
+                 }
+             });
+        }
+
+        else {
+            alert("Please select row to Delete");
+        }
+    }
+
+    function scrollPage() {
+        $('html, body').animate({
+            scrollTop: $("#spaCreateClientForm").offset().top
+        }, 500);
+    }
+
+
+</script>

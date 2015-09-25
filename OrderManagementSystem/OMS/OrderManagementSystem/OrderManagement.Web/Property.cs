@@ -7,21 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Property
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Property
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> Company_Id { get; set; }
-        public string Property_Id { get; set; }
-        public string Name { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-    
-        public virtual Company Company { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> Company_Id { get; set; }
+    public string Property_Id { get; set; }
+    public string Name { get; set; }
+    public string Latitude { get; set; }
+    public string Longitude { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+
+    public virtual Company Company { get; set; }
 }

@@ -1,0 +1,222 @@
+﻿@model OrderManagement.Web.Models.JobImage
+@{
+    ViewBag.Title = "Job Image";
+    Layout = null;
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+}
+<style>
+    .pull-right {
+    float:right;
+    }
+    body {
+        background-color:#fff !important;
+    }
+    .loginscreen {
+        width:1000px;
+        height:400px;
+        margin:50px auto;
+        position:relative;
+    }
+    #divpwdSent {
+        width: 720px;
+    height: 440px;
+    text-align: center;
+    position: relative;
+    }
+    #divpwdSent img{
+       max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    }
+    .sidebard-panel {
+    width: 220px;
+    background: #ebebed;
+  
+}
+    .sidebard-panel h4 {
+    padding: 10px 20px;
+    border-bottom: 1px solid #cecece;
+    background: #363940;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #fff;
+}
+    .label-info, .badge-info {
+    background-color: #23C6C8;
+    color: #FFFFFF;
+    padding:3px 7px;
+        line-height: 1;
+        min-width: 10px;
+        border-radius: 50%;
+}
+   .sidebard-panel .inner-wrap {
+    padding: 10px 15px;
+    max-height: 420px;
+    overflow: auto;
+}
+    .loginscreen  .overlay {
+  position: absolute;
+  width: 100%;
+  background: rgba(0,0,0,.8);
+  bottom: 0;
+   padding:2px;
+    }
+        .loginscreen  .overlay ul {
+            margin: 0;
+           padding:0;
+        }
+   .loginscreen  .overlay ul li{
+  display: inline-block;
+  list-style: none;
+  margin:0 5px;
+ 
+    }
+.loginscreen .overlay ul li a,.loginscreen .overlay ul li i {
+color:#fff;
+text-decoration:none;
+font-size:11px;        
+        }
+ 
+.loginscreen .overlay ul li:last-child:hover a,.loginscreen .overlay ul li:last-child:hover i {
+color:#1AB394;
+opacity:.8;        
+        }
+    .loginscreen .tag-list li:hover a,.loginscreen .tag-list li:hover i, .loginscreen .other-contol li:hover a, .loginscreen .other-contol li:hover i {
+        color:#1AB394;
+opacity:.8;   
+    }
+    form {
+        margin-bottom:0;
+    }
+    .modal-navigation {
+    position: absolute;
+    top: 50%;
+    padding: 0px;
+    width: 100%;
+    left: 0;
+}
+    .modal-navigation ul li:first-child {
+    left: 5px;
+}
+    .modal-navigation ul li:last-child {
+    right: 5px;
+}
+</style>
+<link href="@Url.Content("~/Content/font-awesome.css")" rel="stylesheet" type="text/css" />
+<div class="text-center loginscreen  animated fadeInDown">
+    <span class="pull-right"><div id="imgcount1_3" class="imageCount">@Model.SelectedImageCount images of  @Model.TotalImageCount images selected</div></span>
+    <h4 id="AddressTitle" class="AddressTitle border-bottom">9 Bates Street, Malvern East</h4>
+    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+    <div class="">
+        <div class="sidebard-panel pull-right">
+        <h4>Comments <span class="badge badge-info pull-right" id="spanMsgCount_@Model.Image_Id">0</span></h4>
+        <div class="inner-wrap" id="divinnerWrap_@Model.Image_Id"></div>
+    </div>
+        <div class="modal-navigation">
+                                        <ul>
+                                            <li><a data-dir="left" class="images" href="#"><i class="fa fa-angle-left fa-2x"></i></a></li>
+                                            <li><a data-dir="right" class="images" href="#"><i class="fa fa-angle-right fa-2x"></i></a></li>
+                                        </ul>
+                                    </div>
+
+        @if (Model != null && Model.ImageURL.Length > 0)
+{
+    <div id="divpwdSent" >
+        <img src="@Url.Content(Model.ImageURL)" alt="Image" class="taggd" style="max-height: 100%; max-width: 100%;" />
+        @Html.HiddenFor(m => m.Job_Id)
+        @Html.HiddenFor(m => m.Image_Id)
+        @Html.HiddenFor(m => m.Group_Id)
+        <div class="overlay">
+                                                    <ul class="other-contol pull-right text-right">
+                                                            
+
+
+                                                        
+                                                        <form id="frmDownloadDemo" method="post">
+                                                            <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('3')"><b>Download</b></a></li>
+                                                            <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                        </form>
+
+                                                    </ul>
+                                                    <div id="divTag" class="pull-left">
+                                                        <ul class="tag-list">
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                                    <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                                    <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                                    <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+                                                            
+                                                            
+                                                            
+                                                        </ul>
+                                                    </div>
+
+                                        </div>
+    </div>
+}
+
+
+        <p class="m-t"><small></small></p>
+    </div>
+    
+</div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery.taggd.min.js")" type="text/javascript"></script>
+
+<script>
+   
+   $(document).ready(function () {
+
+        debugger;
+        var imageid = $("#Image_Id").val();
+        $.get('@Url.Action("GetCommentsForMail", "JobTracking")', { Row_Id: imageid }, function (data) {
+            if (data != null) {
+                debugger;
+                $('#divinnerWrap_' + imageid).html("");
+                $("#spanMsgCount_" + imageid).text(data.length);
+                var imgsrc = "";
+                var AnnotaionText = "";
+
+                for (var i = 0; i < data.length; i++) {
+                    AnnotaionText = data[i].Annotaion;
+                    $("#divinnerWrap_" + imageid).append("<div class='feed-element' ><span style='color:#1AB394' >" + data[i].FirstName + " " + data[i].LastName + "</span><span class='media-body'> " + data[i].Comments + " <br> <small class='text-muted'> " + data[i].TimeOfComment + "</small></span></div>");
+                }
+            }
+        });
+        debugger;
+        $.get('@Url.Action("GetJobAnnotationForMail", "JobTracking")', { Row_Id: imageid }, function (data) {
+            debugger;
+            if (data.length > 0) {
+                debugger;
+                var data1;
+                var AnnotaionText = "";
+                for (var i = 0; i < data.length; i++) {
+                    AnnotaionText = data[i].MyAnnotaion;
+                    data1 = JSON.parse(AnnotaionText);
+
+                    var options = {
+                        edit: false,
+                        align: {
+                            y: 'top'
+                        },
+
+                        offset: {
+                            top: 15
+                        },
+                        handlers: {
+                            click: 'toggle'
+                        }
+                    };
+                    var taggd = $('.taggd').taggd(options, data1);
+                }
+
+             
+            }
+        });
+    });
+</script>

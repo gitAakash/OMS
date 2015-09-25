@@ -7,33 +7,36 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class TrackingJobs
 {
-    using System;
-    
-    public partial class TrackingJobs
-    {
-        public int Row_Id { get; set; }
-        public string JobTitle { get; set; }
-        public Nullable<int> Order_Id { get; set; }
-        public Nullable<int> Property_Id { get; set; }
-        public string Status { get; set; }
-        public Nullable<int> Completion_Percent { get; set; }
-        public Nullable<int> Company_Id { get; set; }
-        public string Company_Name { get; set; }
-        public Nullable<System.DateTime> Required_By_Date { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<System.DateTime> Updated { get; set; }
-        public string Created_ByName { get; set; }
-        public string Created_ByValue { get; set; }
-        public string Product_Group { get; set; }
-        public string Resource { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public string EventTitle { get; set; }
-        public string Description { get; set; }
-        public string Status_Colour { get; set; }
-        public string JobEventStatusColour { get; set; }
-        public string JobEventStatus { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string JobTitle { get; set; }
+    public Nullable<int> Order_Id { get; set; }
+    public Nullable<int> Property_Id { get; set; }
+    public string Status { get; set; }
+    public int Completion_Percent { get; set; }
+    public Nullable<int> Company_Id { get; set; }
+    public string Company_Name { get; set; }
+    public Nullable<System.DateTime> Required_By_Date { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<System.DateTime> Updated { get; set; }
+    public string Created_ByName { get; set; }
+    public string Created_ByValue { get; set; }
+    public string Product_Group { get; set; }
+    public string Resource { get; set; }
+    public Nullable<System.DateTime> StartDate { get; set; }
+    public Nullable<System.DateTime> EndDate { get; set; }
+    public string EventTitle { get; set; }
+    public string Description { get; set; }
+    public string Status_Colour { get; set; }
+    public string JobEventStatusColour { get; set; }
+    public string JobEventStatus { get; set; }
+    public string Email_Notification { get; set; }
+    public string Package { get; set; }
+    public Nullable<int> Package_Qty { get; set; }
+    public Nullable<bool> Image_locked_to_client { get; set; }
+    public Nullable<bool> Floorplan_locked_to_client { get; set; }
 }

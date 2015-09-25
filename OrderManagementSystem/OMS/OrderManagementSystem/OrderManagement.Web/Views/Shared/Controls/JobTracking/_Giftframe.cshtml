@@ -1,0 +1,184 @@
+﻿@model OrderManagement.Web.Models.GalleryModel
+
+
+@Html.Hidden("GlobleFolderName")
+@Html.Hidden("GlobleGroupId")
+@Html.Hidden("GlobleFileExtensions")
+@Html.Hidden("GlobleFileSize")
+
+<div class="wrapper wrapper-content  animated fadeInRight giftFrame">
+           <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Drag&amp;Drop - 1</h5>
+                            <div class="ibox-tools">
+                                
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            
+                           
+                                
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Drag&amp;Drop - 2</h5>
+                            <div class="ibox-tools">
+                                
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            
+                           
+                                
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Drag&amp;Drop - 3</h5>
+                            <div class="ibox-tools">
+                                
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            
+                           
+                                
+                           
+                        </div>
+                    </div>
+                </div>
+               <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Drag&amp;Drop - 4</h5>
+                            <div class="ibox-tools">
+                                
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            
+                           
+                                
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Drag&amp;Drop - 5</h5>
+                            <div class="ibox-tools">
+                                
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            
+                           
+                               
+                           
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    
+            
+        </div>
+<div class="row drag-img">
+                <div class="col-lg-3">
+                    
+                            
+                           
+                                <img src="~/Images/room21.jpg" class="img-responsive"/>
+                           
+                      
+                </div>
+                <div class="col-lg-3">
+                    
+                            
+                           
+                                <img src="~/Images/room21.jpg" class="img-responsive"/>
+                           
+                      
+                </div>
+               <div class="col-lg-3">
+                    
+                            
+                           
+                                <img src="~/Images/room21.jpg" class="img-responsive"/>
+                           
+                      
+                </div>
+                <div class="col-lg-3">
+                    
+                            
+                           
+                                <img src="~/Images/room21.jpg" class="img-responsive"/>
+                           
+                      
+                </div>
+
+            </div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/jquery-ui.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/inspinia.js")"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+       
+        <!-- Enable portlets -->
+       WinMove();
+        $('.drag-img img').draggable({
+           
+            revert: "invalid",
+            stack: ".drag-img img",
+            snap: true,
+           
+            helper: 'clone',
+            refreshPositions: true,
+            start: function(){
+                $(this).hide();             
+            },
+            stop: function(){
+                $(this).show();
+            },
+
+        });
+        //$('.ibox img').droppable({
+        //   hoverClass: 'active',
+        //   stack: ".ibox img",
+        //    drop: function(event, ui) { 
+               
+        //    },
+        //    out: function(event, ui){
+        //        $(this).droppable('option', 'accept', '.drag-img img');
+
+        //    } 
+
+        //});
+    });
+</script>

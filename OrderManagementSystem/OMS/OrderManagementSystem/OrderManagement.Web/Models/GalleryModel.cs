@@ -15,8 +15,10 @@ namespace OrderManagement.Web.Models
         public int NumberOfPages { get; set; }
         public int CurrentPage { get; set; }
 
-         
-
+        //public IList<FolderRecordsCounts> FolderRecordsCountList { get; set; }
+        public IList<GetFoldersAttachmentCount> FolderRecordsCountList { get; set; }
+        public IList<GetUserCommentsbyJobId> GetUserCommentsbyJobIdList { get; set; }
+        
       //  IList<ProductCategories> GetProductgroupBySp(int? orgId, int? parentId);
     }
 
@@ -46,9 +48,6 @@ namespace OrderManagement.Web.Models
         //IList<GetJobAttachments> JobAttachmentlist { get; set; }
     }
 
-
-    
-
     [Serializable]
     public class GalleryInputModel 
     {
@@ -65,7 +64,24 @@ namespace OrderManagement.Web.Models
         public string NewFileName { get; set; }
         public string OldFileName { get; set; }
         public string FileNotSaveReason { get; set; }
+        public bool IsTagUpdated { get; set; }
+        public bool IsFileNameUpdated { get; set; }
+        public string Tags { get; set; }
         public bool Save { get; set; }
     }
+
+    public class ImgCountInfo
+    {
+        public int SelectedImgCount { get; set; }
+        public int TotalImgCount { get; set; }
+
+    }
+
+    public class FolderRecordsCounts
+    {
+        public int Count { get; set; }
+        public string FolderName { get; set; }
+    }
+
 
 }

@@ -7,17 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class PropertyInvoice
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class PropertyInvoice
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> PropertyId { get; set; }
-        public Nullable<int> MailId { get; set; }
-        public string InvoiceNo { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> PropertyId { get; set; }
+    public Nullable<int> MailId { get; set; }
+    public string InvoiceNo { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
 }

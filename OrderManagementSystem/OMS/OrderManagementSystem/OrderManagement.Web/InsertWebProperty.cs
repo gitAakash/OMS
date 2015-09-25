@@ -7,12 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class InsertWebProperty
 {
-    using System;
-    
-    public partial class InsertWebProperty
-    {
-        public Nullable<decimal> recidentity { get; set; }
-    }
+    public Nullable<decimal> recidentity { get; set; }
 }

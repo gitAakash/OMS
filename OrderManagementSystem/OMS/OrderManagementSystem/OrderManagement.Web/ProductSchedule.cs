@@ -7,32 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class ProductSchedule
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class ProductSchedule
-    {
-        public int Row_Id { get; set; }
-        public string XeroCode { get; set; }
-        public string Value { get; set; }
-        public string Title { get; set; }
-        public Nullable<int> ColorId { get; set; }
-        public Nullable<bool> CreateEvent { get; set; }
-        public Nullable<bool> SendEmail { get; set; }
-        public string EmailAddress { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
-        public Nullable<System.DateTime> Updated { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<int> ProductGroupId { get; set; }
-        public Nullable<bool> WebOrderable { get; set; }
-        public string WebName { get; set; }
-        public string WebDescription { get; set; }
-        public string WebType { get; set; }
-        public string WebOptions { get; set; }
-        public Nullable<int> WebOptionMin { get; set; }
-        public Nullable<int> WebOptionMax { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string XeroCode { get; set; }
+    public string Value { get; set; }
+    public string Title { get; set; }
+    public Nullable<int> ColorId { get; set; }
+    public Nullable<bool> CreateEvent { get; set; }
+    public Nullable<bool> SendEmail { get; set; }
+    public string EmailAddress { get; set; }
+    public Nullable<int> CreatedBy { get; set; }
+    public Nullable<int> UpdatedBy { get; set; }
+    public Nullable<System.DateTime> Updated { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<int> ProductGroupId { get; set; }
+    public Nullable<bool> WebOrderable { get; set; }
+    public string WebName { get; set; }
+    public string WebDescription { get; set; }
+    public string WebType { get; set; }
+    public string WebOptions { get; set; }
+    public Nullable<int> WebOptionMin { get; set; }
+    public Nullable<int> WebOptionMax { get; set; }
 }

@@ -94,6 +94,71 @@ namespace OrderManagement.Web.Helper.Utilitties
             return MvcHtmlString.Create(strDate);
         }
 
+        public static String TimeAgo(DateTime date)
+        {
+            TimeSpan timeSince = DateTime.Now.Subtract(date);
+
+            string strDate = null;
+            bool timeCalculated = false;
+
+            if (timeSince.TotalMilliseconds < 1)
+                strDate = "not yet";
+
+            if (timeSince.TotalSeconds < 1)
+            {
+                timeCalculated = true;
+                strDate = "just now";
+            }
+
+            if (timeSince.TotalSeconds > 1 && timeSince.TotalSeconds < 60)
+            {
+                timeCalculated = true;
+                int intSec = (int)Math.Ceiling(timeSince.TotalSeconds);
+                strDate = string.Format("{0} second ago", intSec);
+            }
+
+            if (timeSince.TotalMinutes > 1 && timeSince.TotalMinutes < 2)
+            {
+                timeCalculated = true;
+                strDate = "1 minute ago";
+            }
+
+            if (timeSince.TotalMinutes > 2 && timeSince.TotalMinutes < 60)
+            {
+                timeCalculated = true;
+                strDate = string.Format("{0} minutes ago", timeSince.Minutes);
+            }
+
+            if (timeSince.TotalMinutes > 60 && timeSince.TotalMinutes < 120)
+                strDate = "1 hour ago";
+
+            if ((timeSince.TotalHours < 24) && !timeCalculated)
+                strDate = string.Format("{0} hours ago", timeSince.Hours);
+
+            if (timeSince.TotalDays == 1)
+                strDate = "yesterday";
+            if (timeSince.TotalDays > 1 && timeSince.TotalDays < 7)
+                strDate = string.Format("{0} days ago", timeSince.Days);
+            if (timeSince.TotalDays > 7 && timeSince.TotalDays < 14)
+                strDate = "last week";
+            if (timeSince.TotalDays > 14 && timeSince.TotalDays < 21)
+                strDate = "2 weeks ago";
+            if (timeSince.TotalDays > 21 && timeSince.TotalDays < 28)
+                strDate = "3 weeks ago";
+            if (timeSince.TotalDays > 28 && timeSince.TotalDays < 60)
+                strDate = "last month";
+            if (timeSince.TotalDays > 60 && timeSince.TotalDays < 365)
+                strDate = string.Format("{0} months ago", Math.Round(timeSince.TotalDays / 30));
+
+            if (timeSince.TotalDays > 365 && timeSince.TotalDays < 730)
+                strDate = "last year";
+            if (timeSince.TotalDays > 730)
+                strDate = string.Format("{0} years ago", Math.Round(timeSince.TotalDays / 365));
+
+            return strDate;
+        }
+
+
 
 
 
@@ -190,10 +255,15 @@ namespace OrderManagement.Web.Helper.Utilitties
         }
 
 
-      
 
 
 
 
+
+
+        internal static string TimeAgo(DateTime? nullable)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

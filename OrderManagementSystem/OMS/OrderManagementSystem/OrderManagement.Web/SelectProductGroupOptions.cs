@@ -7,12 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectProductGroupOptions
 {
-    using System;
-    
-    public partial class SelectProductGroupOptions
-    {
-        public string Options { get; set; }
-    }
+    public string Options { get; set; }
 }

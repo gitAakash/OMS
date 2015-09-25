@@ -8,7 +8,7 @@
   
 }
 
-<h2>Jobs</h2>
+
 
 <!DOCTYPE html>
 <html>
@@ -36,12 +36,13 @@
 
     <div id="wrapper">
         <div class="gray-bg">
-            <div class="wrapper wrapper-content">
+                
                 <div class="row animated fadeInRight">
 
                     <div class="col-md-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
+                                <h5>Jobs</h5>
                                 @{
 
                                     var currentUser = UserManager.Current();
@@ -61,7 +62,7 @@
 
                                     <div class="feed-element">
                                         <div class="pull-left">
-                                            <button id="btnRefresh" onclick="RefreshJobs()" type="submit" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i>Refresh</button>
+                                            <button id="btnRefresh" onclick="RefreshJobs()" type="submit" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i>&nbsp;Refresh</button>
                                         </div>
                                         <div class="">
                                             <div class="input-group">
@@ -79,7 +80,7 @@
                                             @foreach (var item in Model)
                                             {
                                                 <div class="feed-element">
-                                                    <div class="col-sm-1 pull-left">
+                                                    <div class="col-sm-2 pull-left">
                                                         <span class="label" style="color:white; background-color:@item.StatusColour.ToLower();">@item.Active</span>
                                                     </div>
 
@@ -89,10 +90,11 @@
                                                         <br>
                                                         <small class="text-muted">Requested for:&nbsp;@item.RequireDate.ToString("dd/MM/yyyy")</small>
                                                     </div>
-
+                                                    @*
                                                     <div class="col-sm-2">
                                                         <div class="list-item">
-                                                            <small>Completion with</small>
+                                                          
+                                                           <small>Completion with</small>
 
                                                             @if(item.Completion == "0")
                                                             {
@@ -103,14 +105,14 @@
                                                             {
                                                                 <div class="pull-right">@item.Completion %</div>
                                                             }
-
-                                                          
-
+                                                           
                                                             <div class="progress progress-mini">
                                                                 <div class="progress-bar" style="width:@item.Completion%;"></div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                     *@
+
                                                     <div class="col-sm-4 ">
                                                         <div class=" pull-left">
                                                             @if (item != null && item.ProductGroup.Count > 0)
@@ -126,18 +128,17 @@
                                                             }
                                                         </div>
                                                     </div>
-                                                    @if (currentuser != null && currentuser.UserType != 3)
-                                                    {
+                                                  @*  @if (currentuser != null && currentuser.UserType != 3){*@
                                                         <div class=" pull-right">
-                                                            <button onclick=" javascript:viewJobs('@item.JobId'); " class="btn btn-sm btn-white " type="submit"><i class="fa fa-refresh"></i>View</button>
+                                                            <button onclick="javascript:viewJobs('@item.JobId'); " class="btn btn-sm btn-white " type="submit"><i class="fa fa-refresh"></i>&nbsp;View</button>
                                                             @if (currentuser != null && (currentuser.UserType == 1 || currentuser.UserType == 4))
                                                             {
-                                                                <button onclick="javascript:DeleteJobs('@item.JobId');" class="btn btn-sm btn-white" type="submit"><i class="fa fa-delete"></i>Delete</button>
+                                                                <button onclick="javascript:DeleteJobs('@item.JobId');" class="btn btn-sm btn-white" type="submit"><i class="fa fa-delete"></i>&nbsp;Delete</button>
                                                             }
                                                                
 @*   <button onclick="javascript:viewJobs();" class="btn btn-sm btn-white" type="submit"><i class="fa fa-refresh"></i>Edit</button>*@
                                                         </div>
-                                                    }
+                                                    @* }*@
                                                 </div>
                                                 <div class="table-job">
                                                     <table class="table table-bordered table-hover">
@@ -159,21 +160,12 @@
                                                                     <td>
                                                                         @if (@productGroup.StartDate.Date == @productGroup.EndDate.Date)
                                                                         {
-
-                                                                            string day= productGroup.StartDate.ToString("dddd");
-                                                                            day = day + " ";
-                                                                            @day
-
                                                                             @productGroup.StartDate
                                                                             <span>-</span>
                                                                             @productGroup.EndDate.ToShortTimeString()
                                                                         }
                                                                         else
                                                                         {
-                                                                            string day= productGroup.StartDate.ToString("dddd");
-                                                                            day = day + " ";
-                                                                            @day
-
                                                                             @productGroup.StartDate
                                                                             <span>-</span>
                                                                             @productGroup.EndDate
@@ -211,7 +203,7 @@
 
                 </div>
 
-            </div>
+            
         </div>
 
 
@@ -226,6 +218,17 @@
 
 
 <script>
+
+    $(document).ready(function () {
+        $("#txtsearch").keypress(function (e) {
+            if (e.which == 13) {
+                var searchInput = $(this).val();
+                SearchJobs();
+            }
+        });
+    });
+
+
     $(document).ready(function () {
         //$('.i-checks').iCheck({
         //    checkboxClass: 'icheckbox_square-green',
@@ -245,9 +248,9 @@
     //};
 
 
-    function viewJobs(id) {
-        mixpanel.track("Job Tracking : Detail View");
 
+
+    function viewJobs(id) {
         $.get('@Url.Action("ViewJobTracking", "JobTracking")', { jobid: id }, function (data) {
             if (data != null) {
 
@@ -283,12 +286,24 @@
 
 
     function DeleteJobs(jobid) {
-        $.get('@Url.Action("DeleteJobs", "JobTracking")', { jobid: jobid }, function (data) {
-            if (data != null) {
-                $('#divPageBody').html("");
-                $('#divPageBody').html(data);
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete this Job?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: true
+        },
+            function () {
+                $.get('@Url.Action("DeleteJobs", "JobTracking")', { jobid: jobid }, function (data) {
+                    if (data != null) {
+                        $('#divPageBody').html("");
+                        $('#divPageBody').html(data);
+                    }
+                });
             }
-        });
+        );
 
     }
 

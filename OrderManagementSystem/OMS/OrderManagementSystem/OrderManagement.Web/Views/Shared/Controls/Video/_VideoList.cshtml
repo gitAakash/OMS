@@ -1,0 +1,476 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<SelectVideo>
+
+<style>
+    .btnBox {
+        float: left;
+        margin: 0px 2px;
+    }
+    .btnBox1 {
+        height:50px;
+    }
+    .btnBox2 {
+        height:50px;
+        margin: 0px 2px 0px 0px;
+    }
+
+     #clientsDb {
+        width: 952px;
+        height: 396px;
+        margin: 20px auto 0;
+        padding: 51px 4px 0 4px;
+       
+    }
+    
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Video List</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="btnBox1" >
+                    <button id="btnNewContacts" class="btn btn-primary btnBox" onclick="javascript:AddNewVideos();">New</button>
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        <button id="btnEditContacts" class="btn btn-primary btnBox" onclick="javascript:editVideos();">Edit</button>
+                        <button id="btnDeleteContacts" class="btn btn-primary btnBox" onclick="javascript:deleteVideos();">Delete</button>
+                          <form id="frmDownloadDemo" method="post" class="btnBox2" >
+                                                   <button id="btnDownloadVideos" class="btn btn-primary btnBox" onclick="javascript:DownloadVideos();">Download Video</button>
+                                                   <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                        </form> 
+                      
+                    }
+                </div>  
+                   @if (Model != null)
+                   {  
+                    <table id="gridVideo">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>FileName</th>
+                                <th>Host Primary Link</th>
+                                <th>Modified</th>
+                                <th>Comments</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Title</td>
+                                    <td>
+                                        @if (item.FileName != null)
+                                        {
+                                            if (item.Host_Primary_Link != null && item.Host_Primary_Link !="")
+                                                 {
+                                                    <a href="@item.Host_Primary_Link" target="_blank" >@item.FileName</a> 
+                                                 }
+                                                 else
+                                                 {
+                                                   <a href="@item.File_s3_Location" target="_blank" >@item.FileName</a> 
+                                                 }
+                                        }
+                                    </td>
+
+                                    <td>
+                                       @item.Host_Primary_Link
+                                   
+                                    </td>
+                                    <td>
+                                       @item.Updated
+                                    </td>
+                                    <td>
+                                       @item.Comments
+                                    </td>
+                                    <td>
+                                        <span id='@(item.Row_Id)'></span>
+                                       @item.Status
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                    @Html.Hidden("hdnvideoId")
+                    @Html.Hidden("hdnvideoTitle")
+                   }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <span id="spnAddEditVideos"></span>
+</div>
+
+
+
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        // alert("hi");
+        // $("#grid").kendoGrid();
+
+        $("#gridVideo").kendoGrid({
+            //height: 200,
+            //width: 200,
+            // scrollable: true,
+            sortable: true,
+            // filterable: true,
+            selectable: "single",
+
+            change: function (arg) {
+                var selected = $.map(this.select(), function (item) {
+                    var d = $(item).attr('data-uid');
+                    var spnorderid = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                    // alert(spnorderid);
+              
+                    $("#hdnvideoId").val("");
+                    $("#hdnvideoId").val(spnorderid);
+                   // alert($("#hdnvideoId").val());
+                });
+                // alert(selected);
+            },
+
+            columns: [
+                            {
+                                field: "Title",
+                                title: "Title",
+                                width: 15
+                            },
+                           {
+                               field: "FileName",
+                               title: "File Name",
+                               width: 20
+                           },
+                           
+                            {
+                                field: "Host_Primary_Link",
+                                title: "Host Primary Link",
+                                width: 25
+                            },
+
+                          {
+                              field: "Updated",
+                              title: "Modified",
+                            width: 18
+                          },
+                        {
+                            field: "Comments",
+                            title: "Comments",
+                            width: 20
+                        },
+                        {
+                            field: "Status",
+                            title: "Status",
+                            width: 8
+                        }
+            ],
+
+            //searchable : true,
+            pageable: {
+                pageSize: 5
+            }
+        });
+    });
+
+    function editVideos() {
+
+        //  alert($('#hdnCpmpanyContactId').val());
+        var id = $('#hdnvideoId').val();
+        if (id != "") {
+            $.get('@Url.Action("EditVideo", "Video")', { id: id }, function (data) {
+                // alert("hiok");
+                if (data != null) {
+                    // alert("hi1");
+                    scrollVideoPage();
+                    $("#spnAddEditVideos").html("");
+                    $("#spnAddEditVideos").html(data);
+                    var $elem = $('#grid');
+                    //  $('html, body').animate({ scrollTop: $elem.height() },800);
+                 //   $('html, body').animate({ scrollTop: $elem.offset().top }, 'slow');
+                }
+            });
+        } else alert("Please select row to Edit");
+
+    }
+
+    function AddNewVideos() {
+
+        $("#grid tr.k-state-selected").removeClass("k-state-selected");
+        //  $('#hdnCpmpanyContactId').val("");
+
+        var videoid = $("#hdnvideoId").val();
+        var clientId = $("#globleClientid").val();
+        // alert(companyid);
+      //  var orderid = $("#hdnOrderId").val();
+        // alert(orderid);
+
+        $.get('@Url.Action("AddNewVideos", "Video")', { clientId:clientId, videoid: videoid }, function (data) {
+            if (data != null) {
+                scrollVideoPage();
+                $("#spnAddEditVideos").html("");
+                $("#spnAddEditVideos").html(data);
+               
+            }
+        });
+    }
+
+
+    function deleteVideos() {
+
+        var videoid = $('#hdnvideoId').val();
+        var clientId = $("#globleClientid").val();
+        // alert(cid);
+        // alert(id);
+
+        if (videoid != "") {
+                if (confirm("Are you sure want to delete?")) {
+                    $.get('@Url.Action("DeleteVideos", "Video")', { videoid: videoid, clientId: clientId }, function (data) {
+                    if (data != null) {
+                        loadVideolst(clientId);
+                        var $elem = $('#gridVideo');
+                        $('html, body').animate({ scrollTop: $elem.offset().top }, 'slow');
+                    }
+                });
+            }
+         } else alert("Please select row to Delete");
+    }
+
+
+    function DownloadVideos() {
+        var id = $('#hdnvideoId').val();
+        var clientId = $("#globleClientid").val();
+
+
+        if (id != "") {
+            var actionUrl = '@Url.Action("DownloadVideos", "Video")' + "?VideoId=" + id + "&clientId=" + clientId;
+            $("#frmDownloadDemo").attr("action", actionUrl);
+            $("#frmDownloadDemo").attr("target", "myIframe");
+            // $("#frmDownloadDemo").attr("method", "POST");
+            $("#frmDownloadDemo").submit();
+        }
+
+        else {
+            alert("Please select row to dowload file.");
+            var actionUrl = '@Url.Action("no", "Video")' + "?VideoId=" + id + "&clientId=" + clientId;
+            $("#frmDownloadDemo").attr("action", actionUrl);
+            $("#frmDownloadDemo").attr("target", "myIframe");
+            // $("#frmDownloadDemo").attr("method", "POST");
+         //   $("#frmDownloadDemo").submit();
+           // return false;
+        }
+    }
+
+    
+
+
+    /////////////////////////////////////////////
+    function CheckFileSize(FileSize) {
+
+        var iSize = (FileSize / 1024);
+
+        if (iSize / 1024 > 1) {
+            if (((iSize / 1024) / 1024) > 1) {
+                iSize = (Math.round(((iSize / 1024) / 1024) * 100) / 100);
+                return (iSize + " Gb");
+            }
+            else {
+                iSize = (Math.round((iSize / 1024) * 100) / 100)
+                return (iSize + " Mb");
+            }
+        }
+        else {
+            iSize = (Math.round(iSize * 100) / 100)
+            return (iSize + " kb");
+        }
+    }
+
+    function onUpload(e) {
+       debugger;
+  
+        var ClientId = parseInt($("#globleClientid").val());
+        var Title = $("#Title").val();
+        var Status= $('#Status').val();
+        var Row_Id = $('#Row_Id').val();
+        var Reference = $("#Reference").val();
+        var HostPrimary = $("#HostPrimary").val();
+        var HostPrimaryLink = $("#HostPrimaryLink").val();
+        var HostSecondary = $("#HostSecondary").val();
+        var HostSecondaryLink = $("#HostSecondaryLink").val();
+        var Comments = $("#Comments").val();
+        var multiSelectedValue = $("#multiselect").data("kendoMultiSelect").value();
+        var JobId=multiSelectedValue;;
+        $("#JobIdOptions").val(multiSelectedValue);
+       // alert(multiSelectedValue);
+
+        if (Title.trim() == "") {
+            $("#Title").show();
+            return false;
+        }
+
+        if (Status.trim() == "") {
+            $("#erroVideoStatus").show();
+            
+            return false;
+        }
+       
+        else {
+            /* declare an checkbox array */
+            var chkArray = [];
+
+            /* we join the array separated by the comma */
+            var selectedTags;
+       
+        //    e.data = { JobOptionValue: multiSelectedValue };
+            //  alert(tagIds);
+            e.data = { Row_Id: Row_Id, ClientId: ClientId, Title: Title, Reference: Reference, HostPrimary: HostPrimary, HostPrimaryLink: HostPrimaryLink, HostSecondary: HostSecondary, HostSecondaryLink: HostSecondaryLink, Comments: Comments, Status: Status, JobOptionValue: multiSelectedValue };
+          //  e.data = { ClientId: ClientId};
+          //  e.data = { ClientId: ClientId, groupType: groupType, groupname: groupname, selectedTags: selectedTags };
+        }
+    }   
+
+
+ 
+    function onSuccess1(e) {
+     //   alert("manoj");
+    }
+
+    function onComplete(e) {
+     //   debugger;
+     //   alert("onComplete");
+
+        var Title = $("#Title").val();
+        var Status = $('#Status').val();
+
+        if (Title.trim() == "") {
+            $("#Title").show();
+            return false;
+        }
+
+        else if (Status.trim() == "") {
+            $("#erroVideoStatus").show();
+
+            return false;
+        }
+
+        else {
+            $(".k-upload-files").remove();
+            $(".k-upload-status").remove();
+            $(".k-upload.k-header").addClass("k-upload-empty");
+            $(".k-upload-button").removeClass("k-state-focused");
+            var clientId = $("#globleClientid").val();
+            loadVideolst(clientId);
+        }
+    }
+
+    function onSuccess(e) {
+     //   alert("onSuccess");
+
+     //   debugger;
+
+       
+        var chkTitle = ($("#Title").val());
+        var Status = $('#Status').val();
+
+        if ((chkTitle.trim() != "") && (Status.trim() != "")) {
+
+            $("#NullTitle").val("");
+            var ClientId = parseInt($("#globleClientid").val());
+            loadVideolst(ClientId);
+            var $elem = $('#gridVideo');
+            $('html, body').animate({ scrollTop: $elem.offset().top }, 'slow');
+        }
+        else {
+
+            var Status = $('#Status').val();
+            if (Status.trim() == "") {
+                $("#erroVideoStatus").show();
+            }
+
+            if (chkTitle.trim() == "") {
+                $("#Title").focus();
+                $("#errorTitleStatus").show();
+            }
+
+           
+
+          
+        }
+       //   Refreshgallery();
+
+    }
+   
+    function onSelect(e) {
+     //   debugger;
+
+
+        //var FileExt = [".mov", ".wmv", ".bmp", ".gif", ".png"];
+        //var MaxFileSize = 524288089078888888888;
+
+        var FileExt = ($("#GlobleFileExtensions").val());
+        var MaxFileSize = ($("#GlobleFileSize").val());
+
+        var msgFileSize = CheckFileSize(MaxFileSize);
+        var FileExtmsg = FileExt;
+
+        //  var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+
+        FileExt = FileExt.replace(/\"/g, "", "");
+
+        //    var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+
+        var _validFileExtensions = FileExt.split(",");
+        var FileSize = MaxFileSize;
+        $.each(e.files, function (index, value) {
+
+            for (var j = 0; j < _validFileExtensions.length; j++) {
+                var IsValid = false;
+                var FileSizeError = false;
+
+                var sCurExtension = _validFileExtensions[j];
+                if (value.extension.toLowerCase() == sCurExtension.toLowerCase()) {
+                    IsValid = true;
+                    FileSizeError = false;
+
+                    if (value.size > Number(FileSize)) {
+                        IsValid = true;
+                        FileSizeError = false;
+                        break;
+                    }
+                    else {
+                        IsValid = true;
+                        FileSizeError = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!IsValid) {
+                alert("Sorry, " + value.extension.toLowerCase() + " File extension is invalid, allowed extensions are: " + FileExt);
+                e.files.destroy();
+
+            }
+            else if (!FileSizeError) {
+                alert("Sorry, File must be under " + msgFileSize + " in size. Your file is too large. Please try again.");
+                e.files.destroy();
+            }
+
+        });
+    }
+
+    function scrollVideoPage() {
+        $('html, body').animate({
+            scrollTop: $("#spnAddEditVideos").offset().top
+        }, 500);
+    }
+</script>
