@@ -48,6 +48,7 @@ namespace OrderManagement.Web.Controllers
         public ActionResult Login(string ReturnUrl)
         {
             var loginmodels = new LoginModel();
+            var loginmodeladasdasd = new LoginModel();
             var loginmodel = new LoginModel();
 
             string DomainName = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
