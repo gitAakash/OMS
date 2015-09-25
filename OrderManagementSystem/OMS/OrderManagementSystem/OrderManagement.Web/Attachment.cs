@@ -7,17 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Attachment
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Attachment
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public byte[] Buffer { get; set; }
-    
-        public virtual User User { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> UserId { get; set; }
+    public byte[] Buffer { get; set; }
+
+    public virtual User User { get; set; }
 }

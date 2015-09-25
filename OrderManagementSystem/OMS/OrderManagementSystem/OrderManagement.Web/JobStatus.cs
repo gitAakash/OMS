@@ -7,21 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class JobStatus
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class JobStatus
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> Org_Id { get; set; }
-        public string Job_Id { get; set; }
-        public Nullable<int> User_Id { get; set; }
-        public string Status { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<System.DateTime> Updated { get; set; }
-        public string UpdatedBy { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> Org_Id { get; set; }
+    public string Job_Id { get; set; }
+    public Nullable<int> User_Id { get; set; }
+    public string Status { get; set; }
+    public string CreatedBy { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<System.DateTime> Updated { get; set; }
+    public string UpdatedBy { get; set; }
 }

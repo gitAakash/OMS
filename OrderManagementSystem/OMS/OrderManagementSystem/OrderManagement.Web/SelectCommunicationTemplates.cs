@@ -7,23 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectCommunicationTemplates
 {
-    using System;
-    
-    public partial class SelectCommunicationTemplates
-    {
-        public int ROW_ID { get; set; }
-        public string TYPE { get; set; }
-        public string EMAIL_SUBJECT { get; set; }
-        public string TEMPLATE { get; set; }
-        public string EMAIL_PRIORITY { get; set; }
-        public string TO { get; set; }
-        public string CC_TO { get; set; }
-        public string BCC_TO { get; set; }
-        public string FROM { get; set; }
-        public string FROM_DISPLAY_AS { get; set; }
-        public string REPLY_TO { get; set; }
-        public string MERGE_ATTRIBUTE { get; set; }
-    }
+    public int ROW_ID { get; set; }
+    public string TYPE { get; set; }
+    public string EMAIL_SUBJECT { get; set; }
+    public string TEMPLATE { get; set; }
+    public string EMAIL_PRIORITY { get; set; }
+    public string TO { get; set; }
+    public string CC_TO { get; set; }
+    public string BCC_TO { get; set; }
+    public string FROM { get; set; }
+    public string FROM_DISPLAY_AS { get; set; }
+    public string REPLY_TO { get; set; }
+    public string MERGE_ATTRIBUTE { get; set; }
 }

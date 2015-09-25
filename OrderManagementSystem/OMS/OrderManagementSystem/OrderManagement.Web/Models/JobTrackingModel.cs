@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using OrderManagement.Web.Helper.Utilitties;
 
 namespace OrderManagement.Web.Models
 {
@@ -32,7 +34,17 @@ namespace OrderManagement.Web.Models
     //    public bool CopyStatus { get; set; }
     //}
 
-
+    public class UploadFile
+    {
+        public UploadFile()
+        {
+            ContentType = "application/octet-stream";
+        }
+        public string Name { get; set; }
+        public string Filename { get; set; }
+        public string ContentType { get; set; }
+        public Stream Stream { get; set; }
+    }
 
 
     public class JobTrackingModel
@@ -56,7 +68,11 @@ namespace OrderManagement.Web.Models
         public string Description { get; set; }
         public string StatusColour { get; set; }
         public string JobEventStatus { get; set; }
-      
+        public List<string>Email_Notify { get; set; }
+        public string Email_Notification { get; set; }
+        public string Package { get; set; }
+        public int ProductId { get; set; }
+        public int? Product_Qty { get; set; }
 
     }
 
@@ -90,7 +106,13 @@ namespace OrderManagement.Web.Models
         public string BodyWordCount { get; set; }
         public string Status { get; set; }
     }
-
-
-
+    public class JobImage
+    {
+        public string ImageURL { get; set; }
+        public int Job_Id { get; set; }
+        public int Group_Id { get; set; }
+        public int Image_Id { get; set; }
+        public int TotalImageCount { get; set; }
+        public int SelectedImageCount { get; set; }
+    }
 }

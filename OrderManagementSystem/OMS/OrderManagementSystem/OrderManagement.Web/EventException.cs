@@ -7,15 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class EventException
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class EventException
-    {
-        public int Row_Id { get; set; }
-        public string EventId { get; set; }
-        public string Exception { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string EventId { get; set; }
+    public string Exception { get; set; }
 }

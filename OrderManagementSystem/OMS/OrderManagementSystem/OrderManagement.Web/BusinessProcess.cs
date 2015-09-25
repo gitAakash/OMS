@@ -7,21 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class BusinessProcess
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class BusinessProcess
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrgId { get; set; }
-        public string Object { get; set; }
-        public string SPName { get; set; }
-        public string Description { get; set; }
-        public string DisplayName { get; set; }
-        public Nullable<bool> ActiveRecord { get; set; }
-        public Nullable<bool> ActiveRecordSet { get; set; }
-        public string RecordSet { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrgId { get; set; }
+    public string Object { get; set; }
+    public string SPName { get; set; }
+    public string Description { get; set; }
+    public string DisplayName { get; set; }
+    public Nullable<bool> ActiveRecord { get; set; }
+    public Nullable<bool> ActiveRecordSet { get; set; }
+    public string RecordSet { get; set; }
 }

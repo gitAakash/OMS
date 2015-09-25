@@ -1,0 +1,158 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Web;
+using OrderManagement.Web.Models.Repository;
+
+namespace OrderManagement.Web.Models.ServiceRepository
+{
+    public interface ISchedulerService
+    {
+      IList<ColorMaster> GetAllColor();
+      IList<Event> GetAllEventByUserIdAndDate(List<int> UserIds, DateTime StartDate, DateTime EndDate);
+      Dictionary<string, string> GetEventExceptions();
+      IList<EventException> GetAllEventException();
+      void AddOrUpdateException(List<EventException> obj);
+      void DeleteEvent(Event objEvent);
+      Event GetEventByCalendarIdAndEventId(string Eventid, int CalendarId);
+      IList<CalendarUser> GetAllCalendarUser();
+      IList<Calendar> GetAllCalendars();
+      IList<Event> GetUnScheduledjoblist(int CalendarId, DateTime StartDate);
+      IList<User> GetAllUsersByOrgId(int OrgId);
+      IList<UserProductGroup> GetAllUserProductGroups();
+      IList<Event> GetAllEventByEventID(string EventID);
+      IList<Calendar> GetCalendarsByRowId(int? RowId);
+      IList<Event> GetAllEventByCalendarIdAndEventId(string Eventid, int CalendarId);
+      IList<GetCalenderUsers> GetCalenderUsers(int? OrgId);
+      IList<GetUserProductCalendar> GetUserProductCalendar(int? OrgId);
+      IList<GetGroupCalendarUsers> GetGroupCalendarUsers(int? OrgId, string UserIDs);
+      IList<GetAllEventException> GetDistanctEventException();
+      void UpdateJobEvents(string EventId, string CalendarName);  
+
+        
+
+    }
+
+
+    public class SchedulerService : ISchedulerService
+    {
+        private ISchedulerRepository _repository;
+        public SchedulerService(ISchedulerRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public IList<ColorMaster> GetAllColor()
+        {
+            return _repository.GetAllColor();
+        }
+
+        public IList<Event> GetAllEventByUserIdAndDate(List<int> UserIds, DateTime StartDate, DateTime EndDate)
+        {
+            return _repository.GetAllEventByUserIdAndDate(UserIds, StartDate, EndDate);
+
+        }
+
+        public Dictionary<string, string> GetEventExceptions()
+        {
+            return _repository.GetEventExceptions();
+        }
+
+        public IList<EventException> GetAllEventException()
+        {
+            return _repository.GetAllEventException();
+
+        }
+
+        public void AddOrUpdateException(List<EventException> obj)
+        {
+            _repository.AddOrUpdateException(obj);
+        }
+
+        public Event GetEventByCalendarIdAndEventId(string Eventid, int CalendarId)
+        {
+            return _repository.GetEventByCalendarIdAndEventId(Eventid, CalendarId);
+        }
+
+        public void DeleteEvent(Event objEvent)
+        {
+            _repository.DeleteEvent(objEvent);
+        }
+
+        public IList<CalendarUser> GetAllCalendarUser()
+        {
+            return _repository.GetAllCalendarUser();
+        }
+
+        public IList<Calendar> GetAllCalendars()
+        {
+            return _repository.GetAllCalendars();
+        }
+
+        public IList<Event> GetUnScheduledjoblist(int CalendarId, DateTime StartDate)
+        {
+            return _repository.GetUnScheduledjoblist(CalendarId,StartDate);
+          
+        }
+
+        public IList<User> GetAllUsersByOrgId(int OrgId)
+        {
+            return _repository.GetAllUsersByOrgId(OrgId);
+          
+        }
+
+        public IList<UserProductGroup> GetAllUserProductGroups()
+        {
+            return _repository.GetAllUserProductGroups();
+        }
+
+        public IList<Event> GetAllEventByEventID(string EventID)
+        {
+            return _repository.GetAllEventByEventID(EventID);
+        }
+
+        public IList<Calendar> GetCalendarsByRowId(int? RowId)
+        {
+            return _repository.GetCalendarsByRowId(RowId);
+        }
+
+
+        public IList<Event> GetAllEventByCalendarIdAndEventId(string Eventid, int CalendarId)
+        {
+            return _repository.GetAllEventByCalendarIdAndEventId(Eventid, CalendarId);
+        }
+
+        public IList<GetCalenderUsers> GetCalenderUsers(int? OrgId)
+        {
+             return _repository.GetCalenderUsers(OrgId);
+        }
+
+        public IList<GetUserProductCalendar> GetUserProductCalendar(int? OrgId)
+        {
+            return _repository.GetUserProductCalendar(OrgId);
+        }
+
+
+        public IList<GetGroupCalendarUsers> GetGroupCalendarUsers(int? OrgId, string UserIDs)
+        {
+            return _repository.GetGroupCalendarUsers(OrgId, UserIDs);
+        }
+
+        public IList<GetAllEventException> GetDistanctEventException()
+        {
+            return _repository.GetDistanctEventException();
+        }
+
+        public void UpdateJobEvents(string EventId, string CalendarName)
+        {
+            _repository.UpdateJobEvents(EventId, CalendarName);
+        }
+
+       
+
+
+        
+
+    }
+}

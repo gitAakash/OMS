@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SplitUserList_Result
 {
-    using System;
-    
-    public partial class SplitUserList_Result
-    {
-        public int Id { get; set; }
-        public string Value { get; set; }
-    }
+    public int Id { get; set; }
+    public string Value { get; set; }
 }

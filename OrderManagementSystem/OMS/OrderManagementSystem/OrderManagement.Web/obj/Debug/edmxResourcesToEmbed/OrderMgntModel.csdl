@@ -29,7 +29,6 @@
     <EntitySet Name="OrderItems" EntityType="OrderManagementModel.OrderItem" />
     <EntitySet Name="Orders" EntityType="OrderManagementModel.Order" />
     <EntitySet Name="OrderTypes" EntityType="OrderManagementModel.OrderType" />
-    <EntitySet Name="Organisations" EntityType="OrderManagementModel.Organisation" />
     <EntitySet Name="ProductCompanies" EntityType="OrderManagementModel.ProductCompany" />
     <EntitySet Name="ProductGroups" EntityType="OrderManagementModel.ProductGroup" />
     <EntitySet Name="Products" EntityType="OrderManagementModel.Product" />
@@ -70,10 +69,6 @@
       <End Role="UserProductGroup" EntitySet="UserProductGroups" />
     </AssociationSet>
     <EntitySet Name="Attachments" EntityType="OrderManagementModel.Attachment" />
-    <AssociationSet Name="FK_EventTracking_Organisation" Association="OrderManagementModel.FK_EventTracking_Organisation">
-      <End Role="Organisation" EntitySet="Organisations" />
-      <End Role="EventTracking" EntitySet="EventTrackings" />
-    </AssociationSet>
     <AssociationSet Name="FK_User_UserType" Association="OrderManagementModel.FK_User_UserType">
       <End Role="UserType" EntitySet="UserTypes" />
       <End Role="User" EntitySet="Users" />
@@ -81,10 +76,6 @@
     <EntitySet Name="OrderAttachments" EntityType="OrderManagementModel.OrderAttachment" />
     <AssociationSet Name="FK_Order_OrderAttachment" Association="OrderManagementModel.FK_Order_OrderAttachment">
       <End Role="Order" EntitySet="Orders" />
-      <End Role="OrderAttachment" EntitySet="OrderAttachments" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Organisation_OrderAttachment" Association="OrderManagementModel.FK_Organisation_OrderAttachment">
-      <End Role="Organisation" EntitySet="Organisations" />
       <End Role="OrderAttachment" EntitySet="OrderAttachments" />
     </AssociationSet>
     <EntitySet Name="OrderStatus1" EntityType="OrderManagementModel.OrderStatus" />
@@ -262,8 +253,10 @@
       <Parameter Name="Tags" Mode="In" Type="String" />
       <Parameter Name="Folder" Mode="In" Type="String" />
       <Parameter Name="FilePath" Mode="In" Type="String" />
+      <Parameter Name="ThumbImgPath" Mode="In" Type="String" />
       <Parameter Name="Row_id" Mode="In" Type="Int32" />
       <Parameter Name="isDeleted" Mode="In" Type="Int32" />
+      <Parameter Name="Selected" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="InsertJobCopy">
       <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
@@ -283,6 +276,7 @@
       <Parameter Name="USER_ID" Mode="In" Type="Int32" />
       <Parameter Name="USER_TYPE" Mode="In" Type="String" />
       <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JobId" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="SelectJobCopy" ReturnType="Collection(OrderManagementModel.SelectJobCopy)">
       <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
@@ -330,13 +324,6 @@
     </FunctionImport>
     <FunctionImport Name="SelectAllProduct" ReturnType="Collection(OrderManagementModel.SpGetAllProduct)">
       <Parameter Name="OrgId" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="SelectJobs" ReturnType="Collection(OrderManagementModel.TrackingJobs)">
-      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
-      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
-      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
-      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
-      <Parameter Name="SearchValue" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="GetCalenderUsers" ReturnType="Collection(OrderManagementModel.GetCalenderUsers)">
       <Parameter Name="Org_Id" Mode="In" Type="Int32" />
@@ -502,6 +489,318 @@
     <FunctionImport Name="GetEventRowId" ReturnType="Collection(OrderManagementModel.GetEventRowId)">
       <Parameter Name="EventId" Mode="In" Type="String" />
     </FunctionImport>
+    <EntitySet Name="Eventlogs" EntityType="OrderManagementModel.Eventlog" />
+    <FunctionImport Name="InsertEventslog">
+      <Parameter Name="Event_Id" Mode="In" Type="String" />
+      <Parameter Name="Event_Title" Mode="In" Type="String" />
+      <Parameter Name="Operation" Mode="In" Type="String" />
+      <Parameter Name="User_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Source_calendar" Mode="In" Type="String" />
+      <Parameter Name="Destination_calendar" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectOrg" ReturnType="Collection(OrderManagementModel.SelectOrg)">
+      <Parameter Name="subdomain" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectEventsBySearchValue" ReturnType="Collection(OrderManagementModel.SelectEventsBySearchValue)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetEventPrintData" ReturnType="Collection(OrderManagementModel.GetEventPrintData)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="EventId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetEventDetails" ReturnType="Collection(OrderManagementModel.GetEventDetails)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="EventId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetEventEmailORPrintData" ReturnType="Collection(OrderManagementModel.GetEventEmailORPrintData)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="EventEmailORPrints" EntityType="OrderManagementModel.EventEmailORPrint" />
+    <FunctionImport Name="SelectEmailAddressAutoComplete" ReturnType="Collection(String)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="EVENT_ROW_ID" Mode="In" Type="Int32" />
+      <Parameter Name="SEARCH_VALUE" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertEventMailToEmailInbox">
+      <Parameter Name="TO_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="FROM_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="CC_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="BCC_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="SUBJECT" Mode="In" Type="String" />
+      <Parameter Name="MESSAGE_BODY" Mode="In" Type="String" />
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectCommunicationTemplate" ReturnType="Collection(OrderManagementModel.SelectCommunicationTemplate)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="TEMPLATE_TYPE" Mode="In" Type="String" />
+      <Parameter Name="PRINT" Mode="In" Type="Boolean" />
+      <Parameter Name="EMAIL" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SelectCommunicationTemplates" ReturnType="Collection(OrderManagementModel.SelectCommunicationTemplates)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="TEMPLATE_TYPE" Mode="In" Type="String" />
+      <Parameter Name="PRINT" Mode="In" Type="Boolean" />
+      <Parameter Name="EMAIL" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <EntitySet Name="Clients" EntityType="OrderManagementModel.Client" />
+    <EntitySet Name="Videos" EntityType="OrderManagementModel.Video" />
+    <FunctionImport Name="SelectClients" ReturnType="Collection(OrderManagementModel.SelectClients)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+      <Parameter Name="Row_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteClients">
+      <Parameter Name="Row_Id" Mode="In" Type="Int32" />
+      <Parameter Name="user_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateClients">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Client_Id" Mode="In" Type="Int32" />
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Main_Phone" Mode="In" Type="String" />
+      <Parameter Name="Main_Email" Mode="In" Type="String" />
+      <Parameter Name="Main_URL" Mode="In" Type="String" />
+      <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SelectVideo" ReturnType="Collection(OrderManagementModel.SelectVideo)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+      <Parameter Name="ClientId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertVideo">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Client_Id" Mode="In" Type="Int32" />
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="Title" Mode="In" Type="String" />
+      <Parameter Name="FileName" Mode="In" Type="String" />
+      <Parameter Name="FileExtension" Mode="In" Type="String" />
+      <Parameter Name="FileSize" Mode="In" Type="Int32" />
+      <Parameter Name="File_s3_location" Mode="In" Type="String" />
+      <Parameter Name="Reference" Mode="In" Type="String" />
+      <Parameter Name="Host_Primary" Mode="In" Type="String" />
+      <Parameter Name="Host_Primary_Link" Mode="In" Type="String" />
+      <Parameter Name="Host_Secondary" Mode="In" Type="String" />
+      <Parameter Name="Host_Secondary_Link" Mode="In" Type="String" />
+      <Parameter Name="Comments" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateVideo">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Client_Id" Mode="In" Type="Int32" />
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="Title" Mode="In" Type="String" />
+      <Parameter Name="FileName" Mode="In" Type="String" />
+      <Parameter Name="FileExtension" Mode="In" Type="String" />
+      <Parameter Name="FileSize" Mode="In" Type="Int32" />
+      <Parameter Name="File_s3_location" Mode="In" Type="String" />
+      <Parameter Name="Reference" Mode="In" Type="String" />
+      <Parameter Name="Host_Primary" Mode="In" Type="String" />
+      <Parameter Name="Host_Primary_Link" Mode="In" Type="String" />
+      <Parameter Name="Host_Secondary" Mode="In" Type="String" />
+      <Parameter Name="Host_Secondary_Link" Mode="In" Type="String" />
+      <Parameter Name="Comments" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+      <Parameter Name="Row_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteVideo">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="VIDEO_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetVideoById" ReturnType="Collection(OrderManagementModel.GetVideoById)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+      <Parameter Name="VideoId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllJobs" ReturnType="Collection(OrderManagementModel.GetAllJobs)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectVideoById" ReturnType="Collection(OrderManagementModel.SelectVideoById)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+      <Parameter Name="VideoId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetJobCommentsById" ReturnType="Collection(OrderManagementModel.GetJobCommentsById)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="ROW_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateJobAttachmentComments">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="FILE_ID" Mode="In" Type="Int32" />
+      <Parameter Name="COMMENTS" Mode="In" Type="String" />
+      <Parameter Name="ISDELETED" Mode="In" Type="Boolean" />
+      <Parameter Name="COMMENT_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetFoldersAttachmentCount" ReturnType="Collection(OrderManagementModel.GetFoldersAttachmentCount)">
+      <Parameter Name="job_Id" Mode="In" Type="Int32" />
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetUserCommentsbyJobId" ReturnType="Collection(OrderManagementModel.GetUserCommentsbyJobId)">
+      <Parameter Name="File_id" Mode="In" Type="Int32" />
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateJobAttachmentUploaded">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JobAttachmentId" Mode="In" Type="Int32" />
+      <Parameter Name="UPLOAD_STATUS" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobAttachmentComment" ReturnType="Collection(OrderManagementModel.SelectJobAttachmentComment_Result)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateJobEmail_Notification">
+      <Parameter Name="JobId" Mode="In" Type="Int32" />
+      <Parameter Name="Email__Notification" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobAttachmentFolders1" ReturnType="Collection(OrderManagementModel.SelectJobAttachmentFolders)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JobId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateJobstatus">
+      <Parameter Name="JobId" Mode="In" Type="Int32" />
+      <Parameter Name="UpdatedBy" Mode="In" Type="Int32" />
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetJobAnnotationById" ReturnType="Collection(OrderManagementModel.GetJobAnnotationById)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="ROW_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertJobAnnotation">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="FILE_ID" Mode="In" Type="Int32" />
+      <Parameter Name="AnnotationText" Mode="In" Type="String" />
+      <Parameter Name="ISDELETED" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <EntitySet Name="JobAnnotations" EntityType="OrderManagementModel.JobAnnotation" />
+    <FunctionImport Name="GetEmailTemplateData" ReturnType="Collection(OrderManagementModel.GetEmailTemplateData_Result)">
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateJobAttachmentTags">
+      <Parameter Name="Tags" Mode="In" Type="String" />
+      <Parameter Name="Row_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateConfirmSelectImage" />
+    <FunctionImport Name="UpdateImageSelection">
+      <Parameter Name="RowId" Mode="In" Type="String" />
+      <Parameter Name="JobId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobs" ReturnType="Collection(OrderManagementModel.TrackingJobs)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateFolderLock">
+      <Parameter Name="jobId" Mode="In" Type="Int32" />
+      <Parameter Name="RowId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobAttachmentTemplate" ReturnType="Collection(OrderManagementModel.SelectJobAttachmentTemplate_Result)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JOB_ID" Mode="In" Type="Int32" />
+      <Parameter Name="FOLDER" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertEmailsToEmailInbox">
+      <Parameter Name="TO_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="FROM_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="CC_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="BCC_EMAIL" Mode="In" Type="String" />
+      <Parameter Name="SUBJECT" Mode="In" Type="String" />
+      <Parameter Name="MESSAGE_BODY" Mode="In" Type="String" />
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="FOLDER_NAME" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Organisations" EntityType="OrderManagementModel.Organisation" />
+    <AssociationSet Name="FK_EventTracking_Organisation" Association="OrderManagementModel.FK_EventTracking_Organisation">
+      <End Role="Organisation" EntitySet="Organisations" />
+      <End Role="EventTracking" EntitySet="EventTrackings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Organisation_OrderAttachment" Association="OrderManagementModel.FK_Organisation_OrderAttachment">
+      <End Role="Organisation" EntitySet="Organisations" />
+      <End Role="OrderAttachment" EntitySet="OrderAttachments" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Asset">
     <Key>
@@ -877,16 +1176,6 @@
     <Property Name="Row_Id" Type="Int32" Nullable="false" />
     <Property Name="Type" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
   </EntityType>
-  <EntityType Name="Organisation">
-    <Key>
-      <PropertyRef Name="Row_Id" />
-    </Key>
-    <Property Name="Row_Id" Type="Int32" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-    <Property Name="IsActive" Type="Boolean" />
-    <NavigationProperty Name="EventTrackings" Relationship="OrderManagementModel.FK_EventTracking_Organisation" FromRole="Organisation" ToRole="EventTracking" />
-    <NavigationProperty Name="OrderAttachments" Relationship="OrderManagementModel.FK_Organisation_OrderAttachment" FromRole="Organisation" ToRole="OrderAttachment" />
-  </EntityType>
   <EntityType Name="ProductCompany">
     <Key>
       <PropertyRef Name="Row_Id" />
@@ -1010,6 +1299,10 @@
     <NavigationProperty Name="UserType1" Relationship="OrderManagementModel.FK_User_UserType" FromRole="User" ToRole="UserType" />
     <NavigationProperty Name="Attachments" Relationship="OrderManagementModel.FK_Attachment_User" FromRole="User" ToRole="Attachment" />
     <Property Type="Boolean" Name="IsDeleted" />
+    <Property Type="String" Name="MobileNumber" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Rating" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Notification_Email" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Notification" />
   </EntityType>
   <EntityType Name="UserType">
     <Key>
@@ -1018,6 +1311,10 @@
     <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
     <NavigationProperty Name="Users" Relationship="OrderManagementModel.FK_User_UserType" FromRole="UserType" ToRole="User" />
+    <Property Type="String" Name="SubType" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="Boolean" Name="IsDeleted" />
+    <Property Type="Int32" Name="Order" />
   </EntityType>
   <EntityType Name="Visitor_Fact">
     <Key>
@@ -1134,18 +1431,6 @@
     <Property Type="Binary" Name="Buffer" MaxLength="Max" FixedLength="false" />
     <NavigationProperty Name="User" Relationship="OrderManagementModel.FK_Attachment_User" FromRole="Attachment" ToRole="User" />
   </EntityType>
-  <Association Name="FK_EventTracking_Organisation">
-    <End Type="OrderManagementModel.Organisation" Role="Organisation" Multiplicity="0..1" />
-    <End Type="OrderManagementModel.EventTracking" Role="EventTracking" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organisation">
-        <PropertyRef Name="Row_Id" />
-      </Principal>
-      <Dependent Role="EventTracking">
-        <PropertyRef Name="Org_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_User_UserType">
     <End Type="OrderManagementModel.UserType" Role="UserType" Multiplicity="0..1" />
     <End Type="OrderManagementModel.User" Role="User" Multiplicity="*" />
@@ -1187,18 +1472,6 @@
       </Principal>
       <Dependent Role="OrderAttachment">
         <PropertyRef Name="Order_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Organisation_OrderAttachment">
-    <End Type="OrderManagementModel.Organisation" Role="Organisation" Multiplicity="1" />
-    <End Type="OrderManagementModel.OrderAttachment" Role="OrderAttachment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Organisation">
-        <PropertyRef Name="Row_Id" />
-      </Principal>
-      <Dependent Role="OrderAttachment">
-        <PropertyRef Name="Org_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1367,6 +1640,11 @@
     <Property Type="Int32" Name="CreatedBy" />
     <Property Type="DateTime" Name="Updated" Precision="3" />
     <Property Type="DateTime" Name="UpdatedBy" Precision="3" />
+    <Property Name="Email_Notification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Package" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Package_Qty" Type="Int32" />
+    <Property Name="Image_locked_to_client" Type="Boolean" />
+    <Property Name="Floorplan_locked_to_client" Type="Boolean" />
   </EntityType>
   <EntityType Name="JobAttachment">
     <Key>
@@ -1390,6 +1668,13 @@
     <Property Type="Int32" Name="UpdatedBy" />
     <Property Type="Boolean" Name="isDeleted" />
     <Property Type="String" Name="FilePath" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Comments" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Thumbnail" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="UPLOAD_DATETIME" Type="DateTime" Precision="3" />
+    <Property Name="UPLOAD_BY" Type="Int32" />
+    <Property Name="UPLOAD_STATUS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Annotation" />
+    <Property Name="ConfirmSelectionStatus" Type="Boolean" />
   </EntityType>
   <EntityType Name="JobCopy">
     <Key>
@@ -1619,7 +1904,7 @@
     <Property Type="Int32" Name="Order_Id" Nullable="true" />
     <Property Type="Int32" Name="Property_Id" Nullable="true" />
     <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
-    <Property Type="Int32" Name="Completion_Percent" Nullable="true" />
+    <Property Type="Int32" Name="Completion_Percent" Nullable="false" />
     <Property Type="Int32" Name="Company_Id" Nullable="true" />
     <Property Type="String" Name="Company_Name" Nullable="true" />
     <Property Type="DateTime" Name="Required_By_Date" Nullable="true" />
@@ -1636,6 +1921,11 @@
     <Property Type="String" Name="Status_Colour" Nullable="true" MaxLength="6" />
     <Property Type="String" Name="JobEventStatusColour" Nullable="true" MaxLength="6" />
     <Property Type="String" Name="JobEventStatus" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Email_Notification" Nullable="true" />
+    <Property Type="String" Name="Package" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Package_Qty" Nullable="true" />
+    <Property Type="Boolean" Name="Image_locked_to_client" Nullable="true" />
+    <Property Type="Boolean" Name="Floorplan_locked_to_client" Nullable="true" />
   </ComplexType>
   <ComplexType Name="GetCalenderUsers_Result">
     <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
@@ -1698,10 +1988,11 @@
   </ComplexType>
   <ComplexType Name="SelectJobAttachmentFolders">
     <Property Type="Int32" Name="ROW_ID" Nullable="false" />
-    <Property Type="String" Name="FOLDER" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="PARENT_FOLDER_ID" Nullable="true" />
     <Property Type="String" Name="PARENT_FOLDER_NAME" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="TAGS" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="false" MaxLength="11" />
+    <Property Type="Int32" Name="CountFolder" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SelectJobAttachment_Result">
     <Property Type="Int32" Name="Row_Id" Nullable="false" />
@@ -1814,6 +2105,15 @@
     <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
     <Property Type="Boolean" Name="isDeleted" Nullable="true" />
     <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="Thumbnail" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+    <Property Type="DateTime" Name="UPLOAD_DATETIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UPLOAD_BY" Nullable="true" />
+    <Property Type="String" Name="UPLOAD_STATUS" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Property_Id" Nullable="true" />
+    <Property Type="Int32" Name="Annotation" Nullable="true" />
+    <Property Type="Boolean" Name="Image_locked_to_client" Nullable="true" />
+    <Property Type="Boolean" Name="Floorplan_locked_to_client" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SelectJobAttachmentTypes">
     <Property Type="Int32" Name="Row_Id" Nullable="false" />
@@ -1955,4 +2255,749 @@
   <ComplexType Name="GetEventRowId">
     <Property Type="Int32" Name="EventRow_id" Nullable="true" />
   </ComplexType>
+  <EntityType Name="Eventlog">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Event_Id" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Event_Title" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Operation" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="User_Id" />
+    <Property Type="String" Name="Source_calendar" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Destination_calendar" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+  </EntityType>
+  <ComplexType Name="SelectOrg_Result">
+    <Property Type="Int32" Name="OrgId" Nullable="false" />
+    <Property Type="String" Name="OrgName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Logolocation" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="SelectOrg">
+    <Property Type="Int32" Name="OrgId" Nullable="false" />
+    <Property Type="String" Name="OrgName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Logolocation" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="subdomain" Nullable="true" MaxLength="100" />
+    <Property Type="Time" Name="BH_StartTime" Nullable="true" />
+    <Property Type="Time" Name="BH_EndTime" Nullable="true" />
+    <Property Type="String" Name="ThemeName" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="SelectEventsBySearchValue_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+    <Property Type="String" Name="EventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="RecurringEventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="ColorId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Attendees" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="AttendeesOmitted" Nullable="true" />
+    <Property Type="Boolean" Name="AnyoneCanAddSelf" Nullable="true" />
+    <Property Type="Boolean" Name="Locked" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Location" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="Kind" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="MovedOn" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Recurrence" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Organizer" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Creator" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Transperancy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Visibility" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsAllDay" Nullable="true" />
+    <Property Type="String" Name="RecurrenceID" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SelectEventsBySearchValue">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+    <Property Type="String" Name="EventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="RecurringEventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="ColorId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Attendees" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="AttendeesOmitted" Nullable="true" />
+    <Property Type="Boolean" Name="AnyoneCanAddSelf" Nullable="true" />
+    <Property Type="Boolean" Name="Locked" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Location" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="Kind" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="MovedOn" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Recurrence" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Organizer" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Creator" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Transperancy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Visibility" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsAllDay" Nullable="true" />
+    <Property Type="String" Name="RecurrenceID" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="GetEventPrintData_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Event_Id" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="MESSAGE_BODY" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetEventPrintData">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Event_Id" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="MESSAGE_BODY" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetEventDetails_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+    <Property Type="String" Name="EventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="RecurringEventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="ColorId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Attendees" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="AttendeesOmitted" Nullable="true" />
+    <Property Type="Boolean" Name="AnyoneCanAddSelf" Nullable="true" />
+    <Property Type="Boolean" Name="Locked" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Location" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="Kind" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="MovedOn" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Recurrence" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Organizer" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Creator" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Transperancy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Visibility" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsAllDay" Nullable="true" />
+    <Property Type="String" Name="RecurrenceID" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="GetEventDetails">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+    <Property Type="String" Name="EventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="RecurringEventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="ColorId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Attendees" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="AttendeesOmitted" Nullable="true" />
+    <Property Type="Boolean" Name="AnyoneCanAddSelf" Nullable="true" />
+    <Property Type="Boolean" Name="Locked" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Location" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="Kind" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="MovedOn" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Recurrence" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="Organizer" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Creator" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Transperancy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Visibility" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsAllDay" Nullable="true" />
+    <Property Type="String" Name="RecurrenceID" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="GetEventEmailORPrintData_Result">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="TO_EMAIL" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="FROM_EMAIL" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="SUBJECT" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="MESSAGE_BODY" Nullable="true" />
+    <Property Type="Boolean" Name="IS_ACTIVE" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="EventEmailORPrint">
+    <Key>
+      <PropertyRef Name="ROW_ID" />
+    </Key>
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="TO_EMAIL" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FROM_EMAIL" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="SUBJECT" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="MESSAGE_BODY" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IS_ACTIVE" />
+  </EntityType>
+  <ComplexType Name="GetEventEmailORPrintData">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="TO_EMAIL" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="FROM_EMAIL" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="SUBJECT" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="MESSAGE_BODY" Nullable="true" />
+    <Property Type="Boolean" Name="IS_ACTIVE" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectCommunicationTemplate_Result">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="TYPE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TEMPLATE" Nullable="true" />
+    <Property Type="String" Name="MERGE_ATTRIBUTE" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="SelectCommunicationTemplate">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="TYPE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="TEMPLATE" Nullable="true" />
+    <Property Type="String" Name="MERGE_ATTRIBUTE" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="EMAIL_SUBJECT" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="TEMPLATE1" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="EMAIL_PRIORITY" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="CC_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="BCC_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="FROM" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="FROM_DISPLAY_AS" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="REPLY_TO" Nullable="false" MaxLength="1" />
+  </ComplexType>
+  <ComplexType Name="SelectCommunicationTemplates_Result">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="TYPE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="EMAIL_SUBJECT" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="TEMPLATE" Nullable="true" />
+    <Property Type="String" Name="EMAIL_PRIORITY" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="CC_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="BCC_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="FROM" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="FROM_DISPLAY_AS" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="REPLY_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="MERGE_ATTRIBUTE" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="SelectCommunicationTemplates">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="TYPE" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="EMAIL_SUBJECT" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="TEMPLATE" Nullable="true" />
+    <Property Type="String" Name="EMAIL_PRIORITY" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="CC_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="BCC_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="FROM" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="FROM_DISPLAY_AS" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="REPLY_TO" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="MERGE_ATTRIBUTE" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="DateTime" Name="UpdatedBy" Precision="3" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Main_Phone" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Main_Email" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Main_URL" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsDeleted" />
+  </EntityType>
+  <EntityType Name="Video">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="DateTime" Name="UpdatedBy" Precision="3" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="Int32" Name="Client_Id" />
+    <Property Type="String" Name="Title" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FileName" MaxLength="225" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FileExtension" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="FileSize" />
+    <Property Type="String" Name="File_s3_Location" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Reference" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Host_Primary" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Host_Primary_Link" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Host_Secondary" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Host_Secondary_Link" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Comments" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Status" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsDeleted" />
+    <Property Type="Int32" Name="Job_Id" />
+  </EntityType>
+  <ComplexType Name="SelectCLients_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="String" Name="Main_Phone" Nullable="true" />
+    <Property Type="String" Name="Main_Email" Nullable="true" />
+    <Property Type="String" Name="Main_URL" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectClients1_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="String" Name="Main_Phone" Nullable="true" />
+    <Property Type="String" Name="Main_Email" Nullable="true" />
+    <Property Type="String" Name="Main_URL" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectClients">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="String" Name="Main_Phone" Nullable="true" />
+    <Property Type="String" Name="Main_Email" Nullable="true" />
+    <Property Type="String" Name="Main_URL" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectClients_Result1">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="String" Name="Main_Phone" Nullable="true" />
+    <Property Type="String" Name="Main_Email" Nullable="true" />
+    <Property Type="String" Name="Main_URL" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Select">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="String" Name="Main_Phone" Nullable="true" />
+    <Property Type="String" Name="Main_Email" Nullable="true" />
+    <Property Type="String" Name="Main_URL" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectClients_Result2">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="String" Name="Main_Phone" Nullable="true" />
+    <Property Type="String" Name="Main_Email" Nullable="true" />
+    <Property Type="String" Name="Main_URL" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectClients1_Result1">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="String" Name="Main_Phone" Nullable="true" />
+    <Property Type="String" Name="Main_Email" Nullable="true" />
+    <Property Type="String" Name="Main_URL" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectVideo_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Int32" Name="Client_Id" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="File_s3_Location" Nullable="true" />
+    <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Host_Primary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Primary_Link" Nullable="true" />
+    <Property Type="String" Name="Host_Secondary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Secondary_Link" Nullable="true" />
+    <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectVideo">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Int32" Name="Client_Id" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="File_s3_Location" Nullable="true" />
+    <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Host_Primary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Primary_Link" Nullable="true" />
+    <Property Type="String" Name="Host_Secondary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Secondary_Link" Nullable="true" />
+    <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetVideoById_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Int32" Name="Client_Id" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="File_s3_Location" Nullable="true" />
+    <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Host_Primary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Primary_Link" Nullable="true" />
+    <Property Type="String" Name="Host_Secondary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Secondary_Link" Nullable="true" />
+    <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetVideoById">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Int32" Name="Client_Id" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="File_s3_Location" Nullable="true" />
+    <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Host_Primary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Primary_Link" Nullable="true" />
+    <Property Type="String" Name="Host_Secondary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Secondary_Link" Nullable="true" />
+    <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectVideoById_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Int32" Name="Client_Id" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="File_s3_Location" Nullable="true" />
+    <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Host_Primary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Primary_Link" Nullable="true" />
+    <Property Type="String" Name="Host_Secondary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Secondary_Link" Nullable="true" />
+    <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectVideoById">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Int32" Name="Client_Id" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="File_s3_Location" Nullable="true" />
+    <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Host_Primary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Primary_Link" Nullable="true" />
+    <Property Type="String" Name="Host_Secondary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Secondary_Link" Nullable="true" />
+    <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="JobId" Nullable="true" />
+    <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="GetAllJobs_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="GetAllJobs">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="SelectVideoById_Result1">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="UpdatedBy" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Int32" Name="Client_Id" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="File_s3_Location" Nullable="true" />
+    <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Host_Primary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Primary_Link" Nullable="true" />
+    <Property Type="String" Name="Host_Secondary" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Host_Secondary_Link" Nullable="true" />
+    <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="JobId" Nullable="true" />
+    <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="GetJobCommentsById_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetJobCommentsById">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetFoldersAttachmentCount_Result">
+    <Property Type="String" Name="FolderName" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Count" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetFoldersAttachmentCount">
+    <Property Type="String" Name="FolderName" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Count" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetUserCommentsbyJobId_Result">
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="File_Id" Nullable="false" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GetUserCommentsbyJobId">
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="File_Id" Nullable="false" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Buffer" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentComment_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="OrgId" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="Binary" Name="File" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+    <Property Type="String" Name="Thumbnail" Nullable="true" MaxLength="2000" />
+    <Property Type="DateTime" Name="UPLOAD_DATETIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UPLOAD_BY" Nullable="true" />
+    <Property Type="String" Name="UPLOAD_STATUS" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="CommentCount" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentTemplate_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="OrgId" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="Binary" Name="File" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+    <Property Type="String" Name="Thumbnail" Nullable="true" MaxLength="2000" />
+    <Property Type="DateTime" Name="UPLOAD_DATETIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UPLOAD_BY" Nullable="true" />
+    <Property Type="String" Name="UPLOAD_STATUS" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PackageNumber" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="CommentCount" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Fname2" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="ConfirmSelectionStatus" Nullable="true" />
+    <Property Type="DateTime" Name="DueDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="DAY_PHOTOGRAPHER" Nullable="false" MaxLength="16" />
+    <Property Type="String" Name="DUSK_PHOTOGRAPHER" Nullable="false" MaxLength="17" />
+  </ComplexType>
+  <EntityType Name="JobAnnotation">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="File_Id" />
+    <Property Type="Int32" Name="User_Id" />
+    <Property Type="String" Name="Annotation" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="Boolean" Name="IsDeleted" />
+  </EntityType>
+  <ComplexType Name="GetJobAnnotationById">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Annotation" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetEmailTemplateData_Result">
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="EventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="String" Name="Organizer" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentTemplate1_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="OrgId" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="Binary" Name="File" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+    <Property Type="String" Name="Thumbnail" Nullable="true" MaxLength="2000" />
+    <Property Type="DateTime" Name="UPLOAD_DATETIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UPLOAD_BY" Nullable="true" />
+    <Property Type="String" Name="UPLOAD_STATUS" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Fname2" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PackageNumber" Nullable="false" MaxLength="4" />
+    <Property Type="Int32" Name="CommentCount" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentTemplate">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="OrgId" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="Binary" Name="File" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+    <Property Type="String" Name="Comments" Nullable="true" />
+    <Property Type="String" Name="Thumbnail" Nullable="true" MaxLength="2000" />
+    <Property Type="DateTime" Name="UPLOAD_DATETIME" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UPLOAD_BY" Nullable="true" />
+    <Property Type="String" Name="UPLOAD_STATUS" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Fname2" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PackageNumber" Nullable="false" MaxLength="4" />
+    <Property Type="Int32" Name="CommentCount" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <EntityType Name="Organisation">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsActive" />
+    <Property Type="Guid" Name="OrgKey" />
+    <Property Type="String" Name="subdomain" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="companylogo" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsDeleted" />
+    <Property Type="Time" Name="BH_StartTime" Precision="7" />
+    <Property Type="Time" Name="BH_EndTime" Precision="7" />
+    <Property Type="String" Name="ThemeName" MaxLength="500" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="EventTrackings" Relationship="OrderManagementModel.FK_EventTracking_Organisation" FromRole="Organisation" ToRole="EventTracking" />
+    <NavigationProperty Name="OrderAttachments" Relationship="OrderManagementModel.FK_Organisation_OrderAttachment" FromRole="Organisation" ToRole="OrderAttachment" />
+  </EntityType>
+  <Association Name="FK_EventTracking_Organisation">
+    <End Type="OrderManagementModel.Organisation" Role="Organisation" Multiplicity="0..1" />
+    <End Type="OrderManagementModel.EventTracking" Role="EventTracking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organisation">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="EventTracking">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Organisation_OrderAttachment">
+    <End Type="OrderManagementModel.Organisation" Role="Organisation" Multiplicity="1" />
+    <End Type="OrderManagementModel.OrderAttachment" Role="OrderAttachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organisation">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderAttachment">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

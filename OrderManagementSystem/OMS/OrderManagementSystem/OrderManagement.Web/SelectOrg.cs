@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectOrg
 {
-    using System;
-    
-    public partial class SelectOrg
-    {
-        public int OrgId { get; set; }
-        public string OrgName { get; set; }
-        public string Logolocation { get; set; }
-    }
+    public int OrgId { get; set; }
+    public string OrgName { get; set; }
+    public string Logolocation { get; set; }
+    public string subdomain { get; set; }
+    public Nullable<System.TimeSpan> BH_StartTime { get; set; }
+    public Nullable<System.TimeSpan> BH_EndTime { get; set; }
+    public string ThemeName { get; set; }
 }

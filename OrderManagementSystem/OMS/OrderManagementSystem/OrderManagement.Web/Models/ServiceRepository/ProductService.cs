@@ -352,32 +352,24 @@ namespace OrderManagement.Web.Models.ServiceRepository
                                  {
                                       productSubGroup.Add(pg);
                                  }
+                            if (schedulelist.Count >0)
+                            {
 
-                              /* below code is commented becoz some data from  ProductSchedules is not displaying due to ProductGroupId is not matched //
-                               exec [dbo].[GetProductCategory] @Org_Id=825,@Parent_Id=7
-                               Select * from ProductSchedules where XEROCODE = 'MWPACK5'
-                              */
-                             /*
-                                        //if (schedulelist.Count >0)
-                                        //{
+                                foreach (var subgrp in productSubGroup)
+                                {
+                                  var prosch = schedulelist.Where(m => m.ProductGroupId == subgrp.Row_Id).ToList();
+                                  if (prosch!= null)
+                                    {
+                                        schedulelst.AddRange(prosch);
+                                    }
+                                 
+                                }
 
-                                        //    foreach (var subgrp in productSubGroup)
-                                        //    {
-                                        //      var prosch = schedulelist.Where(m => m.ProductGroupId == subgrp.Row_Id).ToList();
-                                        //      if (prosch!= null)
-                                        //        {
-                                        //            schedulelst.AddRange(prosch);
-                                        //        }
-                                        //    }
-                                        //   // schedulelist.Where(m=>m.ProductGroupId==);
-                                        //}
-                                        // schedulesModelslst = Mapper.Map<IEnumerable<ProductSchedule>, List<ProductSchedulesModel>>(schedulelst);
-                             
-                            */
-                              if (schedulelist != null && schedulelist.Count > 0)
-                              {
-                                  schedulesModelslst = Mapper.Map<IEnumerable<ProductSchedule>, List<ProductSchedulesModel>>(schedulelist);
-                              }
+                               // schedulelist.Where(m=>m.ProductGroupId==);
+
+                            }
+
+                             schedulesModelslst = Mapper.Map<IEnumerable<ProductSchedule>, List<ProductSchedulesModel>>(schedulelst);
 
                            // schedulesModelslst =  Mapper.Map<IEnumerable<ProductSchedule>, List<ProductSchedulesModel>>(schedulelist);
 

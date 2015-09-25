@@ -34,10 +34,14 @@ namespace OrderManagement.Web.Models.ServiceRepository
       void UpdateJobEvents(string EventId, string CalendarName, string UpdatedByCalendarName,int OldEventRowId);
       IList<GetEventRowId> GetEventRowId(string EventId);
       int InsertEventLog(string Event_Id, string Event_Title, string Operation, int User_Id, string Source_calendar, string Destination_calendar);
+      IList<SelectEventsBySearchValue> GetAllEventBySearch(string SearchText);
+      IList<GetEventEmailORPrintData> GetEventEmailORPrintData(string Event_id);
       IList<GetEventDetails> GetEventDetails(string Event_id);
       IList<SelectCommunicationTemplates> GetEventCommunicationTemplate(string TemplateType, bool? IsPrint, bool? IsEmail);
       int InsertEventMailToEmailInbox(string To_email, string from_email, string Cc_email, string Bcc_email, string Subject, string MessageBody);//, int? userid, string userType, int? compamyid);
       IList<string> GetEmailAddress(string SearchValue);
+      IList<GetEmailTemplateData_Result> GetEmailTemplateData(string JobId);
+
     }
 
 
@@ -58,6 +62,36 @@ namespace OrderManagement.Web.Models.ServiceRepository
         {
             return _repository.GetAllEventByUserIdAndDate(UserIds, StartDate, EndDate);
 
+        }
+
+        public IList<SelectEventsBySearchValue> GetAllEventBySearch(string SearchText)
+        {
+
+             var currentUser = UserManager.Current();
+             if (currentUser != null)
+             {
+                 if (currentUser.OrgId != null)
+                 {
+                     int orgid = currentUser.OrgId.Value;
+                     var userid = currentUser.Row_Id;
+                     var userType = currentUser.UserType;
+                     string userTypeName = currentUser.UserType1.Name;
+                     int? compamyid = null;
+
+                     if (currentUser.UserType == 3)
+                     {
+                         compamyid = currentUser.CompanyId;
+                     }
+
+                     if (string.IsNullOrEmpty(SearchText))
+                         SearchText = string.Empty;
+
+                     var Eventlist = _repository.GetAllEventBySearch(orgid, userid, userTypeName, compamyid, SearchText).ToList();
+                     return Eventlist;
+                 }
+             }
+             return null;
+            
         }
 
         public Dictionary<string, string> GetEventExceptions()
@@ -168,8 +202,37 @@ namespace OrderManagement.Web.Models.ServiceRepository
             return _repository.InsertEventLog(Event_Id, Event_Title, Operation, User_Id, Source_calendar, Destination_calendar);
         }
 
+        public IList<GetEventEmailORPrintData> GetEventEmailORPrintData(string EventId)
+        {
+
+            var currentUser = UserManager.Current();
+            if (currentUser != null)
+            {
+                if (currentUser.OrgId != null)
+                {
+                    int orgid = currentUser.OrgId.Value;
+                    var userid = currentUser.Row_Id;
+                    var userType = currentUser.UserType;
+                    string userTypeName = currentUser.UserType1.Name;
+                    int? compamyid = null;
+
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }
+
+                    if (string.IsNullOrEmpty(EventId))
+                        EventId = string.Empty;
+
+                    var Eventlist = _repository.GetEventEmailORPrintData(orgid, userid, userTypeName, compamyid, EventId).ToList();
+
+                    return Eventlist;
+                }
+            }
+            return null;
+
          
-        
+        }
 
         public IList<GetEventDetails> GetEventDetails(string EventId)
         {
@@ -220,6 +283,33 @@ namespace OrderManagement.Web.Models.ServiceRepository
                     var Templatelist = _repository.GetCommunicationTemplate(orgid, userid, userTypeName, compamyid, TemplateType, IsPrint, IsEmail).ToList();
 
                     return Templatelist;
+                }
+            }
+            return null;
+        }
+
+        //To Get Email Template for Job tracking images and Floor Plan
+        public IList<GetEmailTemplateData_Result> GetEmailTemplateData(string JobId)
+        {
+            var currentUser = UserManager.Current();
+            if (currentUser != null)
+            {
+                if (currentUser.OrgId != null)
+                {
+                    int orgid = currentUser.OrgId.Value;
+                    var userid = currentUser.Row_Id;
+                    var userType = currentUser.UserType;
+                    string userTypeName = currentUser.UserType1.Name;
+
+                    int? compamyid = null;
+
+                    if (currentUser.UserType == 3)
+                    {
+                        compamyid = currentUser.CompanyId;
+                    }          
+
+                    var EmailTemplate = _repository.GetEmailTemplateData(orgid, userid, userTypeName, compamyid, JobId).ToList();
+                    return EmailTemplate;
                 }
             }
             return null;
@@ -290,5 +380,9 @@ namespace OrderManagement.Web.Models.ServiceRepository
             }
             return null;
         }
+
+
+        
+
     }
 }

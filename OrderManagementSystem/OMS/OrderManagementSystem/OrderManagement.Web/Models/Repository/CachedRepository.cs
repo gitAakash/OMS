@@ -35,7 +35,7 @@ namespace OrderManagement.Web.Models.Repository
 
         private static readonly object CacheLockObject = new object();
 
-        public override IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int orgid, int? userid, string userType, int? compamyid)
+        public override IList<SelectJobAttachmentFolders> SelectJobAttachmentFolders(int orgid, int? userid, string userType, int? compamyid,int?jobId)
         {
           
             string cacheKey = "SelectJobAttachmentFolders";
@@ -47,7 +47,7 @@ namespace OrderManagement.Web.Models.Repository
                     result = HttpRuntime.Cache[cacheKey] as List<SelectJobAttachmentFolders>;
                     if (result == null)
                     {
-                        result = db.SelectJobAttachmentFolders(orgid,userid,userType,compamyid).ToList();
+                        result = db.SelectJobAttachmentFolders(orgid,userid,userType,compamyid,jobId).ToList();
                         HttpRuntime.Cache.Insert(cacheKey, result, null,
                             DateTime.Now.AddSeconds(300), TimeSpan.Zero);
                     }
@@ -55,6 +55,43 @@ namespace OrderManagement.Web.Models.Repository
             }
             return result;
         }
+
+        public override IList<TrackingJobs> GetAllJobs(int orgid, int? userid, string userType, int? compamyid, string search, bool IsRefreshCache = false)
+        {
+            string cacheKey = "SelectJob";
+            var result = HttpRuntime.Cache[cacheKey] as List<TrackingJobs>;
+
+            if (IsRefreshCache == true)
+            {
+                result = null;
+                {
+                    lock (CacheLockObject)
+                    {
+                            result = db.SelectJobs(orgid, userid, userType, compamyid, search).ToList();
+                            HttpRuntime.Cache.Insert(cacheKey, result, null,
+                                DateTime.Now.AddSeconds(180), TimeSpan.Zero);
+                    }
+                }
+            }
+            else
+            {
+                if (result == null)
+                {
+                    lock (CacheLockObject)
+                    {
+                        result = HttpRuntime.Cache[cacheKey] as List<TrackingJobs>;
+                        if (result == null)
+                        {
+                            result = db.SelectJobs(orgid, userid, userType, compamyid, search).ToList();
+                            HttpRuntime.Cache.Insert(cacheKey, result, null,
+                                DateTime.Now.AddSeconds(180), TimeSpan.Zero);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
     }
 
     /// <summary>
@@ -191,6 +228,54 @@ namespace OrderManagement.Web.Models.Repository
         }
 
       
+    }
+
+
+    /// <summary>
+    ///  CachedJobTrackingRepository Class is used for Cache the JobTrackingRepository Class
+    /// </summary>
+    public sealed class CachedSchedulerRepository : SchedulerRepository
+    {
+        private OrderMgntEntities db = null;
+
+        private static CachedSchedulerRepository instance;
+
+        public static CachedSchedulerRepository Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new CachedSchedulerRepository();
+                return instance;
+            }
+        }
+
+        private CachedSchedulerRepository()
+        {
+            this.db = new OrderMgntEntities();
+        }
+
+        private static readonly object CacheLockObject = new object();
+
+        public override IList<string> GetEmailAddress(int orgid, int? userid, string userType, int? compamyid, string SearchValue)
+        {
+            string cacheKey = "GetEmailAddress";
+            var result = HttpRuntime.Cache[cacheKey] as List<string>;
+            if (result == null)
+            {
+                lock (CacheLockObject)
+                {
+                    result = HttpRuntime.Cache[cacheKey] as List<string>;
+                    if (result == null)
+                    {
+                        result = db.SelectEmailAddressAutoComplete(orgid, userid, userType, compamyid, 0, SearchValue).ToList();
+                        HttpRuntime.Cache.Insert(cacheKey, result, null,
+                            DateTime.Now.AddSeconds(300), TimeSpan.Zero);
+                    }
+                }
+            }
+            return result;
+        }
     }
 
    

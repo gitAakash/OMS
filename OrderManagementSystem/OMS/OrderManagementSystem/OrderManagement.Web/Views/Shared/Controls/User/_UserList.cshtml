@@ -1,11 +1,18 @@
-﻿@model IEnumerable<OrderManagement.Web.SpGetAllUsers>
+﻿@model IEnumerable<SpGetAllUsers>
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
 <script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
 <link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
 <link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
 
-<div style="margin: 4px 0 2px 15px;">
+
+<div class="row">
+<div class="col-lg-12 animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div  class="pull-right">
     <button type="button" class="btn btn-primary" onclick="javascript:addUser();">New</button>
     @if (Model != null && Model.Count() > 0)
     {
@@ -18,13 +25,8 @@
         @Html.Hidden("userRowId");
     }
 </div>
-<div class="row">
-<div class="col-lg-12 animated fadeInRight">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
                     <h5>User List </h5>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="ibox-content">
 
@@ -122,8 +124,6 @@
     }
     
     function addUser() {
-
-        mixpanel.track("User : New User View");
       var grid = $("#Usergrid").data("kendoGrid");
           grid.clearSelection();
         $.get('@Url.Action("NewUser", "User")', function (data) {

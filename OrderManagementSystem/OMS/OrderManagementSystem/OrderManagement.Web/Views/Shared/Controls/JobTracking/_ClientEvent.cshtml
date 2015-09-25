@@ -1,0 +1,49 @@
+﻿@using OrderManagement.Web
+@model OrderManagement.Web.Models.JobTrackingModel
+           
+<div class="targetDiv">
+    <table class="table table-hover no-margins">
+        <thead>
+            <tr>
+                <th>Services</th>
+                <th>Booking Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ProductGroup.Count > 0)
+            {
+
+
+                foreach (var job in Model.ProductGroup)
+                {
+                    <tr>
+                        <td><span class="label@(" " + job.CssClass)">@job.ProductGroupName</span>
+                        </td>
+                        <td>
+                            @if (@job.StartDate.Date == @job.EndDate.Date)
+                            {
+                                @job.StartDate
+                                <span>-</span>
+                                @job.EndDate.ToShortTimeString()
+                            }
+                            else
+                            {
+                                @job.StartDate
+                                <span>-</span>
+                                @job.EndDate
+                            }
+                        </td>
+                        <td>  <span class="label" style="color:white; background-color:@job.JobEventStatusColour.ToLower();">@job.Status</span></td>
+                    </tr>
+
+                }
+            }
+            else
+            {
+                <span>No Record Found</span>
+            }
+
+        </tbody>
+    </table>
+</div>

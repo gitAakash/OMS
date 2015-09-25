@@ -7,19 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class OrderEvent
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class OrderEvent
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> Order_Id { get; set; }
-        public string TimeZone { get; set; }
-        public Nullable<bool> EventCreated { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-    
-        public virtual Order Order { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> Order_Id { get; set; }
+    public string TimeZone { get; set; }
+    public Nullable<bool> EventCreated { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+
+    public virtual Order Order { get; set; }
 }

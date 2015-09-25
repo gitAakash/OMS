@@ -54,7 +54,6 @@ namespace TelerikMvcSchedulerPOC2.Models
         public string Name { get; set; }
     }
 
-
     public class SchedulerEmailModel
     {
         public string MailTo { get; set; }
@@ -65,12 +64,8 @@ namespace TelerikMvcSchedulerPOC2.Models
         public string MailBody { get; set; }
         public string MailFrom { get; set; }
         public string MailFromDisplay { get; set; }
-
-        
-
-
-
     }
+
 
 
 }

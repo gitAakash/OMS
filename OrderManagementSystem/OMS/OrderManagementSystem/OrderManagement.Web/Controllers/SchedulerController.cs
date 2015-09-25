@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿
+using System.Globalization;
 using Newtonsoft.Json;
 using OrderManagement.Web.Models.Repository;
 using OrderManagement.Web.Models.ServiceRepository;
@@ -29,11 +30,8 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             _schedulerrapo.Dispose();
             base.Dispose(disposing);
         }
-
         private ISchedulerService _scheduler;
-
         private SchedulerRepository _schedulerrapo;
-
         public SchedulerController()
         {
             _schedulerrapo = new SchedulerRepository();
@@ -42,37 +40,39 @@ namespace TelerikMvcSchedulerPOC2.Controllers
 
         public ActionResult Index()
         {
-             GoogleServiceMethodCalls objGoogleCal = new GoogleServiceMethodCalls();
-            // objGoogleCal.CheckCalendarEvents("campaigntrack.dpi@gmail.com");
-            // objGoogleCal.CheckCalendarEvents("dpi.secilcanbay@gmail.com");
+           // GoogleServiceMethodCalls objGoogleCal = new GoogleServiceMethodCalls();
+           // objGoogleCal.CheckCalendarEvents("campaigntrack.dpi@gmail.com");
+           //objGoogleCal.CheckCalendarEvents("dpi.secilcanbay@gmail.com");
             // objGoogleCal.CheckCalendarEvents("dpi.jeffyates@gmail.com");
-            // objGoogleCal.CheckCalendarEvents("dpi.richardpugh@gmail.com");
+          //  objGoogleCal.CheckCalendarEvents("dpi.richardpugh@gmail.com");
             
-            //if (itemlistex.Items[i].Id == "3784i2iqlb187phdp7d76g6et4")
-            // {
-            // }
+
+              //if (itemlistex.Items[i].Id == "3784i2iqlb187phdp7d76g6et4")
+              //             {
+ 
+              //             }
 
             var schedulerViewModel = new Models.SchedulerViewModel();
 
             var currentuser = UserManager.Current();
             if (currentuser != null)
             {
-                // var users = _scheduler.GetAllUsersByOrgId(Convert.ToInt32(currentuser.OrgId));
-                //  var usercalenderlst = _scheduler.GetCalenderUsers(Convert.ToInt32(currentuser.OrgId));
-                // var userProductGroups = _scheduler.GetUserProductCalendar(Convert.ToInt32(currentuser.OrgId));
+               // var users = _scheduler.GetAllUsersByOrgId(Convert.ToInt32(currentuser.OrgId));
+              //  var usercalenderlst = _scheduler.GetCalenderUsers(Convert.ToInt32(currentuser.OrgId));
+               // var userProductGroups = _scheduler.GetUserProductCalendar(Convert.ToInt32(currentuser.OrgId));
 
                 //var calenderUsers =
                 //    users.Join(usercalenderlst, e => e.Row_Id, d => d.UserId, (e, d) => new { e.FirstName, e.LastName, e.UserType, d.UserId, d.Color, d.CalendarId }).ToList().OrderBy(x => x.FirstName).ToList(); ;
                 var calenderUsers = _scheduler.GetCalenderUsers(Convert.ToInt32(currentuser.OrgId));
 
-                var userProductCalendar = _scheduler.GetUserProductCalendar(Convert.ToInt32(currentuser.OrgId));
+               var userProductCalendar = _scheduler.GetUserProductCalendar(Convert.ToInt32(currentuser.OrgId));
 
                 //var userProductCalendar =
                 //    calenderUsers.ToList()
                 //        .Join(userProductGroups, e => e.UserId, f => f.UserId,
                 //            (e, f) => new { e.UserId, e.UserType, e.FirstName, e.LastName, e.CalendarId, f.ProductGroupId });
 
-
+              
                 var userProductCalendarlst = new List<UserProductCalendar>();
 
                 foreach (var itemgrp in userProductCalendar)
@@ -150,35 +150,22 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             }
         }
 
-        /// <summary>
-        /// This function is used for loading Scheduler data.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="chkselected"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="Search"></param>
-        /// <returns></returns>
-        /// 
+        //public virtual JsonResult Event_Read(DataSourceRequest request, string chkselected, DateTime start, DateTime end)
+        //{
+
+        //    return null;
+        //}
+
         public virtual JsonResult Event_Read(DataSourceRequest request, string chkselected, DateTime start, DateTime end, string Search)
         {
             List<EventException> lstException = new List<EventException>();
             IList<CalEventViewModel> events = new List<CalEventViewModel>();
 
-            if (!string.IsNullOrEmpty(chkselected))
+          //  string Search = "";
+            if (Search.Length > 0)
             {
-                if (chkselected.EndsWith(","))
                 {
-                    chkselected = chkselected.Remove(chkselected.Length - 1);
-                }
-
-                List<int> userIds = new List<int>(Array.ConvertAll(chkselected.Split(','), int.Parse));
-
-                if (userIds != null && userIds.Count > 0)
-                {
-                    end = end.AddDays(1);
-
-                    var tasks = _scheduler.GetAllEventByUserIdAndDate(userIds, start, end);
+                    var tasks = _scheduler.GetAllEventBySearch(Search);
                     var preExceptionList = _scheduler.GetEventExceptions();
                     var getAllEventException = _scheduler.GetAllEventException();
                     var colmaster = _scheduler.GetAllColor();
@@ -191,7 +178,11 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                         foreach (var rec in reccEvents)
                         {
                             var exceptionList = tasks.Where(x => x.EventId.Contains(rec.EventId + "_")).Select(y => y.EventId.Replace(rec.EventId + "_", "")).ToList();
-                            test.Add(rec.EventId, exceptionList);
+                            try
+                            {
+                                test.Add(rec.EventId, exceptionList);
+                            }
+                            catch { }
                         }
 
                         foreach (var item in tasks)
@@ -207,42 +198,23 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                                 item.ColorId = GetUsercalenderColor(item.CalendarId.Value, usercalenderlst, colmaster);
                                 var coloritem = colmaster.Where(m => m.Row_Id == int.Parse(item.ColorId)).FirstOrDefault();
                                 ViewBag.Color = coloritem.Color;
-
                             }
                             var eventObj = new CalEventViewModel();
                             if (item.StartDate.Value.Year.ToString() != "1900" && !item.Recurrence.StartsWith("~EXDATE"))
                             {
                                 eventObj.EventId = item.EventId;
                                 eventObj.Title = item.Title;
-
-
                                 eventObj.Start = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.StartDate);
-
-
-                                //.ToUniversalTime();// DateTime.SpecifyKind(DateTime.Parse(item.StartDate.ToString()), DateTimeKind.Utc);
                                 eventObj.End = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.EndDate);
 
                                 DateTime endTime = DateTime.Now.AddSeconds(75);
                                 TimeSpan span = eventObj.End.Subtract(eventObj.Start);
-
-                                //string timeSlot = string.Format("{0:D2} hours :{1:D2}minutes :{2:D2}seconds",
-                                //span.Hours,
-                                //span.Minutes,
-                                //span.Seconds
-                                //);
 
                                 string timeSlot = string.Format("{0:D2} hours :{1:D2}minutes",
                                 span.Hours,
                                 span.Minutes
 
                                 );
-
-                                bool ChkISAllDay = false;
-
-                                if (item.StartDate.Value.ToString("HH:mm:ss") == "00:00:00" && item.EndDate.Value.ToString("HH:mm:ss") == "00:00:00")
-                                {
-                                    ChkISAllDay = true;
-                                }
 
                                 DateTime dtstart = (DateTime)item.StartDate;
                                 DateTime dtEnd = (DateTime)item.EndDate;
@@ -251,23 +223,10 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                                 string strdtEnd = dtEnd.ToString("dd/MM/yyyy");
 
                                 eventObj.TooltipDescription = "Start Date: " + dtstart.ToString() + "\nEnd Date: " + dtEnd.ToString() + "\nDuration: " + timeSlot;
-
-                                //DateTime.Parse(item.StartDate.ToString()).ToUniversalTime();// DateTime.SpecifyKind(DateTime.Parse(item.EndDate.ToString()), DateTimeKind.Utc);
                                 eventObj.Description = item.Description;
-
-                                //if (item.StartDate.Value.ToString("HH:mm:ss") == "00:00:00"  && item.EndDate.Value.ToString("HH:mm:ss") == "00:00:00")
-                                //{
-                                //    eventObj.IsAllDay = true;
-                                //    eventObj.End = eventObj.End.AddDays(-1);
-                                //}
-                                //else
-                                //{
-                                //    eventObj.IsAllDay = false;
-                                //}
 
                                 if (!string.IsNullOrEmpty(item.Recurrence))
                                 {
-
                                     eventObj.RecurrenceRule = item.Recurrence.Replace("~RRULE:", string.Empty);
                                 }
 
@@ -324,7 +283,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                                 eventObj.Color = ViewBag.Color;
                                 eventObj.Description = item.Description;
                                 eventObj.DeleteRecurrenceEvent = item.EventId;
-                                if (item.IsAllDay != null && ChkISAllDay)
+                                if (item.IsAllDay != null)
                                     eventObj.IsAllDay = item.IsAllDay.Value;
 
                                 events.Add(eventObj);
@@ -343,8 +302,512 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                     return jsonResult;
                 }
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(chkselected))
+                {
+                    if (chkselected.EndsWith(","))
+                    {
+                        chkselected = chkselected.Remove(chkselected.Length - 1);
+                    }
+
+                    List<int> userIds = new List<int>(Array.ConvertAll(chkselected.Split(','), int.Parse));
+
+                    if (userIds != null && userIds.Count > 0)
+                    {
+                        end = end.AddDays(1);
+
+                        var tasks = _scheduler.GetAllEventByUserIdAndDate(userIds, start, end);
+                        var preExceptionList = _scheduler.GetEventExceptions();
+                        var getAllEventException = _scheduler.GetAllEventException();
+                        var colmaster = _scheduler.GetAllColor();
+                        var usercalenderlst = _scheduler.GetAllCalendarUser();
+                        if (tasks.ToList().Count > 0)
+                        {
+                            var reccEvents = tasks.Where(x => !string.IsNullOrEmpty(x.Recurrence)).ToList();
+
+                            Dictionary<string, List<string>> test = new Dictionary<string, List<string>>();
+                            foreach (var rec in reccEvents)
+                            {
+                                var exceptionList = tasks.Where(x => x.EventId.Contains(rec.EventId + "_")).Select(y => y.EventId.Replace(rec.EventId + "_", "")).ToList();
+                                test.Add(rec.EventId, exceptionList);
+                            }
+
+                            foreach (var item in tasks)
+                            {
+                                if (!string.IsNullOrEmpty(item.ColorId))
+                                {
+                                    var coloritem = colmaster.Where(m => m.Row_Id == int.Parse(item.ColorId)).FirstOrDefault();
+                                    item.ColorId = coloritem.Row_Id.ToString();
+                                    ViewBag.Color = coloritem.Color;
+                                }
+                                else
+                                {
+                                    item.ColorId = GetUsercalenderColor(item.CalendarId.Value, usercalenderlst, colmaster);
+                                    var coloritem = colmaster.Where(m => m.Row_Id == int.Parse(item.ColorId)).FirstOrDefault();
+                                    ViewBag.Color = coloritem.Color;
+
+                                }
+                                var eventObj = new CalEventViewModel();
+                                if (item.StartDate.Value.Year.ToString() != "1900" && !item.Recurrence.StartsWith("~EXDATE"))
+                                {
+                                    eventObj.EventId = item.EventId;
+                                    eventObj.Title = item.Title;
+
+
+                                    eventObj.Start = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.StartDate);
+
+
+                                    //.ToUniversalTime();// DateTime.SpecifyKind(DateTime.Parse(item.StartDate.ToString()), DateTimeKind.Utc);
+                                    eventObj.End = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.EndDate);
+
+                                    DateTime endTime = DateTime.Now.AddSeconds(75);
+                                    TimeSpan span = eventObj.End.Subtract(eventObj.Start);
+
+                                    //string timeSlot = string.Format("{0:D2} hours :{1:D2}minutes :{2:D2}seconds",
+                                    //span.Hours,
+                                    //span.Minutes,
+                                    //span.Seconds
+                                    //);
+
+                                    string timeSlot = string.Format("{0:D2} hours :{1:D2}minutes",
+                                    span.Hours,
+                                    span.Minutes
+
+                                    );
+
+
+
+                                    DateTime dtstart = (DateTime)item.StartDate;
+                                    DateTime dtEnd = (DateTime)item.EndDate;
+
+                                    string strdtStart = dtstart.ToString("dd/MM/yyyy");
+                                    string strdtEnd = dtEnd.ToString("dd/MM/yyyy");
+
+                                    eventObj.TooltipDescription = "Start Date: " + dtstart.ToString() + "\nEnd Date: " + dtEnd.ToString() + "\nDuration: " + timeSlot;
+
+                                    //DateTime.Parse(item.StartDate.ToString()).ToUniversalTime();// DateTime.SpecifyKind(DateTime.Parse(item.EndDate.ToString()), DateTimeKind.Utc);
+                                    eventObj.Description = item.Description;
+
+                                    //if (item.StartDate.Value.ToString("HH:mm:ss") == "00:00:00"  && item.EndDate.Value.ToString("HH:mm:ss") == "00:00:00")
+                                    //{
+                                    //    eventObj.IsAllDay = true;
+                                    //    eventObj.End = eventObj.End.AddDays(-1);
+                                    //}
+                                    //else
+                                    //{
+                                    //    eventObj.IsAllDay = false;
+                                    //}
+
+                                    if (!string.IsNullOrEmpty(item.Recurrence))
+                                    {
+
+                                        eventObj.RecurrenceRule = item.Recurrence.Replace("~RRULE:", string.Empty);
+                                    }
+
+                                    string exception = string.Empty;
+                                    if (preExceptionList.Keys.Contains(eventObj.EventId))
+                                        exception = preExceptionList[eventObj.EventId];
+                                    if (test.Keys.Contains(eventObj.EventId))
+                                    {
+
+                                        foreach (string exc in test[eventObj.EventId])
+                                        {
+
+                                            if (exception == string.Empty)
+                                            {
+                                                if (!exception.Contains(exc))
+                                                    exception = exc;
+                                            }
+                                            else
+                                            {
+                                                if (!exception.Contains(exc))
+                                                    exception = exception + ";" + exc;
+                                            }
+                                        }
+                                        if (!preExceptionList.Keys.Contains(eventObj.EventId) && !string.IsNullOrEmpty(exception))
+                                        {
+                                            var EventException = new EventException { EventId = eventObj.EventId, Exception = exception };
+                                            lstException.Add(EventException);
+
+                                        }
+                                        else if (preExceptionList.Keys.Contains(eventObj.EventId))
+                                        {
+                                            if (preExceptionList[eventObj.EventId] != exception)
+                                            {
+                                                var EventExceptionUpdate = getAllEventException.FirstOrDefault(x => x.EventId == eventObj.EventId);
+
+                                                EventExceptionUpdate.Exception = exception;
+                                                lstException.Add(EventExceptionUpdate);
+                                                //  OrderMangtDB.EventExceptions.Add(EventExceptionUpdate);
+                                            }
+                                        }
+
+                                        eventObj.RecurrenceException = exception;
+                                    }
+                                    eventObj.EventId = item.EventId;
+                                    eventObj.RecurrenceID = item.RecurrenceID;
+                                    eventObj.CalendarId = item.CalendarId;
+                                    eventObj.CalenderUser = item.CalendarId;
+                                    eventObj.Organizer = item.Organizer;
+                                    eventObj.Location = item.Location;
+                                    eventObj.Status = item.Status;
+                                    eventObj.Creator = item.Creator;
+                                    eventObj.ColorId = item.ColorId;
+                                    eventObj.EventColorid = int.Parse(item.ColorId);
+                                    eventObj.Color = ViewBag.Color;
+                                    eventObj.Description = item.Description;
+                                    eventObj.DeleteRecurrenceEvent = item.EventId;
+                                    if (item.IsAllDay != null)
+                                        eventObj.IsAllDay = item.IsAllDay.Value;
+
+                                    events.Add(eventObj);
+                                }
+                            }
+                        }
+
+                        lock ("EventException")
+                        {
+                            _scheduler.AddOrUpdateException(lstException);
+                        }
+
+                        var temp = events as IEnumerable<CalEventViewModel>;
+                        JsonResult jsonResult = Json(temp.ToDataSourceResult(request));
+                        jsonResult.MaxJsonLength = Int32.MaxValue;
+                        return jsonResult;
+                    }
+
+                }
+            }
             return null;
         }
+
+        public virtual JsonResult Event_Search(DataSourceRequest request, string chkselected, DateTime start, DateTime end, string Search)
+        {
+            List<EventException> lstException = new List<EventException>();
+            IList<CalEventViewModel> events = new List<CalEventViewModel>();
+
+            if (Search.Length > 0)
+            {
+
+                {
+                    var tasks = _scheduler.GetAllEventBySearch(Search);
+                    var preExceptionList = _scheduler.GetEventExceptions();
+                    var getAllEventException = _scheduler.GetAllEventException();
+                    var colmaster = _scheduler.GetAllColor();
+                    var usercalenderlst = _scheduler.GetAllCalendarUser();
+                    if (tasks.ToList().Count > 0)
+                    {
+                        var reccEvents = tasks.Where(x => !string.IsNullOrEmpty(x.Recurrence)).ToList();
+
+                        Dictionary<string, List<string>> test = new Dictionary<string, List<string>>();
+                        foreach (var rec in reccEvents)
+                        {
+                            var exceptionList = tasks.Where(x => x.EventId.Contains(rec.EventId + "_")).Select(y => y.EventId.Replace(rec.EventId + "_", "")).ToList();
+                            try
+                            {
+                                test.Add(rec.EventId, exceptionList);
+                            }
+                            catch { }
+                        }
+
+                        foreach (var item in tasks)
+                        {
+                            if (!string.IsNullOrEmpty(item.ColorId))
+                            {
+                                var coloritem = colmaster.Where(m => m.Row_Id == int.Parse(item.ColorId)).FirstOrDefault();
+                                item.ColorId = coloritem.Row_Id.ToString();
+                                ViewBag.Color = coloritem.Color;
+                            }
+                            else
+                            {
+                                item.ColorId = GetUsercalenderColor(item.CalendarId.Value, usercalenderlst, colmaster);
+                                var coloritem = colmaster.Where(m => m.Row_Id == int.Parse(item.ColorId)).FirstOrDefault();
+                                ViewBag.Color = coloritem.Color;
+                            }
+                            var eventObj = new CalEventViewModel();
+                            if (item.StartDate.Value.Year.ToString() != "1900" && !item.Recurrence.StartsWith("~EXDATE"))
+                            {
+                                eventObj.EventId = item.EventId;
+                                eventObj.Title = item.Title;
+                                eventObj.Start = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.StartDate);
+                                eventObj.End = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.EndDate);
+
+                                DateTime endTime = DateTime.Now.AddSeconds(75);
+                                TimeSpan span = eventObj.End.Subtract(eventObj.Start);
+
+                                string timeSlot = string.Format("{0:D2} hours :{1:D2}minutes",
+                                span.Hours,
+                                span.Minutes
+
+                                );
+
+                                DateTime dtstart = (DateTime)item.StartDate;
+                                DateTime dtEnd = (DateTime)item.EndDate;
+
+                                string strdtStart = dtstart.ToString("dd/MM/yyyy");
+                                string strdtEnd = dtEnd.ToString("dd/MM/yyyy");
+
+                                eventObj.TooltipDescription = "Start Date: " + dtstart.ToString() + "\nEnd Date: " + dtEnd.ToString() + "\nDuration: " + timeSlot;
+                                eventObj.Description = item.Description;
+
+                                if (!string.IsNullOrEmpty(item.Recurrence))
+                                {
+                                    eventObj.RecurrenceRule = item.Recurrence.Replace("~RRULE:", string.Empty);
+                                }
+
+                                string exception = string.Empty;
+                                if (preExceptionList.Keys.Contains(eventObj.EventId))
+                                    exception = preExceptionList[eventObj.EventId];
+                                if (test.Keys.Contains(eventObj.EventId))
+                                {
+
+                                    foreach (string exc in test[eventObj.EventId])
+                                    {
+
+                                        if (exception == string.Empty)
+                                        {
+                                            if (!exception.Contains(exc))
+                                                exception = exc;
+                                        }
+                                        else
+                                        {
+                                            if (!exception.Contains(exc))
+                                                exception = exception + ";" + exc;
+                                        }
+                                    }
+                                    if (!preExceptionList.Keys.Contains(eventObj.EventId) && !string.IsNullOrEmpty(exception))
+                                    {
+                                        var EventException = new EventException { EventId = eventObj.EventId, Exception = exception };
+                                        lstException.Add(EventException);
+
+                                    }
+                                    else if (preExceptionList.Keys.Contains(eventObj.EventId))
+                                    {
+                                        if (preExceptionList[eventObj.EventId] != exception)
+                                        {
+                                            var EventExceptionUpdate = getAllEventException.FirstOrDefault(x => x.EventId == eventObj.EventId);
+
+                                            EventExceptionUpdate.Exception = exception;
+                                            lstException.Add(EventExceptionUpdate);
+                                            //  OrderMangtDB.EventExceptions.Add(EventExceptionUpdate);
+                                        }
+                                    }
+
+                                    eventObj.RecurrenceException = exception;
+                                }
+                                eventObj.EventId = item.EventId;
+                                eventObj.RecurrenceID = item.RecurrenceID;
+                                eventObj.CalendarId = item.CalendarId;
+                                eventObj.CalenderUser = item.CalendarId;
+                                eventObj.Organizer = item.Organizer;
+                                eventObj.Location = item.Location;
+                                eventObj.Status = item.Status;
+                                eventObj.Creator = item.Creator;
+                                eventObj.ColorId = item.ColorId;
+                                eventObj.EventColorid = int.Parse(item.ColorId);
+                                eventObj.Color = ViewBag.Color;
+                                eventObj.Description = item.Description;
+                                eventObj.DeleteRecurrenceEvent = item.EventId;
+                                if (item.IsAllDay != null)
+                                    eventObj.IsAllDay = item.IsAllDay.Value;
+
+                                events.Add(eventObj);
+                            }
+                        }
+                    }
+
+                    lock ("EventException")
+                    {
+                        _scheduler.AddOrUpdateException(lstException);
+                    }
+
+                    var temp = events as IEnumerable<CalEventViewModel>;
+                    JsonResult jsonResult = Json(temp.ToDataSourceResult(request));
+                    jsonResult.MaxJsonLength = Int32.MaxValue;
+                    return jsonResult;
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(chkselected))
+                {
+                    if (chkselected.EndsWith(","))
+                    {
+                        chkselected = chkselected.Remove(chkselected.Length - 1);
+                    }
+
+                    List<int> userIds = new List<int>(Array.ConvertAll(chkselected.Split(','), int.Parse));
+
+                    if (userIds != null && userIds.Count > 0)
+                    {
+                        end = end.AddDays(1);
+
+                        var tasks = _scheduler.GetAllEventByUserIdAndDate(userIds, start, end);
+                        var preExceptionList = _scheduler.GetEventExceptions();
+                        var getAllEventException = _scheduler.GetAllEventException();
+                        var colmaster = _scheduler.GetAllColor();
+                        var usercalenderlst = _scheduler.GetAllCalendarUser();
+                        if (tasks.ToList().Count > 0)
+                        {
+                            var reccEvents = tasks.Where(x => !string.IsNullOrEmpty(x.Recurrence)).ToList();
+
+                            Dictionary<string, List<string>> test = new Dictionary<string, List<string>>();
+                            foreach (var rec in reccEvents)
+                            {
+                                var exceptionList = tasks.Where(x => x.EventId.Contains(rec.EventId + "_")).Select(y => y.EventId.Replace(rec.EventId + "_", "")).ToList();
+                                test.Add(rec.EventId, exceptionList);
+                            }
+
+                            foreach (var item in tasks)
+                            {
+                                if (!string.IsNullOrEmpty(item.ColorId))
+                                {
+                                    var coloritem = colmaster.Where(m => m.Row_Id == int.Parse(item.ColorId)).FirstOrDefault();
+                                    item.ColorId = coloritem.Row_Id.ToString();
+                                    ViewBag.Color = coloritem.Color;
+                                }
+                                else
+                                {
+                                    item.ColorId = GetUsercalenderColor(item.CalendarId.Value, usercalenderlst, colmaster);
+                                    var coloritem = colmaster.Where(m => m.Row_Id == int.Parse(item.ColorId)).FirstOrDefault();
+                                    ViewBag.Color = coloritem.Color;
+
+                                }
+                                var eventObj = new CalEventViewModel();
+                                if (item.StartDate.Value.Year.ToString() != "1900" && !item.Recurrence.StartsWith("~EXDATE"))
+                                {
+                                    eventObj.EventId = item.EventId;
+                                    eventObj.Title = item.Title;
+
+
+                                    eventObj.Start = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.StartDate);
+
+
+                                    //.ToUniversalTime();// DateTime.SpecifyKind(DateTime.Parse(item.StartDate.ToString()), DateTimeKind.Utc);
+                                    eventObj.End = TimeZoneInfo.ConvertTimeToUtc((DateTime)item.EndDate);
+
+                                    DateTime endTime = DateTime.Now.AddSeconds(75);
+                                    TimeSpan span = eventObj.End.Subtract(eventObj.Start);
+
+                                    //string timeSlot = string.Format("{0:D2} hours :{1:D2}minutes :{2:D2}seconds",
+                                    //span.Hours,
+                                    //span.Minutes,
+                                    //span.Seconds
+                                    //);
+
+                                    string timeSlot = string.Format("{0:D2} hours :{1:D2}minutes",
+                                    span.Hours,
+                                    span.Minutes
+
+                                    );
+
+
+
+                                    DateTime dtstart = (DateTime)item.StartDate;
+                                    DateTime dtEnd = (DateTime)item.EndDate;
+
+                                    string strdtStart = dtstart.ToString("dd/MM/yyyy");
+                                    string strdtEnd = dtEnd.ToString("dd/MM/yyyy");
+
+                                    eventObj.TooltipDescription = "Start Date: " + dtstart.ToString() + "\nEnd Date: " + dtEnd.ToString() + "\nDuration: " + timeSlot;
+
+                                    //DateTime.Parse(item.StartDate.ToString()).ToUniversalTime();// DateTime.SpecifyKind(DateTime.Parse(item.EndDate.ToString()), DateTimeKind.Utc);
+                                    eventObj.Description = item.Description;
+
+                                    //if (item.StartDate.Value.ToString("HH:mm:ss") == "00:00:00"  && item.EndDate.Value.ToString("HH:mm:ss") == "00:00:00")
+                                    //{
+                                    //    eventObj.IsAllDay = true;
+                                    //    eventObj.End = eventObj.End.AddDays(-1);
+                                    //}
+                                    //else
+                                    //{
+                                    //    eventObj.IsAllDay = false;
+                                    //}
+
+                                    if (!string.IsNullOrEmpty(item.Recurrence))
+                                    {
+
+                                        eventObj.RecurrenceRule = item.Recurrence.Replace("~RRULE:", string.Empty);
+                                    }
+
+                                    string exception = string.Empty;
+                                    if (preExceptionList.Keys.Contains(eventObj.EventId))
+                                        exception = preExceptionList[eventObj.EventId];
+                                    if (test.Keys.Contains(eventObj.EventId))
+                                    {
+
+                                        foreach (string exc in test[eventObj.EventId])
+                                        {
+
+                                            if (exception == string.Empty)
+                                            {
+                                                if (!exception.Contains(exc))
+                                                    exception = exc;
+                                            }
+                                            else
+                                            {
+                                                if (!exception.Contains(exc))
+                                                    exception = exception + ";" + exc;
+                                            }
+                                        }
+                                        if (!preExceptionList.Keys.Contains(eventObj.EventId) && !string.IsNullOrEmpty(exception))
+                                        {
+                                            var EventException = new EventException { EventId = eventObj.EventId, Exception = exception };
+                                            lstException.Add(EventException);
+
+                                        }
+                                        else if (preExceptionList.Keys.Contains(eventObj.EventId))
+                                        {
+                                            if (preExceptionList[eventObj.EventId] != exception)
+                                            {
+                                                var EventExceptionUpdate = getAllEventException.FirstOrDefault(x => x.EventId == eventObj.EventId);
+
+                                                EventExceptionUpdate.Exception = exception;
+                                                lstException.Add(EventExceptionUpdate);
+                                                //  OrderMangtDB.EventExceptions.Add(EventExceptionUpdate);
+                                            }
+                                        }
+
+                                        eventObj.RecurrenceException = exception;
+                                    }
+                                    eventObj.EventId = item.EventId;
+                                    eventObj.RecurrenceID = item.RecurrenceID;
+                                    eventObj.CalendarId = item.CalendarId;
+                                    eventObj.CalenderUser = item.CalendarId;
+                                    eventObj.Organizer = item.Organizer;
+                                    eventObj.Location = item.Location;
+                                    eventObj.Status = item.Status;
+                                    eventObj.Creator = item.Creator;
+                                    eventObj.ColorId = item.ColorId;
+                                    eventObj.EventColorid = int.Parse(item.ColorId);
+                                    eventObj.Color = ViewBag.Color;
+                                    eventObj.Description = item.Description;
+                                    eventObj.DeleteRecurrenceEvent = item.EventId;
+                                    if (item.IsAllDay != null)
+                                        eventObj.IsAllDay = item.IsAllDay.Value;
+
+                                    events.Add(eventObj);
+                                }
+                            }
+                        }
+
+                        lock ("EventException")
+                        {
+                            _scheduler.AddOrUpdateException(lstException);
+                        }
+
+                        var temp = events as IEnumerable<CalEventViewModel>;
+                        JsonResult jsonResult = Json(temp.ToDataSourceResult(request));
+                        jsonResult.MaxJsonLength = Int32.MaxValue;
+                        return jsonResult;
+                    }
+
+                }
+            }
+            return null;
+        }
+
 
         /// <summary>
         /// This method is used for Deleting the Event from the DB and google cal
@@ -366,12 +829,12 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                     //fromCalendarId = (int)OrderMangtDB.Events.First(m => m.Row_Id == eventRowId).CalendarId;
                     fromCalendar = OrderMangtDB.Calendars.SingleOrDefault(m => m.Row_Id == fromCalendarId).Name;
                 }
-
+               
                 try
                 {
                     if (!string.IsNullOrEmpty(eventViewModel.EventId))
                     {
-
+                      
                         string eventid = eventViewModel.EventId;
 
                         var objGoogleCal = new GoogleServiceMethodCalls();
@@ -490,7 +953,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                                 {
                                     Logger("MoveEvent called within Create block Called" + " || " + entity.Title);
 
-
+                                  
                                     int OldEventRowId = Convert.ToInt32(_scheduler.GetEventRowId(eventId).FirstOrDefault().EventRow_id);
 
                                     returnedEventid = objGoogleCal.MoveEvent(entity.StartDate.Value, entity.EndDate.Value, creator,
@@ -504,8 +967,8 @@ namespace TelerikMvcSchedulerPOC2.Controllers
 
                                     _scheduler.UpdateJobEvents(returnedEventid, calendars.Name, fromCalendar.Name, OldEventRowId);///UpdateJobEvents
                                     Logger("UpdateJobEvents Called - " + "eventId: " + returnedEventid + " Source calendar Name : " + fromCalendar.Name + " Destination calendar Name : " + calendars.Name);                                                           ///
-
-                                    LoggedInUserId = (int)UserManager.Current().Row_Id;
+                                    
+                                    LoggedInUserId=   (int)UserManager.Current().Row_Id;
                                     DBLogger(returnedEventid, entity.Title, "MoveEvent", LoggedInUserId, fromCalendar.Name, calendars.Name);
 
                                     ThrowCustomExc(returnedEventid);
@@ -543,7 +1006,17 @@ namespace TelerikMvcSchedulerPOC2.Controllers
 
                             Logger("UpdateEventInstance called within Create block Called" + " || " + entity.Title);
 
+
+                            //var startDate = (DateTime)entity.StartDate;
+
+                            //  if (startDate.TimeOfDay.Minutes < 15 && startDate.TimeOfDay.Minutes > 0)
+                            //            {
+                            //                startDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, startDate.Hour, 00, 00);
+                            //            }
+
                             var returnedEventId = objGoogleCal.UpdateEventInstance((DateTime)entity.StartDate, (DateTime)entity.EndDate, string.Empty, entity.Organizer, entity.Location, entity.Title, entity.EventId, cal, (int)entity.Sequence, entity.Description ?? string.Empty, entity.Recurrence ?? string.Empty, entity.IsAllDay ?? false, colorid ?? entity.ColorId);
+
+
 
                             int LoggedInUserId = (int)UserManager.Current().Row_Id;
                             DBLogger(returnedEventId, entity.Title, "Update Event", LoggedInUserId, cal, cal);
@@ -686,8 +1159,10 @@ namespace TelerikMvcSchedulerPOC2.Controllers
         /// <param name="request"></param>
         /// <param name="eventViewModel"></param>
         /// <returns></returns>
+
         public virtual JsonResult Event_Update([DataSourceRequest] DataSourceRequest request, CalEventViewModel eventViewModel)
         {
+
             try
             {
                 string returnedEventId = string.Empty;
@@ -697,6 +1172,175 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                     {
                         var tasksEventCalendar = _scheduler.GetAllEventByEventID(eventViewModel.EventId);
                         var CalendarsByRowId = _scheduler.GetCalendarsByRowId(eventViewModel.CalendarId);
+
+
+                        //  var eventCalendar = OrderMangtDB.Events.First(x => x.EventId == eventViewModel.EventId).CalendarId;
+                        var eventCalendar = tasksEventCalendar.First(x => x.EventId == eventViewModel.EventId).CalendarId;
+                       
+                        var entity = tasksEventCalendar.FirstOrDefault(m => m.EventId == eventViewModel.EventId);
+
+                        // Create a new Task entity and set its properties from the posted TaskViewModel
+                        if (!string.IsNullOrEmpty(eventViewModel.EventId))
+                        {
+                            entity.EventId = eventViewModel.EventId;
+                        }
+
+                        entity.Title = eventViewModel.Title;
+                        //Specify the DateTimeKind to be UTC 
+                        entity.StartDate = eventViewModel.Start;
+                        entity.EndDate = eventViewModel.End;
+                        entity.Description = eventViewModel.Description;
+                        entity.Recurrence = eventViewModel.RecurrenceRule;
+                        entity.RecurrenceID = eventViewModel.RecurrenceID;
+                        entity.CalendarId = eventViewModel.CalenderUser != null ? eventViewModel.CalenderUser : entity.CalendarId;
+                        entity.Organizer = eventViewModel.Organizer;
+                        entity.Kind = "calendar#event";
+                        entity.Location = eventViewModel.Location;
+                        entity.Updated = DateTime.Today;
+                        entity.Sequence = eventViewModel.Sequence == 0 ? entity.Sequence + 1 : 0;
+                        // entity.Sequence =  eventViewModel.Sequence;
+                        entity.IsAllDay = eventViewModel.IsAllDay;
+
+                        GoogleServiceMethodCalls objGoogleCal = new GoogleServiceMethodCalls();
+
+                        var CalendarsUser = _scheduler.GetCalendarsByRowId(eventViewModel.CalenderUser);
+
+                        var calendars = CalendarsUser.SingleOrDefault(m => m.Row_Id == eventViewModel.CalenderUser);
+                        string DestinationCalName = CalendarsUser.SingleOrDefault(m => m.Row_Id == eventViewModel.CalenderUser).Name.ToString();
+
+                        if (eventCalendar != eventViewModel.CalenderUser)
+                        {
+                            // var fromCalendarId = OrderMangtDB.Events.First(m => m.Row_Id == eventRowId).CalendarId;
+                            var fromCalendar = CalendarsByRowId.SingleOrDefault(m => m.Row_Id == eventViewModel.CalendarId);
+                            string frmCalName = fromCalendar.Name.ToString();
+
+                            if (entity.StartDate != null && entity.EndDate != null)
+
+                                Logger("MoveEvent within Update block Called" + " || " + entity.Title);
+
+                            int OldEventRowId = Convert.ToInt32(_scheduler.GetEventRowId(eventViewModel.EventId).FirstOrDefault().EventRow_id);
+
+                            returnedEventId = objGoogleCal.MoveEvent(entity.StartDate.Value, entity.EndDate.Value, string.Empty, string.Empty,
+                                entity.Location, entity.Title, entity.EventId, DestinationCalName, frmCalName, (int)entity.Sequence, entity.Description ?? string.Empty, entity.Recurrence ?? string.Empty, entity.IsAllDay ?? false, entity.ColorId ?? string.Empty);
+                            eventViewModel.EventId = returnedEventId;
+
+
+                            int LoggedInUserId = (int)UserManager.Current().Row_Id;
+                            DBLogger(returnedEventId, entity.Title, "Move Event", LoggedInUserId, frmCalName, DestinationCalName);
+
+                            _scheduler.UpdateJobEvents(returnedEventId, DestinationCalName, frmCalName, OldEventRowId);///UpdateJobEvents
+                                                                                            ///
+                            Logger("UpdateJobEvents Called - " + "eventId: " + returnedEventId + " Source calendar Name : " + frmCalName + " Destination calendar Name : " + DestinationCalName);                                                           ///
+                            ///
+
+                             LoggedInUserId = (int)UserManager.Current().Row_Id;
+                            DBLogger(returnedEventId, entity.Title, "Move Event", LoggedInUserId, frmCalName, DestinationCalName);
+
+                            ThrowCustomExc(returnedEventId);
+
+                            Logger("MoveEvent end within Update block Called");
+                        }
+                        else
+                        {
+                            string colorid = string.Empty;
+                            if (eventViewModel.EventColorid.HasValue)
+                            {
+                                if (eventViewModel.EventColorid.Value <= 11)
+                                    colorid = eventViewModel.EventColorid.ToString();
+                            }
+                            else
+                            {
+                                if (eventViewModel.CalenderUser != null)
+                                {
+                                    // colorid = GetUsercalenderColor(eventViewModel.CalenderUser.Value);
+                                    colorid = string.Empty;
+                                }
+                            }
+
+                            Logger("UpdateEvent called within Update block " + " || " + entity.Title);
+
+                            returnedEventId = objGoogleCal.UpdateEvent((DateTime)entity.StartDate, (DateTime)entity.EndDate, string.Empty, entity.Organizer, entity.Location, entity.Title, entity.EventId, calendars.Name, (int)entity.Sequence, entity.Description ?? string.Empty, entity.Recurrence ?? string.Empty, entity.IsAllDay ?? false, colorid ?? entity.ColorId);
+
+                            int LoggedInUserId = (int)UserManager.Current().Row_Id;
+                            DBLogger(returnedEventId, entity.Title, "Update Event", LoggedInUserId, calendars.Name, calendars.Name);
+
+
+                            ThrowCustomExc(returnedEventId);
+
+                            eventViewModel.EventId = returnedEventId;
+
+                            Logger("UpdateEvent end within Update block ");
+                        }
+                    }
+                }
+               
+
+                // Return the updated task. Also return any validation errors.
+                return Json(new[] { eventViewModel }.ToDataSourceResult(request, ModelState));
+            }
+            catch (Exception ex)
+            {
+                #region For Error
+
+                string Error = ErrorMsg;
+
+                if (!string.IsNullOrEmpty(ErrorMsg))
+                {
+
+                    switch (Error)
+                    {
+                        case "CustomError400":
+                            return Json(new DataSourceResult
+                            {
+                                // Errors = "You cannot change the organizer of an instance."
+                                Errors = "CustomError400"
+                            });
+
+                        case "CustomError401":
+                            return Json(new DataSourceResult
+                            {
+                                //Errors = "You cannot turn an instance of a recurring event into a recurring event itself."
+                                Errors = "CustomError401"
+                            });
+
+                        case "Null_Event":
+                            return Json(new DataSourceResult
+                            {
+                                Errors = "Null_Event"
+                            });
+
+                        default:
+                            return Json(new DataSourceResult
+                            {
+                                Errors = ""
+                            });
+                    }
+                }
+                else
+                {
+                    return Json(new DataSourceResult
+                    {
+                        Errors = ""
+                    });
+                }
+                #endregion For Error
+
+            }
+        }
+
+        public virtual JsonResult print([DataSourceRequest] DataSourceRequest request, CalEventViewModel eventViewModel)
+        {
+
+            try
+            {
+                string returnedEventId = string.Empty;
+                if (string.IsNullOrEmpty(eventViewModel.RecurrenceException))
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var tasksEventCalendar = _scheduler.GetAllEventByEventID(eventViewModel.EventId);
+                        var CalendarsByRowId = _scheduler.GetCalendarsByRowId(eventViewModel.CalendarId);
+
 
                         //  var eventCalendar = OrderMangtDB.Events.First(x => x.EventId == eventViewModel.EventId).CalendarId;
                         var eventCalendar = tasksEventCalendar.First(x => x.EventId == eventViewModel.EventId).CalendarId;
@@ -755,9 +1399,9 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                             _scheduler.UpdateJobEvents(returnedEventId, DestinationCalName, frmCalName, OldEventRowId);///UpdateJobEvents
                             ///
                             Logger("UpdateJobEvents Called - " + "eventId: " + returnedEventId + " Source calendar Name : " + frmCalName + " Destination calendar Name : " + DestinationCalName);                                                           ///
+                            ///
 
                             LoggedInUserId = (int)UserManager.Current().Row_Id;
-
                             DBLogger(returnedEventId, entity.Title, "Move Event", LoggedInUserId, frmCalName, DestinationCalName);
 
                             ThrowCustomExc(returnedEventId);
@@ -788,6 +1432,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                             int LoggedInUserId = (int)UserManager.Current().Row_Id;
                             DBLogger(returnedEventId, entity.Title, "Update Event", LoggedInUserId, calendars.Name, calendars.Name);
 
+
                             ThrowCustomExc(returnedEventId);
 
                             eventViewModel.EventId = returnedEventId;
@@ -796,6 +1441,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                         }
                     }
                 }
+
 
                 // Return the updated task. Also return any validation errors.
                 return Json(new[] { eventViewModel }.ToDataSourceResult(request, ModelState));
@@ -850,11 +1496,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             }
         }
 
-        /// <summary>
-        /// This function is used for loading unscheduled job ine Grid
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+
         public ActionResult Jobs_Read([DataSourceRequest] DataSourceRequest request)
         {
             var colormaster = _scheduler.GetAllColor();
@@ -921,14 +1563,9 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             return null;
         }
 
-        /// <summary>
-        /// This function is used for deleting the unscheduled job from the grid
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="eventViewModel"></param>
-        /// <returns></returns>
         public ActionResult Jobs_Destroy([DataSourceRequest] DataSourceRequest request, CalEventViewModel eventViewModel)
         {
+
             int fromCalendarId = 0;
             string fromCalendar = string.Empty;
             int eventRowId = eventViewModel.Row_Id;
@@ -939,6 +1576,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             }
             try
             {
+
                 if (!string.IsNullOrEmpty(eventViewModel.EventId))
                 {
                     DeleteEvent(eventViewModel.EventId, fromCalendar, fromCalendarId);
@@ -954,51 +1592,52 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                 string msg = ex.Message;
             }
 
+
+            //}
             return Json(new[] { eventViewModel }.ToDataSourceResult(request, ModelState));
         }
+
 
         public ActionResult GroupCalendar(IEnumerable<int> userIds)
         {
             var schedulerViewModel = new Models.SchedulerViewModel();
 
-            var currentuser = UserManager.Current();
+            //using (var OrderMangtDB = new OrderMgntEntities())
+            //{
 
-            string struserids = userIds.Select(x => x.ToString()).Aggregate("", (a, b) => a + "" + b + ",").ToString();
-            struserids = struserids.Remove(struserids.Length - 1, 1);
+                var currentuser = UserManager.Current();
 
-            var calendarUser = _scheduler.GetGroupCalendarUsers(currentuser.OrgId, struserids);
+                string struserids = userIds.Select(x => x.ToString()).Aggregate("", (a, b) => a + "" + b + ",").ToString();
+                struserids = struserids.Remove(struserids.Length - 1, 1);
+                
+                var calendarUser = _scheduler.GetGroupCalendarUsers(currentuser.OrgId, struserids);
 
-            //var calendarUser2 = OrderMangtDB.CalendarUsers.Where(x => userIds.Contains((int)x.CalendarId))
-            // .Distinct()
-            // .Join(
-            //     OrderMangtDB.Users.Where(m => m.OrgId == currentuser.OrgId && (m.UserType == 1 || m.UserType == 2) && m.IsActive == true && m.IsDeleted == false), cu => cu.UserId, u => u.Row_Id, (cu, u) => new { u.FirstName, u.LastName, u.UserType, cu.UserId, cu.Color, cu.CalendarId }).OrderBy(x => x.FirstName).ToList();
+                //var calendarUser2 = OrderMangtDB.CalendarUsers.Where(x => userIds.Contains((int)x.CalendarId))
+                // .Distinct()
+                // .Join(
+                //     OrderMangtDB.Users.Where(m => m.OrgId == currentuser.OrgId && (m.UserType == 1 || m.UserType == 2) && m.IsActive == true && m.IsDeleted == false), cu => cu.UserId, u => u.Row_Id, (cu, u) => new { u.FirstName, u.LastName, u.UserType, cu.UserId, cu.Color, cu.CalendarId }).OrderBy(x => x.FirstName).ToList();
 
-
-            List<ScheduleResources> lstresources = new List<ScheduleResources>();
-            if (calendarUser != null)
-            {
-                foreach (var item in calendarUser)
+              
+                List<ScheduleResources> lstresources = new List<ScheduleResources>();
+                if (calendarUser != null)
                 {
-                    ScheduleResources scheduleResources = new ScheduleResources();
-                    scheduleResources.Text = item.FirstName + " " + item.LastName; // GetUserNameById((int)item.UserId);
-                    scheduleResources.Value = item.CalendarId.ToString();
-                    scheduleResources.Color = item.Color;
-                    lstresources.Add(scheduleResources);
+                    foreach (var item in calendarUser)
+                    {
+                        ScheduleResources scheduleResources = new ScheduleResources();
+                        scheduleResources.Text = item.FirstName + " " + item.LastName; // GetUserNameById((int)item.UserId);
+                        scheduleResources.Value = item.CalendarId.ToString();
+                        scheduleResources.Color = item.Color;
+                        lstresources.Add(scheduleResources);
+                    }
                 }
-            }
 
-            schedulerViewModel.CalenderResources = lstresources;
+                schedulerViewModel.CalenderResources = lstresources;
+
+          //  }
 
             return PartialView("_Scheduler", schedulerViewModel);
         }
 
-        /// <summary>
-        /// This function is used for updating the event as Cancelled in the Event table
-        /// </summary>
-        /// <param name="eventid"></param>
-        /// <param name="calendar"></param>
-        /// <param name="CalendarId"></param>
-        /// 
         private void DeleteEvent(string eventid, string calendar, int CalendarId)
         {
             if (!string.IsNullOrEmpty(eventid))
@@ -1047,40 +1686,42 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             IList<ScheduleResources> lstresources = new List<ScheduleResources>();
             try
             {
-                // using (var OrderMangtDB = new OrderMgntEntities())
-                // {
-                var currentuser = UserManager.Current();
-                if (currentuser != null)
-                {
-
-                    var users = _scheduler.GetAllUsersByOrgId(currentuser.OrgId.Value);
-                    var calendarUserlst = _scheduler.GetAllCalendarUser();
-                    var calenderUsers =
-                        users.Where(
-                            m => (m.UserType == 1 || m.UserType == 2) && m.IsActive == true)
-                            .Join(calendarUserlst, e => e.Row_Id, d => d.UserId,
-                                (e, d) => new { e.FirstName, e.LastName, e.UserType, d.UserId, d.Color, d.CalendarId }).OrderBy(e => e.FirstName);
-
-                    if (calenderUsers != null && calenderUsers.ToList().Count > 0)
+               // using (var OrderMangtDB = new OrderMgntEntities())
+               // {
+                    var currentuser = UserManager.Current();
+                    if (currentuser != null)
                     {
-                        foreach (var item in calenderUsers.ToList())
+
+                      var  users = _scheduler.GetAllUsersByOrgId(currentuser.OrgId.Value);
+                        var calendarUserlst = _scheduler.GetAllCalendarUser();
+                        var calenderUsers =
+                            users.Where(
+                                m => (m.UserType == 1 || m.UserType == 2) && m.IsActive == true)
+                                .Join(calendarUserlst, e => e.Row_Id, d => d.UserId,
+                                    (e, d) => new { e.FirstName, e.LastName, e.UserType, d.UserId, d.Color, d.CalendarId }).OrderBy(e=> e.FirstName);
+
+                        if (calenderUsers != null && calenderUsers.ToList().Count > 0)
                         {
-                            var scheduleResources = new ScheduleResources();
-                            scheduleResources.Text = item.FirstName + " " + item.LastName;
-                            scheduleResources.Value = item.CalendarId.ToString();
-                            if (item != null && item.Color != null)
+
+                            foreach (var item in calenderUsers.ToList())
                             {
-                                scheduleResources.Color = item.Color.Replace("#", "\\#");
+                                var scheduleResources = new ScheduleResources();
+                                scheduleResources.Text = item.FirstName + " " + item.LastName;
+                                scheduleResources.Value = item.CalendarId.ToString();
+                                if (item != null && item.Color != null)
+                                {
+                                    scheduleResources.Color = item.Color.Replace("#", "\\#");
+                                }
+                                else
+                                {
+                                    scheduleResources.Color = "";
+                                }
+                                lstresources.Add(scheduleResources);
                             }
-                            else
-                            {
-                                scheduleResources.Color = "";
-                            }
-                            lstresources.Add(scheduleResources);
                         }
+
                     }
-                }
-                //  }
+              //  }
 
 
             }
@@ -1098,23 +1739,30 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             IList<EventColor> lsteventColor = new List<EventColor>();
             try
             {
-                var colorlist = _scheduler.GetAllColor().OrderBy(m => m.Row_Id).Take(11).ToList().OrderBy(m => m.ColorName);
+               // using (var orderMangtDb = new OrderMgntEntities())
+               // {
 
-                foreach (var item in colorlist)
-                {
-                    var eventColor = new EventColor();
-                    eventColor.Text = item.ColorName;
-                    eventColor.Value = item.Row_Id.ToString();
-                    if (item != null && item.Color != null)
+                  
+                    var colorlist = _scheduler.GetAllColor().OrderBy(m => m.Row_Id).Take(11).ToList().OrderBy(m=> m.ColorName);
+
+                    foreach (var item in colorlist)
                     {
-                        eventColor.Color = item.Color.Replace("#", "\\#");
+                        var eventColor = new EventColor();
+                        eventColor.Text = item.ColorName;
+                        eventColor.Value = item.Row_Id.ToString();
+                        if (item != null && item.Color != null)
+                        {
+                            eventColor.Color = item.Color.Replace("#", "\\#");
+                        }
+
+                        lsteventColor.Add(eventColor);
                     }
 
-                    lsteventColor.Add(eventColor);
-                }
+               // }
             }
             catch (Exception ex)
             {
+
                 string msg = ex.Message;
                 Logger(msg);
             }
@@ -1167,7 +1815,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
 
                 if (!string.IsNullOrEmpty(calenderName))
                 {
-
+                    
                     rtneventid = objGoogleCal.DeleteEventInstance(eventid, calenderName, start);
 
                     if (!rtneventid.Equals("Instance not available"))
@@ -1231,6 +1879,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             return Content(rtneventid);
         }
 
+
         private void Logger(string logText)
         {
             using (StreamWriter tw = new StreamWriter("d:\\Google.txt", true))
@@ -1243,9 +1892,9 @@ namespace TelerikMvcSchedulerPOC2.Controllers
 
         private void DBLogger(string Event_Id, string Event_Title, string Operation, int User_Id, string Source_calendar, string Destination_calendar)
         {
-            string EventId = Event_Id.Split(',')[0];
-            int row_id = Convert.ToInt32(_scheduler.InsertEventLog(EventId, Event_Title, Operation, User_Id, Source_calendar, Destination_calendar));
-
+           string  EventId = Event_Id.Split(',')[0];
+           int row_id = Convert.ToInt32(_scheduler.InsertEventLog(EventId, Event_Title, Operation, User_Id, Source_calendar, Destination_calendar));
+            
         }
 
         private void ThrowCustomExc(string returnedEventIdFromGoogle)
@@ -1269,11 +1918,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             }
         }
 
-        /// <summary>
-        /// This Funnction is used for Printing Event Printing Option
-        /// </summary>
-        /// <param name="event_Id"></param>
-        /// <returns></returns>
+
         public JsonResult Event_Print(string event_Id)
         {
 
@@ -1281,10 +1926,10 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             string EventLocation = string.Empty;
             string EventDescrption = string.Empty;
             string Organizer = string.Empty;
-            string Startdate = string.Empty;
+            string Startdate=  string.Empty;
             string Enddate = string.Empty;
 
-            var eventDetils = _scheduler.GetEventDetails(event_Id);
+            var eventDetils =  _scheduler.GetEventDetails(event_Id);
 
             if (eventDetils != null && eventDetils.Count > 0)
             {
@@ -1293,15 +1938,31 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                     EventTitle = item.Title;
                     EventLocation = item.Location;
                     EventDescrption = item.Description;
-                    Startdate = String.Format("{0:f}", item.StartDate.Value);
+                    Startdate= String.Format("{0:f}", item.StartDate.Value);
                     Enddate = String.Format("{0:f}", item.EndDate.Value);
                     Organizer = item.Organizer;
                 }
 
+            //    var EventPrintData = _scheduler.GetEventEmailORPrintData(event_Id);
+                
+             //   string PrintContent = string.Empty;
+                
+                //foreach (var item in EventPrintData)
+                //{
+                //    PrintContent = item.MESSAGE_BODY;
+                //    PrintContent = PrintContent.Replace("[$EventTitle$]", EventTitle);
+                //    PrintContent = PrintContent.Replace("[$Location$]", EventLocation);
+                //    PrintContent = PrintContent.Replace("[$StartTime$]", Startdate);
+                //    PrintContent = PrintContent.Replace("[$EndTime$]", Enddate);
+                //    PrintContent = PrintContent.Replace("[$Description$]", EventDescrption);
+                //    PrintContent = PrintContent.Replace("[$PrintOrEmail$]", "print");
+                //    item.MESSAGE_BODY = PrintContent;
+                //}
+
 
                 string TemplateType = "Booking Confirmation";
 
-                var EventPrintDataNew = _scheduler.GetEventCommunicationTemplate(TemplateType, true, false);
+                var EventPrintDataNew = _scheduler.GetEventCommunicationTemplate(TemplateType,true,false);
 
 
                 string PrintContent = string.Empty;
@@ -1309,9 +1970,9 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                 foreach (var item in EventPrintDataNew)
                 {
 
-                    if (string.IsNullOrEmpty(PrintContent))
+                    if(string.IsNullOrEmpty(PrintContent))
                     {
-                        PrintContent = item.TEMPLATE;
+                         PrintContent = item.TEMPLATE;
                     }
 
                     if ("[$Location$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
@@ -1319,14 +1980,19 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                         PrintContent = PrintContent.Replace("[$Location$]", EventLocation);
                     }
 
-                    if ("[$Start$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    if ("[$StartTime$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
                     {
-                        PrintContent = PrintContent.Replace("[$Start$]", Startdate.ToString());
+                        PrintContent = PrintContent.Replace("[$StartTime$]", Startdate);
                     }
 
-                    if ("[$End$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    if ("[$StartTime$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
                     {
-                        PrintContent = PrintContent.Replace("[$End$]", Enddate);
+                        PrintContent = PrintContent.Replace("[$StartTime$]", Startdate);
+                    }
+
+                    if ("[$EndTime$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        PrintContent = PrintContent.Replace("[$EndTime$]", Enddate);
                     }
 
 
@@ -1345,23 +2011,30 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                         PrintContent = PrintContent.Replace("[$Calendar$]", string.Empty);
                     }
 
+
                     PrintContent = PrintContent.Replace("[$PrintOrEmail$]", "print");
 
+
+                    //PrintContent = PrintContent.Replace("[$EventTitle$]", EventTitle);
+                    //PrintContent = PrintContent.Replace("[$Location$]", EventLocation);
+                    //PrintContent = PrintContent.Replace("[$StartTime$]", Startdate);
+                    //PrintContent = PrintContent.Replace("[$EndTime$]", Enddate);
+                    //PrintContent = PrintContent.Replace("[$Description$]", EventDescrption);
+                    //PrintContent = PrintContent.Replace("[$PrintOrEmail$]", "print");
+                   
                     item.TEMPLATE = PrintContent;
                 }
 
                 List<string> Print = new List<string>();
                 Print.Add(PrintContent);
+
                 return Json(Print, JsonRequestBehavior.AllowGet);
+
+               // return Json(EventPrintDataNew, JsonRequestBehavior.AllowGet);
             }
             return null;
         }
 
-        /// <summary>
-        /// This function is used forload event data into Email Popup
-        /// </summary>
-        /// <param name="event_Id"></param>
-        /// <returns></returns>
         public JsonResult LoadMailContent(string event_Id)
         {
             string EventTitle = string.Empty;
@@ -1370,12 +2043,6 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             string Organizer = string.Empty;
             string Startdate = string.Empty;
             string Enddate = string.Empty;
-            string EmailContent = string.Empty;
-            string FromEmail = string.Empty;
-            string EmailSubject = string.Empty;
-            string EmailFromDisplay = string.Empty;
-            string EmailCC = string.Empty;
-            string EmailBCC = string.Empty;
 
             var eventDetils = _scheduler.GetEventDetails(event_Id);
 
@@ -1395,8 +2062,14 @@ namespace TelerikMvcSchedulerPOC2.Controllers
 
                 var EventPrintDataNew = _scheduler.GetEventCommunicationTemplate(TemplateType, false, true);
 
+
+                string EmailContent = string.Empty;
+                string FromEmail = string.Empty;
+                string EmailSubject = string.Empty;
+
                 foreach (var item in EventPrintDataNew)
                 {
+
                     if (string.IsNullOrEmpty(EmailContent))
                     {
                         EmailContent = item.TEMPLATE;
@@ -1407,37 +2080,18 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                         FromEmail = item.FROM;
                     }
 
-                    if (string.IsNullOrEmpty(EmailCC))
-                    {
-                        EmailCC = item.CC_TO;
-                    }
-
-                    if (string.IsNullOrEmpty(EmailBCC))
-                    {
-                        EmailBCC = item.BCC_TO;
-                    }
-
-                    if (string.IsNullOrEmpty(EmailFromDisplay))
-                    {
-                        if (!string.IsNullOrEmpty(item.FROM_DISPLAY_AS))
-                        {
-                            EmailFromDisplay = item.FROM_DISPLAY_AS;
-                        }
-                        else
-                        {
-                            EmailFromDisplay = "Schedly";
-                        }
-                    }
-
                     if (string.IsNullOrEmpty(EmailSubject))
                     {
                         EmailSubject = item.EMAIL_SUBJECT;
+
                         EmailSubject = EmailSubject.Replace("[$Location$]", EventLocation);
+
                     }
 
                     if ("[$Location$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
                     {
                         EmailContent = EmailContent.Replace("[$Location$]", EventLocation);
+                       
                     }
 
                     if ("[$StartTime$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
@@ -1455,6 +2109,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                         EmailContent = EmailContent.Replace("[$EndTime$]", Enddate);
                     }
 
+
                     if ("[$Description$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
                     {
                         EmailContent = EmailContent.Replace("[$Description$]", EventDescrption);
@@ -1470,7 +2125,9 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                         EmailContent = EmailContent.Replace("[$Calendar$]", string.Empty);
                     }
 
+
                     EmailContent = EmailContent.Replace("[$PrintOrEmail$]", "print");
+
 
                     item.TEMPLATE = EmailContent;
                 }
@@ -1478,16 +2135,14 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                 List<string> lstEmailContent = new List<string>();
                 lstEmailContent.Add(EmailContent);
 
+
                 List<EventData> lstEmailData = new List<EventData>();
+
                 EventData objEmailData = new EventData();
 
-                objEmailData.EmailContent = EmailContent;
+                objEmailData.EmailContent=EmailContent;
                 objEmailData.EmailFrom = FromEmail;
                 objEmailData.EmailSubject = EmailSubject;
-                objEmailData.EmailFromDisplay = EmailFromDisplay;
-                objEmailData.EmailCC = EmailCC;
-                objEmailData.EmailBCC = EmailBCC;
-
                 lstEmailData.Add(objEmailData);
 
                 //var data = _repository.GetJobAttachmentTypes(Convert.ToInt32(groupid)).Select(p => new
@@ -1495,7 +2150,8 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                 //    AllowedFileExtensions = p.AllowedFileExtension,
                 //    MaxFileSize = p.MaxFileSize
                 //});
-                // return Json(data, JsonRequestBehavior.AllowGet);
+               // return Json(data, JsonRequestBehavior.AllowGet);
+
 
                 return Json(lstEmailData, JsonRequestBehavior.AllowGet);
 
@@ -1504,14 +2160,217 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             return null;
         }
 
-        /// <summary>
-        /// This function is used fro sending Event email to users
-        /// </summary>
-        /// <param name="Emailmodel"></param>
-        /// <returns></returns>
+        public JsonResult LoadMailContentJobTracking(string template, string JobId)
+        {
+            string EventTitle = string.Empty;
+            string EventLocation = string.Empty;
+            string EventDescrption = string.Empty;
+            string Organizer = string.Empty;
+            string Startdate = string.Empty;
+            string Enddate = string.Empty;
+            string TemplateType = template;
+            var eventDetils = _scheduler.GetEmailTemplateData(JobId);
+
+            if (eventDetils != null && eventDetils.Count > 0)
+            {
+                foreach (var item in eventDetils)
+                {
+                    EventTitle = item.Title;
+                    EventLocation = item.Name;
+                    EventDescrption = item.Description;
+                    Startdate = String.Format("{0:f}", item.StartDate.Value);
+                    Enddate = String.Format("{0:f}", item.EndDate.Value);
+                    Organizer = item.Organizer;
+                }
+            }
+
+            var EventPrintDataNew = _scheduler.GetEventCommunicationTemplate(TemplateType, false, true);
+            string EmailContent = string.Empty;
+            string FromEmail = string.Empty;
+            string EmailSubject = string.Empty;
+            string EmailCC = string.Empty;
+            string EmailBCC = string.Empty;
+            string EmailTo = string.Empty;
+            string DisplayFrom = string.Empty;
+            foreach (var item in EventPrintDataNew)
+            {
+                if (string.IsNullOrEmpty(EmailContent))
+                {
+                    EmailContent = item.TEMPLATE;
+                }
+
+                if (string.IsNullOrEmpty(FromEmail))
+                {
+                    FromEmail = item.FROM;
+                }
+
+                if (string.IsNullOrEmpty(EmailCC))
+                {
+                    EmailCC = item.CC_TO;
+                }
+
+                if (string.IsNullOrEmpty(EmailBCC))
+                {
+                    EmailBCC = item.BCC_TO;
+                }
+                if (string.IsNullOrEmpty(DisplayFrom))
+                {
+                    DisplayFrom = item.FROM_DISPLAY_AS;
+                }
+                if (string.IsNullOrEmpty(EmailContent))
+                {
+                    EmailContent = item.TEMPLATE;
+                }
+
+                if (string.IsNullOrEmpty(FromEmail))
+                {
+                    FromEmail = item.FROM;
+                }
+                if (string.IsNullOrEmpty(EmailTo))
+                {
+                    EmailTo = item.TO;
+                }
+                if (string.IsNullOrEmpty(EmailSubject))
+                {
+                    EmailSubject = item.EMAIL_SUBJECT;
+
+                    EmailSubject = EmailSubject.Replace("[$Location$]", EventLocation);
+
+                }
+
+
+                if (item.MERGE_ATTRIBUTE != null)
+                {
+                    if ("[$Location$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        EmailContent = EmailContent.Replace("[$Location$]", EventLocation);
+
+                    }
+
+                    if ("[$StartTime$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        EmailContent = EmailContent.Replace("[$StartTime$]", Startdate);
+                    }
+
+                    if ("[$StartTime$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        EmailContent = EmailContent.Replace("[$StartTime$]", Startdate);
+                    }
+
+                    if ("[$EndTime$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        EmailContent = EmailContent.Replace("[$EndTime$]", Enddate);
+                    }
+
+
+                    if ("[$Description$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        EmailContent = EmailContent.Replace("[$Description$]", EventDescrption);
+                    }
+
+                    if ("[$Title$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        EmailContent = EmailContent.Replace("[$Title$]", EventTitle);
+                    }
+
+                    if ("[$Calendar$]".Equals(item.MERGE_ATTRIBUTE.ToString().Trim()))
+                    {
+                        EmailContent = EmailContent.Replace("[$Calendar$]", string.Empty);
+                    }
+
+
+                    EmailContent = EmailContent.Replace("[$PrintOrEmail$]", "print");
+
+
+                    item.TEMPLATE = EmailContent;
+                }
+            }
+            List<string> lstEmailContent = new List<string>();
+            lstEmailContent.Add(EmailContent);
+
+
+            List<EventData> lstEmailData = new List<EventData>();
+
+            EventData objEmailData = new EventData();
+
+            objEmailData.EmailContent = EmailContent;
+            objEmailData.EmailFrom = FromEmail;
+            objEmailData.EmailSubject = EmailSubject+":"+eventDetils[0].Name;
+            objEmailData.EmailCC = EmailCC;
+            objEmailData.EmailBCC = EmailBCC;
+            objEmailData.TO = EmailTo;
+            objEmailData.EmailFromDisplay = DisplayFrom;
+            lstEmailData.Add(objEmailData);
+            return Json(lstEmailData, JsonRequestBehavior.AllowGet);
+
+
+        }
+
+        public JsonResult Event_Mail(string event_Id)
+        {
+
+            string EventTitle = string.Empty;
+            string EventLocation = string.Empty;
+            string EventDescrption = string.Empty;
+            string Organizer = string.Empty;
+            string Startdate=  string.Empty;
+            string Enddate = string.Empty;
+            string Mail_To = string.Empty;
+            string Mail_From = string.Empty;
+            string Mail_Subject = string.Empty;
+
+
+      //    var resposne=  Email.SendEmailFromMailGun("", "", "manojsoni80@gmail.com");
+
+           
+
+            var eventDetils =  _scheduler.GetEventDetails(event_Id);
+
+            if (eventDetils != null && eventDetils.Count > 0)
+            {
+                foreach (var item in eventDetils)
+                {
+                    EventTitle = item.Title;
+                    EventLocation = item.Location;
+                    EventDescrption = item.Description;
+                    Startdate= String.Format("{0:f}", item.StartDate.Value);
+                    Enddate = String.Format("{0:f}", item.EndDate.Value);
+                    Organizer = item.Organizer;
+                }
+
+                var EventPrintData = _scheduler.GetEventEmailORPrintData(event_Id);
+                
+                string MailContent = string.Empty;
+                
+                foreach (var item in EventPrintData)
+                {
+                    MailContent = item.MESSAGE_BODY;
+                    MailContent = MailContent.Replace("[$EventTitle$]", "Job Email");
+                    MailContent = MailContent.Replace("[$Location$]", "95 Erskine Street, Middle Park");
+                    MailContent = MailContent.Replace("[$StartTime$]", DateTime.Now.ToString());
+                    MailContent = MailContent.Replace("[$EndTime$]", DateTime.Now.ToString());
+                    MailContent = MailContent.Replace("[$Description$]", "Abc fgh");
+                    MailContent = MailContent.Replace("[$PrintOrEmail$]", "email");
+                    item.MESSAGE_BODY = MailContent;
+                }
+
+                foreach (var item in EventPrintData)
+                {
+                    Mail_From = item.FROM_EMAIL;
+                    Mail_To = item.TO_EMAIL;
+                    Mail_Subject = item.SUBJECT;
+                }
+                var resposne2 = Email.SendEmailFromMailGunServer(Mail_Subject, MailContent, Mail_To, Mail_From);
+               return Json("200", JsonRequestBehavior.AllowGet);
+           
+            }
+            return null;
+        }
+        
         [ValidateInput(false)]
         [HttpPost]
-        public JsonResult Event_MailSent(SchedulerEmailModel Emailmodel)
+
+        public JsonResult Event_MailSentNew(SchedulerEmailModel Emailmodel)
         {
 
             List<EmailTo> EmailTo = new List<EmailTo>();
@@ -1520,8 +2379,6 @@ namespace TelerikMvcSchedulerPOC2.Controllers
 
             String strSubject = Emailmodel.MailSubject;
             String strMailFrom = Emailmodel.MailFrom;
-            String strMailFromDisplay = Emailmodel.MailFromDisplay;
-
             String strEmailCC = string.Empty;
             String strEmailBCC = string.Empty;
 
@@ -1546,7 +2403,7 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                 }
             }
 
-            if (!string.IsNullOrEmpty(Emailmodel.MailBCC))
+            if(!string.IsNullOrEmpty(Emailmodel.MailBCC))
             {
                 strEmailBCC = Emailmodel.MailBCC;
                 string[] EmailIdBCCs = strEmailBCC.Split(',');
@@ -1558,9 +2415,9 @@ namespace TelerikMvcSchedulerPOC2.Controllers
                 }
             }
 
-            var resposne = Email.SendEmailFromMailGunServer(strSubject, Emailmodel.MailBody, EmailTo, EmailCC, EmailBCC, strMailFrom, strMailFromDisplay);
+            var resposne = Email.SendEmailFromMailGunServer(strSubject, Emailmodel.MailBody, EmailTo, EmailCC, EmailBCC, strMailFrom);
             string resposecode = resposne.StatusCode.ToString();
-
+            
             // saving mail content in the Emailinbox table  
             if (resposecode.Equals("OK"))
             {
@@ -1573,11 +2430,83 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             }
         }
 
-        /// <summary>
-        /// This function is used for Load Auto Complete Email textboxes 
-        /// </summary>
-        /// <param name="Search"></param>
-        /// <returns></returns>
+        public JsonResult Event_MailSent(string MailTo, string MailCC, string MailBCC, string MailSubject,string MailBody)
+        {
+
+            string EventTitle = string.Empty;
+            string EventLocation = string.Empty;
+            string EventDescrption = string.Empty;
+            string Organizer = string.Empty;
+            string Startdate = string.Empty;
+            string Enddate = string.Empty;
+            string Mail_To = string.Empty;
+            string Mail_From = string.Empty;
+            string Mail_Subject = string.Empty;
+
+
+            //////////////////////////// Code for sending Email ///////////////////////////////////////////////////////////////
+
+            List<EmailTo> EmailTo = new List<EmailTo>();
+            List<EmailCC> EmailCC = new List<EmailCC>();
+            List<EmailBCC> EmailBCC = new List<EmailBCC>();
+
+            string strEmailTo = "manojsoni80@gmail.com;manojkumar.soni@e-zest.in;manojkumar.soni@e-zest.in;manojkumar.soni@e-zest.in";
+            string[] EmailIdTos = strEmailTo.Split(';');
+            foreach (string Emailid in EmailIdTos)
+            {
+                EmailTo objEmailTo = new EmailTo();
+                objEmailTo.Email_Id = Emailid;
+                EmailTo.Add(objEmailTo);
+            }
+
+
+            string strEmailCC = "manojsoni80@gmail.com;manojkumar.soni@e-zest.in;manojkumar.soni@e-zest.in;manojkumar.soni@e-zest.in";
+            string[] EmailIdCCs = strEmailCC.Split(';');
+            foreach (string Emailid in EmailIdCCs)
+            {
+                EmailCC objEmailCC = new EmailCC();
+                objEmailCC.Email_Id = Emailid;
+                EmailCC.Add(objEmailCC);
+            }
+
+            string strEmailBCC = "manojsoni80@gmail.com;manojkumar.soni@e-zest.in;manojkumar.soni@e-zest.in;manojkumar.soni@e-zest.in";
+            string[] EmailIdBCCs = strEmailBCC.Split(';');
+            foreach (string Emailid in EmailIdBCCs)
+            {
+                EmailBCC objEmailBCC = new EmailBCC();
+                objEmailBCC.Email_Id = Emailid;
+                EmailBCC.Add(objEmailBCC);
+            }
+
+          //  var resposne2 = Email.SendEmailFromMailGunServer("TestSubject", MailBody, EmailTo, EmailCC, EmailBCC, "dpi.campaigntrack@gmail.com");
+
+            //////////////////////////////////////////////////////////////////////////////////////////
+                return Json("200", JsonRequestBehavior.AllowGet);
+
+            }
+
+        public JsonResult AutoCompletePart(string id)
+        {
+            List<EmailTo> EmailTo = new List<EmailTo>();
+            string strEmailCC = "manojsoni80@gmail.com;manojkumar.soni@e-zest.in;christopher.kerr@zerofootprint.com.au;test@test.com;dpi@zerofootprint.com";
+            string[] EmailIdCCs = strEmailCC.Split(';');
+            foreach (string Emailid in EmailIdCCs)
+            {
+                EmailTo objEmailCC = new EmailTo();
+                objEmailCC.Email_Id = Emailid;
+                EmailTo.Add(objEmailCC);
+            }
+
+            List<string> Emaillist = new List<string>();
+            foreach (var item in EmailTo)
+            {
+                Emaillist.Add(item.Email_Id);
+            }
+
+            var result = Emaillist.ToArray();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult LoadAutoCompleteEMails(string Search)
         {
             var emailList = _scheduler.GetEmailAddress("");
@@ -1612,13 +2541,21 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             var result = Emaillist.ToArray();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
     }
 
+    public class EventData
+    {
+        public string EmailContent { get; set; }
+        public string EmailFrom { get; set; }
+        public string EmailSubject { get; set; }
+        public string EmailCC { get; set; }
+        public string EmailBCC { get; set; }
+        public string TO { get; set; }
+        public string EmailFromDisplay { get; set; }
+    }
+    
 
-
-    /// <summary>
-    /// This Class is used for CustomException
-    /// </summary>
     [Serializable]
     public class CustomException : Exception
     {
@@ -1641,4 +2578,12 @@ namespace TelerikMvcSchedulerPOC2.Controllers
             : base(info, context) { }
     }
 
+
+
+
+
+
+
 }
+
+

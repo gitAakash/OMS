@@ -32,13 +32,17 @@ namespace OrderManagement.Web.Models.Repository
         IList<GetEventRowId> GetEventRowId(string EventId);
         int InsertEventLog(string Event_Id, string Event_Title, string Operation, int User_Id, string Source_calendar, string Destination_calendar);
 
-       // IList<GetEventEmailORPrintData> GetEventEmailORPrintData(int orgid, int? userid, string userType, int? compamyid, string EventId);
+        IList<SelectEventsBySearchValue> GetAllEventBySearch(int orgid, int? userid, string userType, int? compamyid, string SearchValue);
+
+        IList<GetEventEmailORPrintData> GetEventEmailORPrintData(int orgid, int? userid, string userType, int? compamyid, string EventId);
         IList<GetEventDetails> GetEventDetails(int orgid, int? userid, string userType, int? compamyid, string EventId);
+        IList<GetEmailTemplateData_Result> GetEmailTemplateData(int orgid, int? userid, string userType, int? compamyid, string JobId);
+
         IList<SelectCommunicationTemplates> GetCommunicationTemplate(int orgid, int? userid, string userType, int? compamyid, string TemplateType, bool? IsPrint,bool? IsEmail );
-        int InsertEventMailToEmailInbox(string To_email, string from_email, string Cc_email, string Bcc_email, string Subject, string MessageBody, int orgid, int? userid, string userType, int? compamyid);
-
+        //, int orgid, int? userid, string userType, int? compamyid
         IList<string> GetEmailAddress(int orgid, int? userid, string userType, int? compamyid, string SearchValue);
-
+        //, userid, userTypeName, compamyid
+        int InsertEventMailToEmailInbox(string To_email, string from_email, string Cc_email, string Bcc_email, string Subject, string MessageBody, int orgid, int? userid, string userType, int? compamyid);
     }
 
     public class SchedulerRepository : ISchedulerRepository, IDisposable
@@ -101,6 +105,14 @@ namespace OrderManagement.Web.Models.Repository
             return DistinctItems.ToList();
         }
 
+
+        public IList<SelectEventsBySearchValue> GetAllEventBySearch(int orgid, int? userid, string userType, int? compamyid, string searchValue)
+        {
+            return db.SelectEventsBySearchValue(orgid, userid, userType, compamyid, searchValue).ToList();
+        }
+
+
+        
         public Dictionary<string, string> GetEventExceptions()
         {
             var lstEventException = from lst in db.GetAllEventException()
@@ -262,22 +274,15 @@ namespace OrderManagement.Web.Models.Repository
 
         public int InsertEventLog(string Event_Id, string Event_Title, string Operation, int User_Id, string Source_calendar, string Destination_calendar)
         {
-            return 0;
-           // return db.InsertEventslog(Event_Id, Event_Title, Operation, User_Id, Source_calendar, Destination_calendar);
+            return db.InsertEventslog(Event_Id, Event_Title, Operation, User_Id, Source_calendar, Destination_calendar);
 
         }
 
 
-
-        public IList<string> GetEmailAddress(int orgid, int? userid, string userType, int? compamyid, string SearchValue)
+        public IList<GetEventEmailORPrintData> GetEventEmailORPrintData(int orgid, int? userid, string userType, int? compamyid, string EventId)
         {
-            return db.SelectEmailAddressAutoComplete(orgid, userid, userType, compamyid, 0, SearchValue).ToList();
+            return db.GetEventEmailORPrintData(orgid, userid, userType, compamyid).ToList();
         }
-
-        //public IList<GetEventEmailORPrintData> GetEventEmailORPrintData(int orgid, int? userid, string userType, int? compamyid, string EventId)
-        //{
-        //    return db.GetEventEmailORPrintData(orgid, userid, userType, compamyid).ToList();
-        //}
 
 
         public IList<GetEventDetails> GetEventDetails(int orgid, int? userid, string userType, int? compamyid, string EventId)
@@ -285,7 +290,16 @@ namespace OrderManagement.Web.Models.Repository
             return db.GetEventDetails(orgid, userid, userType, compamyid, EventId).ToList();
         }
 
+        public IList<GetEmailTemplateData_Result> GetEmailTemplateData(int orgid, int? userid, string userType, int? compamyid, string JobId)
+        {
+            return db.GetEmailTemplateData(Convert.ToInt32(JobId),orgid).ToList();
+        }
 
+        public virtual IList<string> GetEmailAddress(int orgid, int? userid, string userType, int? compamyid, string SearchValue)
+        {
+           return CachedSchedulerRepository.Instance.GetEmailAddress(orgid, userid, userType, compamyid, SearchValue).ToList();
+           // return db.SelectEmailAddressAutoComplete(orgid, userid, userType, compamyid, 0, SearchValue).ToList();
+        }
         public IList<SelectCommunicationTemplates> GetCommunicationTemplate(int orgid, int? userid, string userType, int? compamyid, string TemplateType, bool? IsPrint, bool? IsEmail)
         {
             return db.SelectCommunicationTemplates(orgid, userid, userType, compamyid, TemplateType, IsPrint, IsEmail).ToList();

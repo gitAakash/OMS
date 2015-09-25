@@ -1,0 +1,233 @@
+﻿@model OrderManagement.Web.Models.ClientModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.maskedinput.min.js")" type="text/javascript"></script>
+
+<!--Breadcrumbs--->
+<div class="wrapper wrapper-content order-form">
+    <div class="row">
+        <div class="col-lg-12" id="divClientLabel" >
+            <div class="ibox-title" id="divCreateClient" >
+                    <h5 id="lblheading">Create Client</h5>
+            </div>
+            
+            <div class="ibox-title" id="divUpdateClient">
+                    <h5 id="lblheadingUpdate" style="display:none;">Update Client</h5>
+            </div>
+
+         
+            
+            <div class="ibox float-e-margins">
+               
+                <div class="ibox-content">
+                    <div id="usersaveloader" align="center"></div>
+                    @using (Html.BeginForm("AddOrUpdate", "Video", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", id = "CreateUserForm" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Name<span style="color: red">*</span></label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                <span style="color: red" id="NameValidation"></span>
+                            </div>
+                           
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Main Phone</label>
+
+                            <div class="col-sm-10">
+                                 @Html.TextBoxFor(m => m.Main_Phone, new {@class = "form-control" })
+                            </div>
+                        </div>
+                        
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">Email Address</label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Main_Email, new { @class = "form-control" })
+                               @*  <span style="color: red;font-weight: bold;" id="Main_EmailValidation"  >Email is required</span>*@
+                                 <label for="recipient-name" id="lblEmailErrormsg" style="color: red;display:none;"  class="col-sm-13 control-label"></label>
+                            </div>
+                          
+                        </div>
+                        
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">Main URL</label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Main_URL, new { @class = "form-control" })
+                             
+                            </div>
+                          
+                        </div>
+                          
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                               <button type="submit" class="btn btn-primary" id="btnUpdate">Submit</button>
+                                @* <button type="button" class="btn btn-primary" onclick="javascript:;;" style="width: 82px" id="btnSubmit">Submit</button>*@
+                                <button type="button" class="btn btn-default" onclick="javascript:Cancel();" style="width: 82px" id="btnCancel">Cancel</button>
+                            </div>
+                        </div>
+                         @Html.HiddenFor(m => m.Row_Id)
+                    }
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+@Html.Hidden("GlobleFileExtensions")
+@Html.Hidden("GlobleFileSize")
+
+
+<script language="javascript" type="text/javascript">
+
+    function validateEmail(field) {
+
+        var regex = /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //  var regex = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
+        return (regex.test(field)) ? true : false;
+    }
+
+ $("#Main_Email").focusout(
+  function (event) {
+      var Emailval = (this.value);
+      if (Emailval.trim() != "") {
+          if (!validateEmail(Emailval)) {
+             // $("#Main_Email").focus();
+              $("#lblEmailErrormsg").show();
+              $("#lblEmailErrormsg").text('E-mail address not valid!');
+              return false;
+          }
+          else {
+              $("#lblEmailErrormsg").hide();
+              return true;
+          }
+      }
+      else {
+              $("#lblEmailErrormsg").hide();
+              return true;
+      }
+  }
+);
+
+
+ $('#btnUpdate').click(function () {
+     var Emailval = $('#Main_Email').val();
+
+     if (Emailval.trim() != "") {
+         if (!validateEmail(Emailval)) {
+           
+             $("#lblEmailErrormsg").show();
+             $("#lblEmailErrormsg").text('E-mail address not valid!');
+             return false;
+         }
+         else {
+             $("#lblEmailErrormsg").hide();
+             return true;
+         }
+     }
+     else {
+         $("#lblEmailErrormsg").hide();
+         return true;
+     }
+ });
+
+
+    $(document).ready(function () {
+
+      
+
+        //$("#Main_Phone").on("blur", function () {
+        //    var last = $(this).val().substr($(this).val().indexOf("-") + 1);
+
+        //    if (last.length == 3) {
+        //        var move = $(this).val().substr($(this).val().indexOf("-") - 1, 1);
+        //        var lastfour = move + last;
+
+        //        var first = $(this).val().substr(0, 9);
+
+        //        $(this).val(first + '-' + lastfour);
+        //    }
+        //});
+
+        
+        //$("#Main_Phone").mask("(999)999-9999");
+    
+
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+    
+        $("#CreateUserForm").validate({
+           
+            rules: {
+                'Name': { required: true }
+                @*   'Main_Email': { required: true, email: true, remote: '@Url.Action("CheckUniqeEmail", "Video")' },
+                'Main_Email': { email: true }*@
+             
+            },
+            messages: {
+                'Name': { required: "Name is required" }
+                //'Main_Email': { required: "Email address is required", email: "Email address is invalid", remote: jQuery.format("Email address is already in the system") },
+               // 'Main_Email': {  email: "Email address is invalid" }
+              
+            },
+            errorPlacement: function (error, element) {
+               //  alert(element.attr("id"));
+                error.appendTo("#" + element.attr("id") + "Validation");
+            }
+        });
+
+ @*       $("#btnUpdate").click(function () {
+            //alert("1");
+            if ($('#CreateUserForm').valid()) {
+               // alert("2");
+                $('#usersaveloader').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+            }
+        });*@
+
+        $('#CreateUserForm').ajaxForm(function (data) {
+            //  alert(data);
+            $('#usersaveloader').html("");
+          //  alert("Data has been saved successfully");
+            $('#divPageBody').html("");
+            $('#divPageBody').html(data);
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+           // alert("Thank you for your comment!");
+        });
+
+    });
+
+    function Cancel() {
+      //    $('#divClientform').text("");
+        $("#CreateUserForm").text("");
+        $("#divClientLabel").text("");
+        $("#divUpdateClient").text("");
+        
+        var body = $("html, body");
+        body.animate({ scrollTop: 0 }, '500', 'swing', function () {
+            //alert("Finished animating");
+        });
+    }
+
+
+    function GetgrpChecboxvalues() {
+      //  alert("hi1");
+        var allVals = [];
+        $('[name=chkProductGroup]:checked').each(function () {
+            allVals.push($(this).val());
+        });
+        $("#Group").val("");
+        $("#Group").val(allVals);
+      //  alert(allVals);
+    }
+
+
+
+
+</script>

@@ -1,0 +1,175 @@
+﻿@model IEnumerable<OrderManagement.Web.SelectVideo>
+
+
+
+<div style="margin: 4px 0 2px 15px;">
+    <button type="button" class="btn btn-primary" onclick="javascript:addVideos();">New</button>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <button class="btn btn-primary" onclick="javascript:editVideo();">Edit</button>
+        <button class="btn btn-primary" onclick="javascript:deleteVideo();">Delete</button>
+
+        @Html.Hidden("globleVideoid");
+    }
+</div>
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Videos</h5>
+                </div>
+                <div class="ibox-content">
+                  @(Html.Kendo().Grid(Model) // Bind the grid to the Model property of the view
+                          .Name("videogrid")
+                          // .Scrollable()
+                          .Selectable()
+                          .Sortable()
+                          .Events(events => events.Change("entSelChangeVideo"))
+                          .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                          .Columns(columns =>
+                              {
+                                  columns.Bound(p => p.Row_Id).Visible(false) ;   //Create a column bound to the "ProductID" property
+                                  columns.Bound(p => p.Title); //Create a column bound to the "ProductName" property
+                                  columns.Bound(p => p.FileName).Title("File Name");   //Create a column bound to the "UnitPrice" property
+                                  columns.Bound(p => p.Created).Title("Created");//Create a column bound to the "UnitsInStock" property
+                                  columns.Bound(p => p.Updated).Title("Updated"); ;
+                              })
+     
+                          .Pageable(pager => pager  
+                                                 .PageSizes(new int[]{10,25,50})   
+                                                 .Refresh(true)
+                          )
+//Enable paging
+                          .DataSource(dataSource => dataSource        
+                                                        .Ajax()
+                                                        .PageSize(10)
+                                                       // .Read(read => read.Action("Products_Read", "Product")).Events(e => e.RequestEnd("onRequestEnd"))
+                                                        .ServerOperation(false)  
+                                                        .Model(model => model.Id(e => e.Row_Id))      
+                          )
+                          )
+                </div>
+                   
+                </div>
+        </div>
+
+    </div>
+</div>
+<div id='scrol'></div>
+
+<div>
+    <span id="spaCreateVideoForm"></span>
+  
+</div>
+
+
+
+
+<span id="loadVideoGrid" style="display:none;" ></span>
+
+<script language="javascript" type="text/javascript">
+
+    function entSelChangeVideo() {
+        $("#globleVideoid").val("");
+        var entityGrid = $("#videogrid").data("kendoGrid");
+        var selectedItem = entityGrid.dataItem(entityGrid.select());
+        if (selectedItem != null && selectedItem != 'undefined') {
+          //  alert("The Row Id : " + selectedItem.id);
+            $("#globleVideoid").val(selectedItem.id);
+            alert($("#globleVideoid").val());
+            // alert(spnProdId);
+         //   loadVideolst(selectedItem.id);
+
+
+        } else {
+            // alert("NO Row Is SELECTED");
+            $("#globleVideoid").val("");
+        }
+
+    }
+
+    function loadVideolst(id) {
+
+        $.get('@Url.Action("VideoList", "Video")', { id: id }, function (data) {
+            if (data != null) {
+                $("#loadVideoGrid").html("");
+                $("#loadVideoGrid").html(data);
+            }
+        });
+    }
+
+
+    // This get the values from product Schedule table apr per product code.
+
+   
+
+
+
+    function onRequestEnd(e) {
+        debugger;
+        var d = e;
+    }
+
+    function addVideos() {
+       // alert("addClient");
+        var grid = $("#videogrid").data("kendoGrid");
+        grid.clearSelection();
+        $.get('@Url.Action("Newvideo", "Video")', function (data) {
+              if (data != null) {
+                  scrollPage();
+              
+                  $("#spaCreateVideoForm").text("");
+                  $("#globleVideoid").val("");
+                  $("#spaCreateVideoForm").html(data);
+              }
+          });
+      }
+
+    function editVideo() {
+        var userid = $("#globleVideoid").val();
+          if (userid != null && userid != 0) {
+              $.get('@Url.Action("NewVideo", "Video")', { userid: userid }, function (data) {
+                if (data != null) {
+                    scrollPage();
+                    $("#spaCreateVideoForm").text("");
+                    // $("#userRowId").val("");
+                    $("#spaCreateVideoForm").html(data);
+                }
+            });
+        } else {
+            alert("Please select row to Edit");
+        }
+    }
+
+
+    function deleteVideo() {
+        var userid = $("#globleVideoid").val();
+        // alert(userid);
+        if (userid != null && userid != 0) {
+            if (confirm("Are you sure want to delete?")) {
+                $.get('@Url.Action("DeleteVideo", "Video")', { userid: userid }, function (data) {
+                    if (data != null) {
+                        //alert(data);
+                        $('#divPageBody').html("");
+                        $('#divPageBody').html(data);
+                    }
+                });
+            }
+
+        }
+        else {
+            alert("Please select row to Delete");
+        }
+    }
+
+    function scrollPage() {
+        $('html, body').animate({
+            scrollTop: $("#spaCreateVideoForm").offset().top
+        }, 500);
+    }
+
+
+</script>

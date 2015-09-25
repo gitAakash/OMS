@@ -1,0 +1,573 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.VideoModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/jasny-bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jasny-bootstrap.min.js")" type="text/javascript"></script>
+
+
+
+<style>
+    .info {
+        background: url(../Images/lightBoxBG_RB.png) repeat left top;
+        width: 133%;
+        height: 100.5%;
+        position: fixed;
+        top: -19px !important;
+        left: -259px !important;
+        display: none;
+        z-index: 9;
+    }
+
+    #results {
+        margin: 195px auto 0;
+        padding: 20px;
+        width: 400px;
+        background: #fff;
+        box-shadow: 0 4px 16px #999;
+        z-index: 9999;
+        border: 1px solid #acacac;
+        /*position:fixed;
+left:50px !important;
+top:50px !important;*/
+        height: 310px;
+        position: relative;
+    }
+
+    #close {
+        background: url(../Images/fancybox_sprite.png) repeat;
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        font-size: 0;
+        display: block;
+        top: -15px;
+        right: -16px;
+        z-index: 9;
+    }
+
+    div.k-dropzone {
+        /*border: 1px solid #c5c5c5;  For Default; Different for each theme */
+        border: 1px dashed #C5C5C6;
+        margin: 0 0 0px 2px;
+        padding: 75px 10px;
+    }
+
+        div.k-dropzone:after {
+            content: 'Drop Zone';
+            color: #000;
+            font-style: italic;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+    div.em {
+        visibility: visible;
+    }
+
+    .divTagM {
+        position: absolute;
+        top: 10px;
+        width: 94.5%;
+        background: #7ED3A6;
+        left: 20px;
+        padding: 5px;
+        border-radius: 4px;
+        color: #A31010;
+        box-shadow: 0 0 2px #fff;
+    }
+
+        .divTagM div {
+            float: left;
+            margin-right: 10px;
+        }
+
+    .divImgDelete {
+        position: absolute;
+        position: absolute;
+        top: 145px;
+        background: #f3f3f4;
+        left: -3px;
+        padding: 3px 5px;
+        border-radius: 4px;
+        box-shadow: 0 0 2px #fff;
+    }
+
+        .divImgDelete div {
+            float: left;
+            margin-right: 10px;
+        }
+
+    .wrapper.wrapper-content.gray-bg .file-box {
+        float: left;
+        width: 195px;
+    }
+
+    .height {
+        height: 50px;
+        overflow-y: auto;
+    }
+
+    .gallery-group .fancybox img {
+        margin-bottom: 5px;
+        width: 100%;
+    }
+
+    .m-b {
+        margin-bottom: 0px;
+    }
+</style>
+<!--Breadcrumbs--->
+<div class="wrapper wrapper-content order-form">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox-title">
+                <h5 id="lblheading">Add Video</h5>
+            </div>
+
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+                    <div id="usersaveloader" align="center"></div>
+                    @using (Html.BeginForm("AddorUpdateVideos", "Video", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", id = "CreateUserForm" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Title<span style="color: red">*</span></label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                                <span style="color: red" id="TitleValidation"></span>
+                                <span style="color: red; display: none;" id="errorTitle">
+                                    <label for="Name" generated="true" id="lblerror" class="error">Title is required</label></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Job</label>
+                            <div class="col-sm-10">
+                                <select id="multiselect" multiple></select>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">products</label>
+                            <div class="col-sm-10">
+                                <select id="Jobs" multiple></select>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Reference</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Reference, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        
+@*<div class="form-group">
+                            <label class="col-sm-2 control-label">Host Primary</label>
+                            <div class="col-sm-10">
+                                 @Html.TextBoxFor(m => m.HostPrimary, new {@class = "form-control"})
+                            </div>
+                        </div>*@
+                                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Host Primary</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(m => m.HostPrimary, new SelectList(Enum.GetNames(typeof(EnumHelper.EHosts))), new { @class = "form-control m-b" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Host Primary Link</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.HostPrimaryLink, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        
+@*<div class="form-group">
+                            <label class="col-sm-2 control-label">Host Secondary</label>
+                            <div class="col-sm-10">
+                                 @Html.TextBoxFor(m => m.HostSecondary, new {@class = "form-control"})
+                            </div>
+                        </div>*@
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Host Secondary</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(m => m.HostSecondary, new SelectList(Enum.GetNames(typeof(EnumHelper.EHosts))), "Select Host Secondary", new { @class = "form-control m-b" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Host Secondary Link</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.HostSecondaryLink, new { @class = "form-control" })
+                            </div>
+                        </div>  
+                                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Status)</label>
+                            <div class="col-sm-10">
+
+                                @Html.DropDownListFor(m => m.Status, new SelectList(Enum.GetNames(typeof(EnumHelper.EStatus))), new { @class = "form-control m-b" })
+                                <span style="color: red; display: none;" id="erroVideoStatus">
+                                    <label for="Name" generated="true" class="error">Select Video Type</label></span>
+                            </div>
+                        </div>
+                                              
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Comment:</label>
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(m => m.Comments, new { @class = "form-control" })
+                            </div>
+                        </div>
+                      
+                        
+                              
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">File Upload</label>
+                            <div class="col-sm-10">
+
+                                <button type="button" value="Save1" class="btn btn-primary" onclick="javascript: ShowFileUploadModelPopUp();">Upload Files</button>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10" id="divdropzone" style="display: none;">
+                                @(Html.Kendo().Upload()
+                                      .Name("files")
+                                      .TemplateId("fileTemplate")
+                                      .Async(a => a
+                                          .Save("Save", "Video",new { Model = Model, JobOptionValue="0" })
+                                          .Remove("Remove", "Video")
+                                          .AutoUpload(false)
+                                      )
+
+
+                                      .Events(events => events.Upload("onUpload")
+                                          .Select("onSelect")
+                                         .Success("onSuccess")
+                                          .Complete("onComplete")
+                                      )
+
+                                      )
+
+
+                                @*   <button type="button" value="Save1" class="k-button" onclick="javascript: AddUpdateVideos();">Save</button>*@
+
+
+
+                            </div>
+                        </div>
+                        
+                        
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+
+                                @if (!string.IsNullOrEmpty(Model.HostPrimaryLink))
+                                {
+                                    <iframe width="420" height="345" src="@Url.Content(Model.HostPrimaryLink)"></iframe>
+                                }
+
+                                else if (!string.IsNullOrEmpty(Model.Files3Location))
+                                {
+
+                                    if (!string.IsNullOrEmpty(Model.FileExtension) && (Model.FileExtension) == ".MOV")
+                                    {
+                                    <iframe width="420" height="345" src="@Url.Content(Model.Files3Location)"></iframe>
+                                    }
+                                    else
+                                    {
+                                    <iframe width="420" height="345" src="@Url.Content(Model.Files3Location)"></iframe>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <button type="button" value="Save1" class="btn btn-primary" onclick="javascript: AddUpdateVideos();">Save</button>
+                                <button type="button" class="btn btn-default" onclick="javascript:Cancel();" style="width: 82px" id="btnCancel">Cancel</button>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                @*  <button type="submit" class="btn btn-primary" id="btnUpdate">Submit</button>
+                                <button type="button" class="btn btn-primary" onclick="javascript:;;" style="width: 82px" id="btnSubmit">Submit</button>
+                                <button type="button" class="btn btn-default" onclick="javascript:Cancel();" style="width: 82px" id="btnCancel">Cancel</button>*@
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                            </div>
+                        </div>
+                        
+                        @Html.HiddenFor(m => m.Row_Id)
+                        @Html.HiddenFor(m => m.ClientId)
+                        @Html.HiddenFor(m => m.FileName)
+                        @Html.HiddenFor(m => m.FileExtension)
+                        @Html.HiddenFor(m => m.FileSize)
+                        @Html.HiddenFor(m => m.Files3Location)
+                        @Html.HiddenFor(m => m.JobIdOptions)
+                        @Html.HiddenFor(m => m.jobId)
+                        @Html.HiddenFor(m => m.jobTitle)
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("GlobleFileExtensions")
+@Html.Hidden("GlobleFileSize")
+
+
+
+<script language="javascript" type="text/javascript">
+    //http://demos.telerik.com/kendo-ui/multiselect/serverfiltering
+
+    function ShowFileUploadModelPopUp() {
+
+        $("#divdropzone").show();
+        return false;
+    }
+    var multiselect =
+    $("#multiselect").kendoMultiSelect({
+        dataTextField: "JobTitle",
+        dataValueField: "JobId",
+        maxSelectedItems: 1,
+        dataSource: {
+            transport: {
+                read: {
+                    dataType: "json",
+                    url: '@Url.Action("GetJobDataJson", "Video")',
+                }
+            }
+        }
+    }).data("kendoMultiSelect");
+
+   
+    var jobId = parseInt($("#jobId").val());
+    var jobTitle = $("#jobTitle").val();
+    
+    if (jobId > 0) {
+        multiselect.dataSource.data([{
+            JobTitle: jobTitle, JobId: jobId
+        }
+        ]);
+        multiselect.value([jobId]);
+    }
+    function AddUpdateVideos() {
+
+
+
+        var validate = $("#CreateUserForm").valid();
+
+        $("#JobIdOptions").val("");
+        var multiSelectedValnew = $("#multiselect").data("kendoMultiSelect").value();
+        $("#JobIdOptions").val(multiSelectedValnew);
+
+        if ($("#Title").val() == "") {
+            $("#errorTitle").show();
+            $("#lblerror").show();
+            return false;
+        }
+        else {
+
+        var upload = $("#files").data("kendoUpload");
+        var len = upload.wrapper.find(".k-file").length;
+
+        if (len === 0) {
+            var r = confirm("You did not selected any files to upload! \n Do you still want to save! ");
+            if (r == true) {
+
+                if (validate) {
+
+                    $("#Orderid").val($("#hdnOrderId").val());
+                    $('#usersaveloader').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+                    $.post('@Url.Action("AddorUpdateVideos", "Video")', $("#CreateUserForm").serialize(), function (data) {
+                                if (data != null) {
+                                    var clientId = $("#globleClientid").val();
+                                    loadVideolst(clientId);
+                                    // alert($("#spnmsg").text());
+                                }
+                            });
+
+                        }
+            } 
+        }
+        else {
+          
+            if (validate) {
+
+                $("#Orderid").val($("#hdnOrderId").val());
+                $('#usersaveloader').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+                $.post('@Url.Action("AddorUpdateVideos", "Video")', $("#CreateUserForm").serialize(), function (data) {
+                            if (data != null) {
+                                var clientId = $("#globleClientid").val();
+                                loadVideolst(clientId);
+                                // alert($("#spnmsg").text());
+                            }
+                        });
+
+                    }
+            }
+
+      //  var optional = $("#MultiSelectJobOptions").data("kendoMultiSelect");
+      //  alert(optional.value());
+     }
+    }
+
+
+    $(document).ready(function () {
+
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+
+        ////////////////////////////////////
+       
+        $("#Jobs").kendoMultiSelect({
+            placeholder: "Select products...",
+            dataTextField: "JobTitle",
+            dataValueField: "JobId",
+           // autoBind: false,
+             minLength: 2,
+            dataSource: {
+                type: "json",
+                serverFiltering: true,
+
+                transport: {
+                            read: {
+                                url: '@Url.Action("GetJobDataJson", "Video")',
+                               
+                                }
+                            }
+                        },
+            value: [
+                      { JobTitle: "manoj", JobId: 1 },
+                   ]
+        });
+          
+        //$('#Jobs').data().kendoMultiSelect.input.on('keydown', function (e) {
+        //    console.log('key down ->', e);
+        //})
+ 
+
+
+
+        ////////////////////////////////////
+
+        $("#Title").focusout(
+         function (event) {
+             var Titleval = (this.value);
+             if (Titleval.trim() == "") {
+                 $("#errorTitle").show();
+             }
+             else {
+                 $("#errorTitle").hide();
+             }
+             //TitleValidation
+         }
+ );
+
+        $('#Status').on('change', function () {
+            var status = (this.value);
+            if (status.trim() == "") {
+                $("#erroVideoStatus").show();
+            }
+            else {
+                $("#erroVideoStatus").hide();
+            }
+        });
+
+
+        //  $("#CreateUserForm").validate({
+
+        //     rules: {
+        //       'Title': { required: true },
+        //  'Status': { required: true }
+                @*   'Main_Email': { required: true, email: true, remote: '@Url.Action("CheckUniqeEmail", "Video")' },*@
+        // 'Main_Email': { required: true, email: true }
+        // 'Main_Phone': { maxlength: 14 }
+        //      },
+        //    messages: {
+        //      'Title': { required: "Title is required" },
+        //     'Status': { required: "Status is required" }
+        //'Main_Email': { required: "Email address is required", email: "Email address is invalid", remote: jQuery.format("Email address is already in the system") },
+        // 'Main_Email': { required: "Email address is required", email: "Email address is invalid" }
+
+        //   },
+        //   errorPlacement: function (error, element) {
+        //  alert(element.attr("id"));
+        //       error.appendTo("#" + element.attr("id") + "Validation");
+        //  }
+        //});
+
+
+
+        $("#btnUpdate").click(function () {
+            //alert("1");
+            if ($('#CreateUserForm').valid()) {
+                // alert("2");
+                $('#usersaveloader').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+            }
+        });
+
+        $('#CreateUserForm').ajaxForm(function (data) {
+            //  alert(data);
+            $('#usersaveloader').html("");
+            // alert("Data has been saved successfully");
+            $('#divPageBody').html("");
+            $('#divPageBody').html(data);
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            // alert("Thank you for your comment!");
+        });
+
+    });
+
+    function Cancel() {
+        $("#spnAddEditVideos").text("");
+        var body = $("html, body");
+        body.animate({ scrollTop: 0 }, '500', 'swing', function () {
+            //alert("Finished animating");
+        });
+    }
+
+
+    function GetgrpChecboxvalues() {
+        //  alert("hi1");
+        var allVals = [];
+        $('[name=chkProductGroup]:checked').each(function () {
+            allVals.push($(this).val());
+        });
+        $("#Group").val("");
+        $("#Group").val(allVals);
+        //  alert(allVals);
+    }
+
+
+
+</script>

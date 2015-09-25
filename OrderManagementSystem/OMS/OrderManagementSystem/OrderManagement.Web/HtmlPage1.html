@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<!--<body>
+    <script src="http://zwibbler.com/zwibbler-demo.js"></script>-->
+   <body>
+    <div id="zwibbler" style="margin-left:auto;margin-right:auto;border:2px solid red;width:800px;height:600px;">
+          <img src="Images/room22.jpg" />
+
+    </div>
+     
+    <input type="button" onclick="onSave()" value="Save"/>
+    <input id="loadButton" type="button" onclick="onLoad()" disabled="disabled" value="Load"/>
+    <input type="button" onclick="onImage()" value="Open as image"/>
+    <input type="button" onclick="zwibbler.onResize()" value="Open as image"/>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://zwibbler.com/zwibbler-demo.js"></script>
+    <script type="text/javascript">
+        var zwibbler = Zwibbler.create("zwibbler", {
+            showPropertyPanel: true
+        });
+
+        var saved = null;
+        function onSave() {
+            saved = zwibbler.save("zwibbler3");
+            $("#loadButton").removeAttr("disabled");
+        }
+
+        function onLoad() {
+            zwibbler.load("zwibbler3", saved);
+        }
+
+        function onImage() {
+            var dataUrl = zwibbler.save("png");
+            window.open(dataUrl, "other");
+        }
+    </script>
+
+            
+</body>
+</html>

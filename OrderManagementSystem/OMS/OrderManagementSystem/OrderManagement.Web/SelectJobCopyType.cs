@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectJobCopyType
 {
-    using System;
-    
-    public partial class SelectJobCopyType
-    {
-        public int Row_Id { get; set; }
-        public string Type { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string Type { get; set; }
 }

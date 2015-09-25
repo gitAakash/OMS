@@ -7,18 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class CancelledOrder
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class CancelledOrder
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrgId { get; set; }
-        public string Property { get; set; }
-        public string Service { get; set; }
-        public string RequiredDate { get; set; }
-        public string FileName { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrgId { get; set; }
+    public string Property { get; set; }
+    public string Service { get; set; }
+    public string RequiredDate { get; set; }
+    public string FileName { get; set; }
 }

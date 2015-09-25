@@ -1,87 +1,741 @@
 ﻿@model OrderManagement.Web.Models.GalleryModel
+@using iTextSharp.text.pdf.qrcode
+@using OrderManagement.Web.Helper.Utilitties
 @*@model OrderManagement.Web.Models.JobTrackingModel*@
+@{
+    var currentuser = UserManager.Current();
+}
 
-<!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
 
 <style type="text/css">
-.li-active-after a{background-color : #f00; }
-.li-active-after:after{background-color : #f00; }
-.folder-list li a { font-size:12px;  }
-.active-tab{ background-color:#f3f3f4; }
+    .li-active-after a {
+        background-color: #f00;
+    }
 
-  ul.folder-list li:hover, ul.folder-list li:focus,ul.folder-list li:active{
-   background-color:#f3f3f4;
-  }
-  
-  .editable{ background:#99FFCC}
+    .li-active-after:after {
+        background-color: #f00;
+    }
+
+    .folder-list li a {
+        font-size: 12px;
+    }
+
+    .active-tab {
+        background-color: #f3f3f4;
+    }
+
+    ul.folder-list li:hover {
+        background-color: #f3f3f4;
+    }
+    /*ul.folder-list li:first-child {background-color:#f3f3f4;
+    }*/
 
 
-    
+    .editable {
+        background: #99FFCC;
+    }
 
-
+    .downloadzip {
+        background-color: #1AB394 !important;
+        color: #FFFFFF !important;
+    }
 </style>
 
 <div class="wrapper wrapper-content gray-bg">
+
     <div class="row">
         <div class="col-lg-3">
-            <div class="ibox float-e-margins">
+            <div class="ibox float-e-margins no-margin">
                 <div class="ibox-content">
                     <div class="file-manager">
                         <h5>Show:</h5>
 
-                       <div id="divSearchFilesExtwise" >
-                        <a class="file-control active" href="#" >All</a>
-                        <a class="file-control" href="#">Documents</a>
-                        <a class="file-control" href="#">Audio</a>
-                        <a class="file-control" href="#">Images</a>
-                      </div>
+                        <div id="divSearchFilesExtwise">
+                            <div style="display:none;">
+                                <a class="file-control active" href="#">All</a>
+                                <a class="file-control" href="#">Documents</a>
+                                <a class="file-control" href="#">Audio</a>
+                                <a class="file-control" href="#">Images</a>
+                            </div>
+                        </div>
                         <div class="hr-line-dashed"></div>
+                        <h5>Actions:</h5>
+                        <div class="hr-line-dashed"></div>
+                        @if (currentuser != null && currentuser.UserType == 2)
+                        {
+                            <button class="btn btn-primary btn-block hide" onclick="PushSelectedImages();" id="btnPublishToCT">Publish To CT</button>
+                        }
+                       @if (currentuser != null && (currentuser.UserType != 3))
+                       { 
 
-                        <button class="btn btn-primary btn-block" onclick="ShowFileUploadModelPopUp();">Upload Files</button>
-                        
+                            <button class="btn btn-primary btn-block" onclick="ShowFileUploadModelPopUp();">Upload Files</button>
+                            <div class="hr-line-dashed"></div>
+                            <button class="btn btn-primary btn-block hide" onclick="CompleteStatus();" id="btnCompleteStatus">Complete</button>
+                            <button type="button" class="btn btn-primary btn-block hide" id="PhotographMailButton" title="Send Mail" onclick="OpenPhotographMail('Upload Confirmation Images')" style="right:80px">Email</button>
+
+                            if (currentuser.UserType != 1)
+                            {
+
+                                <button type="button" class="btn btn-primary btn-block hide" id="FloorPlanButton" title="Send Mail" onclick="OpenFloorPlanMail('Upload Confirmation Floor Plan')" style="right:80px">Email</button>
+                                if (currentuser.UserType != 2)
+                                {
+                                    <button type="button" class="btn btn-primary btn-block hide" id="buttonConfirmSelectionSend" style="right:80px" onclick="ConfirmSelectionImages()">Confirm Selection</button>
+                                    <button type="button" class="btn btn-primary btn-block hide" id="buttonMailSend" title="Send Mail" style="right:80px" onclick="FeedbackMailSend()">Send Feedback</button>
+                                    <button type="button" class="btn btn-primary btn-block hide" id="buttonApproveMailSend" title="Send Mail" style="right:80px" onclick="ApproveMailSend()">Approve</button>
+                                }
+                                @*<button class="btn btn-primary btn-block " onclick="DownlaodAsZip();" id="btnDownloadZip">Download As Zip</button>*@
+
+
+                            }
+                        }
+                        else
+                        {
+                            @*<button type="button" class="btn btn-primary btn-block hide" id="buttonMailSend" title="Send Mail" style="right:80px" onclick="FeedbackMailSend()">Send Feedback</button>*@
+                            @*<button type="button" class="btn btn-primary btn-block hide" id="buttonApproveMailSend" title="Send Mail" style="right:80px" onclick="ApproveMailSend()">Approve</button>*@
+                        }
+                        @*@if ((currentuser != null && currentuser.UserType == 3  || currentuser.UserType == 2)) {
+                            <div class="hr-line-dashed"></div>*@
+                        @if (Model.JobAttachmentlist.Any())
+                        {
+                            if (Model.JobAttachmentlist.FirstOrDefault().Image_locked_to_client == false && currentuser != null && (currentuser.UserType == 3 || currentuser.UserType == 1))
+                            {
+                                <button type="button" class="btn btn-primary btn-block hide" id="buttonConfirmSelectionSend" style="right:80px" onclick="ConfirmSelectionImages()">Confirm Selection</button>
+                            }
+                            if (Model.JobAttachmentlist.FirstOrDefault().Floorplan_locked_to_client == false && currentuser != null && (currentuser.UserType == 3 || currentuser.UserType == 1))
+                            {
+                                <button type="button" class="btn btn-primary btn-block hide" id="buttonMailSend" title="Send Mail" style="right:80px" onclick="FeedbackMailSend()">Send Feedback</button>
+                                <button type="button" class="btn btn-primary btn-block hide" id="buttonApproveMailSend" title="Send Mail" style="right:80px" onclick="ApproveMailSend()">Approve</button>
+
+                            }
+
+
+                        }
                         <div class="hr-line-dashed"></div>
                         <h5>Folders</h5>
                         <ul id="gallery" style="padding: 0" class="folder-list">
 
                             @if (Model != null && Model.GalleryFolders.Count > 0)
                             {
-                                foreach (var item in Model.GalleryFolders.Take(6))
+                                int i = 0;
+                                string className = string.Empty;
+                                var folderList = new List<SelectJobAttachmentFolders>();
+                                if (currentuser != null && (currentuser.UserType != 3))
                                 {
-                                <li><a href="javascript:;" onclick="showFolderContent('@item.FOLDER','@item.ROW_ID')"><i class="fa fa-folder"></i>@item.FOLDER</a></li>
+                                    folderList = Model.GalleryFolders.Take(3).ToList();
+                                }
+                                else
+                                {
+                                    folderList = Model.GalleryFolders.Take(2).ToList();
+                                }
+                                foreach (var item in folderList)
+                                {
+                                    i = i + 1;
+                                    <li>
+                                        @if (i == 1)
+                                        {
+                                            className = "active-tab";
+                                        }
+                                        else
+                                        {
+                                            className = string.Empty;
+                                        }
+
+                                        <a href="javascript:;" groupid="@(item.ROW_ID)" onclick="showFolderContent('@item.Folder','@item.ROW_ID')" class='@className'>
+
+                                            <i class="fa fa-folder"></i>@item.Folder
+                                            @*@if (@item.CountFolder > 0)
+                                                {
+                                                <span id="Folderdata_@item.ROW_ID">(@item.CountFolder)</span>
+                                                }*@
+
+                                            @if (Model != null && Model.FolderRecordsCountList.Count > 0)
+                                            {
+                                                foreach (var Folderitem in Model.FolderRecordsCountList)
+                                                {
+                                                    if (Folderitem.FolderName.Equals(item.Folder.Trim()))
+                                                    {
+                                                        <span id="Folderdata_@item.ROW_ID">(@Folderitem.Count)</span>
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                        </a>
+                                    </li>
                                 }
                             }
-                                                    @*  <li><a href="#"><i class="fa fa-folder"></i>Pictures</a></li>
-                                                        <li><a href="#"><i class="fa fa-folder"></i>Web pages</a></li>
-                                                        <li><a href="#"><i class="fa fa-folder"></i>Illustrations</a></li>
-                                                        <li><a href="#"><i class="fa fa-folder"></i>Films</a></li>
-                                                        <li><a href="#"><i class="fa fa-folder"></i>Books</a></li>*@
+                            @*  <li><a href="#"><i class="fa fa-folder"></i>Pictures</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i>Web pages</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i>Illustrations</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i>Films</a></li>
+                                <li><a href="#"><i class="fa fa-folder"></i>Books</a></li>*@
                         </ul>
 
-                        <div id="divTag" >
+                        <div id="divTag">
                             <h5 class="tag-title">Tags</h5>
 
                             <ul style="padding: 0" class="tag-list" id="ulTagContent">
-                            
-                               @* <li><a href="#">Family</a></li>
-                                <li><a href="#">Work</a></li>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Children</a></li>
-                                <li><a href="#">Holidays</a></li>
-                                <li><a href="#">Music</a></li>
-                                <li><a href="#">Photography</a></li>
-                                <li><a href="#">Film</a></li>*@
+
+                                @*
+                                    <li><a href="#">Family</a></li>
+                                    <li><a href="#">Work</a></li>
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Children</a></li>
+                                    <li><a href="#">Holidays</a></li>
+                                    <li><a href="#">Music</a></li>
+                                    <li><a href="#">Photography</a></li>
+                                    <li><a href="#">Film</a></li>*@
                             </ul>
                         </div>
 
+                        <div id="divZip">
+
+                            <form id="frmDownloadZip" method="post">
+                                @*  <ul id="zip" style="padding: 0" class="folder-list">
+                                        <li><a href="javascript:;" onclick="DownlaodAsZip();"><i class="fa fa-folder"></i>Download as a Zip file</a></li>
+                                    </ul>*@
+                                @* <input type="button" class="fileDownloadPromise" onclick="Download('@image.Row_Id')" id="1btnDownload_@image.Row_Id" value="Download" row_id="@image.Row_Id" />  *@
+                                <iframe id="myIframeZip" name="myIframeZip" height="100" style="display: none"></iframe>
+                            </form>
+                        </div>
+                        <div id="divDownloadPdf">
+                            <form id="frmDownloadPdf" method="post">
+                                <iframe id="myIframePdf" name="myIframePdf" height="100" style="display: none"></iframe>
+                            </form>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-9 animated fadeInRight">
-             <div id="showloadingimg" align="center" ></div>
-             <div id="showGalleryFloder" ></div>
+            <div id="showloadingimg" align="center"></div>
+            <div id="showGalleryFloder"></div>
         </div>
+    </div>
+    <div class="modal-bg">
+        @if (Model.JobAttachmentlist.Count > 0)
+        {
+            string strImagesExt = ".bmp .dds .gif .jpg .png .psd .pspimage .tga .thm .tif .tiff .yuv .ai .eps .ps .svg .3dm .3ds .max .obj .jpeg .JPEG ";
+            string strDocuments = ".doc .docx .log .msg .odt .pages .rtf .tex .txt .wpd .wps .pdf";
+            string strAudioVideo = ".aif .iff .m3u .m4a .mid .mp3 .mpa .ra .wav .wma .mov .3gp";
+
+            foreach (var image in Model.JobAttachmentlist)
+            {
+                string FileType = string.Empty;
+
+                if (strImagesExt.Contains(image.FileExtension.ToLower()))
+                {
+                    FileType = "Images";
+                }
+
+                switch (FileType)
+                {
+                    case "Images":
+                        if (image.GroupType == "1")
+                        {
+
+                            <div id="info_@(image.Row_Id)" class="info images" grouptype="Images">
+                                <input type="hidden" id="Annotation_@(image.Row_Id)">
+                                <div id="results">
+                                  
+                                    <div class="modal-navigation">
+                                        <ul>
+                                            <li><a data-dir="left" class="images" href="#"><i class="fa fa-angle-left fa-2x"></i></a></li>
+                                            <li><a data-dir="right" class="images" href="#"><i class="fa fa-angle-right fa-2x"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="modal-img-wrapper">
+                                        <span id="AddressTitle" class="AddressTitle"></span>
+                                        <div class="alert alert-info alert-dismissable img-modal-info">
+                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                            <b>Annotate comments</b> on the image by <b>clicking</b> on the <b>image</b>.
+                                        </div>
+                                        <img src="@Url.Content(image.FilePath)" alt="@image.FileName" class="taggd" id="taggd_@(image.Row_Id)" />
+                                        <div class="overlay">
+                                            @if ((currentuser != null))
+                                            {
+                                                if ((currentuser.UserType == 3 || currentuser.UserType == 2))
+                                                {
+                                                    //Client loggedIn
+                                                    if ((image.Image_locked_to_client == false))
+                                                    {
+                                                        //Image folder is unlocked.
+                                                        <ul class="other-contol pull-right text-right">
+                                                            @if (Convert.ToBoolean(image.Selected))
+                                                            {
+                                                                <li class="first active " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="first " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }
+
+
+                                                            @*onclick="SaveSeletecd('@image.Row_Id','true')"*@
+                                                            <form id="frmDownloadDemo" method="post">
+                                                                <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('@image.Row_Id')"><b>Download</b></a></li>
+                                                                <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                            </form>
+
+                                                        </ul>
+                                                        <div id="divTag" class="pull-left">
+                                                            <ul class="tag-list">
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+                                                                @*  @{
+                                                                    var list = image.Tags.Split(',');
+                                                                        }
+                                                                        @foreach (var tag in list)
+                                                                        {
+                                                                            if (!string.IsNullOrEmpty(tag))
+                                                                            {
+                                                                                <li class="active"><i class="fa fa-tag"></i><a href="javascript:void(0);">@tag</a></li>
+                                                                            }
+                                                                        }*@
+
+                                                            </ul>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <ul class="other-contol pull-right text-right">
+                                                            @if (Convert.ToBoolean(image.Selected))
+                                                            {
+                                                                <li class="first1 active" row_id="0" id="Image_@image.Row_Id"><i style="color: #d69c18;" class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="first1 " row_id="0" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }
+
+
+                                                            @*onclick="SaveSeletecd('@image.Row_Id','true')"*@
+                                                            <form id="frmDownloadDemo" method="post">
+                                                                <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('@image.Row_Id')"><b>Download</b></a></li>
+                                                                <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                            </form>
+
+                                                        </ul>
+                                                        <div id="divTag1" class="pull-left">
+                                                            <ul class="tag-list">
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+                                                                @*@{
+                                                                    var tags = image.Tags.Split(',');
+                                                                        }
+                                                                        @foreach (var a in tags)
+                                                                        {
+                                                                            if (!string.IsNullOrEmpty(a))
+                                                                            {
+                                                                                <li class="active"><i style="color: #1AB394;" class="fa fa-tag"></i>&nbsp;<a style="color: #1AB394;" href="javascript:;">@(a)</a></li>
+                                                                            }
+                                                                        }*@
+                                                            </ul>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <ul class="other-contol pull-right text-right">
+                                                        @if (Convert.ToBoolean(image.Selected))
+                                                        {
+                                                            <li class="first active " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="first " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                        }
+
+
+                                                        @*onclick="SaveSeletecd('@image.Row_Id','true')"*@
+                                                        <form id="frmDownloadDemo" method="post">
+                                                            <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('@image.Row_Id')"><b>Download</b></a></li>
+                                                            <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                        </form>
+
+                                                    </ul>
+                                                    <div id="divTag" class="pull-left">
+                                                        <ul class="tag-list">
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+                                                            @*@{
+                                                                var list = image.Tags.Split(',');
+                                                                    }
+                                                                    @foreach (var tag in list)
+                                                                    {
+                                                                        if (!string.IsNullOrEmpty(tag))
+                                                                        {
+                                                                            <li class="active"><i class="fa fa-tag"></i><a href="javascript:void(0);">@tag</a></li>}
+
+                                                                    }*@
+
+                                                            @*<li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>*@
+                                                        </ul>
+                                                    </div>
+                                                }
+
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="sidebard-panel">
+
+                                        <div id="imgcount1_@image.Row_Id" class="imageCount">
+                                            @*<input type="hidden" id="imgCount" value="@ViewBag.ImgCount" />
+                                                <span id="spnselImgCount" style="font-weight: bold;"><b>@ViewBag.SelectedImgCount</b> </span>images of <span id="spnImgCount1" groupid="@(ViewBag.GroupId)" style="font-weight: bold;">@ViewBag.ImgCount </span>images selected.*@
+                                            @*<a href="javascript:void(0);" style="padding-left: 10px; display: none;" onclick="FilerSelected()" id="filter">filter selected.. </a>*@
+                                        </div>
+
+                                        <h4>Comments <span class="badge badge-info pull-right" id="spanMsgCount_@image.Row_Id">0</span></h4>
+                                        <div class="inner-wrap" id="divinnerWrap_@image.Row_Id"></div>
+                                    </div>
+
+                                    <p style="margin-top: 20px; text-align: right;"><a href="javascript:void(0);" onclick="closelightbox('@image.Row_Id')" id="close">Close1</a></p>
+                                    <div class="file-name m-b-xs">
+                                        @if (image.Image_locked_to_client == false && (currentuser != null && (currentuser.UserType == 3 || currentuser.UserType == 1)))
+                                        {
+                                            <input type="hidden" id="AnnotationComment_@image.Row_Id" />
+                                            <textarea rows="3" id="txtComment_@image.Row_Id" class="form-control"></textarea>
+                                            <button class="btn btn-primary btn-xs m-t-xs" onclick="SaveComments('@image.Row_Id')">Save</button>
+                                        }
+                                        else
+                                        {
+                                            if ((currentuser != null && (currentuser.UserType != 3 && currentuser.UserType != 1)))
+                                            {
+                                                <input type="hidden" id="AnnotationComment_@image.Row_Id" />
+                                                <textarea rows="3" id="txtComment_@image.Row_Id" class="form-control"></textarea>
+                                                <button class="btn btn-primary btn-xs m-t-xs" onclick="SaveComments('@image.Row_Id')">Save</button>}
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else if (image.GroupType == "4")
+                        {
+                            <div id="info_@(image.Row_Id)" class="info floorplan" grouptype="FloorPlan">
+                                <input type="hidden" id="Annotation_@(image.Row_Id)">
+                                <div id="results">
+                                    
+                                    <div class="modal-navigation">
+                                        <ul>
+                                            <li><a data-dir="left" class="floorplan" href="#"><i class="fa fa-angle-left fa-2x"></i></a></li>
+                                            <li><a data-dir="right" class="floorplan" href="#"><i class="fa fa-angle-right fa-2x"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="modal-img-wrapper">
+                                        <span id="AddressTitle" class="AddressTitle"></span>
+                                        <div class="alert alert-info alert-dismissable img-modal-info">
+                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                            <b>Annotate comments</b> on the image by <b>clicking</b> on the <b>image</b>.
+                                        </div>
+                                        <img src="@Url.Content(image.FilePath)" alt="@image.FileName" class="taggd" id="taggd_@(image.Row_Id)" />
+                                        <div class="overlay">
+                                            @if ((currentuser != null))
+                                            {
+                                                if ((currentuser.UserType == 3 || currentuser.UserType == 1))
+                                                {
+                                                    //Client loggedIn
+                                                    if ((image.Floorplan_locked_to_client == false))
+                                                    {
+                                                        //Image folder is unlocked.
+                                                        <ul class="other-contol pull-right text-right">
+                                                            @*if (Convert.ToBoolean(image.Selected))
+                                                            {
+                                                                <li class="first active" row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="first " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }*@
+
+
+                                                            @*onclick="SaveSeletecd('@image.Row_Id','true')"*@
+                                                            <form id="frmDownloadDemo" method="post">
+                                                                <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('@image.Row_Id')"><b>Download</b></a></li>
+                                                                <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                            </form>
+
+                                                        </ul>
+                                                        <div id="divTag" class="pull-left">
+                                                            <ul class="tag-list">
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+
+
+
+                                                                @*@{
+                                                                    var list = image.Tags.Split(',');
+                                                                        }
+                                                                        @foreach (var tag in list)
+                                                                        {
+                                                                            if (!string.IsNullOrEmpty(tag))
+                                                                            {
+                                                                                <li class="active"><i class="fa fa-tag"></i><a href="javascript:void(0);">@tag</a></li>
+                                                                            }
+
+                                                                        }*@
+
+                                                            </ul>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <ul class="other-contol pull-right text-right">
+                                                            @*@if (Convert.ToBoolean(image.Selected))
+                                                            {
+                                                                <li class="first1 active" row_id="0" id="Image_@image.Row_Id"><i style="color: #d69c18;" class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="first1 " row_id="0" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                            }*@
+
+
+                                                            @*onclick="SaveSeletecd('@image.Row_Id','true')"*@
+                                                            <form id="frmDownloadDemo" method="post">
+                                                                <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('@image.Row_Id')"><b>Download</b></a></li>
+                                                                <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                            </form>
+
+                                                        </ul>
+                                                        <div id="divTag1" class="pull-left">
+                                                            <ul class="tag-list">
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                                <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+                                                                @* @{
+                                                                    var tags = image.Tags.Split(',');
+                                                                        }
+                                                                        @foreach (var a in tags)
+                                                                        {
+                                                                            if (!string.IsNullOrEmpty(a))
+                                                                            {
+                                                                                <li class="active"><i style="color: #1AB394;" class="fa fa-tag"></i>&nbsp;<a style="color: #1AB394;" href="javascript:;">@(a)</a></li>
+                                                                            }
+                                                                        }*@
+                                                            </ul>
+                                                        </div>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <ul class="other-contol pull-right text-right">
+                                                        @if (Convert.ToBoolean(image.Selected))
+                                                        {
+                                                            <li class="first active " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="first " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                        }
+
+
+                                                        @*onclick="SaveSeletecd('@image.Row_Id','true')"*@
+                                                        <form id="frmDownloadDemo" method="post">
+                                                            <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('@image.Row_Id')"><b>Download</b></a></li>
+                                                            <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                        </form>
+
+                                                    </ul>
+                                                    <div id="divTag" class="pull-left">
+                                                        <ul class="tag-list">
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                            <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>
+                                                            @*@{
+                                                                var list = image.Tags.Split(',');
+                                                                    }
+                                                                    @foreach (var tag in list)
+                                                                    {
+                                                                        if (!string.IsNullOrEmpty(tag))
+                                                                        {
+                                                                            <li class="active"><i class="fa fa-tag"></i><a href="javascript:void(0);">@tag</a></li>
+                                                                        }
+                                                                    }*@
+
+                                                        </ul>
+                                                    </div>
+                                                }
+
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="sidebard-panel">
+                                        <div id="imgcount1_@image.Row_Id" class="imageCount">
+                                            @*<input type="hidden" id="imgCount" value="@ViewBag.ImgCount" />
+                                                <span id="spnselImgCount" style="font-weight: bold;"><b>@ViewBag.SelectedImgCount</b> </span>images of <span id="spnImgCount1" groupid="@(ViewBag.GroupId)" style="font-weight: bold;">@ViewBag.ImgCount </span>images selected.*@
+                                            @*<a href="javascript:void(0);" style="padding-left: 10px; display: none;" onclick="FilerSelected()" id="filter">filter selected.. </a>*@
+                                        </div>
+
+                                        <h4>Comments <span class="badge badge-info pull-right" id="spanMsgCount_@image.Row_Id">0</span></h4>
+                                        <div class="inner-wrap" id="divinnerWrap_@image.Row_Id"></div>
+                                    </div>
+
+                                    <p style="margin-top: 20px; text-align: right;"><a href="javascript:void(0);" onclick="closelightbox('@image.Row_Id')" id="close">Close1</a></p>
+                                    <div class="file-name m-b-xs">
+                                        @if (image.Floorplan_locked_to_client == false && (currentuser != null && (currentuser.UserType == 3 || currentuser.UserType == 1)))
+                                        {
+                                            <input type="hidden" id="AnnotationComment_@image.Row_Id" />
+                                            <textarea rows="3" id="txtComment_@image.Row_Id" class="form-control"></textarea>
+                                            <button class="btn btn-primary btn-xs m-t-xs" onclick="SaveComments('@image.Row_Id')">Save</button>
+                                        }
+                                        else
+                                        {
+                                            if ((currentuser != null && (currentuser.UserType != 3 && currentuser.UserType != 1)))
+                                            {
+                                                <input type="hidden" id="AnnotationComment_@image.Row_Id" />
+                                                <textarea rows="3" id="txtComment_@image.Row_Id" class="form-control"></textarea>
+                                                <button class="btn btn-primary btn-xs m-t-xs" onclick="SaveComments('@image.Row_Id')">Save</button>}
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                           
+                            <div id="info_@(image.Row_Id)" class="info finalimages" grouptype="Finalimages">
+                                <input type="hidden" id="Annotation_@(image.Row_Id)">
+                                <div id="results">
+                                    
+                                    <div class="modal-navigation">
+                                        <ul>
+                                            <li><a data-dir="left" class="finalimages" href="#"><i class="fa fa-angle-left fa-2x"></i></a></li>
+                                            <li><a data-dir="right" class="finalimages" href="#"><i class="fa fa-angle-right fa-2x"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="modal-img-wrapper">
+
+                                        <span id="AddressTitle" class="AddressTitle"></span>
+                                        <div class="alert alert-info alert-dismissable img-modal-info">
+                                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                            <b>Annotate comments</b> on the image by <b>clicking</b> on the <b>image</b>.
+                                        </div>
+                                        <img src="@Url.Content(image.FilePath)" alt="@image.FileName" class="taggd" id="taggd_@(image.Row_Id)" />
+                                        <div class="overlay">
+
+                                            <ul class="other-contol pull-right text-right">
+                                                @if (Convert.ToBoolean(image.Selected))
+                                                {
+                                                    <li class="first active " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="first " row_id="@image.Row_Id" id="Image_@image.Row_Id"><i class="fa fa-star"></i>&nbsp;<a href="javascript:;"><b></b></a></li>
+                                                }
+
+
+                                                @*onclick="SaveSeletecd('@image.Row_Id','true')"*@
+                                                <form id="frmDownloadDemo" method="post">
+                                                    <li><i class="fa fa-download"></i>&nbsp;<a href="javascript:;" onclick="Download('@image.Row_Id')"><b>Download</b></a></li>
+                                                    <iframe id="myIframe" name="myIframe" height="100" style="display: none"></iframe>
+                                                </form>
+
+                                            </ul>
+                                            <div id="divTag" class="pull-left">
+                                                <ul class="tag-list">
+                                                    @{
+                                                        var list = image.Tags.Split(',');
+                                                    }
+                                                    @foreach (var tag in list)
+                                                    {
+                                                        if (!string.IsNullOrEmpty(tag))
+                                                        {
+                                                            <li class="active"><i class="fa fa-tag"></i><a href="javascript:void(0);">@tag</a></li>
+                                                        }
+
+                                                    }
+                                                    @*<li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Front External</a></li>
+                                                        <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Family</a></li>
+                                                        <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Pool</a></li>
+                                                        <li><i class="fa fa-tag"></i>&nbsp;<a href="javascript:;">Master Bed</a></li>*@
+
+                                                </ul>
+                                            </div>
+                                            <div id="divTag1" class="pull-left">
+                                                <ul class="tag-list">
+                                                    @{
+                            var tags = image.Tags.Split(',');
+                                                    }
+                                                    @foreach (var a in tags)
+                                                    {
+                                                        if (!string.IsNullOrEmpty(a))
+                                                        {
+                                                            <li class="active"><i style="color: #1AB394;" class="fa fa-tag"></i>&nbsp;<a style="color: #1AB394;" href="javascript:;">@(a)</a></li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="sidebard-panel">
+
+                                        <div id="imgcount1__@image.Row_Id" class="imageCount">
+                                            @*<input type="hidden" id="imgCount" value="@ViewBag.ImgCount" />
+                                                <span id="spnselImgCount" style="font-weight: bold;"><b>@ViewBag.SelectedImgCount</b> </span>images of <span id="spnImgCount1" groupid="@(ViewBag.GroupId)" style="font-weight: bold;">@ViewBag.ImgCount </span>images selected.*@
+                                            @*<a href="javascript:void(0);" style="padding-left: 10px; display: none;" onclick="FilerSelected()" id="filter">filter selected.. </a>*@
+                                        </div>
+
+                                        <h4>Comments <span class="badge badge-info pull-right" id="spanMsgCount_@image.Row_Id">0</span></h4>
+                                        <div class="inner-wrap" id="divinnerWrap_@image.Row_Id"></div>
+                                    </div>
+
+                                    <p style="margin-top: 20px; text-align: right;"><a href="javascript:void(0);" onclick="closelightbox('@image.Row_Id')" id="close">Close1</a></p>
+                                    <div class="file-name m-b-xs">
+                                        <input type="hidden" id="AnnotationComment_@image.Row_Id" />
+                                        <textarea rows="3" id="txtComment_@image.Row_Id" class="form-control"></textarea>
+                                        <button class="btn btn-primary btn-xs m-t-xs" onclick="SaveComments('@image.Row_Id')">Save</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+
+                        if (currentuser != null && currentuser.UserType != 3)
+                        {
+                            @*<a href="javascript:;" class="fancy-icons close-btn btnDelete" title="Delete" id="btn_delete_@image.Row_Id" onclick="DeleteGalleryFile('@image.Row_Id')"></a>
+                                <a href="#" class="slider-icon fancy-icons" title=""></a>*@
+                        }
+
+                        if (image.Comments != null)
+                        {
+                            @*<a href="javascript:;" class="comment-btn" title="Comment" onclick="openlightbox('@image.Row_Id')"><i class="fa fa-comments"></i></a>*@
+                        }
+
+                        break;
+                }
+            }
+        }
     </div>
 </div>
 
@@ -89,54 +743,181 @@
 @Html.Hidden("GlobleGroupId")
 @Html.Hidden("GlobleFileExtensions")
 @Html.Hidden("GlobleFileSize")
+@Html.Hidden("FlagComment")
+@Html.Hidden("FlagAnnotation")
 
 <script type="text/javascript">
+    var divId = "";
+    var ConfirmImageSelectType = 0;
+    $(document).ready(function () {
+
+
+        // FUNCTIONALITY FOR TAGS SELECT AND DESELECT ON LIGHTBOX
+
+        $('#results div#divTag ul li').on('click', function () {
+            //////debugger;;
+            if (divId != "") {
+                var ImageId = divId.attr('Id').split('_')[1];
+                var JobId = $("#GlobleJobId").val();
+            }
+            //////debugger;;
+            $(this).toggleClass('active');
+            var chkArray = [];
+            var tags = divId.find('#results div#divTag ul').find('li.active');
+            for (var tagarr = 0; tagarr < tags.length; tagarr++) {
+                //////debugger;;
+                chkArray.push($(tags.find('a')[tagarr]).text());
+            }
+            var selectedTags = "";
+            if (chkArray.length > 0) {
+
+                selectedTags = chkArray.join(',') + ",";
+            }
+            UpdateJobAttachmentTags(selectedTags, JobId, ImageId)
+
+        });
+        $('.other-contol li.first').on('click', function () {
+            ////debugger;;
+            @*if (("@(currentuser.UserType)" == "3") && $('#hdnimageLock').value == "True") {
+
+            }
+            else {*@
+            var row_id = $(this).attr('row_id');
+            $(this).toggleClass('active');
+            if ($(this).hasClass('active')) {
+                SaveSeletecd(row_id, 'true');
+                //$('.star')
+                $('#StarImage_' + row_id).toggleClass('active');
+
+            }
+            else {
+                SaveSeletecd(row_id, 'false');
+                $('#StarImage_' + row_id).toggleClass('active');
+            }
+            //}
+            //  var chkArray = [];
+            //  var tags = divId.find('#results div#divTag ul').find('li.active');
+            //   tags.each(function () {
+            //      //////debugger;;
+            //      chkArray.push($(this).val());
+            // });
+            // var selectedTags;
+            //  selectedTags = chkArray.join(',') + ",";
+            //  UpdateJobAttachmentTags(TagsSelected, JobId, ImageId)
+        });
+        $('#divModal').empty().append($('.modal-bg'));
+    });
+
+    function UpdateJobAttachmentTags(TagsSelected, JobId, ImageId) {
+        //////debugger;;
+        $.get('@Url.Action("UpdateJobAttachmentTags", "JobTracking")', { TagSelected: TagsSelected, jobid: JobId, ImageId: ImageId }, function (data) {
+            if (data) {
+                $("#FlagComment").val('true');
+            }
+        });
+    }
+
+
+
+    var filesPublished = 0;
+    var filesFailedToPublish = 0;
+
+
+    function PushSelectedImages() {
+        ////////debugger;;
+        filesPublished = 0;
+        filesFailedToPublish = 0;
+        $('#ClosePublishTOCtModal').hide();
+        $('#imagePublishing').empty();
+        $('#imagePublishedToCT').empty();
+        $('#publishedfilesResult').empty();
+        $("#divImg").show();
+        if (confirm('Are you sure you would like to upload the files to campaign track?')) {
+            $('#progressBarModal').modal({ backdrop: 'static', keyboard: false });
+            $.get('@Url.Action("PushSelectedImages", "JobTracking")', { jobid: $("#GlobleJobId").val() }, function (data) {
+                // //////debugger;;
+                if (data.length > 0) {
+                    if (data.length == 1 && data[0].Status == false && data[0].IsPublished == true) {
+                        $('#imagePublishing').empty();
+                        $('#imagePublishedToCT').empty();
+                        var failedlist = $('<div>');
+                        failedlist.addClass("alert alert-danger");
+                        failedlist.append('<i class="fa fa-times-circle-o"></i> ');
+                        failedlist.append(data[0].ErrorMessage);
+                        $('#imagePublishedToCT').append(failedlist);
+                        $('#publishedfilesResult').append(filesPublished + " Files Published | " + filesFailedToPublish + " Files Failed");
+                        $('#ClosePublishTOCtModal').show();
+                        $("#divImg").hide();
+                    } else {
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].Status == true) {
+                                filesPublished++;
+                                $('#imagePublishing').empty();
+                                var li = $('<div>');
+                                li.addClass(" alert alert-success");
+                                li.append('<i class="fa fa-upload"></i> ');
+                                li.append(' ' + data[i].FileName + " Suceessfully Uploaded");
+                                $('#imagePublishedToCT').append(li);
+                            } else {
+                                filesFailedToPublish++;
+                                $('#imagePublishing').empty();
+                                var failedli = $('<div>');
+                                failedli.addClass(" alert alert-danger");
+                                failedli.append('<i class="fa fa-times-circle-o"></i> ');
+                                failedli.append(' ' + data[i].FileName + " Failed to Upload");
+                                $('#imagePublishedToCT').append(failedli);
+
+                            }
+                        }
+                        $('#publishedfilesResult').append(filesPublished + " Files Published | " + filesFailedToPublish + " Files Failed");
+                        $('#ClosePublishTOCtModal').show();
+                        $("#divImg").hide();
+                    }
+                }
+                else {
+                    $('#imagePublishing').empty();
+                    $('#imagePublishedToCT').empty();
+                    var failedlist = $('<div>');
+                    failedlist.addClass("alert alert-danger");
+                    failedlist.append('<i class="fa fa-times-circle-o"></i> ');
+                    failedlist.append("Images failed to publish.");
+                    $('#imagePublishedToCT').append(failedlist);
+                    $('#publishedfilesResult').append(filesPublished + " Files Published | " + filesFailedToPublish + " Files Failed");
+                    $('#ClosePublishTOCtModal').show();
+                    $("#divImg").hide();
+                }
+            });
+        }
+
+    };
 
     $(document).ready(function () {
-        $('#gallery li:nth-child(1) a').click();
+        // //////debugger;;
+        if (GroupIdAnchor != "0") {
+            $('#gallery li a').each(function () {
+                //////debugger;;
+                var gropupId = $(this).attr('groupId');
+                if (GroupIdAnchor == gropupId) {
+                    $(this).click();
+                    $('.folder-list li a').removeClass("active-tab");
+                    $(this).addClass("active-tab");
+                    GroupIdAnchor = 0;
+                    return false;
+                }
+            });
+        } else {
+            $('#gallery li:nth-child(1) a').click();
+        }
+
     });
 
 
-    //$(document).ready(function () {
-    //    $('#gallery li:nth-child(1) a').click(function () {
-         
-    //    });
-    //});
-
-
-  
-    //$(document).ready(function () {
-    //    $(".openDialog").live("click", function (e) {
-    //        e.preventDefault();
-
-    //        $("<div></div>")
-    //            .addClass("dialog")
-    //            .attr("id", $(this)
-    //            .attr("data-dialog-id"))
-    //            .appendTo("body")
-    //            .dialog({
-    //                title: $(this).attr("data-dialog-title"),
-    //                close: function () { $(this).remove(); },
-    //                modal: true,
-    //                height: 250,
-    //                width: 400,
-    //                left: 0
-
-    //            })
-    //        .load(this.href);
-    //    });
-
-    //    $(".close").live("click", function (e) {
-    //        e.preventDefault();
-    //        $(this).closest(".dialog").dialog("close");
-    //    });
-    //});
-
     function ShowGalleryByTagName(folderName, groupid) {
-        // debugger;
-       
-       // $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
-        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        // //////debugger;;
+
+        // $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        // $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $('#showloadingimg').html('<div class="loader"></div>');
         var job_Id = $("#GlobleJobId").val();
         var ShowExtwiseGalleryFiles = false;
         $.get('@Url.Action("TagBasisSearchContent", "JobTracking")', { folderName: folderName, groupid: groupid, job_Id: job_Id, ShowExtwiseGalleryFiles: ShowExtwiseGalleryFiles }, function (data) {
@@ -144,18 +925,18 @@
                 $('#showGalleryFloder').html("");
                 $('#showloadingimg').html("");
                 @*  //  var mn =  @{@Html.Raw(Json.Encode(Model.TagList));}*@
-              @*   var ArrTagList =  @{@Html.Raw(Json.Encode(ViewBag.TagList));}    ;*@
+                @*   var ArrTagList =  @{@Html.Raw(Json.Encode(ViewBag.TagList));}    ;*@
                 $('#showGalleryFloder').html(data);
-           
+
             }
         });
-    }
-
+    };
 
     function ShowExtwiseGalleryFiles(folderName, groupid) {
-        //debugger;
-        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
-       // $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        ////////debugger;;
+        //$('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $('#showloadingimg').html('<div class="loader"></div>');
+        // $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
         var job_Id = $("#GlobleJobId").val();
         var ShowExtwiseGalleryFiles = "true";
 
@@ -163,18 +944,20 @@
             if (data != null) {
                 $('#showGalleryFloder').html("");
                 $('#showloadingimg').html("");
-             
+
                 $('#showGalleryFloder').html(data);
-            
+
             }
         });
-    }
+    };
 
-    function showFolderContent(folderName,groupid)
-    {
+
+    function showFolderContent(folderName, groupid) {
+        GroupIdAnchor = groupid;
         $("#showloadingimg").addClass("divTop250");
-        
-        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+
+        //$('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $('#showloadingimg').html('<div class="loader"></div>');
         $("#GlobleFolderName").val("");
         $("#GlobleGroupId").val("");
         $("#GlobleFolderName").val("");
@@ -188,85 +971,147 @@
             if (data != null) {
                 $('#showGalleryFloder').html("");
                 $('#showloadingimg').html("");
-                
-              @*  //  var mn =  @{@Html.Raw(Json.Encode(Model.TagList));}*@
-              @*   var ArrTagList =  @{@Html.Raw(Json.Encode(ViewBag.TagList));}    ;*@
+
+                @*  //  var mn =  @{@Html.Raw(Json.Encode(Model.TagList));}*@
+                @*   var ArrTagList =  @{@Html.Raw(Json.Encode(ViewBag.TagList));}    ;*@
                 $('#showGalleryFloder').html(data);
-             
-            }
-        });
 
-      
-        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
-        $.get('@Url.Action("GetTagInfoDataJson", "JobTracking")', { groupid: groupid }, function (TagListInfo) {
-            if (TagListInfo != null) {
-                // debugger;
-               
-                $('#ulTagContent').html("");
-                for (var i = 0; i < TagListInfo.length; i++) {
+                //debugger;;
+                var ImageCount = "";
+                $.get('@Url.Action("GetFolderCount", "JobTracking")', {}, function (data) {
+                    // debugger;
+                    ImageCount = data;
+                    if (groupid == "1") {
+                        $('#FloorPlanButton').addClass('hide');
+                        $('#buttonMailSend').addClass('hide');
+                        $('#buttonApproveMailSend').addClass('hide');
+                        $('#btnPublishToCT').addClass('hide');
+                        $('#btnCompleteStatus').addClass('hide');
+                        if (ImageCount > 0) {
+                            $('#PhotographMailButton').removeClass('hide');
+                            $('#buttonConfirmSelectionSend').removeClass('hide');
+                            $('#buttonConfirmSelection').removeClass('hide');
+                        }
+                    }
+                    if (groupid == "4") {
+                        if (ImageCount > 0) {
+                            $('#FloorPlanButton').removeClass('hide');
+                            $('#buttonMailSend').removeClass('hide');
+                            $('#buttonApproveMailSend').removeClass('hide');
+                        }
+                        $('#PhotographMailButton').addClass('hide');
+                        $('#buttonConfirmSelection').addClass('hide');
+                        $('#btnPublishToCT').addClass('hide');
+                        $('#btnCompleteStatus').addClass('hide');
+                        $('#buttonConfirmSelectionSend').addClass('hide');
+                    }
+                    if (groupid == "2") {
+                        if (ImageCount > 0) {
+                            $('#btnPublishToCT').removeClass('hide');
+                            $('#btnCompleteStatus').removeClass('hide');
+                        }
+                        $('#FloorPlanButton').addClass('hide');
+                        $('#buttonMailSend').addClass('hide');
+                        $('#buttonApproveMailSend').addClass('hide');
+                        $('#PhotographMailButton').addClass('hide');
+                        $('#buttonConfirmSelection').addClass('hide');
+                        $('#PhotographMailButton').addClass('hide');
+                        $('#buttonConfirmSelection').addClass('hide');
+                        $('#buttonConfirmSelectionSend').addClass('hide');
+                    }
+                });
 
-                    var li = document.createElement('li');
-                    li.className = ''; // Class name
-                    // li.innerHTML = ; // Text inside
-                    li.id = "li"+i;
-                    $('#ulTagContent').append(li); // Append it
-                    //li.onclick = dynamicEvent; // Attach the event!
-                    
-                    var Anchor = document.createElement('a');
-                    Anchor.id = "anchor" + i;
-                    Anchor.innerHTML = TagListInfo[i].TagName;
+                $('#showloadingimg').html('<div class="loader"></div>');
+                //new code
+                $.get('@Url.Action("GetTagInfoDataJson", "JobTracking")', { groupid: groupid }, function (TagListInfo) {
+                    if (TagListInfo != null) {
+                        // //////debugger;;
+                        $('#ulTagContent').html("");
+                        for (var i = 0; i < TagListInfo.length; i++) {
 
-                    var TagName = TagListInfo[i].TagName.trim();
+                            var li = document.createElement('li');
+                            li.className = ''; // Class name
+                            // li.innerHTML = ; // Text inside
+                            li.id = "li" + i;
+                            $('#ulTagContent').append(li); // Append it
+                            //li.onclick = dynamicEvent; // Attach the event!
+                            var Anchor = document.createElement('a');
+                            Anchor.id = "anchor" + i;
+                            Anchor.innerHTML = TagListInfo[i].TagName;
 
-                    Anchor.href = "javascript:;";
-                    var GroupId = TagListInfo[i].GroupId;
-                  
-                    Anchor.setAttribute("onclick", "ShowGalleryByTagName('" + TagName + "'," + GroupId + ");")
-                   
-                    $('#li' + i).append(Anchor);
+                            var TagName = TagListInfo[i].TagName.trim();
+
+                            Anchor.href = "javascript:;";
+                            var GroupId = TagListInfo[i].GroupId;
+
+                            var strText = TagListInfo[i].TagName.trim();
+                            if (strText == "Download as Zip file") {
+                                li.style.cssText = "width: 100%;text-align: center;";
+                                Anchor.setAttribute("onclick", "DownlaodAsZip();");
+                                Anchor.setAttribute("class", "downloadzip");
+                            } else {
+
+                                if (TagName != "") {
+                                    Anchor.setAttribute("onclick", "ShowGalleryByTagName('" + TagName + "'," + groupid + ");");
+                                }
+                            }
+                            var title = $("#hndTitle").val();
+                            var groupname = $("#GlobleFolderName").val();
+                            var groupId = $("#GlobleGroupId").val();
+                            var JobId = $("#GlobleJobId").val();
+
+                            if (strText == "Download as Pdf file") {
+                                Anchor.setAttribute("onclick", "DownlaodAsPdf();");
+                                Anchor.setAttribute("class", "downloadzip");
+                            }
+
+
+                            $('#li' + i).append(Anchor);
+                        }
+
+                        var FileTypeList = [];
+                        FileTypeList[0] = "All";
+                        FileTypeList[1] = "Selected";
+                        $('#divSearchFilesExtwise').html("");
+                        for (var i = 0; i < FileTypeList.length; i++) {
+                            var Anchor = document.createElement('a');
+                            var FileType = FileTypeList[i];
+                            Anchor.id = "anchor" + i;
+                            Anchor.innerHTML = FileType;
+                            Anchor.href = "javascript:;";
+                            Anchor.className = "file-control label label-primary";
+                            var GroupId = groupid;
+                            Anchor.setAttribute("onclick", "ShowExtwiseGalleryFiles('" + FileType + "'," + GroupId + ");");
+                            $('#divSearchFilesExtwise').append(Anchor);
+                        }
+
+                    }
+                });
+
+                if ($('#divGalImagelList').attr('value') != "0") {
+                    //$('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+                    $('#showloadingimg').html('<div class="loader"></div>');
+
+                    $.get('@Url.Action("GetFileTypesDataJson", "JobTracking")', { groupid: groupid }, function (data) {
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                $("#GlobleFileExtensions").val(data[i].AllowedFileExtensions);
+                                $("#GlobleFileSize").val(data[i].MaxFileSize);
+                            }
+                        }
+
+                    });
                 }
-
-                var FileTypeList = [];
-                FileTypeList[ 0 ] = "All";
-                FileTypeList[ 1 ] = "Documents";
-                FileTypeList[ 2 ] = "Audio";
-                FileTypeList[ 3 ] = "Images";
-
-               
-                $('#divSearchFilesExtwise').html("");
-
-                for (var i = 0; i < FileTypeList.length; i++) {
-                    var Anchor = document.createElement('a');
-                    var FileType = FileTypeList[i];
-                    Anchor.id = "anchor" + i;
-                    Anchor.innerHTML = FileType;
-                    Anchor.href = "javascript:;";
-                    Anchor.className="file-control";
-                    var GroupId = groupid;
-                    Anchor.setAttribute("onclick", "ShowExtwiseGalleryFiles('" + FileType + "'," + GroupId + ");")
-                    $('#divSearchFilesExtwise').append(Anchor);
-                }
-
             }
-        });
-
-      
-        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
-        $.get('@Url.Action("GetFileTypesDataJson", "JobTracking")', { groupid: groupid }, function (data) {
-            if (data != null) {
-                for (var i = 0; i < data.length; i++) {
-                    $("#GlobleFileExtensions").val(data[i].AllowedFileExtensions);
-                    $("#GlobleFileSize").val(data[i].MaxFileSize);
-                }
-            }
-
             $('#showloadingimg').removeClass("width200px");
+            $('#showloadingimg').html("");
         });
     }
 
     function TagBasisSearchContent(folderName, groupid) {
-       
-        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+
+        // $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $('#showloadingimg').html('<div class="loader"></div>');
         $("#GlobleFolderName").val("");
         $("#GlobleGroupId").val("");
         $("#GlobleFolderName").val(folderName);
@@ -276,19 +1121,22 @@
             if (data != null) {
                 $('#showGalleryFloder').html("");
                 $('#showloadingimg').html("");
-                
+
                 $('#showGalleryFloder').html(data);
-             
+
             }
         });
-    }
-  
+    };
+       
     function ShowFileUploadModelPopUp() {
-
         $("#divNoRec").hide();
         $('#divFolderUploadMessage').html("");
-        $('#divFolderUploadMessage').html("Your files will be uploaded inside <b>" +  $("#GlobleFolderName").val() + "</b> folder.");
+        $('#divFolderUploadMessage').html("Your files will be uploaded inside <b>" + $("#GlobleFolderName").val() + "</b> folder.");
         $("#divdropzone").show();
     }
 
+    function HideFileUploadModelPopUp() {
+        $("#divdropzone").hide();
+           $('.k-icon.k-i-close.k-delete').click();
+    }
 </script>

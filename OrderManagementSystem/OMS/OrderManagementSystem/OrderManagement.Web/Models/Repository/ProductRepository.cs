@@ -88,12 +88,15 @@ namespace OrderManagement.Web.Models.Repository
 
        public IList<ProductCategories> GetProductgroupBySp(int? orgId, int? parentId)
        {
+
            return db.GetProductCategory(orgId, parentId).ToList();
        }
 
        public IEnumerable<SpGetAllProduct> GetAllProductBySp(int orgId )
        {
+           
            return db.SelectAllProduct(orgId);
+           
        }
     }
 }

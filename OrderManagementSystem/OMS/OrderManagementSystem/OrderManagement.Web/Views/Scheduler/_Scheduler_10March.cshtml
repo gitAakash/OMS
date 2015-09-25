@@ -1,0 +1,932 @@
+﻿@model TelerikMvcSchedulerPOC2.Models.SchedulerViewModel
+@using Kendo.Mvc.UI
+
+@{
+    var allAttendees = Model.CalenderResources;
+}
+
+<div class="eventcolor">
+    @(Html.Kendo().Scheduler<TelerikMvcApp1.Models.CalEventViewModel>()
+    .Name("scheduler")
+    .ShowWorkHours(true)
+          //  .Height(600)
+           
+         .EventTemplate(
+                             "<div title='#= title #  \nLocation: #= Location #  \nDescription: #= description #  \n#= TooltipDescription #' style='padding: 1px 0;background:#: Color #'>" +
+                              "<h5 style='color:black;padding:4px'>#: title #</h5>" +
+                              /* "\nLocation: "+ "<h5 style='color:black;padding:4px'>#: title #</h5>" +*/
+                        "</div>")
+                        
+                        .AllDayEventTemplate(
+                             "<div title='#= title #  \nLocation: #= Location #  \nDescription: #= description # \n#= TooltipDescription #' style='padding: 1px 0;background:#: Color #'>" +
+                              "<h5 style='color:black;padding:4px'>#: title #</h5>" +
+                              /* "\nLocation: "+ "<h5 style='color:black;padding:4px'>#: title #</h5>" +*/
+                        "</div>")
+
+                        .CurrentTimeMarker(false)
+     .Views(views =>
+    {
+        views.DayView();
+        views.WeekView();
+        views.MonthView(); 
+        views.AgendaView();
+      
+        
+    })
+    .Editable(editable => editable.TemplateName("CustomEditorTemplate"))
+    .Group(group => group.Resources("CalenderUser").Orientation(SchedulerGroupOrientation.Horizontal))
+    .DateHeaderTemplate("<span class='k-link k-nav-day'>#=kendo.toString(date, 'ddd dd/MM')#</span>")
+    .Selectable(true)
+    .WorkDayStart(08, 00, 00)
+    .WorkDayEnd(22, 00, 00)
+
+    .Timezone("Australia/Melbourne")
+            //.Timezone("Etc/UTC")
+    .Events(e =>
+    {   
+        e.Edit("scheduler_edit");
+        e.DataBound("onDataBound");
+        e.Save("scheduler_Save");
+        e.Remove("DeleteRecurrence");
+        e.MoveEnd("onMoveEnd");
+        e.MoveStart("onMoveStart");
+
+    })
+    
+    .Resources(resource =>
+    {
+        resource.Add(m => m.CalenderUser)
+            .Title("Calendar User")
+            .Name("CalenderUser")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .DataColorField("Color")
+            .BindTo(allAttendees);
+    })
+    
+    .DataSource(d => d
+       .ServerOperation(true)
+       .Custom()
+    .Schema(schema => schema
+        .Data("Data")
+        .Total("Total")
+        .Errors("Errors")
+        .Model(m =>
+        {
+            m.Id(f => f.EventId);
+            m.Field("title", typeof(string)).DefaultValue("").From("Title");
+            m.Field("start", typeof(DateTime)).From("Start");
+            m.Field("end", typeof(DateTime)).From("End");
+            m.Field("description", typeof(string)).From("Description");
+            m.Field("recurrenceID", typeof(int)).From("RecurrenceID");
+            m.Field("recurrenceRule", typeof(string)).From("RecurrenceRule");
+            m.Field("recurrenceException", typeof(string)).From("RecurrenceException");
+            m.Field("isAllDay", typeof(bool)).From("IsAllDay");
+            m.Field("startTimezone", typeof(string)).From("StartTimezone");
+            m.Field("endTimezone", typeof(string)).From("EndTimezone");
+        }))
+    .Transport(new { 
+        read = new Kendo.Mvc.ClientHandlerDescriptor() {HandlerName = "customRead" },
+        Search=new Kendo.Mvc.ClientHandlerDescriptor() {HandlerName = "customSearch" },
+        create=new Kendo.Mvc.ClientHandlerDescriptor() {HandlerName = "customcreate" },
+        update=new Kendo.Mvc.ClientHandlerDescriptor() {HandlerName = "customUpdate" },
+        destroy=new Kendo.Mvc.ClientHandlerDescriptor() {HandlerName = "customdestroy" },
+        
+        
+    })
+
+        
+    //    .ServerOperation(true)
+       
+        
+        
+       // .Read(read => read.Action("Event_Read", "Scheduler").Data("getAdditionalData"))
+      //  .Create(create => create.Action("Event_Create", "Scheduler")).Events(
+        
+        //e => e.RequestEnd("onRequestEnd")
+              
+        
+        //)
+       // .Destroy("Event_Destroy", "Scheduler").Events(e => e.RequestEnd("onRequestEnd"))
+       // .Update("Event_Update", "Scheduler").Events(e => e.RequestEnd("onRequestEnd"))
+
+    )
+   // .Events(e=>e.Remove("DeleteRecurrence").)
+
+)
+</div>
+
+
+@{
+    if (allAttendees != null && allAttendees.Count > 15 && allAttendees.Count < 30)
+    {
+    <style>
+        .k-scheduler-layout {
+            table-layout: fixed;
+        }
+
+            .k-scheduler-layout > tbody > tr > td:first-child {
+                width: 80px;
+            }
+
+        .k-scheduler-content .k-scheduler-table,
+        .k-scheduler-header .k-scheduler-table {
+            width: 3000px;
+        }
+    </style>
+    }
+    else if (allAttendees != null && allAttendees.Count > 29 && allAttendees.Count < 50)
+    {
+    <style>
+        .k-scheduler-layout {
+            table-layout: fixed;
+        }
+
+            .k-scheduler-layout > tbody > tr > td:first-child {
+                width: 80px;
+            }
+
+        .k-scheduler-content .k-scheduler-table,
+        .k-scheduler-header .k-scheduler-table {
+            width: 5000px;
+        }
+    </style>
+    }
+    
+    else if (allAttendees != null && allAttendees.Count > 50 && allAttendees.Count < 100)
+    {
+    <style>
+        .k-scheduler-layout {
+            table-layout: fixed;
+        }
+
+            .k-scheduler-layout > tbody > tr > td:first-child {
+                width: 80px;
+            }
+
+        .k-scheduler-content .k-scheduler-table,
+        .k-scheduler-header .k-scheduler-table {
+            width: 6000px;
+        }
+    </style>
+    }
+
+    else if (allAttendees != null && allAttendees.Count > 5 && allAttendees.Count < 15)
+    {
+    <style>
+        .k-scheduler-layout {
+            table-layout: fixed;
+        }
+
+            .k-scheduler-layout > tbody > tr > td:first-child {
+                width: 80px;
+            }
+
+        .k-scheduler-content .k-scheduler-table,
+        .k-scheduler-header .k-scheduler-table {
+            width: 2000px;
+        }
+
+
+
+    </style>
+
+}
+
+ <style type="text/css">
+#schedularload .unscheduleStyletd .k-loading-image{background-position:890px center !important; background-repeat:no-repeat !important;
+ z-index:9999; margin:0 auto !important; width:100% !important;}
+#schedularload .unscheduleStyletd .k-loading-mask{position:fixed !important; z-index:999;}
+     /*.k-event, .k-task-complete {
+         border:none !important;
+         background:none !important;
+     }*/
+
+     .k-event > div
+    {
+        height: 100%;
+       border:none;
+    }
+
+     .k-event
+    {
+    
+       border:none;
+    }
+
+
+    </style> 
+
+}
+<script type="text/javascript">
+
+    $('#btnSearch').click(function () {
+        customSearch();
+
+      //  $("#scheduler").data("kendoScheduler").dataSource.read();
+    });
+  
+    function customRead(options) {
+        debugger;
+        var chkArray = [];
+        var selected;
+
+        $("#people :checked").each(function () {
+            chkArray.push($(this).val());
+            selected = chkArray.join(',') + ",";
+        });
+
+        var scheduler = $("#scheduler").data("kendoScheduler");
+        var start = scheduler.view().startDate().toISOString();
+        var end = scheduler.view().endDate().toISOString();
+        var search =  $("#search-text-input").val();
+
+
+        $.ajax({
+            url: '@(Url.Action("Event_Read", "Scheduler") )',
+            data: { chkselected: selected, start: start, end: end, search: search },
+            dataType: "json",
+            type: 'POST',
+            success: function (data) {
+                options.success(data);
+            }
+        });
+
+     //   scheduler.view("agenda");
+    }
+
+    function customSearch(options) {
+        debugger;
+        var chkArray = [];
+        var selected;
+
+        $("#people :checked").each(function () {
+            chkArray.push($(this).val());
+            selected = chkArray.join(',') + ",";
+        });
+
+        var scheduler = $("#scheduler").data("kendoScheduler");
+        var start = scheduler.view().startDate().toISOString();
+        var end = scheduler.view().endDate().toISOString();
+        var search = $("#search-text-input").val();
+
+
+        $.ajax({
+            url: '@(Url.Action("Event_Search", "Scheduler") )',
+            data: { chkselected: selected, start: start, end: end, search: search },
+            dataType: "json",
+            type: 'POST',
+            success: function (data) {
+                options.success(data);
+            }
+        });
+
+        scheduler.view("agenda");
+    }
+
+
+      
+
+    function scheduler_Save(e) {
+
+        try {
+            // kendo.ui.progress($("#scheduler"), true);
+            var container = e.container;
+            if (container != null && container != "undefined") {
+                container.find(".k-scheduler-update").addClass("k-state-disabled");
+                container.off("click", "a.k-scheduler-update");
+            }
+        }
+        catch (err) {
+
+            kendo.ui.progress($("#scheduler"), false);
+        }
+
+
+    }
+
+    var lockedRecordId;
+    function onMoveEnd(e) {
+        //alert(e.event.EventId);
+        lockedRecordId = e.event.EventId;
+        this.dataSource.one("requestEnd", function () {
+            lockedRecordId = null;
+        });
+    }
+
+    function onMoveStart(e) {
+        if (e.event.EventId === lockedRecordId) {
+            e.preventDefault();
+        }
+    }
+
+
+    function scheduler_edit(e) {
+       // debugger;
+        var TimestartInputs = null;
+        var DatestartInputs = null;
+        
+        var model = e.event;
+        var container = e.container;
+        // focus input
+        var titleInput = container.find("input[name=title],input[name=Title]");
+        container.data("kendoWindow").one("activate", function () {
+            titleInput.focus();
+        });
+
+
+        var scheduler_event = e.event;
+        var startInputs = e.container.find("[data-container-for=start]").find("input");
+        var endInputs = e.container.find("[data-container-for=end]").find("input");
+
+        var start_Date = StringTodDate(startInputs.val());
+        var end_Date = StringTodDate(endInputs.val());
+
+        DatestartInputs = days_between(start_Date, end_Date);
+
+        TimestartInputs = timeDiffrence(startInputs.val(), endInputs.val());
+
+        scheduler_event.bind("change", function (e) {
+
+            //Move end date on start update
+            if (e.field === "start") {
+                var datestart = new Date(scheduler_event.start);
+                var endDate = new Date(scheduler_event.end);
+
+                var date = new Date(scheduler_event.start);
+
+                date.setDate(date.getDate() + DatestartInputs);
+                date.setMinutes(date.getMinutes() + TimestartInputs);
+                endInputs.each(function () {
+                    var element = $(this);
+                    var widgetType = element.is("[data-role=datepicker]") ? "kendoDatePicker" : "kendoDateTimePicker";
+
+                    element.data(widgetType).value(date);
+                    element.data(widgetType).trigger("change");
+                });
+            }
+
+            if (e.field === "end")
+            {
+              
+                var endDate = new Date(scheduler_event.end);
+                var startDate = new Date(scheduler_event.start);
+                DatestartInputs = days_between(startDate, endDate);
+                TimestartInputs = timeDiffrence(startInputs.val(), endInputs.val());
+            }
+        });
+
+        if (!e.event.isNew()) {
+            $(".k-edit-buttons.k-state-default").prepend('<a class="k-button" id="btnPrint">Print</a>');
+            addClickPrintEvent(e);
+            $(".k-edit-buttons.k-state-default").prepend('<a class="k-button" id="btnEmail">Email</a>');
+            addClickEmailEvent(e);
+        //http://dojo.telerik.com/IqIYI/21
+        }
+
+    }
+
+    $(document).ready(function () {
+        loadscheduler();
+
+       
+
+
+    });
+
+    function addClickPrintEvent(e) {
+        debugger;
+        $('#btnPrint').click(function () {
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            //   scheduler.cancelEvent();
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+
+          //  var divContents = $("#dvContainer").html();
+          //  var strEventId = $("#hdneventid").val();
+
+            debugger;
+            var MESSAGE_BODY = "";
+            var event_Id = $("#hdneventid").val();
+            $.get('@Url.Action("Event_Print", "Scheduler")', { event_Id: event_Id }, function (data) {
+                  if (data != null) {
+                  
+                      for (var i = 0; i < data.length; i++) {
+                           MESSAGE_BODY = (data[i].MESSAGE_BODY);
+                      }
+                      var printWindow = window.open('', '', 'height=400,width=800');
+                      printWindow.document.write(MESSAGE_BODY);
+                      printWindow.document.close();
+                      printWindow.print();
+            }
+            });
+
+
+         //   var printWindow = window.open('', '', 'height=400,width=800');
+
+         //   printWindow.document.write('<html><head><title>DIV Contents</title>');
+         //   printWindow.document.write('</head><body >');
+         ////   printWindow.document.write(divContents);
+         //   printWindow.document.write('</body></html>');
+         //   printWindow.document.close();
+         //   printWindow.print();
+
+            //setTimeout(function () {
+            //    console.log("add new event now");
+            //    scheduler.print({ title: "(No title)" });
+            //}, 2000);
+
+        });
+    }
+
+    function addClickEmailEvent(e) {
+     
+        $('#btnEmail').click(function () {
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            //   scheduler.cancelEvent();
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+
+            //  var divContents = $("#dvContainer").html();
+            //  var strEventId = $("#hdneventid").val();
+
+           // debugger;
+            var MESSAGE_BODY = "";
+            var event_Id = $("#hdneventid").val();
+            $.get('@Url.Action("Event_Mail", "Scheduler")', { event_Id: event_Id }, function (Emaildata) {
+                if (Emaildata != null && Emaildata == 200) {
+                        alert("E-mail has been sent to your account.");
+                }
+            });
+
+        });
+    }
+
+
+    function DeleteRecurrence(e) {
+        kendo.ui.progress($("#scheduler"), true);
+        var eventid = e.event.DeleteRecurrenceEvent;
+        var calendarId = e.event.CalendarId;
+        var calenderUser = e.event.CalenderUser;
+        var end = e.event.end;
+        var start = e.event.start;
+        var sdate = new Date(Date.parse(start));
+        var dd = sdate.getDate();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        var mm = sdate.getMonth() + 1;
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        var startdate = sdate.getFullYear() + "/" + (mm) + "/" + (dd);
+        var date = new Date(Date.parse(end));
+
+        var dd1 = date.getDate();
+        if (dd1 < 10) {
+            dd1 = '0' + dd1
+        }
+        var mm1 = date.getMonth() + 1;
+        if (mm1 < 10) {
+            mm1 = '0' + mm1
+        }
+
+        var enddate = date.getFullYear() + "/" + (mm1) + "/" + (dd1);
+
+        $.get('@Url.Action("DeleteRecurrence", "Scheduler")', { eventid: eventid, calendarId: calendarId, calenderUser: calenderUser, end: enddate, start: startdate }, function (data) {
+
+            if (data != null) {
+                $("#scheduler").data("kendoScheduler").dataSource.read();
+            }
+        });
+    }
+
+
+    function onError(e, status) {
+        if (e.status == "customerror") {
+
+            switch (e.errors) {
+                case 'CustomError400': alert('You cannot change the organizer of an instance.');
+                    break;
+                case 'CustomError401': alert('You cannot turn an instance of a recurring event into a recurring event itself.');
+                    break;
+                case 'Null_Event': alert('You cannot change the organizer of an instance.');
+                    break;
+            }
+        }
+        else {
+            // alert("Generic server error.");
+        }
+    }
+
+
+    function onRequestEnd(e) {
+
+
+        if (e.type == "update") {
+            kendo.ui.progress($("#scheduler"), true);
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+            kendo.ui.progress($("#scheduler"), true);
+        }
+
+        if (e.type == "create") {
+            kendo.ui.progress($("#scheduler"), true);
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+        }
+
+        if (e.type == "destroy") {
+            //   $('#createGroup').click();
+            kendo.ui.progress($("#scheduler"), true);
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+        }
+        // debugger;
+        if (e.type == "read") {
+            kendo.ui.progress($("#scheduler"), false);
+        }
+        //
+    }
+
+    function getSchedulerRead() {
+        $("#scheduler").data("kendoScheduler").dataSource.read();
+    }
+
+    function getAdditionalData() {
+
+        // var userIds = [];
+        //var userIds = new Array();
+        var chkArray = [];
+        var selected;
+
+        $("#people :checked").each(function () {
+            chkArray.push($(this).val());
+            selected = chkArray.join(',') + ",";
+        });
+
+        var scheduler = $("#scheduler").data("kendoScheduler");
+        // alert(scheduler.view().startDate().toISOString());
+        // alert(scheduler.view().endDate().toISOString());
+        debugger;
+
+        var Searchitem = $("#search-text-input").val();
+
+       
+
+        var result = {
+            chkselected: selected,
+            start: scheduler.view().startDate().toISOString(),
+            end: scheduler.view().endDate().toISOString(),
+            Search: Searchitem
+        };
+
+        if (Searchitem != "") {
+
+          //  scheduler.view("agenda");
+            //  $("#scheduler").getKendoScheduler().view("agenda");
+
+        }
+        return result;
+    }
+
+
+    function getAdditionalDataForUpdate() {
+
+        try {
+            var chkArray = [];
+            var selected;
+
+            $("#people :checked").each(function () {
+                chkArray.push($(this).val());
+                selected = chkArray.join(',') + ",";
+            });
+
+            //debugger;
+            //setTimeout(function () { }, 2000);
+            var stratdt = scheduler.view().startDate().toISOString();
+            var enddt = scheduler.view().endDate().toISOString();
+
+            var scheduler = $("#scheduler").data("kendoScheduler");
+            var result = {
+                chkselected: selected,
+                start: scheduler.view().startDate().toISOString(),
+                end: scheduler.view().endDate().toISOString()
+            };
+
+            return result;
+
+        }
+
+        catch (err) {
+            $("#scheduler").data("kendoScheduler").dataSource.read();
+
+        }
+
+    }
+
+
+
+    function additionalData(e) {
+        var userIds = [];
+
+        $("#people :checked").each(function () {
+            userIds.push($(this).val());
+        });
+
+
+        return {
+            userIds: userIds
+            // start: scheduler.view().startDate().toISOString(),
+            //   end: scheduler.view().endDate().toISOString()
+        };
+    }
+
+</script>
+
+<script>
+
+    function onDataBound(e) {
+        createDropArea(this);
+        var d = e;
+
+        //var scheduler = $("#scheduler").data("kendoScheduler");
+        //var view = scheduler.view();
+        //view.table.find("td[role=gridcell]").each(function () {
+        //    if ($(this) != null) {
+        //        var element = $(this);
+        //        if (element != null) {
+        //            var slot = scheduler.slotByElement(element);
+        //            if (slot != null)
+        //                element.css('background-color', 'blue');
+        //        }
+        //    }
+        //});
+    }
+
+
+    
+    function createDropArea(scheduler) {
+        //debugger;
+        scheduler.view().content.kendoDropTargetArea({
+            filter: ".k-scheduler-table td, .k-event",
+            drop: function (e) {
+                var grid = $("#grid").data("kendoGrid");
+                var scheduler = $("#scheduler").data("kendoScheduler");
+
+                var offset = $(e.dropTarget).offset();
+
+                var slot = scheduler.slotByPosition(offset.left, offset.top);
+                var selectedrow = $("#grid").find("tbody tr.k-state-selected");
+
+                var selectedcell = $("#scheduler").find("tbody tr.k-state-selected");
+                //debugger;
+                //grid.select()
+                var dataItem = grid.dataItem(selectedrow);
+
+                if (null != dataItem && null != slot) {
+
+                    var eventid = dataItem["EventId"];
+                    var rowId = dataItem["Row_Id"];
+                    // debugger;
+                    var Color = dataItem["Color"];
+                    // alert(Color);
+                    //alert(prevCalendarUser);
+                    var resouce = scheduler.resourcesBySlot(slot);
+
+                    if (dataItem && slot) {
+                        var offsetMiliseconds = new Date().getTimezoneOffset() * 60000;
+                        var newEvent = {
+                            title: dataItem.Title,
+                            end: new Date(slot.startDate.getTime() + (dataItem.End - dataItem.Start)),
+                            start: slot.startDate,
+                            isAllDay: slot.isDaySlot,
+                            description: dataItem.Description,
+                            GoogleEventid: eventid.toString(),
+                            Isdrag: true,
+                            Row_Id: rowId,
+                            Location: dataItem.Location,
+                            ColorId: dataItem.ColorId,
+                            Color: dataItem.Color,
+                            CalenderUser: resouce["CalenderUser"]
+                        };
+
+                        //delete current event:
+                        //grid.dataSource.remove(dataItem);
+                        //grid.dataSource.sync();
+                        //grid.dataSource.read();
+                        $(selectedrow).removeClass('k-state-selected');
+
+                        //Save the new event and sync it with server:
+
+                        scheduler.dataSource.add(newEvent);
+                        scheduler.dataSource.sync();
+                        kendo.ui.progress($("#scheduler"), true);
+                        $(selectedcell).removeClass('k-event');
+                        //grid.dataSource.remove(dataItem);
+                    }
+
+                }
+
+            }
+        });
+    }
+
+    $(function () {
+        var grid = $("#grid").data("kendoGrid"),
+            gridRowOffset = grid.tbody.find("tr:first").offset();
+        //debugger;
+        grid.table.kendoDraggable({
+            filter: "tbody > tr",
+            dragstart: function (e) {
+                //add margin to position correctly the tooltip under the pointer
+                $("#dragTooltip").css("margin-left", e.clientX - gridRowOffset.left - 50);
+            },
+            hint: function (row) {
+
+                //remove old selection
+                row.parent().find(".k-state-selected").each(function () {
+                    $(this).removeClass("k-state-selected");
+                });
+
+                //add selected class to the current row
+                row.addClass("k-state-selected");
+                var dataItem = grid.dataItem(row);
+
+                var tooltipHtml = "<div class='k-event' id='dragTooltip'><div class='k-event-template'>" +
+                    kendo.format("{0:t} - {1:t}", dataItem.Start, dataItem.End) +
+                    "</div><div class='k-event-template'>" + dataItem.Title +
+                    "</div></div>";
+
+                return $(tooltipHtml).css("width", 300);
+            }
+        });
+    });
+
+
+    function loadscheduler() {
+
+        var view = getretainview();
+        var date = getretaindate();
+        var slecteddate = new Date(date);
+        var scheduler = $("#scheduler").data("kendoScheduler");
+        if (view != null && view != "") {
+            scheduler.view(view);
+        }
+        if (date != null && date != "") {
+            scheduler.date(slecteddate);
+        }
+
+        localStorage.clear();
+    }
+
+
+    function getretaindate() {
+        var datetime = localStorage.getItem("slecteddate");
+
+        return datetime;
+    }
+
+    function getretainview() {
+        var view = localStorage.getItem("slectedview");
+        return view;
+    }
+
+
+
+    function days_between(dateTo, dateFrom) {
+     
+        // The number of milliseconds in one day
+        var ONE_DAY = 1000 * 60 * 60 * 24;
+
+        // date1 = new Date(dateTo);
+        // date2 = new Date(dateFrom);
+        date1 = dateTo;
+        date2 = dateFrom;
+        // Convert both dates to milliseconds
+        var date1_ms = date1.getTime();
+        var date2_ms = date2.getTime();
+
+        // Calculate the difference in milliseconds
+        var difference_ms = Math.abs(date1_ms - date2_ms);
+
+        // Convert back to days and return
+        return Math.round(difference_ms / ONE_DAY);
+
+    }
+
+    function StringTodDate(startInputstring) {
+        var dateString = startInputstring;
+        //var dateString = '17-09-2013 10:08',
+        dateParts = dateString.split(' ');
+        var date_selectedDate = dateParts[0];
+        var selectedDate = null;
+        var selectedDate_dd = null;
+        var selectedDate_MM = null;
+        var selectedDate_yyyy = null;
+        if (date_selectedDate != null) {
+            selectedDate = date_selectedDate.split('/');
+            selectedDate_dd = selectedDate[0];
+            selectedDate_MM = selectedDate[1];
+            selectedDate_yyyy = selectedDate[2];
+
+        }
+
+        // MM/dd/YYYY format
+        //  var dg1 = new Date('02/25/2014 8:00 AM');
+
+        var converted_Date = new Date(selectedDate_MM + '/' + selectedDate_dd + '/' + selectedDate_yyyy + ' ' + dateParts[1] + ' ' + dateParts[2]);
+
+        return converted_Date;
+
+    }
+
+
+    function timeDiff(start_Time, end_Time) {
+
+        var time = start_Time;
+        var hrs = Number(time.match(/^(\d+)/)[1]);
+        var mnts = Number(time.match(/:(\d+)/)[1]);
+        var format = time.match(/\s(.*)$/)[1];
+        if (format == "PM" && hrs < 12) hrs = hrs + 12;
+        if (format == "AM" && hrs == 12) hrs = hrs - 12;
+        var hours = hrs.toString();
+        var minutes = mnts.toString();
+        if (hrs < 10) hours = "0" + hours;
+        if (mnts < 10) minutes = "0" + minutes;
+        //  alert(hours + ":" + minutes);
+
+        var date1 = new Date();
+        date1.setHours(hours);
+        date1.setMinutes(minutes);
+        //alert(date1);
+
+
+        var time = end_Time;
+       // var time = "11:00 AM";
+        var hrs = Number(time.match(/^(\d+)/)[1]);
+        var mnts = Number(time.match(/:(\d+)/)[1]);
+        var format = time.match(/\s(.*)$/)[1];
+        if (format == "PM" && hrs < 12) hrs = hrs + 12;
+        if (format == "AM" && hrs == 12) hrs = hrs - 12;
+        var hours = hrs.toString();
+        var minutes = mnts.toString();
+        if (hrs < 10) hours = "0" + hours;
+        if (mnts < 10) minutes = "0" + minutes;
+        //   alert(hours + ":" + minutes);
+        var date2 = new Date();
+        date2.setHours(hours);
+        date2.setMinutes(minutes);
+        //  alert(date2);
+
+        var diff = date2.getTime() - date1.getTime();
+
+        var hours = Math.floor(diff / (1000 * 60 * 60));
+        diff -= hours * (1000 * 60 * 60);
+
+        var mins = Math.floor(diff / (1000 * 60));
+        diff -= mins * (1000 * 60);
+
+
+        var total_time = hours + ":" + mins;
+
+        return total_time;
+       // alert(hours + " hours : " + mins + " minutes : ");
+    }
+
+
+    function timeDiffrence(datestart, dateend) {
+
+
+        var dateString_start = datestart;
+        var dateParts_start = dateString_start.split(' ');
+        var start_selectedTime = dateParts_start[1];
+        var start_selectedMerdn = dateParts_start[2];
+
+        var dateString_end = dateend;
+        var dateParts_end = dateString_end.split(' ');
+        var end_selectedTime = dateParts_end[1];
+        var end_selectedMerdn = dateParts_end[2];
+
+        var _startTime = start_selectedTime + " " + start_selectedMerdn;
+        var _endTime = end_selectedTime + " " + end_selectedMerdn;
+        var total_Time = timeDiff(_startTime, _endTime);
+
+        var timeParts_Total = total_Time.split(':');
+
+        var hoursdiff = Math.abs(timeParts_Total[0]);
+        //   alert(hoursdiff);
+        //   alert(timeParts_Total[1]);
+
+
+        var TotalMinutes = Math.floor(hoursdiff * 60);
+
+        var _minutes = TotalMinutes + parseInt(timeParts_Total[1]);
+
+        if (_minutes == 0) {
+            _minutes = 30;
+        }
+
+
+      var  startInputs = _minutes;
+
+      return startInputs;
+
+    }
+
+</script>

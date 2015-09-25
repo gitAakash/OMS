@@ -7,24 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class EventTracking
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class EventTracking
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> CalendarId { get; set; }
-        public string OrderId { get; set; }
-        public string Title { get; set; }
-        public Nullable<System.DateTime> MovedOn { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public string Status { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<int> Org_Id { get; set; }
-    
-        public virtual Organisation Organisation { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> CalendarId { get; set; }
+    public string OrderId { get; set; }
+    public string Title { get; set; }
+    public Nullable<System.DateTime> MovedOn { get; set; }
+    public Nullable<System.DateTime> StartDate { get; set; }
+    public Nullable<System.DateTime> EndDate { get; set; }
+    public string Status { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<int> Org_Id { get; set; }
+
+    public virtual Organisation Organisation { get; set; }
 }

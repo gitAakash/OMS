@@ -9,16 +9,16 @@ namespace OrderManagement.Web.Helper.Utilitties
     public class GoogleServiceMethodCalls
     {
 
-       //    TestEnvGoogelService.IGoogleNotificationService GoogleService; //this instance for http://test.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc
+           TestEnvGoogelService.IGoogleNotificationService GoogleService; //this instance for http://test.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc
         //LocalTestEnvServiceRef.IGoogleNotificationService GoogleService;
-            ProdEnvGoogelService.IGoogleNotificationService GoogleService; // this instance for http://dpi.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc
+         //   ProdEnvGoogelService.IGoogleNotificationService GoogleService; // this instance for http://dpi.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc
 
         public GoogleServiceMethodCalls()
         {
 
-        //  GoogleService = new TestEnvGoogelService.GoogleNotificationServiceClient();
+          GoogleService = new TestEnvGoogelService.GoogleNotificationServiceClient();
         //    GoogleService = new LocalTestEnvServiceRef.GoogleNotificationServiceClient();
-             GoogleService = new ProdEnvGoogelService.GoogleNotificationServiceClient();
+       //      GoogleService = new ProdEnvGoogelService.GoogleNotificationServiceClient();
             //  GoogleService.CheckCalendarEvents("campaigntrack.dpi@gmail.com");
         }
         /// <summary>

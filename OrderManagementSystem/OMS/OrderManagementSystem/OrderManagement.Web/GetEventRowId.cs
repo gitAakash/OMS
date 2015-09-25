@@ -7,12 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class GetEventRowId
 {
-    using System;
-    
-    public partial class GetEventRowId
-    {
-        public Nullable<int> EventRow_id { get; set; }
-    }
+    public Nullable<int> EventRow_id { get; set; }
 }

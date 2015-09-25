@@ -7,17 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class OrderSubItem
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class OrderSubItem
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrderItemId { get; set; }
-        public Nullable<int> ProductSubGroupId { get; set; }
-        public string OptionSelected { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrderItemId { get; set; }
+    public Nullable<int> ProductSubGroupId { get; set; }
+    public string OptionSelected { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
 }

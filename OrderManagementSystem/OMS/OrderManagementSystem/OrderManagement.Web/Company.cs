@@ -7,33 +7,30 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class Company
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Company
+    public Company()
     {
-        public Company()
-        {
-            this.Contacts = new HashSet<Contact>();
-            this.Properties = new HashSet<Property>();
-            this.Users = new HashSet<User>();
-        }
-    
-        public int Row_Id { get; set; }
-        public Nullable<int> Org_Id { get; set; }
-        public string CompanyCode { get; set; }
-        public string XeroName { get; set; }
-        public string ScrappedName { get; set; }
-        public Nullable<bool> CreateEvent { get; set; }
-        public Nullable<bool> CreateInvoice { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<bool> Active { get; set; }
-        public Nullable<bool> WebOrders { get; set; }
-    
-        public virtual ICollection<Contact> Contacts { get; set; }
-        public virtual ICollection<Property> Properties { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        this.Contacts = new HashSet<Contact>();
+        this.Properties = new HashSet<Property>();
+        this.Users = new HashSet<User>();
     }
+
+    public int Row_Id { get; set; }
+    public Nullable<int> Org_Id { get; set; }
+    public string CompanyCode { get; set; }
+    public string XeroName { get; set; }
+    public string ScrappedName { get; set; }
+    public Nullable<bool> CreateEvent { get; set; }
+    public Nullable<bool> CreateInvoice { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<bool> Active { get; set; }
+    public Nullable<bool> WebOrders { get; set; }
+
+    public virtual ICollection<Contact> Contacts { get; set; }
+    public virtual ICollection<Property> Properties { get; set; }
+    public virtual ICollection<User> Users { get; set; }
 }

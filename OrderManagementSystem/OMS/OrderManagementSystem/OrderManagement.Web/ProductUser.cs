@@ -7,15 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class ProductUser
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class ProductUser
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> User_Id { get; set; }
-        public string Product_Id { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> User_Id { get; set; }
+    public string Product_Id { get; set; }
 }

@@ -7,17 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class CampaignTimeLine
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class CampaignTimeLine
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> CampaignId { get; set; }
-        public string Activity { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> CampaignId { get; set; }
+    public string Activity { get; set; }
+    public Nullable<System.DateTime> StartDate { get; set; }
+    public Nullable<System.DateTime> EndDate { get; set; }
 }

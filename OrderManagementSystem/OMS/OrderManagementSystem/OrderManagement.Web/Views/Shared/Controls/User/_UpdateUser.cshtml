@@ -5,6 +5,16 @@
 @*<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>*@
 <script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.form.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/jasny-bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jasny-bootstrap.min.js")" type="text/javascript"></script>
+  
+
+<link rel="stylesheet" href="~/Content/normalize.css" />
+<link rel="stylesheet" href="~/Content/ion.rangeSlider.css" />
+<link rel="stylesheet" href="~/Content/ion.rangeSlider.skinFlat.css" />
+
+<script src="~/Scripts/ion.rangeSlider.js"></script>
+
 
 <!--Breadcrumbs--->
 @*<div class="row wrapper border-bottom white-bg page-heading">
@@ -122,6 +132,21 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">Phone<span style="color: red"></span></label>
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.MobileNumber, new {@class = "form-control"})
+                                </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Rating<span style="color: red"></span></label>
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.Rating, new {@class = "form-control" , id="range_Slider" , name="range"  })
+                                </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">Status</label>
 
                             <div class="col-sm-10">
@@ -156,6 +181,26 @@
                             </div>
                           
                         </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Notification Email</label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Notification_Email, new { @class = "form-control" })
+                                <span style="color: red" id="Notification_EmailValidation"></span>
+                            </div>
+                          
+                        </div>
+                        
+                        
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">Notifications</label>
+
+                            <div class="col-sm-10">
+                                @Html.CheckBoxFor(m => m.Notification, new { @class = "js-switch" })
+                            </div>
+                        </div>
+                        
                            <div id="divCalendarId" class="form-group" style="display:none">
                                 <label class="col-sm-2 control-label">Calendar<span style="color: red">*</span></label>
                                 <div class="col-sm-10">
@@ -166,7 +211,7 @@
 
 
 
-                                @*  <div class="form-group">*@
+                                @* OMSUIUX-88 hide for all users <div class="form-group">  *@
                                 <label class="col-sm-2 control-label">Select Color<span style="color: red">*</span></label>
                                 <div class="col-sm-10" style="width:43%;">
 
@@ -439,7 +484,8 @@
 
                     }
                 },
-                'AboutMe': { maxlength: 500 }
+                'AboutMe': { maxlength: 500 },
+                'Notification_Email': { email: "Email address is invalid" }
             },
             messages: {
                 'FirstName': { required: "First Name is required" },
@@ -452,7 +498,8 @@
                 'ColorCode': { required: "Color is required" },
                 'CompanyId': { required: "Company is required" },
                 'Group': { required: "Select atleast one group" },
-                'AboutMe': { maxlength: "Please enter no more than 500 characters. " }
+                'AboutMe': { maxlength: "Please enter no more than 500 characters. " },
+                'Notification_Email': { email: "Email address is invalid" }
             },
             errorPlacement: function (error, element) {
                 //  alert(element.attr("id"));
@@ -482,6 +529,25 @@
             $("html, body").animate({ scrollTop: 0 }, "slow");
            // alert("Thank you for your comment!");
         });
+
+
+
+    //    var someNumbers = ["Full-time", "Freelance", "All"];
+        var rating = @Model.Rating
+        $("#range_Slider").ionRangeSlider({
+            min: 0,
+            max: 10
+        });
+
+      //  var $range = $("#range_Slider");
+
+        //$range.on("change", function () {
+        //    var $this = $(this),
+        //        value = $this.prop("value");
+
+        //    //alert("Value: " + value);
+        //});
+
 
     });
 

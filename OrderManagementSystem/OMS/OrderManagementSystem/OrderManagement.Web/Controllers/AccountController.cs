@@ -47,49 +47,84 @@ namespace OrderManagement.Web.Controllers
         [HttpGet]
         public ActionResult Login(string ReturnUrl)
         {
-             var loginmodel = new LoginModel();
+            var loginmodel = new LoginModel();
 
-             string DomainName = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+            string DomainName = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+
+            // string DomainName = Request.Url.Scheme + "--" + System.Uri.SchemeDelimiter + "--" + Request.Url.Host + "--" + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+
+            Uri myUri = new Uri(DomainName, UriKind.Absolute);
+            string subdomainName = GetSubDomain(myUri);
+         
             // string DomainName = Request.Url.Host;
-            // var CompanylogoInfo = _repository.GetCompanyLogo(DomainName);
-            
-            //if (CompanylogoInfo.Count > 0)
-            // {
-            //     foreach (var item in CompanylogoInfo)
-            //     {
-            //         loginmodel.OrgId = item.OrgId;
-            //         loginmodel.OrgName = item.OrgName;
-            //         loginmodel.Logolocation = item.Logolocation;
-            //         loginmodel.Subdomain = DomainName;
-            //     }
-            // }
-            // else
-            // {
-            //     loginmodel.OrgId = 0;
-            //     loginmodel.OrgName = string.Empty;
-            //     if (System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"] != null)
-            //     {
-            //         loginmodel.Logolocation = System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"].ToString();
-            //     }
-            //     else
-            //     {
-            //         loginmodel.Logolocation = string.Empty;
-            //     }
-                
-            //    loginmodel.Subdomain = DomainName;
-            // }
-            ////http://localhost:51985
 
+            loginmodel.Logolocation = "~/Images/DPIlogo.jpg";//item.Logolocation;
+            //need to uncomment for dynamic logo
 
-            loginmodel.OrgId = 0;
-            loginmodel.OrgName = "";
-            loginmodel.Logolocation =  "~/Images/DPIlogo.jpg";
-            loginmodel.Subdomain = "";
+            var CompanylogoInfo = _repository.GetCompanyLogo(subdomainName);
 
-         //   loginModel.Logolocation =//item.Logolocation;
+            if (CompanylogoInfo.Count > 0)
+            {
+                foreach (var item in CompanylogoInfo)
+                {
+                    loginmodel.OrgId = item.OrgId;
+                    loginmodel.OrgName = item.OrgName;
+                    loginmodel.Logolocation = item.Logolocation;
+                    loginmodel.Subdomain = subdomainName;
+                    loginmodel.ThemeName = item.ThemeName;
+                }
+            }
+            else
+            {
+                loginmodel.OrgId = 0;
+                loginmodel.OrgName = string.Empty;
+                if (System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"] != null)
+                {
+                    loginmodel.Logolocation = System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"].ToString();
+                }
+                else
+                {
+                    loginmodel.Logolocation = string.Empty;
+                }
 
+                loginmodel.Subdomain = subdomainName;
+            }
+            //http://localhost:51985
+
+          //  need to uncomment for dynamic logo
             return View(loginmodel);
         }
+
+
+        private string GetSubDomain(Uri url)
+        {
+            if (url.HostNameType == UriHostNameType.Dns)
+            {
+                string host = url.Host;
+                var nodes = host.Split('.');
+                int startNode = 0;
+                if ((nodes[0] == "www") || (nodes[0] == "WWW")) startNode = 1;
+                //  return string.Format("{0}.{1}", nodes[startNode], nodes[startNode + 1]);
+                return string.Format("{0}", nodes[startNode]);
+            }
+            return null;
+        }
+
+
+        public JsonResult GetSkin()
+        {
+            string DomainName = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+            Uri myUri = new Uri(DomainName, UriKind.Absolute);
+            string subdomainName = GetSubDomain(myUri);
+            var CompanySkin = _repository.GetCompanyLogo(subdomainName);
+            var CompanySkinName = CompanySkin.Select(p => new
+            {
+                SkinName = p.ThemeName
+            });
+
+            return Json(CompanySkinName, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         public ActionResult Login(LoginModel loginModel, string ReturnUrl)
@@ -106,41 +141,40 @@ namespace OrderManagement.Web.Controllers
 
                     loginModel.LoginAttempt = true;
 
-                    //string DomainName = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
-                    //var CompanylogoInfo = _repository.GetCompanyLogo(DomainName);
+                    string DomainName = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+                    var CompanylogoInfo = _repository.GetCompanyLogo(DomainName);
 
-                    //if (CompanylogoInfo.Count > 0)
-                    //{
-                    //    foreach (var item in CompanylogoInfo)
-                    //    {
-                    //        loginModel.OrgId = item.OrgId;
-                    //        loginModel.OrgName = item.OrgName;
-                    //        loginModel.Logolocation = item.Logolocation;
-                    //        loginModel.Subdomain = DomainName;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    loginModel.OrgId = 0;
-                    //    loginModel.OrgName = string.Empty;
-                    //    if (System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"] != null)
-                    //    {
-                    //        loginModel.Logolocation = System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"].ToString();
-                    //    }
-                    //    else
-                    //    {
-                    //        loginModel.Logolocation = string.Empty;
-                    //    }
+                    if (CompanylogoInfo.Count > 0)
+                    {
+                        foreach (var item in CompanylogoInfo)
+                        {
+                            loginModel.OrgId = item.OrgId;
+                            loginModel.OrgName = item.OrgName;
+                            loginModel.Logolocation = item.Logolocation;
+                            loginModel.Subdomain = DomainName;
+                        }
+                    }
+                    else
+                    {
+                        loginModel.OrgId = 0;
+                        loginModel.OrgName = string.Empty;
+                        if (System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"] != null)
+                        {
+                            loginModel.Logolocation = System.Configuration.ConfigurationManager.AppSettings["DefaultcompanyLogo"].ToString();
+                        }
+                        else
+                        {
+                            loginModel.Logolocation = string.Empty;
+                        }
 
-                    //    loginModel.Subdomain = DomainName;
-                    //}
+                        loginModel.Subdomain = DomainName;
+
+                        loginModel.Logolocation = "~/Images/DPIlogo.jpg";//item.Logolocation;
+
+                    }
 
 
-
-                    loginModel.OrgId = 0;
-                    loginModel.OrgName = "";
-                    loginModel.Logolocation = "~/Images/DPIlogo.jpg";
-                    loginModel.Subdomain = "";
+                   
 
                     if (loginModel.Result == UserAuthenticationResult.Authenticated)
                     {
@@ -163,7 +197,7 @@ namespace OrderManagement.Web.Controllers
                         }
                         else if (currentUser != null && currentUser.UserType == 2)
                         {
-                            return RedirectToAction("Index", "Staff");
+                            return RedirectToAction("Index", "JobTracking");
                         }
                         else
                         {
@@ -218,17 +252,40 @@ namespace OrderManagement.Web.Controllers
                         HttpContext.Cache["currentloggedinuser"] = new User();
                         HttpContext.Cache.Insert("currentloggedinuser", currentUser);
 
-                        if (currentUser != null && currentUser.UserType == 1)
+                        //if (currentUser != null && currentUser.UserType == 1)
+                        //{
+                        //    return RedirectToAction("Index", "Home");
+                        //}
+                        //else if (currentUser != null && currentUser.UserType == 2)
+                        //{
+                        //    return RedirectToAction("Index", "Staff");
+                        //}
+                        //else if (currentUser != null && currentUser.UserType == 6)
+                        //{
+                        //    return RedirectToAction("Index", "Home");
+                        //}
+                        //else
+                        //{
+                        //    return RedirectToAction("Index", "Client");
+                        //}
+
+                        if (currentUser != null)
                         {
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else if (currentUser != null && currentUser.UserType == 2)
-                        {
-                            return RedirectToAction("Index", "Staff");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Client");
+                            switch (currentUser.UserType)
+                            {
+                                case 1:
+                                    return RedirectToAction("Index", "Home");
+                                case 2:
+                                   // return RedirectToAction("Index", "Staff");
+                                    return RedirectToAction("Index", "Home");
+                                case 4:
+                                    return RedirectToAction("Index", "Home");
+                                case 6:
+                                    return RedirectToAction("Index", "Home");
+                                default:
+                                    //return RedirectToAction("Index", "Client");
+                                    return RedirectToAction("Index", "JobTracking");
+                            }
                         }
                     }
                 }

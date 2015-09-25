@@ -7,28 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class ProductGroup
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class ProductGroup
+    public ProductGroup()
     {
-        public ProductGroup()
-        {
-            this.UserProductGroups = new HashSet<UserProductGroup>();
-        }
-    
-        public int Row_Id { get; set; }
-        public Nullable<int> ProductId { get; set; }
-        public string Name { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
-        public Nullable<System.DateTime> Updated { get; set; }
-        public Nullable<int> ParentId { get; set; }
-        public Nullable<int> Org_Id { get; set; }
-    
-        public virtual ICollection<UserProductGroup> UserProductGroups { get; set; }
+        this.UserProductGroups = new HashSet<UserProductGroup>();
     }
+
+    public int Row_Id { get; set; }
+    public Nullable<int> ProductId { get; set; }
+    public string Name { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<int> CreatedBy { get; set; }
+    public Nullable<int> UpdatedBy { get; set; }
+    public Nullable<System.DateTime> Updated { get; set; }
+    public Nullable<int> ParentId { get; set; }
+    public Nullable<int> Org_Id { get; set; }
+
+    public virtual ICollection<UserProductGroup> UserProductGroups { get; set; }
 }

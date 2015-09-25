@@ -7,22 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class GetOrders_Result
 {
-    using System;
-    
-    public partial class GetOrders_Result
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> OrderType_Id { get; set; }
-        public Nullable<int> Property_Id { get; set; }
-        public Nullable<int> Mail_Id { get; set; }
-        public string OrderId { get; set; }
-        public Nullable<System.DateTime> RequiredDate { get; set; }
-        public string Description { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public string Status { get; set; }
-        public string Keys { get; set; }
-        public string SpecialInstructions { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> OrderType_Id { get; set; }
+    public Nullable<int> Property_Id { get; set; }
+    public Nullable<int> Mail_Id { get; set; }
+    public string OrderId { get; set; }
+    public Nullable<System.DateTime> RequiredDate { get; set; }
+    public string Description { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public string Status { get; set; }
+    public string Keys { get; set; }
+    public string SpecialInstructions { get; set; }
 }

@@ -786,7 +786,7 @@ namespace OrderManagement.Web.Models.ServiceRepository
                 //}
 
                 int width = 100;
-                int height = 100;
+                int height = 44;
 
                 // var imageFile = Path.Combine(Server.MapPath("~/App_Data/uploads"), "GridCheckbox.png");
 

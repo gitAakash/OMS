@@ -7,28 +7,35 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class GetJobAttachments
 {
-    using System;
-    
-    public partial class GetJobAttachments
-    {
-        public int Row_Id { get; set; }
-        public int Org_Id { get; set; }
-        public int Job_Id { get; set; }
-        public string FileName { get; set; }
-        public string FileExtension { get; set; }
-        public Nullable<int> FileSize { get; set; }
-        public string GroupType { get; set; }
-        public string Tags { get; set; }
-        public string Folder { get; set; }
-        public Nullable<bool> Selected { get; set; }
-        public Nullable<int> SelectedBy { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> Updated { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
-        public Nullable<bool> isDeleted { get; set; }
-        public string FilePath { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public int Org_Id { get; set; }
+    public int Job_Id { get; set; }
+    public string FileName { get; set; }
+    public string FileExtension { get; set; }
+    public Nullable<int> FileSize { get; set; }
+    public string GroupType { get; set; }
+    public string Tags { get; set; }
+    public string Folder { get; set; }
+    public Nullable<bool> Selected { get; set; }
+    public Nullable<int> SelectedBy { get; set; }
+    public Nullable<System.DateTime> Created { get; set; }
+    public Nullable<int> CreatedBy { get; set; }
+    public Nullable<System.DateTime> Updated { get; set; }
+    public Nullable<int> UpdatedBy { get; set; }
+    public Nullable<bool> isDeleted { get; set; }
+    public string FilePath { get; set; }
+    public string Thumbnail { get; set; }
+    public string Comments { get; set; }
+    public Nullable<System.DateTime> UPLOAD_DATETIME { get; set; }
+    public Nullable<int> UPLOAD_BY { get; set; }
+    public string UPLOAD_STATUS { get; set; }
+    public string Property_Id { get; set; }
+    public Nullable<int> Annotation { get; set; }
+    public Nullable<bool> Image_locked_to_client { get; set; }
+    public Nullable<bool> Floorplan_locked_to_client { get; set; }
 }

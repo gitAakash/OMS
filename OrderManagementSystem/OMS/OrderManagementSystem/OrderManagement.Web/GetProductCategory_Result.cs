@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class GetProductCategory_Result
 {
-    using System;
-    
-    public partial class GetProductCategory_Result
-    {
-        public int Row_Id { get; set; }
-        public string Name { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public string Name { get; set; }
 }

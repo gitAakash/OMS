@@ -55,7 +55,10 @@ function animationHover(element, animation){
             }, 2000);
         });
 }
-
+$('.close-link').click( function() {
+        var content = $(this).closest('div.ibox');
+        content.remove();
+    });
 // Minimalize menu when screen is less than 768px
 $(function() {
     $(window).bind("load resize", function() {
@@ -69,7 +72,8 @@ $(function() {
 
 // Dragable panels
 function WinMove() {
-    $("div.ibox").not('.no-drop')
+
+    $(".giftFrame div.ibox").not('.no-drop')
         .draggable({
             revert: true,
             zIndex: 2000,
@@ -103,6 +107,7 @@ function WinMove() {
                 }, 250);
             }
         });
+    
 }
 jQuery.fn.swap = function (b) {
     b = jQuery(b)[0];

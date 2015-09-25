@@ -7,18 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class AssetHealthMeasure
 {
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class AssetHealthMeasure
-    {
-        public int Row_Id { get; set; }
-        public Nullable<int> AssetId { get; set; }
-        public Nullable<System.DateTime> DateTime { get; set; }
-        public string MeasureType { get; set; }
-        public Nullable<decimal> Measurement { get; set; }
-        public Nullable<int> CampaignId { get; set; }
-    }
+    public int Row_Id { get; set; }
+    public Nullable<int> AssetId { get; set; }
+    public Nullable<System.DateTime> DateTime { get; set; }
+    public string MeasureType { get; set; }
+    public Nullable<decimal> Measurement { get; set; }
+    public Nullable<int> CampaignId { get; set; }
 }

@@ -7,14 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectOrg_Result
 {
-    using System;
-    
-    public partial class SelectOrg_Result
-    {
-        public int OrgId { get; set; }
-        public string OrgName { get; set; }
-        public string Logolocation { get; set; }
-    }
+    public int OrgId { get; set; }
+    public string OrgName { get; set; }
+    public string Logolocation { get; set; }
 }

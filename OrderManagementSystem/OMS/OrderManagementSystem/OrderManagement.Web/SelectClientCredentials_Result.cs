@@ -7,14 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class SelectClientCredentials_Result
 {
-    using System;
-    
-    public partial class SelectClientCredentials_Result
-    {
-        public string ClientKey { get; set; }
-        public string SecretKey { get; set; }
-        public string RefreshToken { get; set; }
-    }
+    public string ClientKey { get; set; }
+    public string SecretKey { get; set; }
+    public string RefreshToken { get; set; }
 }

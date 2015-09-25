@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OrderManagement.Web
+using System;
+using System.Collections.Generic;
+
+public partial class InsertWebOrder
 {
-    using System;
-    
-    public partial class InsertWebOrder
-    {
-        public Nullable<int> OrderRowId { get; set; }
-        public Nullable<int> InternalOrderId { get; set; }
-    }
+    public Nullable<int> OrderRowId { get; set; }
+    public Nullable<int> InternalOrderId { get; set; }
 }
