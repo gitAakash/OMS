@@ -1,0 +1,121 @@
+﻿@model List<OrderManagement.Web.Models.ProductModel>
+
+
+<div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Product History </h5>
+
+                    </div>
+                    <div class="ibox-content">
+                       
+                       @if (Model != null)
+                       {  
+   
+    <table id="gridCompanyProduct">
+        <thead>
+            <tr>
+                 <th>Xero Code</th>
+                <th>Product Description</th>
+                <th>Xero Description</th>
+                <th>Sales Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.XeroCode != null)
+                        {
+                            @item.XeroCode
+                        }
+                    </td>
+                    <td>
+                        @if (item.ProductDescription != null)
+                        {
+                            @item.ProductDescription
+                        }
+                    </td>
+                    <td>
+                        @if (item.XeroItemDescription != null)
+                        {
+                            @item.XeroItemDescription
+                        }
+                    </td>
+                     <td>
+                        @if (item.SalesUnitPrice != null)
+                        {
+                            @item.SalesUnitPrice
+                        }
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+                       }
+
+   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+            
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        $("#gridCompanyProduct").kendoGrid({
+           // height: 200,
+           // width: 200,
+            scrollable: true,
+            sortable: true,
+          //  filterable: true,
+            selectable: "single",
+            //searchable : true,
+
+            columns: [
+                         {
+                             field: "XeroCode",
+                             title: "Xero Code",
+                             width: 30
+                         },
+                         {
+                             field: "ProductDescription",
+                             title: "Product Description",
+                             width: 60
+                         },
+                          {
+                              field: "XeroItemDescription",
+                              title: "Xero Description",
+                              width: 50
+                          },
+                           {
+                               field: "SalesUnitPrice",
+                               title: "Sales Price",
+                               width: 30
+                           }
+
+            ],
+
+
+
+            pageable: {
+                pageSize: 05
+            }
+        });
+
+
+
+
+    });
+
+</script>
+

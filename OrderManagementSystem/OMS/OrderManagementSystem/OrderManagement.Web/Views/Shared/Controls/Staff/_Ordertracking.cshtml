@@ -1,0 +1,182 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model IList<OrderManagement.Web.Models.OrderTrackingModel>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+<div>
+  <span> Serach :</span>  @Html.TextBox("txtsearch",null,new{@placeholder="Order Id",@onchange = "loadOrderTracking();" }) <button>Serch</button>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Orders</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @if (Model != null)
+                    {  
+
+                        <table id="Ordertrackgrid">
+                            <thead>
+                                <tr>
+                                      <th>Order Id</th>
+                                    <th>Company</th>
+                                    <th>Property</th>
+                                    <th>Status</th>
+                                    <th>Required Date</th>
+                                    <th>Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.OrderId
+
+                                        </td>
+                                        <td>
+                                            @*  span have order Row_id.  *@
+                                            <span id='@(item.Row_Id)'></span>
+                                            @if (item.CompanyName != null)
+                                            {
+                                                @item.CompanyName
+                                            }
+                                        </td>
+                                        <td>
+                                            @item.PropertyName
+
+                                        </td>
+                                        <td>@item.Status</td>
+                                        <td>@item.RequiredDate.ToString("MM/dd/yyyy")</td>
+                                         <td>@item.Created.ToString("MM/dd/yyyy")</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id='scrol'></div>
+<span id="spnorderItems"></span>
+
+<div class="btn-grp">
+
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Ordertrackgrid").kendoGrid({
+
+            scrollable: true,
+            sortable: true,
+            filterable: true,
+            selectable: "single",
+            pageable: {
+                numeric: true,
+                refresh: true,
+                pageSizes: [10, 25, 50],
+                previousNext: true,
+                input: false,
+                info: false
+            },
+            //columns: [
+            //        {
+            //            field: "CompanyName",
+            //            title: "Company Name",
+            //            width: 15
+            //        },
+            //        {
+            //            field: "PropertyName",
+            //            title: "Property Name",
+            //            width: 75
+            //        },
+            //        {
+            //            field: "Status",
+            //            title: "Status",
+            //            width: 15
+            //        },
+
+
+            //],
+            dataSource: {
+                pageSize: 10,
+            },
+            //searchable : true,
+            change: function (arg) {
+                // alert("hi");
+                var selected = $.map(this.select(), function (item) {
+                    var d = $(item).attr('data-uid');
+                    var spnRowId = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                   // alert(spnRowId);
+                    $('#spnorderItems').text("");
+                    loadOrderItems(spnRowId);
+                    var n = 400;// $(document).height();
+                    $('html, body').animate({ scrollTop: n }, 1000);
+
+                });
+            //    // alert(selected);
+            }
+            //pageable: {
+            //    pageSize: 05
+            //}
+        });
+
+    });
+
+    
+
+    
+
+
+
+   
+
+    // This get the values from product Schedule table apr per product code.
+
+    function loadOrderItems(orderid)
+    {
+        $.get('@Url.Action("OrderItems", "Staff")', { orderid: orderid }, function (data) {
+            if (data != null) {
+
+                $('#spnorderItems').text("");
+                $('#spnorderItems').html(data);
+                //  $("#spaCreateUserForm").html(data);
+            }
+        });
+       
+    }
+
+
+
+    function loadOrderTracking() {
+        $('#spnorderItems').text("");
+        var serchval = $("#txtsearch").val();
+        $filter = new Array();
+
+        $filterName = serchval;
+        // $lastName = $("#txtLastName").val();
+        //  alert("2");
+        if ($filterName) {
+            $filter.push({ field: "OrderId", operator: "contains", value: $filterName });
+        }
+        var grid = $("#Ordertrackgrid").data("kendoGrid");
+        grid.dataSource.filter($filter);
+
+    };
+</script>

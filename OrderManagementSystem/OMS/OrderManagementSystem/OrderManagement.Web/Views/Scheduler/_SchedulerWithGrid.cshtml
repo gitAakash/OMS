@@ -1,0 +1,17 @@
+﻿@model IEnumerable<TelerikMvcApp1.Models.EventViewModel>
+
+
+ @(Html.Kendo().Grid(Model) //Grid initialization
+        .Name("grid")
+        .Scrollable()
+      
+       .Columns(columns =>
+        {
+            columns.Bound(c => c.CalendarId);
+            columns.Bound(c => c.CalenderResources);
+            columns.Bound(c => c.Description);
+          
+        })
+        //.Editable(editable => editable.Mode(GridEditMode.InCell))
+        
+    )

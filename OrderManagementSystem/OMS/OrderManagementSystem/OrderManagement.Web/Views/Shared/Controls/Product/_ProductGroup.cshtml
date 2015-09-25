@@ -1,0 +1,260 @@
+﻿@model IList<OrderManagement.Web.Models.ProductSchedulesModel>
+
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Product Schedule</h5>
+                </div>
+                
+
+                <div class="ibox-content">
+                     <button type="button" class="btn btn-primary" onclick="javascript:addNewgroup();">New</button>
+    @if (Model != null && Model.Count > 0)
+    {
+        <button id="btnEditprodschedule" class="btn btn-primary" onclick="javascript:editprodschedule();">Edit</button>
+        <button id="btnDeleteprodschedule" class="btn btn-primary" onclick="javascript:deleteprodschedule();">Delete</button>
+        @Html.Hidden("ProsuctScheduleRowId");
+    }
+                    @if (Model != null)
+                    {
+                        <table id="Productgrpgrid">
+                            <thead>
+                                <tr>
+                                    <th>Product Code</th>
+                                    <th>Product Group</th>
+                                    <th>Title</th>
+                                    <th>Duration</th>
+                                    <th>Email Address</th>
+                                    <th>Send Email</th>
+                                    <th>Create Event</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (item.XeroCode != null)
+                                            {
+                                                @item.XeroCode
+                                            }
+
+
+                                        </td>
+                                         <td>
+                                            @if (item.ProductGroup != null)
+                                            {
+                                                @item.ProductGroup
+                                            }
+
+
+                                        </td>
+                                        <td>
+                                            <span id='@(item.Row_Id)'></span>
+                                            @if (item.Title != null)
+                                            {
+                           
+                                                @item.Title
+                                            }
+
+
+                                        </td>
+                                        <td>
+                                            @item.Value
+
+                                        </td>
+                                        <td>@item.EmailAddress</td>
+
+                                        <td>
+                                            @item.SendEmail
+                                        </td>
+                                        <td>
+                                            @item.CreateEvent
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*@(Html.Kendo().Grid(Model) //Bind the grid to ViewBag.Products
+      .Name("Productgrpgrid")
+      .Columns(columns =>
+      {
+          columns.Bound(prodgrp => prodgrp.XeroCode).Title("Product Code").Width(250); ;
+          // Create a column bound to the ProductID property
+          columns.Bound(prodgrp => prodgrp.Title).Title("Title");
+          columns.Bound(prodgrp => prodgrp.Value).Title("Duration");
+          columns.Bound(prodgrp => prodgrp.EmailAddress).Title("Email Address");
+          // Create a column bound to the UnitsInStock property
+          columns.Bound(prodgrp => prodgrp.SendEmail).Title("Send Email");
+          columns.Bound(prodgrp => prodgrp.CreateEvent).Title("Create Event");
+      })
+      
+      .Pageable() // Enable paging
+      .Sortable() // Enable sorting
+      .Filterable()
+      .Events(e => e.Change("onChange"))
+)*@
+
+<div>
+    <span id="spnCreateproductScheduleForm"></span>
+
+</div>
+
+<script language="javascript" type="text/javascript">
+
+
+
+    $(document).ready(function () {
+
+
+        $("#Productgrpgrid").kendoGrid({
+            //  height: 400,
+            //  width: 400,
+            scrollable: true,
+            sortable: true,
+            // filterable: true,
+            selectable: "single",
+            pageable: {
+              //  numeric: true,
+               // refresh: true,
+                pageSizes: [10, 25, 50]
+              //  previousNext: true,
+              //  input: false,
+              //  info: false
+            },
+            columns: [
+                    {
+                        field: "XeroCode",
+                      //  title: "Xero Code",
+                        width: 25
+                    },
+                 {
+                     field: "ProductGroup",
+                     width: 25
+                 },
+                    {
+                        field: "Title",
+                       // title: "Product Description",
+                        width: 30
+                    },
+                    {
+                        field: "Value",
+                     //   title: "Sales Price",
+                        width: 10
+                    },
+                     {
+                         field: "EmailAddress",
+                       //  title: "Sales Code",
+                         width: 30
+                     },
+                     {
+                         field: "SendEmail",
+                        // title: "Sales Type",
+                         width: 10
+                     },
+                      {
+                          field: "CreateEvent",
+                          // title: "Sales Type",
+                          width: 10
+                      }
+
+            ],
+            dataSource: {
+                pageSize: 10,
+            },
+            //searchable : true,
+            change: function (arg) {
+                // alert("hi");
+                var selected = $.map(this.select(), function (item) {
+                    var d = $(item).attr('data-uid');
+                    var spnProdScheduleId = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                    $("#ProsuctScheduleRowId").val("");
+                    $("#ProsuctScheduleRowId").val(spnProdScheduleId);
+                  //  var n = 400;
+                  //  $('html, body').animate({ scrollTop: n }, 1000);
+
+                });
+            }
+
+        });
+
+    });
+
+    function addNewgroup() {
+
+        $("#Productgrpgrid tr.k-state-selected").removeClass("k-state-selected");
+        $("#ProsuctScheduleRowId").val("");
+        var id = $("#ProsuctScheduleRowId").val();
+        var prodid = $("#globlePtoductid").val();
+       // alert(prodid);
+      //  alert(id);
+        $.get('@Url.Action("NewProductSchedule", "Product")',{ id: id, prodid: prodid }, function (data) {
+            if (data != null) {
+              //  alert("hi");
+                $("#spnCreateproductScheduleForm").text("");
+                $("#spnCreateproductScheduleForm").html(data);
+                var $elem = $('#Productgrpgrid');
+                //  $('html, body').animate({ scrollTop: $elem.height() },800);
+                $('html,body').animate({ scrollTop: $elem.offset().top }, 'slow');
+            }
+        });
+    }
+
+
+    function editprodschedule() {
+        var id = $("#ProsuctScheduleRowId").val();
+        var prodid = $("#globlePtoductid").val();
+        if (id != null && id != 0) {
+          //  alert(prodid);
+            $.get('@Url.Action("NewProductSchedule", "Product")', { id: id, prodid: prodid }, function (data) {
+                if (data != null) {
+                    $("#spnCreateproductScheduleForm").text("");
+                    $("#spnCreateproductScheduleForm").html(data);
+                    var $elem = $('#Productgrpgrid');
+                    //  $('html, body').animate({ scrollTop: $elem.height() },800);
+                    $('html, body').animate({ scrollTop: $elem.offset().top }, 'slow');
+                }
+            });
+        } else {
+            alert("Please select row to Edit");
+        }
+    }
+
+    function deleteprodschedule() {
+        var id = $("#ProsuctScheduleRowId").val();
+        var prodid = $("#globlePtoductid").val();
+
+        //   alert(id);
+        //  alert(prodid);
+        //if (id != null && id != 0) {
+        if ((id != null && id != 0) && (prodid != null && prodid != 0)) {
+            if (confirm("Are you sure want to delete?")) {
+                $.get('@Url.Action("DeleteProductSchedule", "Product")', { id: id, prodid: prodid }, function (data) {
+                    if (data != null) 
+                    {
+                        $("#loadProductgroup").text("");
+                        $("#loadProductgroup").html(data);
+                    }
+                });
+                    }
+            }
+            else {
+                alert("Please select row to Delete");
+            }
+        //}
+    }
+
+</script>
+

@@ -1,0 +1,1422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OrderManagementModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="OrderManagementModelStoreContainer">
+    <EntitySet Name="Application" EntityType="OrderManagementModel.Store.Application" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Asset" EntityType="OrderManagementModel.Store.Asset" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AssetAllocation" EntityType="OrderManagementModel.Store.AssetAllocation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AssetConfig" EntityType="OrderManagementModel.Store.AssetConfig" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AssetHealthMeasure" EntityType="OrderManagementModel.Store.AssetHealthMeasure" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AssetService" EntityType="OrderManagementModel.Store.AssetService" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AssetStatus" EntityType="OrderManagementModel.Store.AssetStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attachment" EntityType="OrderManagementModel.Store.Attachment" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BusinessProcess" EntityType="OrderManagementModel.Store.BusinessProcess" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Calendars" EntityType="OrderManagementModel.Store.Calendars" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CalendarUser" EntityType="OrderManagementModel.Store.CalendarUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Campaign" EntityType="OrderManagementModel.Store.Campaign" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CampaignAssets" EntityType="OrderManagementModel.Store.CampaignAssets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CampaignCollateral" EntityType="OrderManagementModel.Store.CampaignCollateral" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CampaignNotifications" EntityType="OrderManagementModel.Store.CampaignNotifications" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CampaignSitting" EntityType="OrderManagementModel.Store.CampaignSitting" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CampaignTimeLine" EntityType="OrderManagementModel.Store.CampaignTimeLine" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CancelledOrders" EntityType="OrderManagementModel.Store.CancelledOrders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ColorMaster" EntityType="OrderManagementModel.Store.ColorMaster" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Company" EntityType="OrderManagementModel.Store.Company" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CompanyMail" EntityType="OrderManagementModel.Store.CompanyMail" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CompanyOrders" EntityType="OrderManagementModel.Store.CompanyOrders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Contacts" EntityType="OrderManagementModel.Store.Contacts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ErrorLog" EntityType="OrderManagementModel.Store.ErrorLog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventException" EntityType="OrderManagementModel.Store.EventException" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Events" EntityType="OrderManagementModel.Store.Events" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventTracking" EntityType="OrderManagementModel.Store.EventTracking" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ForgotPwd" EntityType="OrderManagementModel.Store.ForgotPwd" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Job" EntityType="OrderManagementModel.Store.Job" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobAttachment" EntityType="OrderManagementModel.Store.JobAttachment" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobCopy" EntityType="OrderManagementModel.Store.JobCopy" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobCopyType" EntityType="OrderManagementModel.Store.JobCopyType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="JobEvents" EntityType="OrderManagementModel.Store.JobEvents" store:Type="Tables" store:Schema="dbo" store:Name="JobEvents">
+      <DefiningQuery>SELECT 
+      [JobEvents].[Row_Id] AS [Row_Id], 
+      [JobEvents].[Org_Id] AS [Org_Id], 
+      [JobEvents].[Job_Id] AS [Job_Id], 
+      [JobEvents].[CalendarId] AS [CalendarId], 
+      [JobEvents].[EventId] AS [EventId], 
+      [JobEvents].[ProductGroupId] AS [ProductGroupId], 
+      [JobEvents].[Created] AS [Created], 
+      [JobEvents].[CreatedBy] AS [CreatedBy], 
+      [JobEvents].[Updated] AS [Updated], 
+      [JobEvents].[UpdatedBy] AS [UpdatedBy]
+      FROM [dbo].[JobEvents] AS [JobEvents]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="JobStatus" EntityType="OrderManagementModel.Store.JobStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Mail" EntityType="OrderManagementModel.Store.Mail" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderAttachment" EntityType="OrderManagementModel.Store.OrderAttachment" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderContacts" EntityType="OrderManagementModel.Store.OrderContacts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderEvents" EntityType="OrderManagementModel.Store.OrderEvents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderItems" EntityType="OrderManagementModel.Store.OrderItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Orders" EntityType="OrderManagementModel.Store.Orders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderStatus" EntityType="OrderManagementModel.Store.OrderStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderSubItems" EntityType="OrderManagementModel.Store.OrderSubItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderType" EntityType="OrderManagementModel.Store.OrderType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Organisation" EntityType="OrderManagementModel.Store.Organisation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductCompany" EntityType="OrderManagementModel.Store.ProductCompany" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductGroups" EntityType="OrderManagementModel.Store.ProductGroups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Products" EntityType="OrderManagementModel.Store.Products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductSchedules" EntityType="OrderManagementModel.Store.ProductSchedules" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductSubGroups" EntityType="OrderManagementModel.Store.ProductSubGroups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProductUser" EntityType="OrderManagementModel.Store.ProductUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Property" EntityType="OrderManagementModel.Store.Property" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PropertyInvoices" EntityType="OrderManagementModel.Store.PropertyInvoices" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User" EntityType="OrderManagementModel.Store.User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserProductGroup" EntityType="OrderManagementModel.Store.UserProductGroup" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserTypes" EntityType="OrderManagementModel.Store.UserTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Visitor-Fact" EntityType="OrderManagementModel.Store.Visitor-Fact" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Attachment_User" Association="OrderManagementModel.Store.FK_Attachment_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Attachment" EntitySet="Attachment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Contacts_Company" Association="OrderManagementModel.Store.FK_Contacts_Company">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Contacts" EntitySet="Contacts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventTracking_Organisation" Association="OrderManagementModel.Store.FK_EventTracking_Organisation">
+      <End Role="Organisation" EntitySet="Organisation" />
+      <End Role="EventTracking" EntitySet="EventTracking" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_OrderAttachment" Association="OrderManagementModel.Store.FK_Order_OrderAttachment">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderAttachment" EntitySet="OrderAttachment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItemEvents_Orders" Association="OrderManagementModel.Store.FK_OrderItemEvents_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderEvents" EntitySet="OrderEvents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItems_Order" Association="OrderManagementModel.Store.FK_OrderItems_Order">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderItems" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Organisation_OrderAttachment" Association="OrderManagementModel.Store.FK_Organisation_OrderAttachment">
+      <End Role="Organisation" EntitySet="Organisation" />
+      <End Role="OrderAttachment" EntitySet="OrderAttachment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Property_Company" Association="OrderManagementModel.Store.FK_Property_Company">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Property" EntitySet="Property" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_PGid" Association="OrderManagementModel.Store.FK_Table_PGid">
+      <End Role="ProductGroups" EntitySet="ProductGroups" />
+      <End Role="UserProductGroup" EntitySet="UserProductGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_UID" Association="OrderManagementModel.Store.FK_Table_UID">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserProductGroup" EntitySet="UserProductGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_UserType" Association="OrderManagementModel.Store.FK_User_UserType">
+      <End Role="UserTypes" EntitySet="UserTypes" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Application">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="1000" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="APIKey" Type="nvarchar(max)" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Asset">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="AssetGUID" Type="uniqueidentifier" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="ManufactureId" Type="int" />
+    <Property Name="ManufactureModel" Type="varchar" MaxLength="100" />
+    <Property Name="Battery" Type="varchar" MaxLength="100" />
+    <Property Name="FactorySerialNo" Type="varchar" MaxLength="100" />
+    <Property Name="ProductId" Type="int" />
+    <Property Name="PurchasePriceExGST" Type="decimal" Scale="2" />
+    <Property Name="PurchaseCurrency" Type="varchar" MaxLength="100" />
+    <Property Name="PurchaseExchangeRate" Type="decimal" Scale="2" />
+    <Property Name="MaxRange" Type="varchar" MaxLength="100" />
+    <Property Name="Passcode" Type="varchar" MaxLength="255" />
+    <Property Name="PurchaseInvoiceId&#xD;&#xA;PurchaseInvoiceId" Type="int" />
+  </EntityType>
+  <EntityType Name="AssetAllocation">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="int" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="AllocatedTo" Type="int" />
+  </EntityType>
+  <EntityType Name="AssetConfig">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="int" />
+    <Property Name="AdvInterval" Type="decimal" Scale="2" />
+    <Property Name="AdvChannel" Type="varchar" MaxLength="1500" />
+    <Property Name="ProxUDID" Type="varchar" MaxLength="100" />
+    <Property Name="Major" Type="varchar" MaxLength="100" />
+    <Property Name="Minor" Type="varchar" MaxLength="100" />
+    <Property Name="Power" Type="varchar" MaxLength="100" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="Range" Type="decimal" Scale="2" />
+    <Property Name="Firmware" Type="varchar" MaxLength="100" />
+    <Property Name="Location" Type="varchar" MaxLength="100" />
+    <Property Name="PassCode" Type="varchar" MaxLength="255" />
+    <Property Name="CampaignId" Type="int" />
+  </EntityType>
+  <EntityType Name="AssetHealthMeasure">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="int" />
+    <Property Name="DateTime" Type="datetime" />
+    <Property Name="MeasureType" Type="varchar" MaxLength="100" />
+    <Property Name="Measurement" Type="decimal" Scale="2" />
+    <Property Name="CampaignId" Type="int" />
+  </EntityType>
+  <EntityType Name="AssetService">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="int" />
+    <Property Name="AssignedtoComp" Type="int" />
+    <Property Name="AssignedtoTech" Type="int" />
+    <Property Name="ActivityStartDate" Type="datetime" />
+    <Property Name="Type" Type="varchar" MaxLength="100" />
+    <Property Name="EstimatedEffort" Type="decimal" Scale="2" />
+    <Property Name="ActualEffort" Type="decimal" Scale="2" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Notes" Type="varchar(max)" />
+    <Property Name="Resolution" Type="varchar(max)" />
+    <Property Name="ReleaseDateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="AssetStatus">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="int" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="Notes" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Attachment">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Buffer" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="BusinessProcess">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="Object" Type="varchar" MaxLength="1000" />
+    <Property Name="SPName" Type="varchar" MaxLength="1000" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="DisplayName" Type="varchar" MaxLength="1000" />
+    <Property Name="ActiveRecord" Type="bit" />
+    <Property Name="ActiveRecordSet" Type="bit" />
+    <Property Name="RecordSet" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Calendars">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" MaxLength="2000" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="StagingCalendar" Type="bit" />
+    <Property Name="TimeZone" Type="varchar" MaxLength="500" />
+    <Property Name="Kind" Type="varchar" MaxLength="150" />
+    <Property Name="eTag" Type="varchar" MaxLength="100" />
+    <Property Name="ColorId" Type="int" />
+    <Property Name="Background" Type="varchar" MaxLength="50" />
+    <Property Name="Foreground" Type="varchar" MaxLength="50" />
+    <Property Name="AccessRole" Type="varchar" MaxLength="50" />
+    <Property Name="IsSelected" Type="bit" />
+  </EntityType>
+  <EntityType Name="CalendarUser">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="CalendarId" Type="int" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Color" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Campaign">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="PropertyId" Type="int" />
+    <Property Name="ApplicationId" Type="int" />
+    <Property Name="Type" Type="int" />
+    <Property Name="OrderId" Type="int" />
+    <Property Name="AssignedTo" Type="int" />
+    <Property Name="AssetCountRequirement" Type="int" />
+  </EntityType>
+  <EntityType Name="CampaignAssets">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CampaignId" Type="int" />
+    <Property Name="AssetId" Type="int" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="AssetConfigId" Type="int" />
+    <Property Name="ConfiguredBy" Type="int" />
+  </EntityType>
+  <EntityType Name="CampaignCollateral">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CampaignId" Type="int" />
+    <Property Name="Type" Type="varchar" MaxLength="100" />
+    <Property Name="Content" Type="varchar" MaxLength="1000" />
+    <Property Name="CampaignTimeLineId" Type="int" />
+    <Property Name="DwellTimeMin" Type="decimal" Scale="2" />
+    <Property Name="DwellTimeMax" Type="decimal" Scale="2" />
+    <Property Name="VisitMin" Type="int" />
+    <Property Name="VisitMax" Type="int" />
+    <Property Name="MaxMessages" Type="int" />
+  </EntityType>
+  <EntityType Name="CampaignNotifications">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="CampaignId" Type="int" />
+    <Property Name="CampaignSittingId" Type="int" />
+    <Property Name="NotificationType" Type="varchar" MaxLength="100" />
+    <Property Name="NotificationMsg" Type="varchar" MaxLength="1000" />
+    <Property Name="ReceiverUDID" Type="varchar" MaxLength="100" />
+    <Property Name="FireDatetime" Type="datetime" />
+    <Property Name="Badge" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="CampaignSitting">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="AssetProxUDID" Type="varchar" MaxLength="100" />
+    <Property Name="ReceiverUDID" Type="varchar" MaxLength="100" />
+    <Property Name="Event" Type="varchar" MaxLength="100" />
+    <Property Name="EventDatetime" Type="datetime" />
+    <Property Name="DwellTime" Type="datetime" />
+    <Property Name="Latitude" Type="varchar" MaxLength="100" />
+    <Property Name="Longitude" Type="varchar" MaxLength="100" />
+    <Property Name="SignalMeasure" Type="decimal" Scale="2" />
+    <Property Name="PowerMeasure" Type="decimal" Scale="2" />
+    <Property Name="TempMeasure" Type="decimal" Scale="2" />
+    <Property Name="ReceiverDevice" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="CampaignTimeLine">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CampaignId" Type="int" />
+    <Property Name="Activity" Type="varchar" MaxLength="100" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="CancelledOrders">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Property" Type="varchar(max)" />
+    <Property Name="Service" Type="varchar(max)" />
+    <Property Name="RequiredDate" Type="varchar" MaxLength="50" />
+    <Property Name="FileName" Type="varchar" MaxLength="50" />
+    <Property Name="OrgId" Type="int" />
+  </EntityType>
+  <EntityType Name="ColorMaster">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Color" Type="varchar" MaxLength="50" />
+    <Property Name="ColorName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyCode" Type="varchar" MaxLength="50" />
+    <Property Name="XeroName" Type="varchar(max)" />
+    <Property Name="ScrappedName" Type="varchar(max)" />
+    <Property Name="CreateEvent" Type="bit" />
+    <Property Name="CreateInvoice" Type="bit" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="WebOrders" Type="bit" />
+  </EntityType>
+  <EntityType Name="CompanyMail">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Company_Id" Type="int" />
+    <Property Name="Mail_Id" Type="int" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="CompanyOrders">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="OrderId" Type="int" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Contacts">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="Name" Type="varchar(max)" />
+    <Property Name="Value" Type="varchar(max)" />
+    <Property Name="ContactType" Type="varchar" MaxLength="50" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="First_Name" Type="varchar" MaxLength="255" />
+    <Property Name="Last_Name" Type="varchar" MaxLength="255" />
+    <Property Name="Email_Address" Type="varchar" MaxLength="500" />
+    <Property Name="Phone_Number" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="ErrorLog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ErrorDetail" Type="nvarchar(max)" />
+    <Property Name="created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="EventException">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="EventId" Type="varchar" MaxLength="500" />
+    <Property Name="Exception" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Events">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CalendarId" Type="int" />
+    <Property Name="EventId" Type="varchar" MaxLength="500" />
+    <Property Name="RecurringEventId" Type="varchar" MaxLength="500" />
+    <Property Name="ColorId" Type="varchar" MaxLength="50" />
+    <Property Name="Attendees" Type="varchar" MaxLength="50" />
+    <Property Name="AttendeesOmitted" Type="bit" />
+    <Property Name="AnyoneCanAddSelf" Type="bit" />
+    <Property Name="Locked" Type="bit" />
+    <Property Name="Title" Type="varchar(max)" />
+    <Property Name="Location" Type="varchar" MaxLength="500" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Kind" Type="varchar" MaxLength="50" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="MovedOn" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="Recurrence" Type="varchar" MaxLength="250" />
+    <Property Name="Organizer" Type="varchar" MaxLength="50" />
+    <Property Name="Creator" Type="varchar" MaxLength="50" />
+    <Property Name="Sequence" Type="int" />
+    <Property Name="Transperancy" Type="varchar" MaxLength="50" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="Visibility" Type="varchar" MaxLength="50" />
+    <Property Name="IsAllDay" Type="bit" />
+    <Property Name="RecurrenceID" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="EventTracking">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CalendarId" Type="int" />
+    <Property Name="OrderId" Type="varchar(max)" />
+    <Property Name="Title" Type="varchar(max)" />
+    <Property Name="MovedOn" Type="datetime" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="500" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Org_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="ForgotPwd">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="varchar" MaxLength="100" />
+    <Property Name="ResetURL" Type="varchar" MaxLength="500" />
+    <Property Name="Isused" Type="bit" />
+    <Property Name="createddate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Job">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Title" Type="varchar" MaxLength="500" />
+    <Property Name="Order_Id" Type="int" />
+    <Property Name="Property_Id" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="Company_Id" Type="int" />
+    <Property Name="Primary_Contact_Id" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Required_By_Date" Type="date" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="datetime" />
+  </EntityType>
+  <EntityType Name="JobAttachment">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="int" Nullable="false" />
+    <Property Name="Job_Id" Type="int" Nullable="false" />
+    <Property Name="FileName" Type="varchar" MaxLength="225" />
+    <Property Name="FileExtension" Type="varchar" MaxLength="10" />
+    <Property Name="FileSize" Type="int" />
+    <Property Name="File" Type="varbinary(max)" />
+    <Property Name="GroupType" Type="varchar" MaxLength="50" />
+    <Property Name="Tags" Type="varchar(max)" />
+    <Property Name="Folder" Type="varchar" MaxLength="100" />
+    <Property Name="Selected" Type="bit" />
+    <Property Name="SelectedBy" Type="int" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="isDeleted" Type="bit" />
+    <Property Name="FilePath" Type="varchar" MaxLength="2000" />
+  </EntityType>
+  <EntityType Name="JobCopy">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Job_Id" Type="int" />
+    <Property Name="Job_Copy_Type_Id" Type="int" />
+    <Property Name="Title" Type="varchar(max)" />
+    <Property Name="TitleWordCount" Type="int" />
+    <Property Name="Body" Type="varchar(max)" />
+    <Property Name="BodyWordCount" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="JobCopyType">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Type" Type="varchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'CampaignTrack_OMS_Prod.dbo.JobEvents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="JobEvents">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Job_Id" Type="int" />
+    <Property Name="CalendarId" Type="int" />
+    <Property Name="EventId" Type="varchar(max)" />
+    <Property Name="ProductGroupId" Type="int" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="JobStatus">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Job_Id" Type="varchar" MaxLength="20" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="20" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Mail">
+    <Key>
+      <PropertyRef Name="Row_ID" />
+    </Key>
+    <Property Name="Row_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FileName" Type="varchar(max)" />
+    <Property Name="SentDate" Type="varchar(max)" />
+    <Property Name="Subject" Type="varchar(max)" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Org_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="OrderAttachment">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="int" Nullable="false" />
+    <Property Name="Order_Id" Type="int" Nullable="false" />
+    <Property Name="FileName" Type="varchar" MaxLength="225" />
+    <Property Name="FileExtension" Type="varchar" MaxLength="10" />
+    <Property Name="FileSize" Type="int" />
+    <Property Name="File" Type="varbinary(max)" />
+    <Property Name="GroupType" Type="varchar" MaxLength="50" />
+    <Property Name="Folder" Type="varchar" MaxLength="100" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="OrderContacts">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="int" />
+    <Property Name="ContactId" Type="int" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OrderEvents">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Order_Id" Type="int" />
+    <Property Name="TimeZone" Type="varchar(max)" />
+    <Property Name="EventCreated" Type="bit" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OrderItems">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Order_Id" Type="int" />
+    <Property Name="Xero_Id" Type="int" />
+    <Property Name="Name" Type="varchar(max)" />
+    <Property Name="ClientPrice" Type="varchar(max)" />
+    <Property Name="CostPrice" Type="varchar" MaxLength="50" />
+    <Property Name="Comments" Type="varchar(max)" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Options" Type="varchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderType_Id" Type="int" />
+    <Property Name="Property_Id" Type="int" />
+    <Property Name="Mail_Id" Type="int" />
+    <Property Name="OrderId" Type="varchar(max)" />
+    <Property Name="RequiredDate" Type="datetime" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="50" />
+    <Property Name="Keys" Type="varchar" MaxLength="100" />
+    <Property Name="SpecialInstructions" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="OrderStatus">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="int" />
+    <Property Name="Order_Id" Type="varchar" MaxLength="20" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="25" />
+    <Property Name="UpdatedBy" Type="varchar" MaxLength="20" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="20" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Updated" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OrderSubItems">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrderItemId" Type="int" />
+    <Property Name="ProductSubGroupId" Type="int" />
+    <Property Name="OptionSelected" Type="nvarchar" MaxLength="1000" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OrderType">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Organisation">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="ProductCompany">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="int" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="Enable" Type="bit" />
+  </EntityType>
+  <EntityType Name="ProductGroups">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Org_Id" Type="int" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="XeroCode" Type="varchar" MaxLength="100" />
+    <Property Name="ProductDescription" Type="varchar" MaxLength="500" />
+    <Property Name="XeroItemDescription" Type="varchar" MaxLength="500" />
+    <Property Name="SalesUnitPrice" Type="decimal" Scale="2" />
+    <Property Name="SalesAccountCode" Type="varchar" MaxLength="50" />
+    <Property Name="SalesTaxType" Type="varchar" MaxLength="100" />
+    <Property Name="ProductGroupId" Type="int" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="WebOrderable" Type="bit" />
+    <Property Name="WebName" Type="varchar" MaxLength="255" />
+    <Property Name="WebDescription" Type="varchar(max)" />
+    <Property Name="WebType" Type="varchar" MaxLength="100" />
+    <Property Name="WebOptions" Type="varchar(max)" />
+    <Property Name="WebOptionMin" Type="int" />
+    <Property Name="WebOptionMax" Type="int" />
+    <Property Name="ProductSubGroupId" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductSchedules">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="XeroCode" Type="varchar(max)" />
+    <Property Name="Value" Type="varchar" MaxLength="100" />
+    <Property Name="Title" Type="varchar" MaxLength="500" />
+    <Property Name="ColorId" Type="int" />
+    <Property Name="CreateEvent" Type="bit" />
+    <Property Name="SendEmail" Type="bit" />
+    <Property Name="EmailAddress" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="ProductGroupId" Type="int" />
+    <Property Name="WebOrderable" Type="bit" />
+    <Property Name="WebName" Type="varchar" MaxLength="500" />
+    <Property Name="WebDescription" Type="varchar(max)" />
+    <Property Name="WebType" Type="varchar" MaxLength="100" />
+    <Property Name="WebOptions" Type="varchar(max)" />
+    <Property Name="WebOptionMin" Type="int" />
+    <Property Name="WebOptionMax" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductSubGroups">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProductGroupsID" Type="int" />
+    <Property Name="ProductSubGroupName" Type="varchar" MaxLength="100" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="Updated" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ProductUser">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="User_Id" Type="int" />
+    <Property Name="Product_Id" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Property">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Company_Id" Type="int" />
+    <Property Name="Property_Id" Type="varchar(max)" />
+    <Property Name="Name" Type="varchar(max)" />
+    <Property Name="Latitude" Type="varchar" MaxLength="50" />
+    <Property Name="Longitude" Type="varchar" MaxLength="50" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PropertyInvoices">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PropertyId" Type="int" />
+    <Property Name="MailId" Type="int" />
+    <Property Name="InvoiceNo" Type="varchar" MaxLength="50" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserType" Type="int" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="EmailAddress" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Updated" Type="datetime" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="AboutMe" Type="nvarchar(max)" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="UserProductGroup">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="ProductGroupId" Type="int" />
+    <Property Name="Created" Type="datetime" />
+  </EntityType>
+  <EntityType Name="UserTypes">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Visitor-Fact">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="int" />
+    <Property Name="ReceiverUDID" Type="int" />
+    <Property Name="VisitCount" Type="int" />
+    <Property Name="MessageCount" Type="int" />
+    <Property Name="CampaignId" Type="int" />
+  </EntityType>
+  <Association Name="FK_Attachment_User">
+    <End Role="User" Type="OrderManagementModel.Store.User" Multiplicity="0..1" />
+    <End Role="Attachment" Type="OrderManagementModel.Store.Attachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="Attachment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Contacts_Company">
+    <End Role="Company" Type="OrderManagementModel.Store.Company" Multiplicity="0..1" />
+    <End Role="Contacts" Type="OrderManagementModel.Store.Contacts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="Contacts">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventTracking_Organisation">
+    <End Role="Organisation" Type="OrderManagementModel.Store.Organisation" Multiplicity="0..1" />
+    <End Role="EventTracking" Type="OrderManagementModel.Store.EventTracking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organisation">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="EventTracking">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_OrderAttachment">
+    <End Role="Orders" Type="OrderManagementModel.Store.Orders" Multiplicity="1" />
+    <End Role="OrderAttachment" Type="OrderManagementModel.Store.OrderAttachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderAttachment">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItemEvents_Orders">
+    <End Role="Orders" Type="OrderManagementModel.Store.Orders" Multiplicity="0..1" />
+    <End Role="OrderEvents" Type="OrderManagementModel.Store.OrderEvents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderEvents">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItems_Order">
+    <End Role="Orders" Type="OrderManagementModel.Store.Orders" Multiplicity="0..1" />
+    <End Role="OrderItems" Type="OrderManagementModel.Store.OrderItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderItems">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Organisation_OrderAttachment">
+    <End Role="Organisation" Type="OrderManagementModel.Store.Organisation" Multiplicity="1" />
+    <End Role="OrderAttachment" Type="OrderManagementModel.Store.OrderAttachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organisation">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderAttachment">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Property_Company">
+    <End Role="Company" Type="OrderManagementModel.Store.Company" Multiplicity="0..1" />
+    <End Role="Property" Type="OrderManagementModel.Store.Property" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="Property">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_PGid">
+    <End Role="ProductGroups" Type="OrderManagementModel.Store.ProductGroups" Multiplicity="0..1" />
+    <End Role="UserProductGroup" Type="OrderManagementModel.Store.UserProductGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductGroups">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="UserProductGroup">
+        <PropertyRef Name="ProductGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_UID">
+    <End Role="User" Type="OrderManagementModel.Store.User" Multiplicity="0..1" />
+    <End Role="UserProductGroup" Type="OrderManagementModel.Store.UserProductGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="UserProductGroup">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_UserType">
+    <End Role="UserTypes" Type="OrderManagementModel.Store.UserTypes" Multiplicity="0..1" />
+    <End Role="User" Type="OrderManagementModel.Store.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTypes">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="UserType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="DailyScheduleDusk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="DeleteJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JOB_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteJobAttachment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JobAttachmentId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteJobCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JOB_COPY_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetAllEventException" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetAllUsersJobStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrgId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetCalenderUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetDataforCalenderEntry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderId" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetEventId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="EventId" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetEventRowId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="EventId" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetGroupCalendarUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="UserList" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetJobAttachments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="GroupType" Type="int" Mode="In" />
+    <Parameter Name="job_Id" Type="int" Mode="In" />
+    <Parameter Name="Tags" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="GetOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetProductCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="Parent_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetProductSchedules" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="XeroID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetStagingCalenderUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetUserProductCalendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="InsertCalendars" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Calendar" Type="varchar" Mode="In" />
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="TimeZone" Type="varchar" Mode="In" />
+    <Parameter Name="Kind" Type="varchar" Mode="In" />
+    <Parameter Name="eTag" Type="varchar" Mode="In" />
+    <Parameter Name="ColorId" Type="int" Mode="In" />
+    <Parameter Name="Background" Type="varchar" Mode="In" />
+    <Parameter Name="Foreground" Type="varchar" Mode="In" />
+    <Parameter Name="AccessRole" Type="varchar" Mode="In" />
+    <Parameter Name="IsSelected" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="InsertCancelledOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrgId" Type="int" Mode="In" />
+    <Parameter Name="Property" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Service" Type="varchar(max)" Mode="In" />
+    <Parameter Name="RequiredDate" Type="varchar(max)" Mode="In" />
+    <Parameter Name="FileName" Type="varchar(max)" Mode="In" />
+  </Function>
+  <Function Name="InsertEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Calendar" Type="varchar" Mode="In" />
+    <Parameter Name="OrderId" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Title" Type="varchar(max)" Mode="In" />
+    <Parameter Name="StartDate" Type="datetime" Mode="In" />
+    <Parameter Name="EndDate" Type="datetime" Mode="In" />
+    <Parameter Name="MovedOn" Type="datetime" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertGooglePushNotification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ChannelId" Type="varchar" Mode="In" />
+    <Parameter Name="ChannelToken" Type="varchar" Mode="In" />
+    <Parameter Name="ChannelExpiration" Type="datetime" Mode="In" />
+    <Parameter Name="ResourceId" Type="varchar" Mode="In" />
+    <Parameter Name="ResourceURI" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ResourceState" Type="varchar" Mode="In" />
+    <Parameter Name="MessageNumber" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="InsertGooglePushNotificationWatch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="OAuthId" Type="int" Mode="In" />
+    <Parameter Name="CalendarId" Type="int" Mode="In" />
+    <Parameter Name="ChannelId" Type="uniqueidentifier" Mode="In" />
+    <Parameter Name="Type" Type="varchar" Mode="In" />
+    <Parameter Name="Expiration" Type="bigint" Mode="In" />
+    <Parameter Name="ResourceId" Type="varchar" Mode="In" />
+    <Parameter Name="ResourceURI" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Active" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="InsertGoogleSyncTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Calendar" Type="varchar" Mode="In" />
+    <Parameter Name="LastSync" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="InsertJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+    <Parameter Name="Property_Id" Type="int" Mode="In" />
+    <Parameter Name="RequiredDate" Type="datetime" Mode="In" />
+    <Parameter Name="Mail_Id" Type="int" Mode="In" />
+    <Parameter Name="company_id" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="Keys" Type="varchar" Mode="In" />
+    <Parameter Name="AdminId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="InsertJobAttachment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="Job_Id" Type="int" Mode="In" />
+    <Parameter Name="FileName" Type="varchar" Mode="In" />
+    <Parameter Name="FileExtension" Type="varchar" Mode="In" />
+    <Parameter Name="FileSize" Type="int" Mode="In" />
+    <Parameter Name="GroupType" Type="varchar" Mode="In" />
+    <Parameter Name="Tags" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Folder" Type="varchar" Mode="In" />
+    <Parameter Name="FilePath" Type="varchar" Mode="In" />
+    <Parameter Name="Row_id" Type="int" Mode="In" />
+    <Parameter Name="isDeleted" Type="int" Mode="In" />
+  </Function>
+  <Function Name="InsertJobCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="Job_Id" Type="int" Mode="In" />
+    <Parameter Name="Type_Id" Type="int" Mode="In" />
+    <Parameter Name="Title" Type="varchar(max)" Mode="In" />
+    <Parameter Name="TitleWordCount" Type="int" Mode="In" />
+    <Parameter Name="Body" Type="varchar(max)" Mode="In" />
+    <Parameter Name="BodyWordCount" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertJobEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="Job_Id" Type="int" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+    <Parameter Name="Calendar_Id" Type="int" Mode="In" />
+    <Parameter Name="Event_Id" Type="int" Mode="In" />
+    <Parameter Name="ProductGroup_Id" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="Keys" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertOrderItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+    <Parameter Name="Name" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ClientPrice" Type="varchar(max)" Mode="In" />
+    <Parameter Name="CostPrice" Type="varchar(max)" Mode="In" />
+  </Function>
+  <Function Name="InsertOtherEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Calendar" Type="varchar" Mode="In" />
+    <Parameter Name="EventId" Type="varchar" Mode="In" />
+    <Parameter Name="RecurringEventId" Type="varchar" Mode="In" />
+    <Parameter Name="ColorId" Type="varchar" Mode="In" />
+    <Parameter Name="Attendees" Type="varchar" Mode="In" />
+    <Parameter Name="AttendeesOmitted" Type="bit" Mode="In" />
+    <Parameter Name="AnyoneCanAddSelf" Type="bit" Mode="In" />
+    <Parameter Name="Locked" Type="bit" Mode="In" />
+    <Parameter Name="Title" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Location" Type="varchar" Mode="In" />
+    <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Kind" Type="varchar" Mode="In" />
+    <Parameter Name="StartDate" Type="datetime" Mode="In" />
+    <Parameter Name="EndDate" Type="datetime" Mode="In" />
+    <Parameter Name="MovedOn" Type="datetime" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="Recurrence" Type="varchar" Mode="In" />
+    <Parameter Name="Organizer" Type="varchar" Mode="In" />
+    <Parameter Name="Creator" Type="varchar" Mode="In" />
+    <Parameter Name="Sequence" Type="int" Mode="In" />
+    <Parameter Name="Transperancy" Type="varchar" Mode="In" />
+    <Parameter Name="Updated" Type="datetime" Mode="In" />
+    <Parameter Name="Visibility" Type="varchar" Mode="In" />
+    <Parameter Name="IsAllDay" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="InsertPropertyInvoiceNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PropertyId" Type="int" Mode="In" />
+    <Parameter Name="InvoiceNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertWebContact" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Company_Id" Type="int" Mode="In" />
+    <Parameter Name="Order_Id" Type="int" Mode="In" />
+    <Parameter Name="User_Id" Type="int" Mode="In" />
+    <Parameter Name="First_Name" Type="varchar" Mode="In" />
+    <Parameter Name="Last_Name" Type="varchar" Mode="In" />
+    <Parameter Name="Email_Address" Type="varchar" Mode="In" />
+    <Parameter Name="Phone_Number" Type="varchar" Mode="In" />
+    <Parameter Name="ContactType" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertWebOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="OrderType_Id" Type="int" Mode="In" />
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+    <Parameter Name="Property_Id" Type="int" Mode="In" />
+    <Parameter Name="Comments" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Options" Type="varchar(max)" Mode="In" />
+    <Parameter Name="user_type" Type="varchar" Mode="In" />
+    <Parameter Name="RequiredDate" Type="datetime" Mode="In" />
+    <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Mail_Id" Type="int" Mode="In" />
+    <Parameter Name="company_id" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="Keys" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="InsertWebOrderItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="Order_Id" Type="int" Mode="In" />
+    <Parameter Name="user_id" Type="int" Mode="In" />
+    <Parameter Name="Product_Id" Type="int" Mode="In" />
+    <Parameter Name="Quantity" Type="decimal" Mode="In" />
+    <Parameter Name="Price" Type="decimal" Mode="In" />
+    <Parameter Name="Discount_Percent" Type="decimal" Mode="In" />
+    <Parameter Name="Comments" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Options" Type="varchar(max)" Mode="In" />
+    <Parameter Name="user_type" Type="varchar" Mode="In" />
+    <Parameter Name="user_company_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="InsertWebProperty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+    <Parameter Name="User_Id" Type="int" Mode="In" />
+    <Parameter Name="Address" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Property_Id" Type="varchar" Mode="In" />
+    <Parameter Name="Lat" Type="varchar" Mode="In" />
+    <Parameter Name="Long" Type="varchar" Mode="In" />
+    <Parameter Name="company_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="MY_XML" ReturnType="xml" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="var" Type="xml" Mode="In" />
+  </Function>
+  <Function Name="Processmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="X" Type="xml" Mode="In" />
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="QFN_SPLIT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="INPUTSTR" Type="varchar(max)" Mode="In" />
+    <Parameter Name="SEPRATOR" Type="varchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="COL" Type="varchar(max)" />
+          <Property Name="ID" Type="int" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="SelectAllProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrgId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrgId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectCalendarsForPushNotification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SelectClientCredentials" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orgId" Type="int" Mode="In" />
+    <Parameter Name="Name" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SelectJobAttachmentFolders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectJobAttachments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectJobAttachmentTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="ProductGroup_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectJobCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JOB_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectJobCopyTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectJobs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="SearchValue" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SelectLastSyncForCalendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Calendar" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SelectOrderableProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectProductGroupOptions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="PRODUCT_ROW_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="split" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="del" Type="char" Mode="In" />
+    <Parameter Name="str" Type="varchar(max)" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="VALUE" Type="varchar(max)" />
+          <Property Name="COST1" Type="varchar(max)" />
+          <Property Name="COST2" Type="varchar(max)" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="SplitUserList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="List" Type="nvarchar" Mode="In" />
+    <Parameter Name="SplitOn" Type="nvarchar" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="100" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="SyncCompany" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="X" Type="xml" Mode="In" />
+    <Parameter Name="Org_Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SyncProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="X" Type="xml" Mode="In" />
+    <Parameter Name="OrgId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Event_id" Type="varchar" Mode="In" />
+    <Parameter Name="OldCalendarUser" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateJobAttachment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JobAttachmentId" Type="int" Mode="In" />
+    <Parameter Name="FileName" Type="varchar" Mode="In" />
+    <Parameter Name="FileExtension" Type="varchar" Mode="In" />
+    <Parameter Name="FileSize" Type="int" Mode="In" />
+    <Parameter Name="File" Type="varbinary(max)" Mode="In" />
+    <Parameter Name="GroupType" Type="varchar" Mode="In" />
+    <Parameter Name="Tags" Type="varchar(max)" Mode="In" />
+    <Parameter Name="Folder" Type="varchar" Mode="In" />
+    <Parameter Name="Selected" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="UpdateJobAttachmentSelected" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JobAttachmentId" Type="int" Mode="In" />
+    <Parameter Name="Selected" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="UpdateJobCopy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ORG_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_ID" Type="int" Mode="In" />
+    <Parameter Name="USER_TYPE" Type="varchar" Mode="In" />
+    <Parameter Name="USER_COMPANY_ID" Type="int" Mode="In" />
+    <Parameter Name="JOB_COPY_ID" Type="int" Mode="In" />
+    <Parameter Name="TYPE_ID" Type="int" Mode="In" />
+    <Parameter Name="Title" Type="varchar(max)" Mode="In" />
+    <Parameter Name="TitleWordCount" Type="int" Mode="In" />
+    <Parameter Name="Body" Type="varchar(max)" Mode="In" />
+    <Parameter Name="BodyWordCount" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateJobEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="EventId" Type="varchar" Mode="In" />
+    <Parameter Name="CalendarName" Type="varchar" Mode="In" />
+    <Parameter Name="UpdatedByCalendarName" Type="varchar" Mode="In" />
+    <Parameter Name="OldEventRowId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateOrderEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+  </Function>
+</Schema>

@@ -1,0 +1,293 @@
+﻿@model OrderManagement.Web.Models.ProductSchedulesModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/switchery.js")" type="text/javascript"></script>
+<link type="text/css" href="@Url.Content("~/Content/switchery.css")" rel="stylesheet" />
+
+<div class="wrapper wrapper-content order-form">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+                    <div id="ProductSchedulesave" align="center"></div>
+                    <label>Create Product Schedule</label>
+                    @using (Html.BeginForm("AddOrUpdateProductSchedule", "product", FormMethod.Post, new { @class = "form-horizontal", id = "CreateProdScheduleForm" }))
+                    {
+
+                        <div class="form-group ">
+                         
+
+
+                            <div class="col-sm-10"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Create Event</label>
+
+                            <div class="col-sm-10">
+
+                                @Html.CheckBoxFor(m => m.CreateEvent, new { @class = "js-switch2" })
+
+                            </div>
+                        </div>
+                        
+                        
+                        <div id="eventdiv" style="display: none">
+                            
+                           
+                            <div class="form-group">
+       <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.ProductGroupId)<span style="color: red">*</span></label>
+      <div class="col-sm-10">
+            @Html.DropDownListFor(m => m.ProductGroupId, new SelectList(Model.ProductGroupslist, "Row_Id", "Name"), "Select", new { @class = "form-control", @style = "width: 300px;" })
+            <span style="color: red" id="ProductGroupIdValidation"></span>
+        </div>
+    </div>
+                            
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Title<span style="color: red">*</span></label>
+
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                                    <span style="color: red" id="TitleValidation"></span>
+                                </div>
+
+                               
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Duration<span style="color: red">*</span></label>
+
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.Value, new { @class = "form-control" })
+                                    <span style="color: red" id="ValueValidation"></span>
+                                </div>
+
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Select Color<span style="color: red">*</span></label>
+                                <div class="col-sm-5">
+
+                                    @if (@Model != null && @Model.ColorCode != null)
+                                    {
+                                        <span id="spnselectedcolor" class="pull-right boxSelected" style="background-color:@Model.ColorCode" ></span>
+                                        <span style="display: none" id="spnColorcodeValidation">@Model.ColorCode</span>
+                                    }
+
+
+                                    else
+                                    {
+                                        <span id="spnselectedcolor" class="pull-right boxSelected"></span>
+                                
+                                        <span style="display: none" id="spnColorcodeValidation"></span>
+               
+                                    }
+
+
+                                    <div class="boxContainer">
+                                        @foreach (var itemcolor in Model.Colorlist)
+                                        {
+
+                                            <span class="box" onclick="javascript:selectcolor('@itemcolor.Color');" style="background-color:@itemcolor.Color"></span>
+
+                                        }
+
+                                    </div>
+
+                                    <span style="color: red; font-weight: bold" id="hdnScheduleColorcodeValidation"></span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Send Email</label>
+
+                            <div class="col-sm-10">
+
+                                @Html.CheckBoxFor(m => m.SendEmail, new { @class = "js-switch1" })
+
+                            </div>
+                        </div>
+                        <div id="senemaildiv" style="display: none">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Email Address<span style="color: red">*</span></label>
+
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control" })
+                                    <span style="color: red" id="EmailAddressValidation"></span>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                            
+                                @if(Model.Row_Id!=0)
+                                {
+                                    <button type="button" class="btn btn-primary" onclick="javascript:AddUpdateproductSchedule();" >Update</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-primary" onclick="javascript:AddUpdateproductSchedule();" id="btnUpdate">Submit</button>
+                                }
+                              
+                                <button type="button" class="btn btn-default" onclick="javascript:Cancel();" style="width:82px"  id="btnCancel">Cancel</button>
+                            </div>
+                        </div>
+                        
+                        @Html.HiddenFor(model => model.Row_Id, new { id = "schedulerowid" })
+                        @Html.HiddenFor(model => model.Productid)
+                        @Html.HiddenFor(model => model.ColorCode, new { id = "hdnScheduleColorcode" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function() {
+        var elem = document.querySelector('.js-switch2');
+        var switchery = new Switchery(elem, { color: '#1AB394' });
+
+        var elem1 = document.querySelector('.js-switch1');
+        var switchery1 = new Switchery(elem1, { color: '#1AB394' });
+
+
+        var rowid = $("#schedulerowid").val();
+
+        if (rowid != 0 && $('#CreateEvent').attr('checked')) {
+            //  alert("1");
+            $('#eventdiv').show();
+        }
+        if (rowid != 0 && $('#SendEmail').attr('checked')) {
+            // alert("2");
+            $('#senemaildiv').show();
+
+        }
+        if (rowid != 0 && rowid != null) {
+
+            var color = $("#hdnScheduleColorcode").val();
+            //  alert(color);
+            selectcolor(color);
+
+        }
+
+        //var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        //elems.forEach(function(html) {
+        //    var switchery = new Switchery(html, { color: '#1AB394' });
+        //});
+
+        $('#CreateEvent').on('change', function() {
+            // From the other examples
+            if (this.checked) {
+                //$('#SendEmail').attr('checked', false);
+                if ($('#SendEmail').is(":checked")) {
+                    $('#SendEmail').click();
+                }
+                $('#senemaildiv').hide();
+                $('#EmailAddress').val("");
+                // var sure = confirm("Are you sure?");
+                //  this.checked = !sure;
+                $('#eventdiv').show();
+
+            } else {
+                $('#eventdiv').hide();
+            }
+
+        });
+
+        $('#SendEmail').on('change', function() {
+            // From the other examples
+            if (this.checked) {
+                //$('#CreateEvent').attr('checked', false);
+                if ($('#CreateEvent').is(":checked")) {
+                    $('#CreateEvent').click();
+                }
+                $('#eventdiv').hide();
+                // Clear hide fields
+                $("#spnselectedcolor").removeAttr('style');
+                $("#hdnScheduleColorcode").val("");
+                $("#hdnScheduleColorcodeValidation").hide();
+                $("#ProductGroupId").val("");
+                $("#Title").val("");
+                $("#Value").val("");
+                //  var sure = confirm("Are you sure?");
+                //  this.checked = sure;
+                $('#senemaildiv').show();
+            } else {
+                $('#senemaildiv').hide();
+            }
+        });
+
+
+    });
+
+    function selectcolor(colorcode) {
+        //  alert(colorcode);
+        if (colorcode != null && colorcode != "") {
+            $("#spnselectedcolor").removeAttr('style');
+            $("#spnselectedcolor").css('background-color', colorcode);
+            $("#hdnScheduleColorcode").val(colorcode);
+            $("#hdnScheduleColorcodeValidation").hide();
+            // $("#spnColorcodeValidation").text(colorcode);
+            // $("#ColorcodeValidation").hide();
+        }
+    }
+
+
+    function AddUpdateproductSchedule() {
+        var id = $("#globlePtoductid").val();
+        $("#Productid").val(id);
+       //  alert(id);
+        var validate = $("#CreateProdScheduleForm").valid();
+        // alert(validate);
+        if (validate) {
+           // alert("hi2");
+            if (($('#CreateEvent').is(":checked") && $("#hdnScheduleColorcode").val() != "") || $('#SendEmail').is(":checked"))
+            {
+             //  alert("hi1");
+                $("#hdnScheduleColorcodeValidation").text("");
+               
+                $('#ProductSchedulesave').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+                $.post('@Url.Action("AddOrUpdateProductSchedule", "Product")', $("#CreateProdScheduleForm").serialize(), function (data) {
+                    if (data != null) {
+                        $('#ProductSchedulesave').html("");
+                   // alert("Data has been saved successfully");
+                    $("#loadProductgroup").text("");
+                    //$("#spnAddEditCompanyContacts").text("");
+                    $("#loadProductgroup").html(data);
+                }
+            });
+            }
+            else {
+             //   alert("hi");
+                $("#hdnScheduleColorcodeValidation").text("Please Select Color.");
+           }
+
+        }
+
+    }
+
+
+    function Cancel() {
+      //  $("#Productgrpgrid").data("kendoGrid").clearSelection();
+        $("#spnCreateproductScheduleForm").text("");
+        var body = $("html, body");
+        body.animate({ scrollTop: 0 }, '500', 'swing', function () {
+            //alert("Finished animating");
+        });
+    }
+
+</script>

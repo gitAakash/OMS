@@ -1,0 +1,617 @@
+﻿<!DOCTYPE html>
+<html>
+
+
+
+<head>
+
+        <!-- start Mixpanel -->
+ <script type="text/javascript">(function (f, b) {
+    if (!b.__SV) {
+        var a, e, i, g; window.mixpanel = b; b._i = []; b.init = function (a, e, d) {
+            function f(b, h) { var a = h.split("."); 2 == a.length && (b = b[a[0]], h = a[1]); b[h] = function () { b.push([h].concat(Array.prototype.slice.call(arguments, 0))) } } var c = b; "undefined" !== typeof d ? c = b[d] = [] : d = "mixpanel"; c.people = c.people || []; c.toString = function (b) { var a = "mixpanel"; "mixpanel" !== d && (a += "." + d); b || (a += " (stub)"); return a }; c.people.toString = function () { return c.toString(1) + ".people (stub)" }; i = "disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+            for (g = 0; g < i.length; g++) f(c, i[g]); b._i.push([a, e, d])
+        }; b.__SV = 1.2; a = f.createElement("script"); a.type = "text/javascript"; a.async = !0; a.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; e = f.getElementsByTagName("script")[0]; e.parentNode.insertBefore(a, e)
+    }
+})(document, window.mixpanel || []);
+     mixpanel.init("8f5b5c2f56e7ffdc79ae7323204c0142");
+
+ </script><!-- end Mixpanel -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @Styles.Render("~/Content/themes/base/ThemesCss")
+    @Styles.Render("~/Content/css")
+
+    @*    <title>Dashboard</title>*@
+
+
+
+    <!-- Gritter -->
+
+
+    <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+    @* @Scripts.Render("~/bundles/jquery")*@
+
+    @* <link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.default.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />*@
+
+
+
+    @Scripts.Render("~/Scripts/kendo/2014.2.716/kendoScripts")
+
+
+
+
+
+    <style type="text/css">
+        .nav > li.activeOnload {
+            border-left: 4px solid #18A78A;
+            background: #233646;
+        }
+
+            .nav > li.activeOnload > a {
+                background-color: #2a3947;
+                color: #ffffff;
+            }
+
+        .jqstooltip {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            visibility: hidden;
+            background: rgb(0, 0, 0) transparent;
+            background-color: rgba(0,0,0,0.6);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+            color: white;
+            font: 10px arial, san serif;
+            text-align: left;
+            white-space: nowrap;
+            padding: 5px;
+            border: 1px solid white;
+            z-index: 10000;
+        }
+
+        .jqsfield {
+            color: white;
+            font: 10px arial, san serif;
+            text-align: left;
+        }
+    </style>
+
+  
+
+    <script type="text/javascript">
+
+    
+        // Set timeout variables.
+        //   var timoutWarning = 60000; // Display warning in 1Mins.
+        var timoutWarning = 600000;
+        // var timoutNow = 120000;
+        var timoutNow = 1200000;
+        // Timeout in 2 mins.
+        var logoutUrl = '@Url.Action("UnLock", "Account")'; // URL to logout page.
+
+        var warningTimer;
+        var timeoutTimer;
+
+        // Start timers.
+        function StartTimers() {
+            //warningTimer = setTimeout("IdleWarning()", timoutWarning);
+            timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
+        }
+
+        // Reset timers.
+        function ResetTimers() {
+            clearTimeout(warningTimer);
+            clearTimeout(timeoutTimer);
+            StartTimers();
+            //$("#timeout").dialog('close');
+        }
+
+        // Show idle timeout warning dialog.
+        function IdleWarning() {
+            $("#timeout").dialog({
+                modal: true
+            });
+        }
+
+        // Logout the user.
+        function IdleTimeout() {
+            // debugger;
+            window.location = logoutUrl;
+        }
+    </script>
+</head>
+<body class="">
+
+    @{
+
+        string currentUserName = null;
+        string currentUserRole = null;
+    }
+
+    @{
+        
+        var currentUser = OrderManagement.Web.Helper.Utilitties.UserManager.Current();
+        if (currentUser != null)
+        {
+            currentUserName = currentUser.FirstName + " " + currentUser.LastName;
+            currentUserRole = currentUser.UserType1.Name;
+        }
+            
+
+    }
+
+ 
+
+    <div id="wrapper" onload="StartTimers();" onmousemove="ResetTimers();">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                @if (currentUser != null && (currentUser.UserType == 1 || currentUser.UserType == 4))
+                {
+                    <ul class="nav" id="side-menu">
+                        <li class="nav-header">
+
+                            <div class="dropdown profile-element">
+                                <span>
+                                    <img alt="image" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new { id = @currentUser.Row_Id })" />
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <span class="clear"><span class="block m-t-xs"><strong id="dashboardUserName" class="font-bold">@currentUserName</strong>
+                                    </span><span id="currentUserRole" class="text-muted text-xs block">@currentUserRole<b class="caret"></b></span></span></a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a id="currentuserId" href="#" onclick="javascript:UserProfile('@currentUser.Row_Id');">Profile</a></li>
+                                    <li><a href="#" onclick="javascript:UserActivities();">Users</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="../Account/Logout">Logout</a></li>
+                                </ul>
+                            </div>
+
+                       
+
+                            <div class="logo-element">
+                                <i class="fa fa-user"></i>
+                            </div>
+
+                        </li>
+
+                        @* <li  data-getpage="../Home/Dashboard">
+                        dn
+                                <a href="#"><i class="fa fa-th-large"></i><span class="nav-label">Dashboard</span> </a>
+                                <ul class="nav">
+                                </ul>
+                            </li>*@
+                        <li id="liProduct" data-getpage="../Product/Index">
+                            <a href="#"><i class="fa fa-video-camera"></i><span class="nav-label">Products</span> </a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                    
+
+                        <li id="liCompany" data-getpage="../company/Company">
+                            <a href="#"><i class="fa fa-bar-chart-o"></i><span class="nav-label">Company</span>@*<span class="fa arrow"></span>*@</a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                        <li id="liUser" data-getpage="../User/Index">
+                            <a href="#"><i class="fa fa-user"></i><span class="nav-label">Users </span>
+                                <!--<span class="label label-warning pull-right">16/24</span>-->
+                            </a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                        <li id="liScheduler" data-getpage="../Scheduler/Index">
+
+                            <a href="#"><i class="fa fa-calendar"></i><span class="nav-label">Scheduler</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+
+
+                        @* <li data-getpage="../Order/Index">
+                                <a href="#"><i class="fa fa-phone"></i><span class="nav-label">Orders</span></a>
+                                <ul class="nav">
+                                </ul>
+                            </li>
+                        <li data-getpage="../NewOrder/Index">
+                                <a href="#"><i class="fa fa-phone"></i><span class="nav-label">New Order</span></a>
+                                <ul class="nav">
+                                </ul>
+                            </li>
+                         *@
+                           <li id="liJobTracking" data-getpage="../JobTracking/Index">
+                            <a href="#"><i class="fa fa-tachometer"></i><span class="nav-label">Job Tracking</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                      
+                       
+                    </ul>
+                   
+                }
+                
+                 else if (currentUser != null && currentUser.UserType == 2)
+                {
+                    <ul class="nav" id="side-menu">
+                        <li class="nav-header">
+
+                            <div class="dropdown profile-element">
+                                <span>
+                                    <img alt="image" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new { id = @currentUser.Row_Id })" />
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                                    <span class="clear"><span class="block m-t-xs"><strong id="dashboardUserName1" class="font-bold">@currentUserName</strong>
+                                    </span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a href="#">Profile</a></li>
+                                    <li><a href="#">Users</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="../Account/Logout">Logout</a></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                                <i class="fa fa-user"></i>
+                            </div>
+
+                        </li>
+
+                        <li class="active" data-getpage="../Staff/Jobtracking">
+
+                            <a href="#"><i class="fa fa-th-large"></i><span class="nav-label">Track Order</span> </a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                        <li data-getpage="../Staff/StaffProfile">
+                            <a href="#"><i class="fa fa-video-camera"></i><span class="nav-label">Profile</span> </a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                       @*  <li data-getpage="../NewOrder/Index">
+                            <a href="#"><i class="fa fa-phone"></i><span class="nav-label">New Order</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                        *@
+                    </ul>
+                }
+                else
+                {
+                    <ul class="nav" id="side-menu">
+                        <li class="nav-header">
+
+                            <div class="dropdown profile-element">
+                                <span>
+                                    <img alt="image" style="height:100px;width:100px" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new { id = @currentUser.Row_Id, width = 100, height = 100 })" />
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#"></a>
+                                <span class="clear"><span class="block m-t-xs"><strong id="dashboardUserName2" class="font-bold">@currentUserName</strong>
+                                </span>
+                                </span>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a href="#">Profile</a></li>
+                                    <li><a href="#">Users</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="../Account/Logout">Logout</a></li>
+                                </ul>
+                            </div>
+                            <div class="logo-element">
+                                <i class="fa fa-user"></i>
+                            </div>
+
+                        </li>
+                         
+                         <li class="active" id="liJobTracking" data-getpage="../JobTracking/Index">
+                            <a href="#"><i class="fa fa-tachometer"></i><span class="nav-label">Job Tracking</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+
+                     
+
+                       
+                         @*
+                        <li  data-getpage="../Client/UserProfile">
+
+                            <a href="#"><i class="fa fa-th-large"></i><span class="nav-label">Profile</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                          
+                        
+                        <li data-getpage="../NewOrder/Index">
+                            <a href="#"><i class="fa fa-phone"></i><span class="nav-label">New Order</span></a>
+                            <ul class="nav">
+                            </ul>
+                        </li>
+                         *@
+                    </ul>
+                }
+            </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i></a>
+                        @* <form role="search" class="navbar-form-custom" method="post" action="#">
+                            <div class="form-group">
+                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                            </div>
+                        </form>*@
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        @*  <li>
+                                <span class="m-r-sm text-muted welcome-message">Welcome to Order management system.</span>
+                            </li>*@
+                        @*   <li class="dropdown">
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-envelope"></i><span class="label label-warning">16</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-messages">
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a href="#" class="pull-left">
+                                                <img alt="image" class="img-circle" src="~/Images/a7.jpg">
+                                            </a>
+                                            <div>
+                                                <small class="pull-right">46h ago</small>
+                                                <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>.
+                                                <br>
+                                                <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a href="#" class="pull-left">
+                                                <img alt="image" class="img-circle" src="~/Images/a4.jpg">
+                                            </a>
+                                            <div>
+                                                <small class="pull-right text-navy">5h ago</small>
+                                                <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>.
+                                                <br>
+                                                <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <div class="dropdown-messages-box">
+                                            <a href="#" class="pull-left">
+                                                <img alt="image" class="img-circle" src="~/Images/profile.jpg">
+                                            </a>
+                                            <div>
+                                                <small class="pull-right">23h ago</small>
+                                                <strong>Monica Smith</strong> love <strong>Kim Smith</strong>.
+                                                <br>
+                                                <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <div class="text-center link-block">
+                                            <a href="#">
+                                                <i class="fa fa-envelope"></i><strong>Read All Messages</strong>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
+                        @* <li class="dropdown">
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-bell"></i><span class="label label-primary">8</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-alerts">
+                                    <li>
+                                        <a href="#">
+                                            <div>
+                                                <i class="fa fa-envelope fa-fw"></i>You have 16 messages
+                                                <span class="pull-right text-muted small">4 minutes ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#">
+                                            <div>
+                                                <i class="fa fa-twitter fa-fw"></i>3 New Followers
+                                                <span class="pull-right text-muted small">12 minutes ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#">
+                                            <div>
+                                                <i class="fa fa-upload fa-fw"></i>Server Rebooted
+                                                <span class="pull-right text-muted small">4 minutes ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <div class="text-center link-block">
+                                            <a href="#">
+                                                <strong>See All Alerts</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
+                        <li>
+                            <a href="../Account/Logout">
+                                <i class="fa fa-sign-out"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+
+            <div id="divPageBody">
+                @RenderBody()
+            </div>
+        </div>
+        <div id="timeout">
+            @* <h1>Session About To Timeout</h1>
+            <p>
+                You will be automatically logged out in 1 minute.<br />
+                To remain logged in move your mouse over this window.*@
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+
+    @Scripts.Render("~/Scripts/Theme_Js/Themejquery")
+
+    @Scripts.Render("~/Scripts/CommonJS")
+
+    @*   <script src="~/Scripts/switchery.js"></script>*@
+
+    <!-- EayPIE -->
+    @*    <script src="@Url.Content("~/Scripts/Theme_Js/jquery.easypiechart.js")"></script>
+        
+        <script src="@Url.Content("~/Scripts/Theme_Js/jquery.flot.pie.js")"></script>
+        <script src="@Url.Content("~/Scripts/Theme_Js/jquery.flot.symbol.js")"></script>*@
+
+    @*<script src="http://code.highcharts.com/highcharts.js"></script>*@
+
+
+    @* <script src="@Url.Content("~/Scripts/Highcharts-4.0.1/js/highcharts.js")"></script>*@
+
+    <!-- Checkbox code  -->
+    @*   <script src="~/Scripts/icheck.js"></script>*@
+
+    <!-- Kendo UI Grid Script  -->
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#side-menu [data-getpage]').click(function () {
+                $(this).siblings().removeClass("active");
+              //  $("#liScheduler").removeClass("activeOnload");
+             //   alert(this.id);
+                $("#" + this.id).addClass("active");
+                var url = $(this).data('getpage');
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: "",
+                    contentType: "HTML",
+                    success: function (result) {
+
+                        $('#divPageBody').html('');
+                        $('#divPageBody').html(result);
+                    }
+                });
+            });
+            $('.collapse-link').click(function () {
+                var ibox = $(this).closest('div.ibox');
+                var button = $(this).find('i');
+                var content = ibox.find('div.ibox-content');
+                content.slideToggle(200);
+                button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+                ibox.toggleClass('').toggleClass('border-bottom');
+                setTimeout(function () {
+                    ibox.resize();
+                    ibox.find('[id^=map-]').resize();
+                }, 50);
+            });
+
+            // close ibox function
+            $('.close-link').click(function () {
+                var content = $(this).closest('div.ibox');
+                content.remove();
+            });
+
+            // small todo handler
+            $('.check-link').click(function () {
+                var button = $(this).find('i');
+                var label = $(this).next('span');
+                button.toggleClass('fa-check-square').toggleClass('fa-square-o');
+                label.toggleClass('todo-completed');
+                return false;
+            });
+
+            $('.navbar-minimalize').click(function () {
+                $("body").toggleClass("mini-navbar");
+            });
+        });
+
+
+        function UserProfile(userid) {
+            if (userid != null && userid != 0) {
+                $.get('@Url.Action("UserProfile", "User")', { userid: userid }, function (data) {
+                        if (data != null) {
+                            $('#divPageBody').html("");
+                            $('#divPageBody').html(data);
+                        }
+                    });
+                }
+            }
+            function UserActivities() {
+                $.get('@Url.Action("UserActivities", "User")', function (data) {
+                    if (data != null) {
+                        $('#divPageBody').html("");
+                        $('#divPageBody').html(data);
+                    }
+                });
+
+            }
+
+
+
+    </script>
+
+    <script type="text/javascript">
+
+       
+        mixpanel.people.set({ "Role": "@currentUserRole"});
+        mixpanel.people.set({ "OrgId": "@currentUser.OrgId" });
+      
+        mixpanel.people.set({ "first_name": "@currentUser.FirstName" });
+        mixpanel.people.set({ "last_name": "@currentUser.LastName" });
+        mixpanel.people.set({ "email": "@currentUser.EmailAddress" });
+        mixpanel.identify("@currentUser.Row_Id");
+
+        // track click for link id #liProduct
+        mixpanel.track_links("#liProduct a", "Product : List View");
+        // track click for link id #liCompany 
+        mixpanel.track_links("#liCompany a", "Company : List View");
+        // track click for link id #liUser
+        mixpanel.track_links("#liUser a", "User : List View");
+        // track click for link id #liJobTracking
+        mixpanel.track_links("#liJobTracking a", "Job Tracking : List View");
+        
+</script>
+
+
+
+</body>
+</html>

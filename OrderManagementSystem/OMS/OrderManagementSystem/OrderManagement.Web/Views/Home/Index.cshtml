@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+@{
+    var currentUser = OrderManagement.Web.Helper.Utilitties.UserManager.Current();
+}
+
+<span id="schedularload"></span>
+<script>
+    $(document).ready(function () {
+      if ('@currentUser.UserType' == '1') {
+
+          $("#liScheduler").addClass("active");
+          schedularload();
+      }
+      else if ('@currentUser.UserType' == '2') {
+
+          ClientPageLoad();
+      }
+      else if ('@currentUser.UserType' == '3') {
+
+          ClientPageLoad();
+      }
+      else if ('@currentUser.UserType' == '4') {
+          $("#liScheduler").addClass("active");
+          schedularload();
+      }
+
+
+    });
+  
+
+
+    function schedularload() {
+        $.get('@Url.Action("Index","Scheduler")', function (data) {
+             if (data != null) {
+                 $("#schedularload").text("");
+                 $("#schedularload").html(data);
+
+             }
+         });
+
+     }
+
+
+    function ClientPageLoad() {
+       
+        $.get('@Url.Action("Index","JobTracking")', function (data) {
+            if (data != null) {
+                $("#schedularload").text("");
+                $("#schedularload").html(data);
+
+            }
+        });
+
+
+    }
+</script>
+
+
+

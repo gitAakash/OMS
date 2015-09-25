@@ -1,0 +1,181 @@
+﻿@model OrderManagement.Web.Models.CompanyModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+
+@if (Model != null && Model.Row_Id != 0)
+{
+    
+
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Company Details</h5>
+            </div>
+            <div class="ibox-content">
+
+                @using (Html.BeginForm("AddOrUpdate", "Company", FormMethod.Post, new { @class = "form-horizontal", id = "UpdateCompanyForm" }))
+                {
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.CompanyCode)</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">@Html.TextBoxFor(m => m.CompanyCode, new { maxlength = 100, @class = "form-control Alphanumeric" })</p>
+                        </div>
+                    </div>
+                               
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.XeroName)<span style="color: red">*</span></label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.XeroName, new { maxlength = 100, @class = "form-control Alphanumeric" })
+                            <span style="color: red" id="XeroNameValidation"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.CreateEvent)</label>
+                        <div class="col-sm-10">
+                            @Html.CheckBoxFor(model => model.CreateEvent, new { @class = "js-switch" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.CreateInvoice)</label>
+
+                        <div class="col-sm-10">
+                            @Html.CheckBoxFor(model => model.CreateInvoice, new { @class = "js-switch" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Active)</label>
+
+                        <div class="col-sm-10">
+                            @Html.CheckBoxFor(model => model.Active, new {@class = "js-switch"})
+                        </div>
+                    </div>
+                    
+                       <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.WebOrders)</label>
+
+                        <div class="col-sm-10">
+                            @Html.CheckBoxFor(model => model.WebOrders, new { @class = "js-switch" })
+                        </div>
+                    </div>
+                              
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+
+                            <button type="button" class="btn btn-primary" onclick="javascript:UpdateCompanyDetails();" id="btnUpdate">Update</button>
+                            @*<button type="button" class="btn btn-default" onclick="javascript:CancelCompanyDetails();" style="width:82px"  id="btnCancel">Cancel</button>*@
+                        </div>
+                    </div>
+                    
+                    @Html.HiddenFor(model => model.CompanyCode)
+                    @Html.HiddenFor(model => model.Created)
+                    @Html.HiddenFor(model => model.ScrappedName)
+                    @Html.HiddenFor(model => model.Org_Id)
+                    @Html.HiddenFor(model => model.Row_Id)
+                    @Html.HiddenFor(model => model.Row_Id, new { id = "hdncompanyid" })
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Order History</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        @if (Model != null && Model.ProperyOrderModel != null)
+                        {
+                            @Html.Partial("Controls/Company/_OrderHistoryList", Model.ProperyOrderModel) 
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <span id="spangridCompanyProduct"></span>
+     <span id="loadCompanyContacts"></span>
+   
+}
+
+
+
+<script language="javascript" type="text/javascript">
+
+    function UpdateCompanyDetails() {
+        var validate = $("#UpdateCompanyForm").valid();
+        if (validate) {
+
+            $.post('@Url.Action("AddOrUpdate", "Company")', $("#UpdateCompanyForm").serialize(), function (data) {
+                if (data != null) {
+                    alert("Updated");
+
+                    companylist();
+                    // alert($("#hdncompanyid").val());
+                    loadCompanyDetails($("#hdncompanyid").val());
+                }
+            });
+        }
+
+    }
+
+    function companylist() {
+
+        $.get('@Url.Action("Index", "Company")', function (data) {
+              if (data != null) {
+                  $("#loadCompanyGrid").text("");
+                  $("#loadCompanyGrid").html(data);
+              }
+          });
+      }
+
+      function loadCompanyDetails(compid) {
+          $.get('@Url.Action("CompanyDetails", "Company")', { id: compid }, function (data) {
+            if (data != null) {
+                //  alert("hi");
+                $("#loadCmpDetailsOrderHistory").text("");
+                $("#loadCmpDetailsOrderHistory").html(data);
+                // $("#applicationMenu").show();
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.Alphanumeric').alphanumeric();
+      
+        //This code for multiple switcher
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, { color: '#1AB394' });
+        });
+    });
+
+    function loadcopmanyproductgrid() {
+     
+        var cid = $("#hdncompanyid").val();
+
+        ///  alert(cid);
+        $.get('@Url.Action("CompanyproductsbyOder", "Company")', { id: cid, orderid: "" }, function (data) {
+          if (data != null) {
+              //   alert("hi");
+              $("#spangridCompanyProduct").text("");
+              $("#spangridCompanyProduct").html(data);
+              // $("#applicationMenu").show();
+          }
+      });
+  }
+
+</script>

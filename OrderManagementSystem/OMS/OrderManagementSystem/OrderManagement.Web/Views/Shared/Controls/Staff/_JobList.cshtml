@@ -1,0 +1,301 @@
+﻿
+@model IList<OrderManagement.Web.Models.OrderTrackingModel>
+
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+  
+<div class="col-lg-12 animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Job Tracking </h5>
+                    </div>
+                    <div class="ibox-content">
+
+                      @if (Model != null)
+                      {  
+                          
+                          @*<table id="JobEventTracking">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Title</th>
+                <th>Moved On</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+               
+                <tr >
+                   
+                    <td style="cursor: pointer;">
+                        @if (item.OrderId != null)
+                        {
+                            @item.OrderId
+                        }
+                    </td>
+                    <td style="cursor: pointer;">
+                         <span id='@(item.Row_Id)'></span>
+                        @if (item.Title != null)
+                        {
+                            @item.Title
+                            
+                        }
+                    </td>
+                    <td>
+                        @item.MovedOn
+
+                    </td>
+                    <td >@item.StartDate</td>
+
+                   <td>@item.EndDate</td>
+                  
+                </tr>
+ 
+            }
+        </tbody>
+    </table>*@
+    
+    <table id="JobEventTracking">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Title</th>
+                <th>Moved On</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+               
+                <tr >
+                   
+                    <td style="cursor: pointer;">
+                        @if (item.OrderId != null)
+                        {
+                            @item.OrderId
+                        }
+                    </td>
+                    <td style="cursor: pointer;">
+                         <span id='@(item.Row_Id)'></span>
+                        @if (item.Title != null)
+                        {
+                            @item.Title
+                            
+                        }
+                    </td>
+                    <td>
+                        @item.MovedOn
+
+                    </td>
+                    <td >@item.StartDate</td>
+
+                   <td>@item.EndDate</td>
+                  
+                </tr>
+ 
+            }
+        </tbody>
+    </table>
+                      }
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+<script language="javascript" type="text/javascript">
+
+
+    //$(document).ready(function () {
+
+
+    //    $("#JobEventTracking").kendoGrid({
+    //        scrollable: true,
+    //        sortable: true,
+    //       // filterable: true,
+    //        selectable: "single",
+    //        columns: [
+    //                   {
+    //                       field: "OrderId",
+    //                       title: "Order Id",
+    //                       width: 08
+    //                   },
+    //                   {
+    //                       field: "Title",
+    //                       title: "Title",
+    //                       width: 50
+    //                   },
+    //                    {
+    //                        field: "MovedOn",
+    //                        title: "Moved On",
+    //                        width: 15
+    //                    },
+    //                     {
+    //                         field: "StartDate",
+    //                         title: "Start Date",
+    //                         width: 15
+    //                     },
+    //                     {
+    //                         field: "EndDate",
+    //                         title: "End Date",
+    //                         width: 15
+    //                     }
+
+    //        ],
+    //        //  selectable: "multiple, row",
+    //        //searchable : true,
+    //        //change: function (e) {
+    //        // //  $('#Contactgrid tr').click(function() {
+    //        //        var $tr = $(this);
+    //        //        var d = $tr.attr('data-uid');
+    //        //        alert(d);
+    //        // // });
+
+    //        //},
+    //        change: function (arg) {
+    //            var selected = $.map(this.select(), function (item) {
+    //                var d = $(item).attr('data-uid');
+    //                var spnuserid = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                  
+    //                //  alert(spnuserid);
+    //                //  addeditUser(spnuserid);
+
+
+    //            });
+    //            // alert(selected);
+    //        },
+    //        pageable: {
+    //            pageSize: 05
+    //        }
+
+
+    //        // $(".k-list-container .k-item").addClass("k-font-small");
+    //    });
+
+
+    //});
+
+    @*function addUser() {
+        $.get('@Url.Action("NewUser", "User")', function (data) {
+            if (data != null) {
+                $("#spaUserProfile").text("");
+                $("#spaCreateUserForm").text("");
+                $("#userRowId").val("");
+                $("#spaCreateUserForm").html(data);
+            }
+        });
+    }
+
+
+    function editUser() {
+        var userid = $("#userRowId").val();
+        // alert(userid);
+        if (userid != null && userid != 0) {
+            $.get('@Url.Action("NewUser", "User")', { userid: userid }, function (data) {
+                if (data != null) {
+                    $("#spaUserProfile").text("");
+                    $("#spaCreateUserForm").text("");
+                    // $("#userRowId").val("");
+                    $("#spaCreateUserForm").html(data);
+                }
+            });
+        } else {
+            alert("Please select row to Edit");
+        }
+    }*@
+
+    //function BindGrid() {
+    //    $("#Usergrid").data("kendoGrid").dataSource.read();
+    //    $("#Usergrid").data("kendoGrid").refresh();
+    //}
+
+
+    //function loadUserlist() {
+
+    //    alert("1");
+    //    $filter = new Array();
+
+    //    $firstName ="Admin";
+    //   // $lastName = $("#txtLastName").val();
+    //    alert("2");
+    //    if ($firstName) {
+    //        $filter.push({ field: "Role", operator: "contains", value: $firstName });
+    //    }
+
+    //    //if ($lastName) {
+    //    //    $filter.push({ field: "LastName", operator: "contains", value: $lastName });
+    //    //}
+    //    alert("3");
+    //    var grid = $("#Usergrid").data("kendoGrid");
+    //    grid.dataSource.filter($filter);
+
+    //};
+
+
+    //function BindGrid() {
+    //    $("#Usergrid").data("kendoGrid").dataSource.read();
+    //    $("#Usergrid").data("kendoGrid").refresh();
+    //}
+
+
+@*    function loadUserlist(filterby) {
+
+        // alert("1");
+        $filter = new Array();
+
+        $filterName = filterby;
+        // $lastName = $("#txtLastName").val();
+        //  alert("2");
+        if ($filterName) {
+            $filter.push({ field: "Role", operator: "contains", value: $filterName });
+        }
+
+        //if ($lastName) {
+        //    $filter.push({ field: "LastName", operator: "contains", value: $lastName });
+        //}
+        //  alert("3");
+        var grid = $("#Usergrid").data("kendoGrid");
+        grid.dataSource.filter($filter);
+
+    };
+
+
+    function loadAllUserlist() {
+        var datasource = $("#Usergrid").data("kendoGrid").dataSource;
+        //Clear filters:
+        datasource.filter([]);
+    }
+
+    function Userprofile() {
+        var userid = $("#userRowId").val();
+
+        if (userid != null && userid != 0) {
+            $.get('@Url.Action("UserProfile", "User")', { userid: userid }, function (data) {
+                if (data != null) {
+                    $("#spaCreateUserForm").text("");
+                    $("#spaUserProfile").text("");
+                    // $("#userRowId").val("");
+                    $("#spaUserProfile").html(data);
+                }
+            });
+        } else {
+            alert("Please select user");
+        }
+    }*@
+
+</script>

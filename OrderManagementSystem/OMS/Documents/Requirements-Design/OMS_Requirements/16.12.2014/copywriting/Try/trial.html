@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+	  <link href="css/custom.css" rel="stylesheet">
+	  <link href="css/jquery.fancybox.css" rel="stylesheet">
+    <link href="css/summernote.css" rel="stylesheet">
+    <link href="css/summernote-bs3.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<!--  <link href="css/jquery.fancybox.css" rel="stylesheet">
+ -->
+ 
+ <style>
+		.info{
+			float:left;
+			width:100%;
+		}
+		.status{
+			width:16.2%;
+			text-align:right;
+		}
+		.wrapper.wrapper-content.gray-bg .file-box {
+			float: left;
+			width: 195px;
+		}
+		.Contract{
+			font-size:20px;
+		}
+		.active-tab{
+			background-color:#f3f3f4;
+		}
+		ul.folder-list li:hover, ul.folder-list li:focus,ul.folder-list li:active{
+			background-color:#f3f3f4;
+		}
+		
+		.gallery-group .file-box{
+			position:relative;
+		}
+		
+		
+		.divSlide{
+			display:none;
+			background:#ffffff;
+			padding:10px;
+			border:1px solid #e7eaec;
+			margin-right:20px;
+			position:absolute;
+			top:23px;
+			right:-50px;
+			-webkit-box-shadow:1px 1px 3px;
+			-moz-box-shadow:1px 1px 3px;
+			box-shadow:1px 1px 3px;
+			z-index:1;
+			width:84%;
+		}
+		.close-btn{
+			
+			position: absolute;
+			right: -14px;
+			top: -10px;
+			
+		}
+		.fancy-icons{
+			background-image:url('img/fancybox_sprite.png');
+			background-size: 100% auto;
+			height: 27px;
+			width: 33px;
+		
+		}
+		.slider-icon{
+			<!-- background-position:0 87px -->;
+			  background-image: url("img/fancybox_sprite1.png");
+				background-repeat: no-repeat;
+				position: absolute;
+				right: 18px;
+				top: -9px;
+				width: 24px;
+		}
+		.gallery-group .file-box{
+			-webkit-transition: -webkit-transform 1s; /* For Safari 3.1 to 6.0 */
+			transition: transform 1s;
+			
+		}	
+		.gallery-group .file-box:hover{
+			-ms-transform:scale(1.1,1.1);
+			-webkit-transform:scale(1.1,1.1);
+			transform:scale(1.1,1.1);
+			z-index:1;
+		}	
+		.gallery-group .file-box:hover .divSlide {
+			z-index:1;
+		}
+		
+		.gallery-group .file-box:hover .divSlide div{
+			font-size:10px;
+		}
+		.gallery-group .file-box:hover .divSlide div input{
+			font-size:10px;
+			
+		}
+		.gallery-group .file-box:hover .divSlide div input{
+			-ms-transform:scale(0.8,0.8);
+			-webkit-transform:scale(0.8,0.8);
+			transform:scale(0.8,0.8);
+			position:relative;
+			top:3px;
+		}
+		.gallery-group .fancybox img {
+			margin-bottom: 5px;
+			width: 100%;
+		}
+		<!-- .slider-icon .fa-stack-2x{
+			font-size:1.5em;
+		}
+		.slider-icon .fa-stack {
+			color:#DADADA;
+			height: 1.5em;
+			line-height: 1.5em;
+			width: 1.5em;
+		}
+		.slider-icon:hover .fa-stack {
+			color:#bebebe;
+			
+		}
+		.slider-icon .fa-chevron-down{
+			font-size:0.7em;
+			color:#ffffff;
+		} -->
+	</style>
+	<script>
+	
+	</script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+     
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        
+        </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Project List</h2>
+					<ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">
+                             <strong>Project List</strong>
+                        </li>
+                       
+                    </ol>
+                    <!--<ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a>Extra Pages</a>
+                        </li>
+                        <li class="active">
+                            <strong>Profile</strong>
+                        </li>
+                    </ol>-->
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+         <div class="ibox-content">
+
+                        <a class="fancybox" href="img/p1.jpg" title="Picture 1">
+                            <img alt="image"  src="img/p1.jpg" />
+                        </a>
+						
+						
+                        <a class="fancybox" href="img/p2.jpg" title="Picture 2">
+                            <img alt="image"  src="img/p2.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p3.jpg" title="Picture 3">
+                            <img alt="image"  src="img/p3.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p1.jpg" title="Picture 4">
+                            <img alt="image"  src="img/p4.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p2.jpg" title="Picture 5">
+                            <img alt="image"  src="img/p5.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p3.jpg" title="Picture 6">
+                            <img alt="image"  src="img/p6.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p1.jpg" title="Picture 7">
+                            <img alt="image"  src="img/p7.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p2.jpg" title="Picture 8">
+                            <img alt="image"  src="img/p8.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p1.jpg" title="Picture 9">
+                            <img alt="image"  src="img/p1.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p2.jpg" title="Picture 10">
+                            <img alt="image"  src="img/p2.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p3.jpg" title="Picture 11">
+                            <img alt="image"  src="img/p3.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p1.jpg" title="Picture 12">
+                            <img alt="image"  src="img/p4.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p2.jpg" title="Picture 13">
+                            <img alt="image"  src="img/p5.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p3.jpg" title="Picture 14">
+                            <img alt="image"  src="img/p6.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p1.jpg" title="Picture 15">
+                            <img alt="image"  src="img/p7.jpg" />
+                        </a>
+                        <a class="fancybox" href="img/p2.jpg" title="Picture 16">
+                            <img alt="image" src="img/p8.jpg" />
+                        </a>
+
+
+                    </div>
+        </div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.metisMenu.js"></script>
+	<script src="js/jquery_custom.js"></script>
+    <!-- Custom and plugin javascript -->
+    
+    <script src="js/pace.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/jquery.peity.min.js"></script>
+
+    <!-- Peity -->
+    <script src="js/peity-demo.js"></script>
+	  <!-- iCheck -->
+    <script src="js/icheck.min.js"></script>
+
+    <!-- SUMMERNOTE -->
+	
+   
+	<script src="js/jquery.fancybox.js"></script>
+    <script>
+       
+         
+    </script>
+ 
+
+</body>
+
+</html>

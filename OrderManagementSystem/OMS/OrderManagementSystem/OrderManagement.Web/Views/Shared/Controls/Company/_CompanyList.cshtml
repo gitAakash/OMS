@@ -1,0 +1,192 @@
+﻿@model IEnumerable<OrderManagement.Web.Models.CompanyModel>
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+<div class="col-lg-12 animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Company </h5>
+                    </div>
+                    <div class="ibox-content">
+
+                      @if (Model != null)
+{  
+   
+    <table id="Contactgrid">
+        <thead>
+            <tr>
+                <th>Company Code</th>
+                <th>Company Name</th>
+                <th>Create Event</th>
+                <th>Create Invoice</th>
+                 <th>Active</th>
+                <th>Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+               
+                <tr >
+                   
+                    <td style="cursor: pointer;">
+                        @if (item.CompanyCode != null)
+                        {
+                             
+                            @*<span style="cursor: pointer;" onclick="javascript:loadCompanyDetails('@item.Row_Id');loadCompanyContacts('@item.Row_Id');">@item.CompanyCode</span>*@
+                            @item.CompanyCode
+                        }
+                    </td>
+                    <td style="cursor: pointer;">
+                         <span id='@(item.Row_Id)'></span>
+                        @if (item.XeroName != null)
+                        {
+                           
+                            @*<span id='@(item.Row_Id)' style="cursor: pointer;" onclick="javascript:loadCompanyDetails('@item.Row_Id');loadCompanyContacts('@item.Row_Id');">@item.XeroName</span>*@
+                            @item.XeroName
+                            
+                        }
+
+
+                    </td>
+                    <td style="cursor: pointer;">
+                        @item.CreateEvent
+
+                    </td>
+                    <td style="cursor: pointer;">@item.CreateInvoice</td>
+                      <td >@item.Active</td>
+
+                    <td style="cursor: pointer;">
+                         @if (item.Created != null)
+                         {
+                              @item.Created.Value.ToString("MM/dd/yyyy")
+                         }
+                       
+                    </td>  
+                  
+                </tr>
+ 
+            }
+        </tbody>
+    </table>
+}
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+<script language="javascript" type="text/javascript">
+
+    
+    $(document).ready(function() {
+      
+        $("#Contactgrid").kendoGrid({
+            scrollable: true,
+            sortable: true,
+          //  filterable: true,
+            selectable: "single",
+            columns: [
+                       {
+                           field: "CompanyCode",
+                           title: "Company Code",
+                           width: 25
+                       },
+                       {
+                           field: "XeroName",
+                           title: "Company Name",
+                           width: 50
+                       },
+                        {
+                            field: "CreateEvent",
+                            title: "Create Event",
+                            width: 20
+                        },
+                         {
+                             field: "CreateInvoice",
+                             title: "Create Invoice",
+                             width: 20
+                         },
+                         {
+                             field: "Active",
+                             title: "Active",
+                             width: 15
+                         },
+                         {
+                             field: "Created",
+                             title: "Created Date",
+                             width: 20
+                         }
+
+            ],
+          //  selectable: "multiple, row",
+            //searchable : true,
+            //change: function (e) {
+            // //  $('#Contactgrid tr').click(function() {
+            //        var $tr = $(this);
+            //        var d = $tr.attr('data-uid');
+            //        alert(d);
+            // // });
+
+            //},
+             change: function (arg) {
+                 var selected = $.map(this.select(), function (item)
+                 {
+                     var d = $(item).attr('data-uid');
+                     var spnCompId = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                     // alert(spnCompId +"   sdk");
+                     loadCompanyDetails(spnCompId);
+                    // loadCompanyContacts(spnCompId);
+
+                 });
+                // alert(selected);
+             },
+             filterable: {
+                 extra: false,
+                 operators: {
+                     string: {
+                         Contains: "Contains",
+                         // startswith: "Starts with",
+                         // eq: "Is equal to",
+                         // neq: "Is not equal to"
+                     }
+                 }
+             },
+            pageable: {
+                pageSize: 10
+            }
+
+          
+       // $(".k-list-container .k-item").addClass("k-font-small");
+        });
+       
+    });
+
+
+    function loadCompanyDetails(compid) {
+       // setValueToLocalStorage("CompanyId","");
+      //  setValueToLocalStorage("CompanyId", compid);
+
+      //alert(compid);
+        $.get('@Url.Action("CompanyDetails", "Company")', { id: compid }, function(data) {
+            if (data != null) {
+                //  alert("hi");
+                $("#loadCmpDetailsOrderHistory").html("");
+                $("#loadCmpDetailsOrderHistory").html(data);
+                // $("#applicationMenu").show();
+            }
+        });
+    }
+
+
+
+</script>

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div>
+    <span id="spnClientProfile"></span>
+</div>
+
+
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        loadProfile();
+
+    });
+    function loadProfile()
+    {
+        $.get('@Url.Action("UserProfile", "Client")', function(data) {
+            if (data != null) {
+                $("#spnClientProfile").text("");
+                $("#spnClientProfile").html(data);
+
+            }
+        });
+
+    }
+       
+</script>
+

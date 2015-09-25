@@ -1,0 +1,159 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.ProductModel
+
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.simplecolorpicker.js")" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/Content/jquery.simplecolorpicker.css")"/>
+
+
+<div id="Productupdate" align="center"></div>
+
+@using (Html.BeginForm("AddOrUpdate1", "Product", FormMethod.Post, new { @class = "form-horizontal", id = "UpdateProductForm" }))
+{
+  
+    <div class="form-group">
+        <label class="col-sm-4 control-label">@Html.DisplayNameFor(m => m.XeroCode)</label>
+
+        <div class="col-sm-8">
+            <p class="form-control-static">@Html.DisplayTextFor(m => m.XeroCode)</p>
+        </div>
+    </div>
+                               
+    <div class="form-group">
+        <label class="col-sm-4 control-label">@Html.DisplayNameFor(m => m.ProductDescription)<span style="color: red">*</span></label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(m => m.ProductDescription, new {@class = "form-control Alphanumeric" })
+            <span style="color: red" id="ProductDescriptionValidation"></span>
+        </div>
+    </div>
+                    
+    <div class="form-group">
+        <label class="col-sm-4 control-label">@Html.DisplayNameFor(m => m.XeroItemDescription)</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(m => m.XeroItemDescription, new { @class = "form-control Alphanumeric", @readonly = "readonly" })
+            <span style="color: red" id="XeroItemDescriptionValidation"></span>
+        </div>
+    </div>
+                    
+    <div class="form-group">
+        <label class="col-sm-4 control-label">@Html.DisplayNameFor(m => m.SalesUnitPrice)</label>
+        <div class="col-sm-8">
+            @Html.TextBoxFor(m => m.SalesUnitPrice, new { maxlength = 100, @class = "form-control", @readonly = "readonly" })
+
+        </div>
+    </div>
+                    
+@*<div class="form-group">
+        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Company)</label>
+        <div class="col-sm-10">
+
+
+            @Html.ListBox("lbxCompanies", new MultiSelectList(Model.Companylist, "Row_Id", "XeroName"), new { @style = "width: 300px;" })
+
+            <div align="center">
+                <button type="button" name="Add" id="btnadd" value="">>></button><br />
+                <button type="button" name="Remove" id="btnremove" value=""><<</button>
+            </div>
+            @Html.ListBox("lbxRequestedCompanies", new MultiSelectList(Model.RequestedCompanies, "Row_Id", "XeroName"), new { @style = "width: 300px;" })
+            @Html.HiddenFor(x => x.CompanyIds)
+        </div>
+
+    </div>*@
+                    
+    <div class="form-group">
+        <label class="col-sm-4 control-label">@Html.DisplayNameFor(m => m.Group)<span style="color: red">*</span></label>
+        <div class="col-sm-8">
+            @*  @Html.DropDownListFor(x => x.Group, new SelectList(Model.Grouplist, "Row_Id", "Name"), "Select Group")*@
+
+            @*    @Html.DropDownListFor(m => m.Group,new SelectList(Enum.GetNames(typeof(EnumHelper.EProductGroup))), "select")*@
+
+            @Html.DropDownListFor(m => m.Group, new SelectList(Model.ProductGroupslist, "Row_Id", "Name"), "Select", new { @class = "form-control", @style = "width: 300px;" })
+
+            <span style="color: red" id="GroupValidation"></span>
+        </div>
+    </div>
+     
+    //............................................... Product Shedule Begin..................
+
+    //............................................... Product Shedule End..................
+                    
+    <div class="hr-line-dashed"></div>
+    <div class="form-group">
+        <div class="col-sm-6 col-sm-offset-4">
+
+            <button type="button" class="btn btn-primary" onclick="javascript:UpdateProductDetails();" id="btnUpdate">Update</button>
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.Row_Id, new { id = "ProductId" })
+    @Html.HiddenFor(model => model.XeroCode)
+  
+    
+}
+
+<script language="javascript" type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        // $('select[name="colorpicker-picker-selectColor-unknown"]').simplecolorpicker({ picker: true, theme: 'glyphicons' });
+        $('.Alphanumeric').alphanumeric();
+
+    });
+    function UpdateProductDetails() {
+        var validate = $("#UpdateProductForm").valid();
+        if (validate) {
+            $('#Productupdate').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+            $.post('@Url.Action("AddOrUpdate", "Product")', $("#UpdateProductForm").serialize(), function (data) {
+                if (data != null) {
+                    $('#Productupdate').html("");
+                        alert("Data has been saved successfully");
+                        $('#divPageBody').html("");
+                        $('#divPageBody').html(data);
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
+
+
+                      // $("#loadCompaniesforProduct").text("");
+                      
+                     //  $("#loadCompaniesforProduct").html(data);
+
+                    }
+                });
+            }
+        // }
+
+
+        }
+
+        //function GetListboxvalues() {
+        //    var sum = "";
+        //    $('#lbxRequestedCompanies option').each(function (index) {
+        //        //  var selectedOpts = $('#lbxRequestedCompanies option:selected');
+        //        if ($('#lbxRequestedCompanies option:selected')) {
+        //            // do stuff if selected
+        //            sum += this.value + ",";
+        //            // alert(sum);
+        //        }
+        //        else {
+        //            // this one isn't selected, do other stuff
+        //        }
+        //    });
+
+        //    $("#CompanyIds").val(sum);
+        //}
+
+
+
+
+
+
+
+
+
+
+      
+
+
+</script>

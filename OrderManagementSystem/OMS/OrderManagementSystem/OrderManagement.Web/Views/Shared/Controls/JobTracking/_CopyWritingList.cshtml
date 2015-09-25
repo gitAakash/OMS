@@ -1,0 +1,226 @@
+﻿@model IList<OrderManagement.Web.SelectJobCopy>
+
+
+
+
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css"/>
+@*<link href="@Url.Content("~/Content/font-awesome.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/animate.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/Track/summernote.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/Track/summernote-bs3.css")" rel="stylesheet" type="text/css"/>*@
+<link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
+
+
+
+
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.10.2.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/bootstrap.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/jquery.metisMenu.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/inspinia.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/pace.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/Track/summernote.min.js")"></script>*@
+
+<div class="wrapper wrapper-content gray-bg">
+
+
+    <div class="row">
+
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="ibox  m-b-sm float-e-margins">
+                <div class="ibox-content">
+                    <div class="text-center ">
+                      @*  <span class="Contract">If you don't find the answer to your question</span><br>*@
+                        add copy by selecting 
+                        <button id="btnAddCopywriting" onclick="EditCopyWriting()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i>Add copy</button>
+                        button
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @if (Model != null)
+    {
+       // foreach (var item in Model)
+       // {
+        @*<div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="feed-activity-list">
+                            <div class="feed-element">
+                                <div style="cursor: pointer;" onclick="ViewCopyWriting('@item.Job_Id','@item.Row_Id')">
+                                    <div class="col-lg-5 text-navy">
+                                        <b>@item.Title</b><br>
+                                    </div>
+                                    <div style="font-size: 12px;" class="col-lg-4">
+                                        <label class="label bg-gray">@item.Job_Copy_Type</label>
+                                    </div>
+                                   
+                                </div>
+                                <div style="float: right;" class="col-lg-1 text-right">
+                                    <span style="cursor: pointer;" onclick="DeleteCopyWriting('@item.Job_Id','@item.Row_Id')" class="text-muted"><i class="fa fa-trash-o "></i></span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        
+        
+        
+        <div class="row">
+										<div class="col-lg-12 animated fadeInRight">
+											<div class="ibox float-e-margins">
+												<div class="ibox-content">
+												    <div class="feed-activity-list">
+												        @foreach (var item in Model)
+												        {
+												            <div class="feed-element">
+												                <div class="col-lg-5 text-navy">
+
+												                    <b><span>@item.Title</span></b><br>
+												                  @*  <small class="text-muted">Added by <b>Alex Smith</b> <i class="fa fa-clock-o"></i> Today 2.40 pm . 24.06.2014</small>*@
+
+												                </div>
+												                <div class="col-lg-4">
+												                   @* <small class="text-muted">Robert Nowark</small><br>
+												                    <label class="label bg-gray">GENERAL</label>
+												                    <label class="label bg-gray">LICENSE</label>*@
+												                    <label class="label bg-gray">@item.Job_Copy_Type</label>
+												                </div>
+												              @*  <div class="col-lg-1 text-right">
+												                    <small class="text-muted">Voting <br> 42</small>
+
+												                </div>*@
+
+												                <div class=" pull-right">
+												                    <a class="btn btn-xs btn-primary "onclick="DeleteCopyWriting('@item.Job_Id','@item.Row_Id')" type="submit"> Delete</a>
+												                    <a onclick="ViewCopyWriting('@item.Job_Id','@item.Row_Id')" class="btn btn-xs btn-primary" type="submit"> Edit</a>
+												                </div>
+												                <div class="clearfix"></div>
+
+												            </div>
+
+
+
+												            <div class="gray-bg content-answer" style="display: none; word-wrap: break-word;">
+												              @Html.Raw(@item.Body)
+                                                                <div style="clear: both;"></div>
+												            </div>
+
+												        }
+												      @*  <div class="feed-element">
+												            <div class="col-lg-5 text-navy">
+
+												                <b>What it long established fact that a reader</b><br>
+												                <small class="text-muted">Added by <b>Alex Smith</b> <i class="fa fa-clock-o"></i> Today 2.40 pm . 24.06.2014</small>
+
+												            </div>
+												            <div class="col-lg-4">
+												                <small class="text-muted">Robert Nowark</small><br>
+												                <label class="label bg-gray">GENERAL</label>
+												                <label class="label bg-gray">LICENSE</label>
+												                <label class="label bg-gray">INSTRUCTIONS</label>
+												            </div>
+												            <div class="col-lg-1 text-right">
+												                <small class="text-muted">Voting <br> 42</small>
+
+												            </div>
+												            <div class=" pull-right">
+												                <a class="btn btn-xs btn-primary " href="Event.html" type="submit"> Delete</a>
+												                <a class="btn btn-xs btn-primary" type="submit"> Edit</a>
+												            </div>
+												            <div class="clearfix"></div>
+												        </div>
+												        <div class="gray-bg content-answer" style="display: none;">
+												            It is along established fact that areader will be distracted by readeable content of page when looking at its layout.
+
+												        </div>*@
+
+
+
+												    </div>
+												</div>
+											</div>
+										</div>
+									</div>
+        
+        
+       // }
+
+    }
+    else
+    {
+        <div>No Record Found</div>
+    }
+
+
+    </div>
+
+
+<script>
+   
+      $(document).ready(function(){
+           
+
+          $('.feed-activity-list').find('.feed-element').click(function (e) {
+
+              //Expand or collapse this panel
+              $(this).next().slideToggle('fast');
+
+              //Hide the other panels
+              $(".table-job").not($(this).next()).slideUp('fast');
+
+          });
+
+          $('.feed-activity-list .feed-element .pull-right').click(function (event) {
+              event.stopPropagation();
+          });
+
+      });
+   
+
+    function ViewCopyWriting(jobid, jobCopyRowid) {
+       // alert(jobid);
+      //  alert(jobCopyRowid);
+        $.get('@Url.Action("ViewCopyWriting", "JobTracking")', { jobid: jobid, jobCopyRowid: jobCopyRowid }, function (data) {
+            if (data != null) {
+                $('#divContent').html("");
+                $('#divContent').html(data);
+
+            }
+        });
+    }
+
+
+
+    function EditCopyWriting() {
+        $.get('@Url.Action("EditCopyWriting", "JobTracking")', function (data) {
+            if (data != null) {
+                $('#divContent').html("");
+                $('#divContent').html(data);
+
+            }
+        });
+    }
+
+    function DeleteCopyWriting(jobid, jobCopyRowid) {
+      //  alert(jobid);
+      //  alert(jobCopyRowid);
+        if (confirm("Are you sure want to delete?")) {
+            $.get('@Url.Action("DeleteJobCopy", "JobTracking")', { jobid: jobid, jobCopyRowid: jobCopyRowid }, function (data) {
+                 if (data != null) {
+                     $('#divContent').html("");
+                     $('#divContent').html(data);
+
+                 }
+             });
+         }
+     }
+
+</script>

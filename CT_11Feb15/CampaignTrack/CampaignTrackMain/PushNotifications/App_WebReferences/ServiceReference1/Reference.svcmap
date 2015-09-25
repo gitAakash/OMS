@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="81ed58c1-ca0f-460a-8c6b-7be55e6ee983" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:55134/GoogleNotificationService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="GoogleNotificationService.wsdl" MetadataType="Wsdl" ID="a7aa05ea-e1d6-42e0-bd66-9b0655086e6a" SourceId="1" SourceUrl="http://localhost:55134/GoogleNotificationService.svc?wsdl" />
+    <MetadataFile FileName="GoogleNotificationService.disco" MetadataType="Disco" ID="765ee613-4e72-4290-b266-cca66ccc1a49" SourceId="1" SourceUrl="http://localhost:55134/GoogleNotificationService.svc?disco" />
+    <MetadataFile FileName="GoogleNotificationService1.xsd" MetadataType="Schema" ID="52d7a7c0-b191-4fd5-9e92-71677863f545" SourceId="1" SourceUrl="http://localhost:55134/GoogleNotificationService.svc?xsd=xsd1" />
+    <MetadataFile FileName="GoogleNotificationService.xsd" MetadataType="Schema" ID="4a97e336-46e0-45f8-9a0f-a6a968553029" SourceId="1" SourceUrl="http://localhost:55134/GoogleNotificationService.svc?xsd=xsd0" />
+    <MetadataFile FileName="GoogleNotificationService3.xsd" MetadataType="Schema" ID="5fdf1a16-055a-4190-98d9-2aa20ef560a5" SourceId="1" SourceUrl="http://localhost:55134/GoogleNotificationService.svc?xsd=xsd3" />
+    <MetadataFile FileName="GoogleNotificationService2.xsd" MetadataType="Schema" ID="10c4b32d-ad2d-4dee-8803-8146430a9ee3" SourceId="1" SourceUrl="http://localhost:55134/GoogleNotificationService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

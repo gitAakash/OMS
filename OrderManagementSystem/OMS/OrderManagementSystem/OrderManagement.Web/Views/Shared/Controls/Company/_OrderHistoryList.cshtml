@@ -1,0 +1,158 @@
+﻿@using System.Web.UI.WebControls
+@model List<OrderManagement.Web.Models.PropertyOrderModel>
+
+@if (Model != null)
+{  
+   
+    <table id="gridOrder">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Property Name</th>
+                <th>Required Date</th>
+                <th>Status</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.OrderRowId</td>
+                    <td>
+                        @if (item.PropertyName != null)
+                        {
+                            @item.PropertyName
+                        }
+
+
+                    </td>
+
+                    <td>
+                        @if (@item.RequiredDate != null)
+                        {
+                            @item.RequiredDate
+                        }
+                                   
+                    </td>
+                    <td>
+                        <span id='@(item.OrderRowId)'></span>
+                        @item.Status
+                    </td>
+                    <td>
+                        @item.Value
+                    </td>
+                     
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    @Html.Hidden("hdnOrderId")
+}
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        // alert("hi");
+        // $("#grid").kendoGrid();
+        $("#gridOrder").kendoGrid({
+            //height: 200,
+            //width: 200,
+           // scrollable: true,
+            sortable: true,
+           // filterable: true,
+            selectable: "single",
+
+            change: function (arg) {
+                var selected = $.map(this.select(), function (item) {
+                    var d = $(item).attr('data-uid');
+                    var spnorderid = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                   // alert(spnorderid);
+                    
+                    $('#gridCompanyProduct').empty();
+                    $("#divproductcontol").hide();
+                    CompanyproductsbyOder(spnorderid);
+                    loadCompanyContacts(spnorderid);
+                    $("#hdnOrderId").val("");
+                    $("#hdnOrderId").val(spnorderid);
+                });
+                // alert(selected);
+            },
+
+
+
+            columns: [
+                 {
+                     field: "OrderRowId",
+                     title: "Order Id",
+                     width: 15
+                 },
+                           {
+                               field: "PropertyName",
+                               title: "Propert yName",
+                               width: 83
+                           },
+                            {
+                                field: "RequiredDate",
+                                title: "Required Date",
+                                width: 20
+                            },
+                            {
+                                field: "Status",
+                                title: "Status",
+                                width: 23
+                            },
+                            {
+                                field: "Value",
+                                title: "Value",
+                                width: 20
+                            }
+
+                          
+            ],
+
+
+
+            //searchable : true,
+            pageable: {
+                pageSize: 05
+            }
+                      
+        });
+
+
+
+
+    });
+
+
+    function CompanyproductsbyOder(orderid) {
+      //  alert("5466");
+        $.get('@Url.Action("CompanyproductsbyOder", "Company")', { id: "", orderid: orderid }, function (data) {
+            if (data != null) {
+              //  alert("hi45");
+                $("#spangridCompanyProduct").text("");
+                $("#spangridCompanyProduct").html(data);
+               // $("#loadOrderProductHistory").text("");
+                //$("#loadOrderProductHistory").html(data);
+                // $("#applicationMenu").show();
+            }
+        });
+    }
+
+
+
+    function loadCompanyContacts(id) {
+        // alert("hi" + id);
+        $.get('@Url.Action("CompanyContacts", "Company")', { id: id }, function (data) {
+            if (data != null) {
+                //   alert("hi");
+                $("#loadCompanyContacts").html("");
+                $("#loadCompanyContacts").html(data);
+            }
+        });
+
+    }
+</script>

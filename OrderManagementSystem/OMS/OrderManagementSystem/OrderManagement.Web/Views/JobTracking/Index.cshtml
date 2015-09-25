@@ -1,0 +1,53 @@
+﻿
+
+
+@(Html.Kendo().Grid<OrderManagement.Web.TrackingJobs>()
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(e => e.Status).Width(110);
+            columns.Bound(e => e.EventTitle).Width(110);
+            columns.Bound(e => e.Completion_Percent);
+
+        })               
+        .Sortable()
+        .Pageable()
+        .Scrollable()
+        //.ClientDetailTemplateId("template")
+      //  .HtmlAttributes(new { style = "height:430px;" })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+           // .PageSize(6)
+           .Read(read => read.Action("HierarchyBinding_Employees", "JobTracking"))            
+        )       
+        //.Events(events => events.DataBound("dataBound"))
+        
+)
+
+<script id="template" type="text/kendo-tmpl">
+@(Html.Kendo().Grid<OrderManagement.Web.TrackingJobs>()
+            .Name("gridc")
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.Product_Group).Width(70);
+                columns.Bound(o => o.Required_By_Date).Width(110);
+                columns.Bound(o => o.JobEventStatus);
+               // columns.Bound(o => o.ShipName).Width(200);
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(10)
+                .Read(read => read.Action("HierarchyBinding_Orders", "JobTracking", new { Row_Id = "#=Row_Id#" }))
+            )
+            .Pageable()
+            .Sortable()
+            .ToClientTemplate()
+    )
+</script>
+<script>
+    function dataBound() {
+        debugger;
+        this.expandRow(tbody.find("tr.k-master-row").first());
+        //this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>

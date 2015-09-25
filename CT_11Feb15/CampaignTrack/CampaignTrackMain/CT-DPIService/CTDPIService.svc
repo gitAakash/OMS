@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="CT_DPIService.CTDPIService" CodeBehind="CTDPIService.svc.cs" %>

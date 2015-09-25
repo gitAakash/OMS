@@ -1,0 +1,214 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model IList<OrderManagement.Web.Models.OrderViewModel>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Orders</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @if (Model != null)
+                    {  
+
+                        <table id="Ordergrid">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Property</th>
+                                    <th>Status</th>
+                                    <th>Required Date</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <span id='@(item.Row_Id)'></span>
+                                            @if (item.CompanyName != null)
+                                            {
+                                                @item.CompanyName
+                                            }
+                                        </td>
+                                        <td>
+                                            @item.PropertyName
+
+                                        </td>
+                                        <td>@item.Status</td>
+                                        <td>
+                                           @if (item != null && item.RequiredDate != null)
+                                           {
+                                            @item.RequiredDate.Value.Date.ToString("MM/dd/yyyy")
+                                           }
+                                        </td>
+
+
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id='scrol'></div>
+<div class="btn-grp">
+
+
+    @*  <button type="button" class="btn btn-warning" onclick="javascript:loadProductbygroup('Photography');" id="btnPhotography">Photography</button>
+    <button type="button" class="btn btn-success" onclick="javascript:loadProductbygroup('VideoServices');" id="btnVideoServices">Video Services</button>
+    <button type="button" class="btn btn-info" onclick="javascript:loadProductbygroup('Copywriting');" id="btnCopywriting">Copywriting</button>
+    <button type="button" class="btn btn-warning" onclick="javascript:loadProductbygroup('Floorplan');" id="btnFloorplan">Floor Plan</button>
+      <button type="button" class="btn btn-default" onclick="javascript:loadProductbygroup('');" id="btnAllProd">All</button>*@
+
+
+</div>
+@Html.Hidden("globlePtoductid")
+<span id="loadOrderItems"></span>
+<span id="loadProductgroup"></span>
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Ordergrid").kendoGrid({
+
+            scrollable: true,
+            sortable: true,
+            filterable: true,
+            selectable: "single",
+            pageable: {
+                numeric: true,
+                refresh: true,
+                pageSizes: [10, 25, 50],
+                previousNext: true,
+                input: false,
+                info: false
+            },
+            //columns: [
+            //        {
+            //            field: "CompanyName",
+            //            title: "Company Name",
+            //            width: 15
+            //        },
+            //        {
+            //            field: "PropertyName",
+            //            title: "Property Name",
+            //            width: 75
+            //        },
+            //        {
+            //            field: "Status",
+            //            title: "Status",
+            //            width: 15
+            //        },
+
+
+            //],
+            dataSource: {
+                pageSize: 10,
+            },
+            //searchable : true,
+            change: function (arg) {
+                var selected = $.map(this.select(), function (item) {
+                    var d = $(item).attr('data-uid');
+                    var spnRowId = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                   // alert(spnRowId);
+                    $("#globlePtoductid").val("");
+                    $("#globlePtoductid").val(spnRowId);
+                    loadOrderItemslst(spnRowId);
+                    // loadProductGroup(spnProdId);
+                    var n = 400;// $(document).height();
+                    $('html, body').animate({ scrollTop: n }, 1000);
+
+                });
+                // alert(selected);
+            }
+            //pageable: {
+            //    pageSize: 05
+            //}
+        });
+
+    });
+
+    function loadOrderItemslst(id) {
+
+        $.get('@Url.Action("GetOrderItemList", "Order")', { id: id }, function (data) {
+            if (data != null) {
+                $("#loadOrderItems").html(data);
+            }
+        });
+    }
+
+
+    function loadProductbygroup(id) {
+        $.get('@Url.Action("Index", "Product")', { id: id }, function (data) {
+            if (data != null) {
+                $('#divPageBody').html("");
+                $('#divPageBody').html(data);
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            }
+        });
+
+    }
+
+
+
+    @*function loadProductbygroup(id) {
+       alert("hi");
+
+        $.get('@Url.Action("GetProductsByGroup", "Product")', { id: id }, function(data) {
+            if (data != null) {
+                var grid = $("#productgrid").data("kendoGrid");
+             
+                grid.dataSource.data(data);
+               
+                if (grid.dataSource.page() != 1) {
+                    grid.dataSource.page(1);
+                }
+                grid.refresh();
+
+
+                ////  alert("hi123");
+                //$('#divPageBody').html("");
+                //$('#divPageBody').html(data);
+                //$("html, body").animate({ scrollTop: 0 }, "slow");
+            }
+        });
+
+    }*@
+
+    // This get the values from product Schedule table apr per product code.
+
+    function loadProductGroup(id) {
+        ///  alert("hi");
+        if (id != null) {
+            $.get('@Url.Action("ProductGroup", "Product")', { id: id }, function (data) {
+                if (data != null) {
+                    //  alert("hi123");
+                    $('#loadProductgroup').html("");
+                    $('#loadProductgroup').html(data);
+                    // $("html, body").animate({ scrollTop: 0 }, "slow");
+                }
+            });
+
+        }
+    }
+
+</script>

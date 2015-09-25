@@ -1,0 +1,206 @@
+﻿@using System.Diagnostics
+@model OrderManagement.Web.Models.CompanyProductModel
+
+
+@*<script src="@Url.Content("~/Scripts/jquery-1.9.1.js")" type="text/javascript"></script>*@
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />*@
+<link type="text/css" href="@Url.Content("~/Content/custom.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/switchery.js")" type="text/javascript"></script>
+@*<script src="@Url.Content("~/Scripts/icheck.js")" type="text/javascript"></script>*@
+
+
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Product Company</h5>
+                </div>
+                <div class="ibox-content" style="min-height:315px;">
+
+                    @if (Model != null && Model.ProductCompanylist != null)
+                    {
+                        int i = 0;
+                        <table id="Companygrid" class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th >Company Code</th>
+                                    <th >Company Name</th>
+                                    <th>Enabled</th>
+                                    @* <th>Create Event</th>
+                                    <th>Create Invoice</th>
+                                    <th>Created Date</th>*@
+                                </tr>
+                            </thead>
+                            <tbody style="height:247px;">
+                                @foreach (var item in Model.ProductCompanylist)
+                                {
+                                    i = i + 1;
+                                    <tr>
+                                        <td>
+                                            @if (item.CompanyCode != null)
+                                            {
+                           
+                                                <span style="cursor: pointer;" id="@item.Row_Id">@item.CompanyCode</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.XeroName != null)
+                                            {
+                          
+                                                <span style="cursor: pointer;">@item.XeroName</span>
+                                            }
+
+
+                                        </td>
+
+                                        <td>
+                                            @if (item.Enabled)
+                                            {
+                                                
+                                              
+                                           // class="i-checks"
+                                                   
+                                                     <input class="js-switchcls"  id="chkcomp@(i)"  onchange="javascript:GetCheckboxValue('@item.Row_Id',this.id);" type="checkbox" name="CopmpEnableChk" checked />
+                                               
+                                               
+                                            }
+                                            else
+                                            {  
+                                                   
+                                                     <input class="js-switch"  id="chkcomp@(i)" onchange="javascript:GetCheckboxValue('@item.Row_Id',this.id);" type="checkbox"  name="CopmpEnableChk" />
+                                              
+  
+                                            }
+
+                                        </td>
+
+                                    </tr>
+        
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Product Set up </h5>
+
+                </div>
+                <div class="ibox-content">
+
+                    @if (Model.ProductModel != null)
+                    {
+                        @Html.Partial("Controls/Product/_Product", Model.ProductModel)
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+
+
+    $(document).ready(function () {
+
+       // $('#chkcomp1').click();
+
+        //var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        //elems.forEach(function (html) {
+        //    var switchery = new Switchery(html, { color: '#1AB394' });
+        //});
+
+        //var elem5 = document.querySelector('.js-switch');
+        //var switchery5 = new Switchery(elem5, { color: '#ED5565' });
+
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+
+        $("#Companygrid").kendoGrid({
+          //  height: 230,
+           // width: 200,
+            scrollable: true,
+            sortable: true,
+            // filterable: true,
+             selectable: "single",
+         //   selectable:false,
+            //searchable : true,
+            columns: [
+                {
+                    field: "CompanyCode",
+                    title: "Company Code",
+                    width: 30
+                },
+                {
+                    field: "XeroName",
+                    title: "Company Name",
+                    width: 45
+                },
+                 {
+                    field: "Enabled",
+                     title: "Enable",
+                    width: 20
+                }
+            ],
+            //change: function (arg) {
+            //    var selected = $.map(this.s, function (item) {
+            //        alert("hiii");
+            //        var d = $(item).attr('data-uid');
+            //        var spncontactid = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                    
+                    
+
+
+            //    });
+            //    // alert(selected);
+            //},
+            pageable: {
+                pageSize: 05
+            }
+        });
+
+
+       // $("#Companygrid").removeClass("k-state-selected");
+
+
+    });
+
+  
+
+    function GetCheckboxValue(cmpid, id) {
+       // alert("hi");
+        if ((cmpid != null && cmpid != "") && (id != null && id != "")) {
+            $.get('@Url.Action("EnableProductCompany", "Product")', { id: $("#ProductId").val(), companyId: cmpid, ischecked: $('#' + id).is(':checked') }, function (data) {
+              //  alert(data);
+                if (data != null)
+                {
+                    if (data == '1' && $('#' + id).is(':checked'))
+                        alert("you have successfully enabled");
+                    else if (data == '1' && !$('#' + id).is(':checked'))
+                        alert("you have successfully disabled");
+                }
+
+            });
+        }
+
+
+    }
+
+    //var elem4 = document.querySelector('.js-switchcls');
+    //var switchery4 = new Switchery(elem4, { color: '#1AB394' });
+</script>
+

@@ -1,0 +1,297 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model IList<OrderManagement.Web.Models.JobTrackingModel>
+@{
+    ViewBag.Title = "Jobs";
+    Layout = null;
+
+    var currentuser = UserManager.Current();
+  
+}
+
+<h2>Jobs</h2>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="@Url.Content("~/Content/Track/icheck.min.js")"></script>
+    @*<script type="text/javascript" src="@Url.Content("~/Content/Track/summernote.min.js")"></script>*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery_custom.js")"></script>
+    @*   <script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/bootstrap.min.js")"></script>*@
+
+
+
+    <link href="@Url.Content("~/Content/Track/summernote-bs3.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Track/summernote.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Track/custom.css")" rel="stylesheet" />
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <div class="gray-bg">
+            <div class="wrapper wrapper-content">
+                <div class="row animated fadeInRight">
+
+                    <div class="col-md-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                @{
+
+                                    var currentUser = UserManager.Current();
+                                }
+                                @if (@currentUser.Company != null)
+                                {
+                                    <h5>All Jobs assigned to @currentUser.Company.XeroName </h5>
+                                }
+                               
+
+@*<div class="ibox-tools">
+                                    <button class="btn btn-primary btn-xs" type="button">Create new Job</button>
+                                </div>*@
+                            </div>
+                            <div class="ibox-content">
+                                <div>
+
+                                    <div class="feed-element">
+                                        <div class="pull-left">
+                                            <button id="btnRefresh" onclick="RefreshJobs()" type="submit" class="btn btn-sm btn-white"><i class="fa fa-refresh"></i>Refresh</button>
+                                        </div>
+                                        <div class="">
+                                            <div class="input-group">
+                                                <input id="txtsearch" type="text" class="input-sm form-control" placeholder="Search">
+                                                <span class="input-group-btn">
+                                                    <button onclick="SearchJobs()" class="btn btn-sm btn-primary" type="button">Go!</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if (Model != null && Model.Count > 0)
+                                    {
+                                        <div class="feed-activity-list">
+                                            @foreach (var item in Model)
+                                            {
+                                                <div class="feed-element">
+                                                    <div class="col-sm-1 pull-left">
+                                                        <span class="label" style="color:white; background-color:@item.StatusColour.ToLower();">@item.Active</span>
+                                                    </div>
+
+                                                    <div class="col-sm-3 padLR">
+                                                        @item.JobTitle
+
+                                                        <br>
+                                                        <small class="text-muted">Requested for:&nbsp;@item.RequireDate.ToString("dd/MM/yyyy")</small>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                        <div class="list-item">
+                                                            <small>Completion with</small>
+
+                                                            @if(item.Completion == "0")
+                                                            {
+                                                                <div class="pull-right">@item.Completion</div>
+                                                
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="pull-right">@item.Completion %</div>
+                                                            }
+
+                                                          
+
+                                                            <div class="progress progress-mini">
+                                                                <div class="progress-bar" style="width:@item.Completion%;"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 ">
+                                                        <div class=" pull-left">
+                                                            @if (item != null && item.ProductGroup.Count > 0)
+                                                            {
+
+                                                                foreach (var prodgrp in item.ProductGroup)
+                                                                {
+                                                                <span title="@("Event Date : " + @prodgrp.StartDate.ToString("dd-MM-yyyy") +
+
+                                                                    " Time : " + @prodgrp.StartDate.ToShortTimeString())" class="label@(" " + prodgrp.CssClass)">@prodgrp.ProductGroupName</span>      
+                                                                }
+
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    @if (currentuser != null && currentuser.UserType != 3)
+                                                    {
+                                                        <div class=" pull-right">
+                                                            <button onclick=" javascript:viewJobs('@item.JobId'); " class="btn btn-sm btn-white " type="submit"><i class="fa fa-refresh"></i>View</button>
+                                                            @if (currentuser != null && (currentuser.UserType == 1 || currentuser.UserType == 4))
+                                                            {
+                                                                <button onclick="javascript:DeleteJobs('@item.JobId');" class="btn btn-sm btn-white" type="submit"><i class="fa fa-delete"></i>Delete</button>
+                                                            }
+                                                               
+@*   <button onclick="javascript:viewJobs();" class="btn btn-sm btn-white" type="submit"><i class="fa fa-refresh"></i>Edit</button>*@
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="table-job">
+                                                    <table class="table table-bordered table-hover">
+                                                        <thead>
+                                                            <th>Service
+                                                            </th>
+                                                            <th>Booking
+                                                            </th>
+                                                            <th>Status
+                                                            </th>
+
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var productGroup in item.ProductGroup)
+                                                            {
+                                                                <tr>
+                                                                    <td><span class="label@(" " + productGroup.CssClass)">@productGroup.ProductGroupName</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (@productGroup.StartDate.Date == @productGroup.EndDate.Date)
+                                                                        {
+
+                                                                            string day= productGroup.StartDate.ToString("dddd");
+                                                                            day = day + " ";
+                                                                            @day
+
+                                                                            @productGroup.StartDate
+                                                                            <span>-</span>
+                                                                            @productGroup.EndDate.ToShortTimeString()
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            string day= productGroup.StartDate.ToString("dddd");
+                                                                            day = day + " ";
+                                                                            @day
+
+                                                                            @productGroup.StartDate
+                                                                            <span>-</span>
+                                                                            @productGroup.EndDate
+                                                                        }
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <span class="label" style="color:white; background-color:@productGroup.JobEventStatusColour.ToLower();">@productGroup.Status</span>
+
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            }
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                         
+                                        <div class="list-item">
+                                            <span>No Record Found</span>
+
+                                        </div>
+                                                   
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Mainly scripts -->
+
+
+</body>
+
+</html>
+
+
+<script>
+    $(document).ready(function () {
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green'
+        //});
+
+
+        //$('.summernote').summernote();
+
+    });
+    //var edit = function () {
+    //    $('.click2edit').summernote({ focus: true });
+    //};
+    //var save = function () {
+    //    var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
+    //    $('.click2edit').destroy();
+    //};
+
+
+    function viewJobs(id) {
+        mixpanel.track("Job Tracking : Detail View");
+
+        $.get('@Url.Action("ViewJobTracking", "JobTracking")', { jobid: id }, function (data) {
+            if (data != null) {
+
+                $('#divPageBody').html("");
+                $('#divPageBody').html(data);
+            }
+        });
+
+    }
+
+
+
+    function RefreshJobs() {
+        $.get('@Url.Action("Index", "JobTracking")', function (data) {
+            if (data != null) {
+                $('#divPageBody').html("");
+                $('#divPageBody').html(data);
+            }
+        });
+
+    }
+
+    function SearchJobs() {
+        var search = $("#txtsearch").val().trim();
+        $.get('@Url.Action("Index", "JobTracking")', { search: search }, function (data) {
+            if (data != null) {
+                $('#divPageBody').html("");
+                $('#divPageBody').html(data);
+            }
+        });
+
+    }
+
+
+    function DeleteJobs(jobid) {
+        $.get('@Url.Action("DeleteJobs", "JobTracking")', { jobid: jobid }, function (data) {
+            if (data != null) {
+                $('#divPageBody').html("");
+                $('#divPageBody').html(data);
+            }
+        });
+
+    }
+
+
+
+</script>

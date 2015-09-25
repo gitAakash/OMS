@@ -1,0 +1,68 @@
+﻿
+@model OrderManagement.Web.Models.StatusModel
+@{
+   
+    Layout = null;
+}
+
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+
+  @*<img alt="image" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new { id = @currentUser.Row_Id })" />*@
+
+<script type="text/x-kendo-tmpl" id="templateImagelst">
+    <div class="product">
+        <img src="<%=Url.Content("~/content/web/foods/")%>#:ProductID#.jpg" alt="#:ProductName# image" />
+    
+ @*    <img src='@Url.Content("~/Images/")'#:profile#.jpg" />*@
+
+      @*  <h3>#:ProductName#</h3>
+        <p>#:kendo.toString(UnitPrice, "c")#</p>*@
+    </div>
+</script>
+
+
+
+<div class="col-lg-12 animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins"> 
+                <div class="ibox-title">
+                    <h5>Upload Files </h5>
+                </div>
+                
+                <div class="ibox-content">
+                    
+                         <br/>
+                    <br/>
+                    
+                    
+                    
+     @(Html.Kendo().ListView<OrderManagement.Web.Models.StatusModel>()
+    .Name("listView")
+    .TagName("div")
+    .ClientTemplateId("templateImagelst")
+    .Editable()
+    .DataSource(dataSource => dataSource
+        // Configure CRUD -->               
+        .Create(create => create.Action("Editing_Create", "ListView"))
+        .Read(read => read.Action("Editing_Read", "ListView"))
+        .Update(update => update.Action("Editing_Update", "ListView"))
+        .Destroy(destroy => destroy.Action("Editing_Destroy", "ListView"))
+        // <-- Configure CRUD
+    )           
+)
+                    
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

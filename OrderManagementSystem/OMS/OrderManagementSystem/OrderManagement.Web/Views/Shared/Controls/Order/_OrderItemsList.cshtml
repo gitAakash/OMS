@@ -1,0 +1,139 @@
+﻿@model OrderManagement.Web.Models.OrderViewModel
+@using System.Diagnostics
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+@*<script src="@Url.Content("~/Scripts/switchery.js")" type="text/javascript"></script>*@
+
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-title">
+                    <h5>Order Items</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @if (Model != null && Model.OrderItems != null)
+                    {
+                        int i = 0;
+                        <table id="OrderItemgrid" class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th >Product Description</th>
+                                    <th >Price</th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.OrderItems)
+                                {
+                                    i = i + 1;
+                                    <tr>
+                                        <td>
+                                            @if (item.Row_Id != null)
+                                            {
+                                                <span style="cursor: pointer;" id="@item.Row_Id">@item.Name</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.CostPrice != null)
+                                            {
+                                                <span style="cursor: pointer;">@item.CostPrice</span>
+                                            }
+                                        </td>
+                                    </tr>
+        
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Order Contact</h5>
+
+                </div>
+                <div class="ibox-content">
+
+                    @if (Model.OrderContact != null)
+                    {
+                        Html.RenderPartial("Controls/Order/_OrderContacts", Model.OrderContact);
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script language="javascript" type="text/javascript">
+
+    
+
+    $(document).ready(function () {
+
+        $("#OrderItemgrid").kendoGrid({
+          height: 230,
+           width: 200,
+            scrollable: true,
+            sortable: true,
+            // filterable: true,
+            selectable: "single",
+            //searchable : true,
+            columns: [
+                {
+                    field: "Name",
+                    title: "Product Description",
+                    width: 50
+                },
+                {
+                    field: "CostPrice",
+                    title: "Price",
+                    width: 20
+                }
+            ],
+            pageable: {
+                pageSize: 05
+            }
+        });
+
+    });
+
+  
+
+@*    function GetCheckboxValue(cmpid, id) {
+       // alert("hi");
+        if ((cmpid != null && cmpid != "") && (id != null && id != "")) {
+            $.get('@Url.Action("EnableProductCompany", "Product")', { id: $("#ProductId").val(), companyId: cmpid, ischecked: $('#' + id).is(':checked') }, function (data) {
+              //  alert(data);
+                if (data != null)
+                {
+                    if (data == '1' && $('#' + id).is(':checked'))
+                        alert("you have successfully enabled");
+                    else if (data == '1' && !$('#' + id).is(':checked'))
+                        alert("you have successfully disabled");
+                }
+
+            });
+        }
+
+
+    }*@
+
+
+</script>
+

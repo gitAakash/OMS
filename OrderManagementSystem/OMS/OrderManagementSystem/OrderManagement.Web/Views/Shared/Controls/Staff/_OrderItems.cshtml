@@ -1,0 +1,181 @@
+﻿@model IList<OrderManagement.Web.Models.OrderItemsModel>
+ 
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+    <div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Order Items</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @if (Model != null)
+                    {  
+
+                        <table id="OrderItemsgrid">
+                            <thead>
+                                <tr>
+                                      <th>Order Id</th>
+                                    <th>Prperty</th>
+                                    <th>Orderd Item</th>
+                                     <th>Upload Fiels</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.Order.OrderId
+
+                                        </td>
+                                        <td>
+                                             <span id='@(item.Row_Id)'></span>
+                                            @item.Property.Name
+                                            
+                                        </td>
+                                        <td>
+                                            @item.Name
+
+                                        </td>
+                                          <td>
+                                          
+                                            <a href="#" onclick="javascript:LoadUploadFiles('@item.Order_Id');">Upload</a>
+
+                                          </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<span id="spaUploadForm"></span>
+
+@Html.Hidden("GlobleOrderId")
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        $("#OrderItemsgrid").kendoGrid({
+
+            scrollable: true,
+            sortable: true,
+           // filterable: true,
+            selectable: "single",
+            change: function (arg) {
+                // alert("hi");
+                var selected = $.map(this.select(), function (item) {
+                    var d = $(item).attr('data-uid');
+                    var spnRowId = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                  //  alert(spnRowId);
+                  //  $("#GlobleOrderId").val("");
+                   // $("#GlobleOrderId").val(spnRowId);
+                  
+                    var n = 400;// $(document).height();
+                    $('html, body').animate({ scrollTop: n }, 1000);
+
+                });
+                //    // alert(selected);
+            },
+            pageable: {
+              //  numeric: true,
+              //  refresh: true,
+               // pageSizes: [10, 25, 50],
+               // previousNext: true,
+              //  input: false,
+              //  info: false
+            },
+            columns: [
+                    {
+                        field: "OrderId",
+                        title: "Order Id",
+                        width: 15
+                    },
+                    {
+                        field: "Property.Name",
+                        title: "Property Name",
+                        width: 35
+                    },
+                    {
+                        field: "Name",
+                        title: "Orderd Item",
+                        width: 55
+                    }
+
+
+            ],
+            dataSource: {
+                pageSize: 10,
+            },
+            //searchable : true,
+            //change: function (arg) {
+            //    // alert("hi");
+            //    var selected = $.map(this.select(), function (item) {
+            //        var d = $(item).attr('data-uid');
+            //        var spnRowId = $("tr[data-uid=" + d + "]").find("span").attr('id');
+            //        alert(spnRowId);
+            //        $('#spnorderItems').text("");
+            //        loadOrderItems(spnRowId);
+            //        var n = 400;// $(document).height();
+            //        $('html, body').animate({ scrollTop: n }, 1000);
+
+            //    });
+            ////    // alert(selected);
+            //}
+            //pageable: {
+            //    pageSize: 05
+            //}
+        });
+
+    });
+
+
+    function LoadUploadFiles1(orderid) {
+          $("#GlobleOrderId").val("");
+          $("#GlobleOrderId").val(orderid);
+        var status = "";
+        $.get('@Url.Action("UploadFiles", "Staff")', { orderid: orderid, status: status }, function (data) {
+            if (data != null) {
+                $("#spaUploadForm").text("");
+                $("#spaUploadForm").html(data);
+            }
+        }
+        
+        );
+
+    }
+
+
+    function LoadUploadFiles() {
+        var page = 0;
+        $.get('@Url.Action("ImageListing", "Staff")', { page: page }, function (data) {
+            if (data != null) {
+                $("#spaUploadForm").text("");
+                $("#spaUploadForm").html(data);
+            }
+        }
+
+        );
+
+    }
+
+
+</script>
+
+
+

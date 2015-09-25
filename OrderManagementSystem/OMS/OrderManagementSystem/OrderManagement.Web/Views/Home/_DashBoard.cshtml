@@ -1,0 +1,160 @@
+﻿@model OrderManagement.Web.Models.IndexViewModel
+
+@{
+    ViewBag.Title = "DashBoard";
+    
+}
+
+@*<link href="~/Content/themes/base/jquery-ui.css" ref="stylesheet" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.js")"></script>*@
+
+<h2>DashBoard</h2>
+
+<script>
+    $(function () {
+        $('.date-picker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'MM yy',
+            onClose: function (dateText, inst) {
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, month, 1));
+            }
+        });
+    });
+</script>
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+
+    .ui-datepicker-year {
+        display: block;
+    }
+</style>
+
+
+<div class="form-group">
+    <label class="col-sm-1 control-label">Company</label>
+    <div class="col-sm-3">
+        @Html.DropDownList("ddlCompany", new SelectList(Model.Companylist, "Row_Id", "XeroName"), "Select", new { @class = "form-control m-b" })
+    </div>
+    <label class="col-sm-1 control-label">Product Group</label>
+    <div class="col-sm-3">
+        @Html.DropDownList("ddlProductgrp", new SelectList(Model.ProductGrouplist, "Row_Id", "Name"), "Select", new { @class = "form-control m-b" })
+    </div>
+    <label class="col-sm-1 control-label">Date</label>
+    <input id="datepicker" class="date-picker" />
+    <input type="button" value="Show" id="btnShowGraph" class="btnStyleOne" />
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Chart result</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <ul class="stat-list">
+                                <li>
+                                    <h2 class="no-margins">2,346</h2>
+                                    <small>Total orders in period</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 48%;" class="progress-bar"></div>
+                                    </div>
+                                </li>
+                                @*<li>
+                                    <h2 class="no-margins ">4,422</h2>
+                                    <small>Orders in last month</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 60%;" class="progress-bar"></div>
+                                    </div>
+                                </li>*@
+                                <li>
+                                    <h2 class="no-margins ">9,180</h2>
+                                    <small>Monthly income from orders</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 22%;" class="progress-bar"></div>
+                                    </div>
+                                </li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //Assign dashboard user name
+        $('#dashboardUserName').text('@Model.FirstName' + ' @Model.LastName');
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.collapse-link').click(function () {
+            var ibox = $(this).closest('div.ibox');
+            var button = $(this).find('i');
+            var content = ibox.find('div.ibox-content');
+            content.slideToggle(200);
+            button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+            ibox.toggleClass('').toggleClass('border-bottom');
+            setTimeout(function () {
+                ibox.resize();
+                ibox.find('[id^=map-]').resize();
+            }, 50);
+        });
+
+        // close ibox function
+        $('.close-link').click(function () {
+            var content = $(this).closest('div.ibox');
+            content.remove();
+        });
+
+        // small todo handler
+        $('.check-link').click(function () {
+            var button = $(this).find('i');
+            var label = $(this).next('span');
+            button.toggleClass('fa-check-square').toggleClass('fa-square-o');
+            label.toggleClass('todo-completed');
+            return false;
+        });
+        $('.navbar-minimalize').click(function () {
+            $("body").toggleClass("mini-navbar");
+        });
+    });
+</script>
+
+@*This Event is used for craeting Graph*@
+<script>
+    $("#btnShowGraph").click(function () {
+
+        var date = $("#datepicker").datepicker('getDate');
+        var month =parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1; //date.getMonth() + 1;
+        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+        var companyId = $("#ddlCompany option:selected").val();
+        var productid = $("#ddlProductgrp option:selected").val();
+
+        $.get('@Url.Action("GetSearchResult", "Home")', { Month: month, year:year, companyId: companyId, productgrpId: productid },
+                function (data) {
+                    if (data != null) {
+                        $('#flot-dashboard-chart').html(data);
+                    }
+                });
+    });
+
+</script>

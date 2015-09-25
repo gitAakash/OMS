@@ -1,0 +1,2432 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.NewOrderViewModel
+
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+@*<script src="@Url.Content("~/Scripts/jquery.simplecolorpicker.js")" type="text/javascript"></script>*@
+@*<script src="@Url.Content("~/Scripts/Theme_Js/bootstrap.min.js")" type="text/javascript"></script>*@
+<script src="@Url.Content("~/Scripts/icheck.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/Content/custom.css")"/>
+
+@using (Html.BeginForm("AddOrder", "Order", FormMethod.Post, new { @class = "form-horizontal", id = "AddOrderForm" }))
+{
+  
+   @* <div class="form-group">
+        <label class="col-sm-2 control-label">Property Type:</label>
+        <div class="col-sm-10">
+            <label class="checkbox-inline" data-relativediv="divMainOrder"></label>
+
+              @Html.RadioButton("rd_proptype", "1", true, new { })Residential
+					 @Html.RadioButton("rd_proptype", "2", new { })Commercial Property
+					  @Html.RadioButton("rd_proptype", "3", new { })Commercial Photography
+        </div>
+
+    </div>
+    
+*@
+    <div class="ibox-content" id="divMainOrder" style="display: block;">
+
+        <div class="form-group ">
+            <label class="col-sm-2 control-label underlined">Project Details:</label>
+
+            <div class="col-sm-10"></div>
+        </div>
+
+        @if ((Model != null) && (Model.UserType != 3))
+        {
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Company:</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("ddlCompany", new SelectList(Model.Companylist, "Row_Id", "XeroName"), "Select", new { @class = "form-control m-b" })
+                </div>
+                 <span style="color: red;font-weight:bold;margin-left:90px;" id="ddlCompanyValidation"></span>
+            </div>
+        }
+@* else
+          
+            {
+            
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Company:</label>
+                <div class="col-sm-5">
+                    <input  type="text" name="txtCompany" class="form-control"></div>
+            </div>
+            
+            }*@
+   @if ((Model != null) && (Model.UserType == 1))
+        {
+        <div id="divAdmin" style="display:block" >
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Office Contact Name:</label>
+
+            <div class="col-sm-5">
+                <input type="text" id="OfficeContactName" name="OfficeContactName" class="form-control">
+            </div>
+            <span style="color: red" id="OfficeContactNameValidation"></span>
+        </div>
+        <div class="form-group">
+
+            <label class="col-sm-2 control-label">Phone:</label>
+
+            <div class="col-sm-5">
+                <input type="tel" id="Phone" name="Phone" class="form-control">
+            </div>
+            <span style="color: red" id="PhoneValidation"></span>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Email Id</label>
+
+            <div class="col-sm-5">
+                <input type="email" id="EmailId" name="EmailId" class="form-control">
+            </div>
+            <span style="color: red" id="EmailIdValidation"></span>
+        </div>
+        }
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Property Address:</label>
+
+            <div class="col-sm-5">
+                <input name="PropertyAddress" id="PropertyAddress" type="text" class="form-control">
+            </div>
+            <span style="color: red" id="PropertyAddressValidation"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Real View Contact:</label>
+
+            <div class="col-sm-10">
+                <label class="checkbox-inline i-checks" data-relativediv="divAgentContent">
+                    <div class="icheckbox_square-green" style="position: relative;">
+                        <input type="checkbox" value="Agent" id="Agent" name="chkAgent" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+
+                    </div>
+                    Agent
+                </label>
+                <label class="checkbox-inline i-checks" data-relativediv="divOwnerContent">
+                    <div class="icheckbox_square-green" style="position: relative;">
+                        <input type="checkbox" value="Owner" id="Owner" name="chkOwner" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                    </div>
+                    Owner
+                </label>
+                <label class="checkbox-inline i-checks" data-relativediv="divTenentContent">
+                    <div class="icheckbox_square-green" style="position: relative;">
+                        <input type="checkbox" value="Tenant" id="Tenant" name="chkTenant" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                    </div>
+                    Tenant
+                </label>
+            </div>
+        </div>
+
+        <div id="divAgentContent" style="display: none;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Agent Name:</label>
+
+                <div class="col-sm-5">
+                    <input name="txtAgentName" id="txtAgentName" type="text" class="form-control">
+                </div>
+                <span style="color: red" id="txtAgentNameValidation"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Agent Phone</label>
+
+                <div class="col-sm-5">
+                    <input type="tel" id="txtAgentPhone" name="txtAgentPhone" class="form-control">
+                </div>
+                <span style="color: red" id="txtAgentPhoneValidation"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Agent Email:</label>
+
+                <div class="col-sm-5">
+                    <input type="email" id="txtAgentEmail" name="txtAgentEmail" class="form-control">
+                </div>
+                <span style="color: red" id="txtAgentEmailValidation"></span>
+            </div>
+        </div>
+
+        <div id="divOwnerContent" style="display: none;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner Name: * </label>
+                <div class="col-sm-5">
+                    <input type="text" id="txt_OwnerName" name="txt_OwnerName" class="form-control">
+                </div>
+                <span style="color: red" id="txt_OwnerNameValidation"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner Phone: * </label>
+                <div class="col-sm-5">
+                    <input type="tel" id="txt_OwnerPhone" name="txt_OwnerPhone" class="form-control">
+                </div>
+                <span style="color: red" id="txt_OwnerPhoneValidation"></span>
+            </div>
+        </div>
+
+        <div id="divTenentContent" style="display: none;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Tenant Name: * </label>
+                <div class="col-sm-5">
+                    <input type="text" id="txt_TenantName" name="txt_TenantName" class="form-control">
+                </div>
+                <span style="color: red" id="txt_TenantNameValidation"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Tenant Phone: * </label>
+                <div class="col-sm-5">
+                    <input type="tel" id="txt_TenantPhone" name="txt_TenantPhone" class="form-control">
+                </div>
+                <span style="color: red" id="txt_TenantPhoneValidation"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Property Ready:</label>
+
+            <div class="col-sm-5">
+
+                <input type="text" id="Dt_PropertyReady" class="form-control" name="Dt_PropertyReady">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Property to have custom website:</label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="" name="Chk_CustomWeb" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Yes
+                    </label>
+                </div>
+            </div>
+        </div>
+		
+		<div id="divProjectReq">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Project Requirements:</label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green for_ChkboxPhotoGraphy" data-relativediv="divPhotoGraphyContent" style="position: relative;">
+                            <input type="checkbox" value="PhotoGraphy" name="Chk_PR_photography" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Photography
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divUavDroneContent" style="position: relative;">
+                            <input type="checkbox" value="" name="Chk_PR_UAVDrone" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>UAV Drone/Aerial Photography
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divFloorPlan" style="position: relative;">
+                            <input type="checkbox" value="Floor Plans/Land-boxes" name="Chk_PR_FloorPlan" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Floor Plans/Land-boxes
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divCopywritingContent" style="position: relative;">
+                            <input type="checkbox" value="" name="Chk_PR_CopyWriting" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Copy Writing
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divVideoImagetours" style="position: relative;">
+                            <input type="checkbox" value="Video and Image tours" name="Chk_PR_VideoImageTour" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Video and Image tours
+                    </label>
+                </div>
+            </div>
+        </div>
+	</div>
+        <!-- Photofraphy content -->
+        <div id="divPhotoGraphyContent" style="display: none;">
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Photography:</h5>
+
+                <div class="col-sm-10"></div>
+            </div>
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label underlined">Day Photography:</h5>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radio" style="position: relative;">
+                                <input type="radio" value="2ExternalImages" name="Rd_day_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>2 External Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radio2" style="position: relative;">
+                                <input id="" type="radio" value="5FinalImages" name="Rd_day_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>5 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radio3" style="position: relative;">
+                                <input id="" type="radio" value="8FinalImages" name="Rd_day_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>8 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="imageOptions2" class="form-group imgOpthide imageOptions2">
+                <label class="col-sm-2 control-label">Image Options 2:</label>
+
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                         <input type="checkbox" name="chk_DayPhotography" value="Front External 1" onchange= "CountCheckBox()" class="DayPhotographyOptions2 FE1"/><span>Front External 1</span>
+                    </label>
+
+                    <label class="checkbox-inline i-checks">
+                           <input type="checkbox" name="chk_DayPhotography" value="Front External 2" class="DayPhotographyOptions2 FE2"/><span>Front External 2</span>
+                    </label>
+
+		    <label class="checkbox-inline i-checks">
+                <input type="checkbox" name="chk_DayPhotography" value="Front External 2" class="DayPhotographyOptions2 RE1"/><span>Rear External</span>
+                    </label>
+
+		    <label class="checkbox-inline i-checks">
+		        <input type="checkbox" name="chk_DayPhotography" value="Front External" class="DayPhotographyOptions"/><span>Rear External 2</span>
+                    </label>
+
+                    <input/>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="imageOptions5" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Image Options 5:</label>
+
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_FR1" style="position: absolute; opacity: 0;" value="Front External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_FR2" style="position: absolute; opacity: 0;" value="Front External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Living" style="position: absolute; opacity: 0;" value="Living">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Living
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Dining" style="position: absolute; opacity: 0;" value="Dining">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Dining 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Family" style="position: absolute; opacity: 0;" value="Family">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Family
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Kitchen" style="position: absolute; opacity: 0;" value="Kitchen">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Kitchen
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Bathroom" style="position: absolute; opacity: 0;" value="Bathroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Bathroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Ensuite" style="position: absolute; opacity: 0;" value="Ensuite">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Ensuite 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_MasterBed" style="position: absolute; opacity: 0;" value="Master Bed">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Master Bed
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_2Bedroom" style="position: absolute; opacity: 0;" value="2nd Bedroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        2nd Bedroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Rumpus" style="position: absolute; opacity: 0;" value="Rumpus">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rumpus
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_HomeTheatre" style="position: absolute; opacity: 0;" value="Home Theatre">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Home Theatre
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Pool" style="position: absolute; opacity: 0;" value="Pool">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Pool
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_RE1" style="position: absolute; opacity: 0;" value="Rear External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_RE2" style="position: absolute; opacity: 0;" value="Rear External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_5_Lifestyle" style="position: absolute; opacity: 0;" value="Lifestyle">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Lifestyle 
+                    </label>
+                </div>
+            </div>
+
+            <div id="imageOptions8" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Image Options 8:</label>
+
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_FR1" style="position: absolute; opacity: 0;" value="Front External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_FR2" style="position: absolute; opacity: 0;" value="Front External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Living" style="position: absolute; opacity: 0;" value="Living">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Living
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Dining" style="position: absolute; opacity: 0;" value="Dining">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Dining 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Family" style="position: absolute; opacity: 0;" value="Family">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Family
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Kitchen" style="position: absolute; opacity: 0;" value="Kitchen">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Kitchen
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Bathroom" style="position: absolute; opacity: 0;" value="Bathroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Bathroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Ensuite" style="position: absolute; opacity: 0;" value="Ensuite">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Ensuite 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_MasterBed" style="position: absolute; opacity: 0;" value="Master Bed">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Master Bed
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_2Bedroom" style="position: absolute; opacity: 0;" value="2nd Bedroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        2nd Bedroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Rumpus" style="position: absolute; opacity: 0;" value="Rumpus">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rumpus
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_HomeTheatre" style="position: absolute; opacity: 0;" value="Home Theatre">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Home Theatre
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Pool" style="position: absolute; opacity: 0;" value="Pool">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Pool
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_RE1" style="position: absolute; opacity: 0;" value="Rear External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_RE2" style="position: absolute; opacity: 0;" value="Rear External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_img_8_Lifestyle" style="position: absolute; opacity: 0;" value="Lifestyle">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Lifestyle 
+                    </label>
+                </div>
+            </div>
+
+
+            <div id="divDuskPhotoChkSection" style="">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label underlined">Dusk Photography:</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox i-checks">
+                            <label class="" data-relativediv="divDuskphotoCheckboxs">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_dusk_8final_img" value="Duskphoto Upto 8 final Images" style="position: absolute; opacity: 0;">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <i></i>Upto 8 final Images
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divDuskphotoCheckboxs" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Dusk Photography Options 8:</label>
+
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_FR1" style="position: absolute; opacity: 0;" value="Front External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_FR2" style="position: absolute; opacity: 0;" value="Front External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Living" style="position: absolute; opacity: 0;" value="Living">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Living
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Dining" style="position: absolute; opacity: 0;" value="Dining">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Dining 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Family" style="position: absolute; opacity: 0;" value="Family">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Family
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Kitchen" style="position: absolute; opacity: 0;" value="Kitchen">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Kitchen
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Bathroom" style="position: absolute; opacity: 0;" value="Bathroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Bathroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Ensuite" style="position: absolute; opacity: 0;" value="Ensuite">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Ensuite 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_MasterBed" style="position: absolute; opacity: 0;" value="Master Bed">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Master Bed
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_2Bedroom" style="position: absolute; opacity: 0;" value="2nd Bedroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        2nd Bedroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Rumpus" style="position: absolute; opacity: 0;" value="Rumpus">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rumpus
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_HomeTheatre" style="position: absolute; opacity: 0;" value="Home Theatre">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Home Theatre
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Pool" style="position: absolute; opacity: 0;" value="Pool">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Pool
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_RE1" style="position: absolute; opacity: 0;" value="Rear External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_RE2" style="position: absolute; opacity: 0;" value="Rear External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_dusk_8final_Lifestyle" style="position: absolute; opacity: 0;" value="Lifestyle">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Lifestyle 
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label underlined">Prestige Photography:</h5>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDay" style="position: relative;">
+                                <input type="radio" value="12DayFinalImages" name="Rd_day_presphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Day - Up to 12 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDusk" style="position: relative;">
+                                <input id="" type="radio" value="Dusk12FinalImages" name="Rd_day_presphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Dusk - Up to 12 Final Images</label>
+                    </div>
+                </div>
+            </div>
+
+            Complimentary proofing of images with all prestige packages
+         
+            <div id="divPrestigeDayOption" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Prestige Day Options:</label>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_FR1" style="position: absolute; opacity: 0;" value="Front External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_FR2" style="position: absolute; opacity: 0;" value="Front External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Living" style="position: absolute; opacity: 0;" value="Living">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Living
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Dining" style="position: absolute; opacity: 0;" value="Dining">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Dining 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Family" style="position: absolute; opacity: 0;" value="Family">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Family
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Kitchen" style="position: absolute; opacity: 0;" value="Kitchen">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Kitchen
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Bathroom" style="position: absolute; opacity: 0;" value="Bathroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Bathroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Ensuite" style="position: absolute; opacity: 0;" value="Ensuite">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Ensuite 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_MasterBed" style="position: absolute; opacity: 0;" value="Master Bed">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Master Bed
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_2Bedroom" style="position: absolute; opacity: 0;" value="2nd Bedroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        2nd Bedroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Rumpus" style="position: absolute; opacity: 0;" value="Rumpus">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rumpus
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_HomeTheatre" style="position: absolute; opacity: 0;" value="Home Theatre">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Home Theatre
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Pool" style="position: absolute; opacity: 0;" value="Pool">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Pool
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_RE1" style="position: absolute; opacity: 0;" value="Rear External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_RE2" style="position: absolute; opacity: 0;" value="Rear External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_Day_Lifestyle" style="position: absolute; opacity: 0;" value="Lifestyle">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Lifestyle 
+                    </label>
+                </div>
+            </div>
+
+            <div id="divPrestigeDuskOption" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Prestige Dusk Options:</label>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_FR1" style="position: absolute; opacity: 0;" value="Front External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_FR2" style="position: absolute; opacity: 0;" value="Front External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Living" style="position: absolute; opacity: 0;" value="option1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Living
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Dining" style="position: absolute; opacity: 0;" value="Dining">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Dining 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Family" style="position: absolute; opacity: 0;" value="Family">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Family
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Kitchen" style="position: absolute; opacity: 0;" value="Kitchen">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Kitchen
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Bathroom" style="position: absolute; opacity: 0;" value="Bathroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Bathroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Ensuite" style="position: absolute; opacity: 0;" value="Ensuite">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Ensuite 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_MasterBed" style="position: absolute; opacity: 0;" value="Master Bed">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Master Bed
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_2Bedroom" style="position: absolute; opacity: 0;" value="2nd Bedroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        2nd Bedroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Rumpus" style="position: absolute; opacity: 0;" value="Rumpus">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rumpus
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_HomeTheatre" style="position: absolute; opacity: 0;" value="Home Theatre">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Home Theatre
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Pool" style="position: absolute; opacity: 0;" value="Pool">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Pool
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_RE1" style="position: absolute; opacity: 0;" value="Rear External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_RE2" style="position: absolute; opacity: 0;" value="Rear External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_Prestige_dusk_Lifestyle" style="position: absolute; opacity: 0;" value="Lifestyle">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Lifestyle 
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label underlined">Rental Photography:</h5>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_Rental_photography_5" style="position: relative;">
+                                <input type="radio" value="5FinalRentalPhotography" name="rd_day_Rental_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>5 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_Rental_photography_10" style="position: relative;">
+                                <input id="" type="radio" value="10FinalRentalPhotography" name="rd_day_Rental_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>10 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+            Low resolution images provided for rental marketing only
+
+
+                <div id="divRentalOption5" class="form-group imgOpthide">
+                    <label class="col-sm-2 control-label">Rental Options 5:</label>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_FR1" style="position: absolute; opacity: 0;" value="Front External 1">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Front External 1
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_FR2" style="position: absolute; opacity: 0;" value="Front External 2">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Front External 2
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Living" style="position: absolute; opacity: 0;" value="Living">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Living
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Dining" style="position: absolute; opacity: 0;" value="Dining">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Dining 
+                        </label>
+                    </div>
+
+                    <span class="col-sm-2"></span>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Family" style="position: absolute; opacity: 0;" value="Family">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Family
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Kitchen" style="position: absolute; opacity: 0;" value="Kitchen">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Kitchen
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Bathroom" style="position: absolute; opacity: 0;" value="Bathroom">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Bathroom
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Ensuite" style="position: absolute; opacity: 0;" value="Ensuite">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Ensuite 
+                        </label>
+                    </div>
+
+                    <span class="col-sm-2"></span>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_MasterBed" style="position: absolute; opacity: 0;" value="Master Bed">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Master Bed
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_2Bedroom" style="position: absolute; opacity: 0;" value="2nd Bedroom">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            2nd Bedroom
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Rumpus" style="position: absolute; opacity: 0;" value="Rumpus">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Rumpus
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_HomeTheatre" style="position: absolute; opacity: 0;" value="Home Theatre">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Home Theatre
+                        </label>
+                    </div>
+
+                    <span class="col-sm-2"></span>
+                    <div class="col-sm-10">
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Pool" style="position: absolute; opacity: 0;" value="Pool">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Pool
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_RE1" style="position: absolute; opacity: 0;" value="Rear External 1">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Rear External 1
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_RE2" style="position: absolute; opacity: 0;" value=" Rear External 2">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Rear External 2
+                        </label>
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" name="chk_RentalOption5_Lifestyle" style="position: absolute; opacity: 0;" value="Lifestyle">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                            </div>
+                            Lifestyle 
+                        </label>
+                    </div>
+                </div>
+
+            <div id="divRentalOption10" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Rental Option 10:</label>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_FR1" style="position: absolute; opacity: 0;" value="Front External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_FR2" style="position: absolute; opacity: 0;" value="Front External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Front External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Living" style="position: absolute; opacity: 0;" value="Living">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Living
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Dining" style="position: absolute; opacity: 0;" value="Dining">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Dining 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Family" style="position: absolute; opacity: 0;" value="Family">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Family
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Kitchen" style="position: absolute; opacity: 0;" value="Kitchen">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Kitchen
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Bathroom" style="position: absolute; opacity: 0;" value="Bathroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Bathroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Ensuite" style="position: absolute; opacity: 0;" value="Ensuite">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Ensuite 
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_MasterBed" style="position: absolute; opacity: 0;" value=" Master Bed">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Master Bed
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_2Bedroom" style="position: absolute; opacity: 0;" value="2nd Bedroom">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        2nd Bedroom
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Rumpus" style="position: absolute; opacity: 0;" value="Rumpus">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rumpus
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_HomeTheatre" style="position: absolute; opacity: 0;" value="Home Theatre">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Home Theatre
+                    </label>
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Pool" style="position: absolute; opacity: 0;" value="Pool">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Pool
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_RE1" style="position: absolute; opacity: 0;" value="Rear External 1">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 1
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_RE2" style="position: absolute; opacity: 0;" value="Rear External 2">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Rear External 2
+                    </label>
+                    <label class="checkbox-inline i-checks">
+                        <div style="position: relative;" class="icheckbox_square-green">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_RentalOption10_Lifestyle" style="position: absolute; opacity: 0;" value="Lifestyle">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <ins style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;" class="iCheck-helper"></ins>
+                        </div>
+                        Lifestyle 
+                    </label>
+                </div>
+            </div>
+
+        </div>    
+        <br />
+        <!-- UAV Drone content -->
+        <div id="divUavDroneContent" style="display: none">
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">UAV Drone / Aerial Photography</h5>
+                <div class="col-sm-10"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Aerial Photography - UAV Drone</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_UAVDroneUP3" value="Up to 3 final images and one landbox / Text overlay.Images from ground level to 400 feet - from any safe position onsite. Complimentary Image Proofing" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Up to 3 final images and one landbox / Text overlay
+                        </label>
+                        Images from ground level to 400 feet - from any safe position onsite. Complimentary Image Proofing
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Aerial Photography - UAV Drone</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_UAVDroneUP5" value="Up to 5 final images and one landbox / Text overlay.Images from ground level to 400 feet - from any safe position onsite. Complimentary Image Proofing" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Up to 5 final images and one landbox / Text overlay
+                        </label>
+                        Images from ground level to 400 feet - from any safe position onsite. Complimentary Image Proofing
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Aerial Photography - Helicopter</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_UAVDrone_Helicop" value="Up to 5 final images with 1 landbox / text overlay" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Up to 5 final images with 1 landbox / text overlay
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Elevated Pole Photography</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" name="chk_UAVDrone_Elevated" value="Up to 3 final images with 1 landbox / text overlay" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Up to 3 final images with 1 landbox / text overlay
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Floorplan and Landbox content -->
+
+        <div id="divFloorPlan" style="display: none">
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Floorplan and Landbox</h5>
+
+                <div class="col-sm-10"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">On-site Measure and Draw</label>
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDay" data-relativediv="divOnsiteMeasureDraw" style="position: relative;">
+                                <input type="radio" value="FloorPlan" name="Rd_day_Floorphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDusk" data-relativediv="divOnsiteMeasureDraw" style="position: relative;">
+                                <input id="" type="radio" value="FloorPlanandSite Plan" name="Rd_day_Floorphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan and Site Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            Drawn to your corporate specifications - with one revision
+			<div id="divOnsiteMeasureDraw" style="display: none;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">On-site Colour</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox i-checks">
+                            <label class="">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" value="On-site Colour:Yes" name="chk_OnsiteColor" style="position: absolute; opacity: 0;">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <i></i>Yes
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Redraw Colour</label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDay" data-relativediv="divOnsiteMeasureReDraw" style="position: relative;">
+                                <input type="radio" value="FloorPlan" name="RedrawFloorSiteRadio" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDusk" data-relativediv="divOnsiteMeasureReDraw" style="position: relative;">
+                                <input id="" type="radio" value="FloorPlanSitePlan" name="RedrawFloorSiteRadio" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan and Site Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            Drawn to your corporate specifications - with one revision
+			<div id="divOnsiteMeasureReDraw" style="display: none;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Redraw Colour</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox i-checks">
+                            <label class="">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" value="Redraw Colour:Yes" name="chk_RedrawColor" style="position: absolute; opacity: 0;">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <i></i>Yes
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Landbox</label>
+                <div class="col-sm-10">
+                    <div class="">
+                        <select name="ddlLandbox">
+                            <option value="None">None</option>
+                            <option value="Ongrassbackground">On grass background</option>
+                            <option value="Onpropbackground">On Property background</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="divCopywritingContent" style="display: none;">
+
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Copy writing </h5>
+                <div class="col-sm-10"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Onsite Copy</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" value="Onsite Copy:Yes" name="chk_copywrite_Onsite" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Yes
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Offsite from photography and floorplans</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" value="Offsite Copy:Yes" name="chk_copywrite_Offsite" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Yes
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Re-write from agents own</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" value="Re-write From agent:Yes" name="chk_Rewrite_agent" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Yes
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div id="divVideoImagetours" style="display: none;">
+
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Video & Image</h5>
+
+                <div class="col-sm-10"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Property Video</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" value="Property Video:Yes" name="chk_video_propvideo" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Yes
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Corporate / Profile Videos</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" value="Corporate/Profile Video:Yes" name="chk_video_profile" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>To your brief POA
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Image Tours</label>
+                <div class="col-sm-10">
+                    <div class="checkbox i-checks">
+                        <label class="">
+                            <div class="icheckbox_square-green" style="position: relative;">
+                                <input type="checkbox" value="Image Tours Still image:Yes" name="chk_ImageTours_stillImg" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>From still images</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br />
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Keys in Safe at Property:</label>
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="Keys in Safe at Property:Yes" name="chk_KeyinsafeProp" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Yes
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Keys in Office:</label>
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="Keys in Office:Yes" name="chk_KeyinOffice" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Yes
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Special Instructions:</label>
+            <div class="col-sm-10">
+                <textarea rows="4" name="txt_SpecialInsruction" class="form-control"></textarea>
+            </div>
+        </div>
+    </div> <!-- end div main order -->
+    
+    
+          
+    <div class="ibox-content" id="divCommercialphotography" style="display: none;">
+
+        <div class="form-group ">
+            <label class="col-sm-2 control-label underlined">Project Details:</label>
+
+
+            <div class="col-sm-10"></div>
+        </div>
+
+        @if ((Model != null) && (Model.UserType != 3))
+        {
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Company:</label>
+                <div class="col-sm-4">
+                    @Html.DropDownList("ddlCompanyCom", new SelectList(Model.Companylist, "Row_Id", "XeroName"), "Select", new { @class = "form-control m-b" })
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Office Contact Name:</label>
+
+            <div class="col-sm-10">
+                <input type="text" name="txtOfficeContactNameCom" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Phone:</label>
+
+            <div class="col-sm-5">
+                <input type="tel" name="txtPhone" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Email Id</label>
+
+            <div class="col-sm-5">
+                <input type="email" name="txtEmailIdCom" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Project Address:</label>
+
+            <div class="col-sm-5">
+                <input name="txtProjectAddress" type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Detailed Brief:</label>
+            <div class="col-sm-10">
+                <textarea rows="4" name="txtDetailedBrief" class="form-control"></textarea>
+            </div>
+        </div>
+
+    </div>
+    
+    
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+            @*<a href="#" class="btn btn-primary btn-rounded"><i class="fa fa-check"></i>Submit</a>*@
+            <button type="button" class="btn btn-primary block full-width m-b">Submit</button>
+        </div>
+    </div>
+
+       
+   
+                       
+}
+
+
+@*<script>
+    $(function () {
+        $("#Dt_PropertyReady").datepicker();
+    });
+  </script>*@
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+       
+    $('#AddOrderForm').ajaxForm(function (data) {
+          alert(data);
+      
+        //  alert("Data has been saved successfully");
+        $('#divPageBody').html("");
+        $('#divPageBody').html(data);
+       // $("html, body").animate({ scrollTop: 0 }, "slow");
+        // alert("Thank you for your comment!");
+    });
+    });
+
+
+    $(function () {
+        // debugger;
+        // $('select[name="colorpicker-picker-selectColor-unknown"]').simplecolorpicker({ picker: true, theme: 'glyphicons' });
+        $('.Alphanumeric').alphanumeric();
+
+        $('[data-relativediv]').click(function () {
+            alert("hi");
+            var relativeDivId = $(this).data('relativediv');
+            $('#' + relativeDivId).slideToggle();
+
+        });
+
+        //$('[data_relativediv]').click(function () {
+        //    // debugger;
+        //    var relativeDivId = $(this).data('relativediv');
+        //    $('#' + relativeDivId).slideToggle();
+
+        //})
+
+    });
+
+    function AddOrderDetails() {
+
+        var validate = $("#AddOrderForm").valid();
+
+        if (validate) {
+            $.post('@Url.Action("AddOrder", "Order")', $("#AddOrderForm").serialize(), function (data) {
+                if (data != null) {
+                    alert("Updated");
+                    $("#loadCompaniesforProduct").text("");
+                    $("#loadCompaniesforProduct").html(data);
+
+                }
+            });
+        }
+        // }
+
+
+    }
+
+
+
+</script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+
+        $('.collapse-link').click(function () {
+            var ibox = $(this).closest('div.ibox');
+            var button = $(this).find('i');
+            var content = ibox.find('div.ibox-content');
+            content.slideToggle(200);
+            button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+            ibox.toggleClass('').toggleClass('border-bottom');
+            setTimeout(function () {
+                ibox.resize();
+                ibox.find('[id^=map-]').resize();
+            }, 50);
+        });
+
+        // close ibox function
+        $('.close-link').click(function () {
+            var content = $(this).closest('div.ibox');
+            content.remove();
+        });
+
+        // small todo handler
+        $('.check-link').click(function () {
+            var button = $(this).find('i');
+            var label = $(this).next('span');
+            button.toggleClass('fa-check-square').toggleClass('fa-square-o');
+            label.toggleClass('todo-completed');
+            return false;
+        });
+
+        $('.navbar-minimalize').click(function () {
+            $("body").toggleClass("mini-navbar");
+        });
+
+
+
+
+
+        $(".for_radio").click(function () {
+            $("#imageOptions2").show();
+            $("#imageOptions8").hide();
+            $("#imageOptions5").hide();
+        });
+        $(".for_radio2").click(function () {
+            $("#imageOptions5").show();
+            $("#imageOptions2").hide();
+            $("#imageOptions8").hide();
+        });
+        $(".for_radio3").click(function () {
+            $("#imageOptions8").show();
+            $("#imageOptions2").hide();
+            $("#imageOptions5").hide();
+        });
+
+        $(".for_radioPrestigeDay").click(function () {
+            $("#divPrestigeDayOption").show();
+            $("#divPrestigeDuskOption").hide();
+        });
+
+        $(".for_radioPrestigeDusk").click(function () {
+            $("#divPrestigeDuskOption").show();
+            $("#divPrestigeDayOption").hide();
+        });
+
+        $(".for_Rental_photography_5").click(function () {
+            $("#divRentalOption5").show();
+            $("#divRentalOption10").hide();
+        });
+
+        $(".for_Rental_photography_10").click(function () {
+            $("#divRentalOption10").show();
+            $("#divRentalOption5").hide();
+        });
+
+        // 2 External Images
+
+        //var maxaids = 2;
+        //$('#imageOptions2').on('click', "input[type=checkbox]", function () {
+        //    alert($("input:checked").length);
+        //    var bol = $("input:checked").length >= maxaids;
+        //    $("input[type=checkbox]").not(":checked").attr("disabled", bol);
+        //});
+
+
+        //var maxaids = "3";
+        //$('#imageOptionstest').on('click', function () {
+
+        //    var bol = $("input:checked").length >= maxaids;
+        //    $("#test").attr("disabled", bol);
+        //    //  $("input[type=checkbox]").not(":checked").attr("disabled",bol);
+        //});
+
+      
+     
+        $('.for_text input').on('ifChecked', function (event) {
+            $('.owner input').iCheck('disable');
+        });
+
+        $('.for_text input').on('ifUnchecked', function (event) {
+            $('.owner input').iCheck('enable');
+        });
+
+
+        $.get('@Url.Action("GetOrderableProductsDataJson", "Order")', { groupid: 1 }, function (OrderableProductsDataList) {
+            if (TagListInfo != null) {
+                 debugger;
+
+                $('#ulTagContent').html("");
+                for (var i = 0; i < OrderableProductsDataList.length; i++) {
+
+
+
+
+
+                    var li = document.createElement('li');
+                    li.className = ''; // Class name
+                    // li.innerHTML = ; // Text inside
+                    li.id = "li" + i;
+                    $('#ulTagContent').append(li); // Append it
+                    //li.onclick = dynamicEvent; // Attach the event!
+
+                    var Anchor = document.createElement('a');
+                    Anchor.id = "anchor" + i;
+                    Anchor.innerHTML = OrderableProductsDataList[i].TagName;
+
+                    var TagName = OrderableProductsDataList[i].TagName.trim();
+
+                    Anchor.href = "javascript:;";
+                    var GroupId = OrderableProductsDataList[i].GroupId;
+
+                    Anchor.setAttribute("onclick", "ShowGalleryByTagName('" + TagName + "'," + GroupId + ");")
+
+                    $('#li' + i).append(Anchor);
+                }
+
+                var FileTypeList = [];
+                FileTypeList[0] = "All";
+                FileTypeList[1] = "Documents";
+                FileTypeList[2] = "Audio";
+                FileTypeList[3] = "Images";
+
+
+                $('#divSearchFilesExtwise').html("");
+
+                for (var i = 0; i < FileTypeList.length; i++) {
+                    var Anchor = document.createElement('a');
+                    var FileType = FileTypeList[i];
+                    Anchor.id = "anchor" + i;
+                    Anchor.innerHTML = FileType;
+                    Anchor.href = "javascript:;";
+                    Anchor.className = "file-control";
+                    var GroupId = groupid;
+                    Anchor.setAttribute("onclick", "ShowExtwiseGalleryFiles('" + FileType + "'," + GroupId + ");")
+                    $('#divSearchFilesExtwise').append(Anchor);
+                }
+
+            }
+        });
+
+
+
+
+
+
+        // 2 External Images
+
+
+
+
+        ///
+
+
+
+
+
+
+
+
+        //$('#data_4.input-group.date').datepicker({
+        //    minViewMode: 1,
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    autoclose: true,
+        //    todayHighlight: true
+        //});
+
+    });
+
+    function CreateSectionProjectReq()
+    {
+
+    }
+
+
+</script>
+
+<script>
+    $(function () {
+      //  $("#rd_proptype").buttonset();
+
+        $("input[name='rd_proptype']").on("change", function () {
+            var rdval = (this.value);
+            switch (rdval) {
+                case '1':
+                    $("#divMainOrder").show();
+                    $("#divCommercialphotography").hide();
+                    break;
+                case '2':
+                    $("#divMainOrder").show();
+                    $("#divCommercialphotography").hide();
+                    break;
+                case '3':
+                    $("#divCommercialphotography").show();
+                    $("#divMainOrder").hide();
+                    break;
+            }
+        });
+
+    });
+
+    function CountCheckBox()
+    {
+
+      //  alert("Hi");
+    }
+   // alert("Hi");
+</script>
+
+
+

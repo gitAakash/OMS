@@ -1,0 +1,1958 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OrderManagementModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="OrderMgntEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Assets" EntityType="OrderManagementModel.Asset" />
+    <EntitySet Name="AssetAllocations" EntityType="OrderManagementModel.AssetAllocation" />
+    <EntitySet Name="AssetConfigs" EntityType="OrderManagementModel.AssetConfig" />
+    <EntitySet Name="AssetHealthMeasures" EntityType="OrderManagementModel.AssetHealthMeasure" />
+    <EntitySet Name="AssetServices" EntityType="OrderManagementModel.AssetService" />
+    <EntitySet Name="AssetStatus" EntityType="OrderManagementModel.AssetStatu" />
+    <EntitySet Name="BusinessProcesses" EntityType="OrderManagementModel.BusinessProcess" />
+    <EntitySet Name="Calendars" EntityType="OrderManagementModel.Calendar" />
+    <EntitySet Name="CalendarUsers" EntityType="OrderManagementModel.CalendarUser" />
+    <EntitySet Name="Campaigns" EntityType="OrderManagementModel.Campaign" />
+    <EntitySet Name="CampaignAssets" EntityType="OrderManagementModel.CampaignAsset" />
+    <EntitySet Name="CampaignCollaterals" EntityType="OrderManagementModel.CampaignCollateral" />
+    <EntitySet Name="CampaignNotifications" EntityType="OrderManagementModel.CampaignNotification" />
+    <EntitySet Name="CampaignSittings" EntityType="OrderManagementModel.CampaignSitting" />
+    <EntitySet Name="CampaignTimeLines" EntityType="OrderManagementModel.CampaignTimeLine" />
+    <EntitySet Name="CancelledOrders" EntityType="OrderManagementModel.CancelledOrder" />
+    <EntitySet Name="ColorMasters" EntityType="OrderManagementModel.ColorMaster" />
+    <EntitySet Name="Companies" EntityType="OrderManagementModel.Company" />
+    <EntitySet Name="CompanyMails" EntityType="OrderManagementModel.CompanyMail" />
+    <EntitySet Name="CompanyOrders" EntityType="OrderManagementModel.CompanyOrder" />
+    <EntitySet Name="Contacts" EntityType="OrderManagementModel.Contact" />
+    <EntitySet Name="EventTrackings" EntityType="OrderManagementModel.EventTracking" />
+    <EntitySet Name="Mails" EntityType="OrderManagementModel.Mail" />
+    <EntitySet Name="OrderContacts" EntityType="OrderManagementModel.OrderContact" />
+    <EntitySet Name="OrderEvents" EntityType="OrderManagementModel.OrderEvent" />
+    <EntitySet Name="OrderItems" EntityType="OrderManagementModel.OrderItem" />
+    <EntitySet Name="Orders" EntityType="OrderManagementModel.Order" />
+    <EntitySet Name="OrderTypes" EntityType="OrderManagementModel.OrderType" />
+    <EntitySet Name="Organisations" EntityType="OrderManagementModel.Organisation" />
+    <EntitySet Name="ProductCompanies" EntityType="OrderManagementModel.ProductCompany" />
+    <EntitySet Name="ProductGroups" EntityType="OrderManagementModel.ProductGroup" />
+    <EntitySet Name="Products" EntityType="OrderManagementModel.Product" />
+    <EntitySet Name="ProductSchedules" EntityType="OrderManagementModel.ProductSchedule" />
+    <EntitySet Name="ProductUsers" EntityType="OrderManagementModel.ProductUser" />
+    <EntitySet Name="Properties" EntityType="OrderManagementModel.Property" />
+    <EntitySet Name="PropertyInvoices" EntityType="OrderManagementModel.PropertyInvoice" />
+    <EntitySet Name="Users" EntityType="OrderManagementModel.User" />
+    <EntitySet Name="UserTypes" EntityType="OrderManagementModel.UserType" />
+    <EntitySet Name="Visitor_Fact" EntityType="OrderManagementModel.Visitor_Fact" />
+    <AssociationSet Name="FK_Contacts_Company" Association="OrderManagementModel.FK_Contacts_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Contacts" EntitySet="Contacts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Property_Company" Association="OrderManagementModel.FK_Property_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="Property" EntitySet="Properties" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItemEvents_Orders" Association="OrderManagementModel.FK_OrderItemEvents_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderEvents" EntitySet="OrderEvents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderItems_Order" Association="OrderManagementModel.FK_OrderItems_Order">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderItems" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Company" Association="OrderManagementModel.FK_User_Company">
+      <End Role="Company" EntitySet="Companies" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="UserProductGroups" EntityType="OrderManagementModel.UserProductGroup" />
+    <AssociationSet Name="FK_Table_PGid" Association="OrderManagementModel.FK_Table_PGid">
+      <End Role="ProductGroup" EntitySet="ProductGroups" />
+      <End Role="UserProductGroup" EntitySet="UserProductGroups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_UID" Association="OrderManagementModel.FK_Table_UID">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserProductGroup" EntitySet="UserProductGroups" />
+    </AssociationSet>
+    <EntitySet Name="Attachments" EntityType="OrderManagementModel.Attachment" />
+    <AssociationSet Name="FK_EventTracking_Organisation" Association="OrderManagementModel.FK_EventTracking_Organisation">
+      <End Role="Organisation" EntitySet="Organisations" />
+      <End Role="EventTracking" EntitySet="EventTrackings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_UserType" Association="OrderManagementModel.FK_User_UserType">
+      <End Role="UserType" EntitySet="UserTypes" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="OrderAttachments" EntityType="OrderManagementModel.OrderAttachment" />
+    <AssociationSet Name="FK_Order_OrderAttachment" Association="OrderManagementModel.FK_Order_OrderAttachment">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderAttachment" EntitySet="OrderAttachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Organisation_OrderAttachment" Association="OrderManagementModel.FK_Organisation_OrderAttachment">
+      <End Role="Organisation" EntitySet="Organisations" />
+      <End Role="OrderAttachment" EntitySet="OrderAttachments" />
+    </AssociationSet>
+    <EntitySet Name="OrderStatus1" EntityType="OrderManagementModel.OrderStatus" />
+    <EntitySet Name="Events" EntityType="OrderManagementModel.Event" />
+    <AssociationSet Name="FK_Attachment_User" Association="OrderManagementModel.FK_Attachment_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Attachment" EntitySet="Attachments" />
+    </AssociationSet>
+    <EntitySet Name="ForgotPwds" EntityType="OrderManagementModel.ForgotPwd" />
+    <EntitySet Name="OrderSubItems" EntityType="OrderManagementModel.OrderSubItem" />
+    <EntitySet Name="ProductSubGroups" EntityType="OrderManagementModel.ProductSubGroup" />
+    <EntitySet Name="ErrorLogs" EntityType="OrderManagementModel.ErrorLog" />
+    <EntitySet Name="EventExceptions" EntityType="OrderManagementModel.EventException" />
+    <FunctionImport Name="DailyScheduleDusk" ReturnType="Collection(OrderManagementModel.DailyScheduleDusk_Result)" />
+    <FunctionImport Name="GetDataforCalenderEntry">
+      <Parameter Name="OrderId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetProductCategory" ReturnType="Collection(OrderManagementModel.ProductCategories)">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Parent_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetProductSchedules" ReturnType="Collection(String)">
+      <Parameter Name="XeroID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertCalendars">
+      <Parameter Name="Calendar" Mode="In" Type="String" />
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="TimeZone" Mode="In" Type="String" />
+      <Parameter Name="Kind" Mode="In" Type="String" />
+      <Parameter Name="eTag" Mode="In" Type="String" />
+      <Parameter Name="ColorId" Mode="In" Type="Int32" />
+      <Parameter Name="Background" Mode="In" Type="String" />
+      <Parameter Name="Foreground" Mode="In" Type="String" />
+      <Parameter Name="AccessRole" Mode="In" Type="String" />
+      <Parameter Name="IsSelected" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="InsertCancelledOrder">
+      <Parameter Name="OrgId" Mode="In" Type="Int32" />
+      <Parameter Name="Property" Mode="In" Type="String" />
+      <Parameter Name="Service" Mode="In" Type="String" />
+      <Parameter Name="RequiredDate" Mode="In" Type="String" />
+      <Parameter Name="FileName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertEvents">
+      <Parameter Name="Calendar" Mode="In" Type="String" />
+      <Parameter Name="OrderId" Mode="In" Type="String" />
+      <Parameter Name="Title" Mode="In" Type="String" />
+      <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+      <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+      <Parameter Name="MovedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertGooglePushNotification">
+      <Parameter Name="ChannelId" Mode="In" Type="String" />
+      <Parameter Name="ChannelToken" Mode="In" Type="String" />
+      <Parameter Name="ChannelExpiration" Mode="In" Type="DateTime" />
+      <Parameter Name="ResourceId" Mode="In" Type="String" />
+      <Parameter Name="ResourceURI" Mode="In" Type="String" />
+      <Parameter Name="ResourceState" Mode="In" Type="String" />
+      <Parameter Name="MessageNumber" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="InsertGooglePushNotificationWatch">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="OAuthId" Mode="In" Type="Int32" />
+      <Parameter Name="CalendarId" Mode="In" Type="Int32" />
+      <Parameter Name="ChannelId" Mode="In" Type="Guid" />
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="Expiration" Mode="In" Type="Int64" />
+      <Parameter Name="ResourceId" Mode="In" Type="String" />
+      <Parameter Name="ResourceURI" Mode="In" Type="String" />
+      <Parameter Name="Active" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="InsertGoogleSyncTime">
+      <Parameter Name="Calendar" Mode="In" Type="String" />
+      <Parameter Name="LastSync" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="InsertOtherEvents">
+      <Parameter Name="Calendar" Mode="In" Type="String" />
+      <Parameter Name="EventId" Mode="In" Type="String" />
+      <Parameter Name="RecurringEventId" Mode="In" Type="String" />
+      <Parameter Name="ColorId" Mode="In" Type="String" />
+      <Parameter Name="Attendees" Mode="In" Type="String" />
+      <Parameter Name="AttendeesOmitted" Mode="In" Type="Boolean" />
+      <Parameter Name="AnyoneCanAddSelf" Mode="In" Type="Boolean" />
+      <Parameter Name="Locked" Mode="In" Type="Boolean" />
+      <Parameter Name="Title" Mode="In" Type="String" />
+      <Parameter Name="Location" Mode="In" Type="String" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+      <Parameter Name="Kind" Mode="In" Type="String" />
+      <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+      <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+      <Parameter Name="MovedOn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Recurrence" Mode="In" Type="String" />
+      <Parameter Name="Organizer" Mode="In" Type="String" />
+      <Parameter Name="Creator" Mode="In" Type="String" />
+      <Parameter Name="Sequence" Mode="In" Type="Int32" />
+      <Parameter Name="Transperancy" Mode="In" Type="String" />
+      <Parameter Name="Updated" Mode="In" Type="DateTime" />
+      <Parameter Name="Visibility" Mode="In" Type="String" />
+      <Parameter Name="IsAllDay" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="InsertPropertyInvoiceNo">
+      <Parameter Name="PropertyId" Mode="In" Type="Int32" />
+      <Parameter Name="InvoiceNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Processmail">
+      <Parameter Name="X" Mode="In" Type="String" />
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="QFN_SPLIT" IsComposable="true" ReturnType="Collection(OrderManagementModel.QFN_SPLIT_Result)">
+      <Parameter Name="INPUTSTR" Mode="In" Type="String" />
+      <Parameter Name="SEPRATOR" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectCalendarsForPushNotification" ReturnType="Collection(OrderManagementModel.SelectCalendarsForPushNotification_Result)" />
+    <FunctionImport Name="SelectClientCredentials" ReturnType="Collection(OrderManagementModel.SelectClientCredentials_Result)">
+      <Parameter Name="orgId" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectLastSyncForCalendar" ReturnType="Collection(DateTime)">
+      <Parameter Name="Calendar" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="split" IsComposable="true" ReturnType="Collection(OrderManagementModel.split_Result)">
+      <Parameter Name="del" Mode="In" Type="String" />
+      <Parameter Name="str" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SyncCompany">
+      <Parameter Name="X" Mode="In" Type="String" />
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SyncProducts">
+      <Parameter Name="X" Mode="In" Type="String" />
+      <Parameter Name="OrgId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateEvent">
+      <Parameter Name="Event_id" Mode="In" Type="String" />
+      <Parameter Name="OldCalendarUser" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateOrderEvent">
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Jobs" EntityType="OrderManagementModel.Job" />
+    <EntitySet Name="JobAttachments" EntityType="OrderManagementModel.JobAttachment" />
+    <EntitySet Name="JobCopies" EntityType="OrderManagementModel.JobCopy" />
+    <EntitySet Name="JobCopyTypes" EntityType="OrderManagementModel.JobCopyType" />
+    <EntitySet Name="JobStatus" EntityType="OrderManagementModel.JobStatus" />
+    <FunctionImport Name="DeleteJobAttachment">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JobAttachmentId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteJobCopy">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JOB_COPY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllUsersJobStatus" ReturnType="Collection(OrderManagementModel.GetAllUsersJobStatus)">
+      <Parameter Name="OrgId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetOrders" ReturnType="Collection(OrderManagementModel.GetOrders_Result)" />
+    <FunctionImport Name="InsertJobAttachment" ReturnType="Collection(OrderManagementModel.InsertJobAttachment)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+      <Parameter Name="FileName" Mode="In" Type="String" />
+      <Parameter Name="FileExtension" Mode="In" Type="String" />
+      <Parameter Name="FileSize" Mode="In" Type="Int32" />
+      <Parameter Name="GroupType" Mode="In" Type="String" />
+      <Parameter Name="Tags" Mode="In" Type="String" />
+      <Parameter Name="Folder" Mode="In" Type="String" />
+      <Parameter Name="FilePath" Mode="In" Type="String" />
+      <Parameter Name="Row_id" Mode="In" Type="Int32" />
+      <Parameter Name="isDeleted" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertJobCopy">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Type_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Title" Mode="In" Type="String" />
+      <Parameter Name="TitleWordCount" Mode="In" Type="Int32" />
+      <Parameter Name="Body" Mode="In" Type="String" />
+      <Parameter Name="BodyWordCount" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobAttachmentFolders" ReturnType="Collection(OrderManagementModel.SelectJobAttachmentFolders)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobCopy" ReturnType="Collection(OrderManagementModel.SelectJobCopy)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JOB_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobCopyTypes" ReturnType="Collection(OrderManagementModel.SelectJobCopyType)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateJobAttachment">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JobAttachmentId" Mode="In" Type="Int32" />
+      <Parameter Name="FileName" Mode="In" Type="String" />
+      <Parameter Name="FileExtension" Mode="In" Type="String" />
+      <Parameter Name="FileSize" Mode="In" Type="Int32" />
+      <Parameter Name="File" Mode="In" Type="Binary" />
+      <Parameter Name="GroupType" Mode="In" Type="String" />
+      <Parameter Name="Tags" Mode="In" Type="String" />
+      <Parameter Name="Folder" Mode="In" Type="String" />
+      <Parameter Name="Selected" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateJobCopy">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JOB_COPY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="TYPE_ID" Mode="In" Type="Int32" />
+      <Parameter Name="Title" Mode="In" Type="String" />
+      <Parameter Name="TitleWordCount" Mode="In" Type="Int32" />
+      <Parameter Name="Body" Mode="In" Type="String" />
+      <Parameter Name="BodyWordCount" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectAllUsers" ReturnType="Collection(OrderManagementModel.SpGetAllUsers)">
+      <Parameter Name="OrgId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectAllProduct" ReturnType="Collection(OrderManagementModel.SpGetAllProduct)">
+      <Parameter Name="OrgId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobs" ReturnType="Collection(OrderManagementModel.TrackingJobs)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="SearchValue" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetCalenderUsers" ReturnType="Collection(OrderManagementModel.GetCalenderUsers)">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetUserProductCalendar" ReturnType="Collection(OrderManagementModel.GetUserProductCalendar)">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetGroupCalendarUsers" ReturnType="Collection(OrderManagementModel.GetGroupCalendarUsers)">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="UserList" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SplitUserList" IsComposable="true" ReturnType="Collection(OrderManagementModel.SplitUserList_Result)">
+      <Parameter Name="List" Mode="In" Type="String" />
+      <Parameter Name="SplitOn" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobAttachment" ReturnType="Collection(OrderManagementModel.SelectJobAttachment)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobAttachments" ReturnType="Collection(OrderManagementModel.SelectJobAttachments)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetJobAttachments" ReturnType="Collection(OrderManagementModel.GetJobAttachments)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="GroupType" Mode="In" Type="Int32" />
+      <Parameter Name="job_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Tags" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectJobAttachmentTypes" ReturnType="Collection(OrderManagementModel.SelectJobAttachmentTypes)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="ProductGroup_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GetAllEventException" ReturnType="Collection(OrderManagementModel.GetAllEventException)" />
+    <FunctionImport Name="UpdateJobAttachmentSelected">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JobAttachmentId" Mode="In" Type="Int32" />
+      <Parameter Name="Selected" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SelectOrderableProducts" ReturnType="Collection(OrderManagementModel.SelectOrderableProducts)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertOrderItem" ReturnType="Collection(Int32)">
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="ClientPrice" Mode="In" Type="String" />
+      <Parameter Name="CostPrice" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertWebContact">
+      <Parameter Name="Company_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Order_Id" Mode="In" Type="Int32" />
+      <Parameter Name="User_Id" Mode="In" Type="Int32" />
+      <Parameter Name="First_Name" Mode="In" Type="String" />
+      <Parameter Name="Last_Name" Mode="In" Type="String" />
+      <Parameter Name="Email_Address" Mode="In" Type="String" />
+      <Parameter Name="Phone_Number" Mode="In" Type="String" />
+      <Parameter Name="ContactType" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertWebOrder" ReturnType="Collection(OrderManagementModel.InsertWebOrder)">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="OrderType_Id" Mode="In" Type="Int32" />
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="Property_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Comments" Mode="In" Type="String" />
+      <Parameter Name="Options" Mode="In" Type="String" />
+      <Parameter Name="user_type" Mode="In" Type="String" />
+      <Parameter Name="RequiredDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+      <Parameter Name="Mail_Id" Mode="In" Type="Int32" />
+      <Parameter Name="company_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Keys" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertWebProperty" ReturnType="Collection(OrderManagementModel.InsertWebProperty)">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="User_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Property_Id" Mode="In" Type="String" />
+      <Parameter Name="Lat" Mode="In" Type="String" />
+      <Parameter Name="Long" Mode="In" Type="String" />
+      <Parameter Name="company_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertWebOrderItem">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Order_Id" Mode="In" Type="Int32" />
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="Product_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Quantity" Mode="In" Type="Decimal" />
+      <Parameter Name="Price" Mode="In" Type="Decimal" />
+      <Parameter Name="Discount_Percent" Mode="In" Type="Decimal" />
+      <Parameter Name="Comments" Mode="In" Type="String" />
+      <Parameter Name="Options" Mode="In" Type="String" />
+      <Parameter Name="user_type" Mode="In" Type="String" />
+      <Parameter Name="user_company_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SelectProductGroupOptions" ReturnType="Collection(OrderManagementModel.SelectProductGroupOptions)">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="PRODUCT_ROW_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertJob">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="OrderId" Mode="In" Type="Int32" />
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="Property_Id" Mode="In" Type="Int32" />
+      <Parameter Name="RequiredDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Mail_Id" Mode="In" Type="Int32" />
+      <Parameter Name="company_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Keys" Mode="In" Type="String" />
+      <Parameter Name="AdminId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertJobEvent">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Job_Id" Mode="In" Type="Int32" />
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="Calendar_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Event_Id" Mode="In" Type="Int32" />
+      <Parameter Name="ProductGroup_Id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Keys" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetStagingCalenderUsers" ReturnType="Collection(OrderManagementModel.GetStagingCalenderUsers)">
+      <Parameter Name="Org_Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteJob">
+      <Parameter Name="ORG_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_ID" Mode="In" Type="Int32" />
+      <Parameter Name="USER_TYPE" Mode="In" Type="String" />
+      <Parameter Name="USER_COMPANY_ID" Mode="In" Type="Int32" />
+      <Parameter Name="JOB_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Applications" EntityType="OrderManagementModel.Application" />
+    <FunctionImport Name="UpdateJobEvents">
+      <Parameter Name="EventId" Mode="In" Type="String" />
+      <Parameter Name="CalendarName" Mode="In" Type="String" />
+      <Parameter Name="UpdatedByCalendarName" Mode="In" Type="String" />
+      <Parameter Name="OldEventRowId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="JobEvents" EntityType="OrderManagementModel.JobEvent" />
+    <FunctionImport Name="GetEventId" ReturnType="Collection(OrderManagementModel.GetEventId)">
+      <Parameter Name="EventId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetEventRowId" ReturnType="Collection(OrderManagementModel.GetEventRowId)">
+      <Parameter Name="EventId" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Asset">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="Int32" />
+    <Property Name="AssetGUID" Type="Guid" />
+    <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="ManufactureId" Type="Int32" />
+    <Property Name="ManufactureModel" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Battery" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="FactorySerialNo" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="PurchasePriceExGST" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PurchaseCurrency" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="PurchaseExchangeRate" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="MaxRange" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Passcode" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+    <Property Name="PurchaseInvoiceId__PurchaseInvoiceId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="AssetAllocation">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="AllocatedTo" Type="Int32" />
+  </EntityType>
+  <EntityType Name="AssetConfig">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="Int32" />
+    <Property Name="AdvInterval" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AdvChannel" Type="String" MaxLength="1500" Unicode="false" FixedLength="false" />
+    <Property Name="ProxUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Major" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Minor" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Power" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="Range" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Firmware" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Location" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="PassCode" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+    <Property Name="CampaignId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="AssetHealthMeasure">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="Int32" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="MeasureType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Measurement" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CampaignId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="AssetService">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="Int32" />
+    <Property Name="AssignedtoComp" Type="Int32" />
+    <Property Name="AssignedtoTech" Type="Int32" />
+    <Property Name="ActivityStartDate" Type="DateTime" Precision="3" />
+    <Property Name="Type" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="EstimatedEffort" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ActualEffort" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Notes" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Resolution" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ReleaseDateTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="AssetStatu">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AssetId" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Notes" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="BusinessProcess">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="Int32" />
+    <Property Name="Object" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="SPName" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="DisplayName" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="ActiveRecord" Type="Boolean" />
+    <Property Name="ActiveRecordSet" Type="Boolean" />
+    <Property Name="RecordSet" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Calendar">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Type="Boolean" Name="StagingCalendar" />
+    <Property Type="String" Name="TimeZone" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Kind" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="eTag" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ColorId" />
+    <Property Type="String" Name="Background" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Foreground" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="AccessRole" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsSelected" />
+  </EntityType>
+  <EntityType Name="CalendarUser">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="CalendarId" Type="Int32" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Type="String" Name="Color" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Campaign">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" />
+    <Property Name="OrgId" Type="Int32" />
+    <Property Name="PropertyId" Type="Int32" />
+    <Property Name="ApplicationId" Type="Int32" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="AssignedTo" Type="Int32" />
+    <Property Name="AssetCountRequirement" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CampaignAsset">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CampaignId" Type="Int32" />
+    <Property Name="AssetId" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="AssetConfigId" Type="Int32" />
+    <Property Name="ConfiguredBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CampaignCollateral">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CampaignId" Type="Int32" />
+    <Property Name="Type" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Content" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="CampaignTimeLineId" Type="Int32" />
+    <Property Name="DwellTimeMin" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DwellTimeMax" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="VisitMin" Type="Int32" />
+    <Property Name="VisitMax" Type="Int32" />
+    <Property Name="MaxMessages" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CampaignNotification">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="Int32" />
+    <Property Name="CampaignId" Type="Int32" />
+    <Property Name="CampaignSittingId" Type="Int32" />
+    <Property Name="NotificationType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="NotificationMsg" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+    <Property Name="ReceiverUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="FireDatetime" Type="DateTime" Precision="3" />
+    <Property Name="Badge" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="CreatedBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CampaignSitting">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AssetProxUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="ReceiverUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Event" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="EventDatetime" Type="DateTime" Precision="3" />
+    <Property Name="DwellTime" Type="DateTime" Precision="3" />
+    <Property Name="Latitude" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Longitude" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="SignalMeasure" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PowerMeasure" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TempMeasure" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ReceiverDevice" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="CampaignTimeLine">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CampaignId" Type="Int32" />
+    <Property Name="Activity" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="CancelledOrder">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="Int32" />
+    <Property Name="Property" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Service" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="RequiredDate" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="FileName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="ColorMaster">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Color" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Type="String" Name="ColorName" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="Int32" />
+    <Property Name="CompanyCode" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="XeroName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ScrappedName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="CreateEvent" Type="Boolean" />
+    <Property Name="CreateInvoice" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Contacts" Relationship="OrderManagementModel.FK_Contacts_Company" FromRole="Company" ToRole="Contacts" />
+    <NavigationProperty Name="Properties" Relationship="OrderManagementModel.FK_Property_Company" FromRole="Company" ToRole="Property" />
+    <NavigationProperty Name="Users" Relationship="OrderManagementModel.FK_User_Company" FromRole="Company" ToRole="User" />
+    <Property Type="Boolean" Name="Active" />
+    <Property Type="Boolean" Name="WebOrders" />
+  </EntityType>
+  <EntityType Name="CompanyMail">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Company_Id" Type="Int32" />
+    <Property Name="Mail_Id" Type="Int32" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="CompanyOrder">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Value" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ContactType" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Company" Relationship="OrderManagementModel.FK_Contacts_Company" FromRole="Contacts" ToRole="Company" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="String" Name="First_Name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Last_Name" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Email_Address" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Phone_Number" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="EventTracking">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CalendarId" Type="Int32" />
+    <Property Name="OrderId" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Title" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="MovedOn" Type="DateTime" Precision="3" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Type="Int32" Name="Org_Id" />
+    <NavigationProperty Name="Organisation" Relationship="OrderManagementModel.FK_EventTracking_Organisation" FromRole="EventTracking" ToRole="Organisation" />
+  </EntityType>
+  <EntityType Name="Mail">
+    <Key>
+      <PropertyRef Name="Row_ID" />
+    </Key>
+    <Property Name="Row_ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Org_Id" Type="Int32" />
+    <Property Name="FileName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="SentDate" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Subject" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="OrderContact">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="ContactId" Type="Int32" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="OrderEvent">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Order_Id" Type="Int32" />
+    <Property Name="TimeZone" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="EventCreated" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Order" Relationship="OrderManagementModel.FK_OrderItemEvents_Orders" FromRole="OrderEvents" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Order_Id" Type="Int32" />
+    <Property Name="Xero_Id" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ClientPrice" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="CostPrice" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Order" Relationship="OrderManagementModel.FK_OrderItems_Order" FromRole="OrderItems" ToRole="Orders" />
+    <Property Type="String" Name="Options" MaxLength="1000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderType_Id" Type="Int32" />
+    <Property Name="Property_Id" Type="Int32" />
+    <Property Name="Mail_Id" Type="Int32" />
+    <Property Name="OrderId" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="RequiredDate" Type="DateTime" Precision="3" />
+    <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="OrderEvents" Relationship="OrderManagementModel.FK_OrderItemEvents_Orders" FromRole="Orders" ToRole="OrderEvents" />
+    <NavigationProperty Name="OrderItems" Relationship="OrderManagementModel.FK_OrderItems_Order" FromRole="Orders" ToRole="OrderItems" />
+    <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="OrderAttachments" Relationship="OrderManagementModel.FK_Order_OrderAttachment" FromRole="Order" ToRole="OrderAttachment" />
+    <Property Type="String" Name="Keys" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="SpecialInstructions" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="OrderType">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Organisation">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="EventTrackings" Relationship="OrderManagementModel.FK_EventTracking_Organisation" FromRole="Organisation" ToRole="EventTracking" />
+    <NavigationProperty Name="OrderAttachments" Relationship="OrderManagementModel.FK_Organisation_OrderAttachment" FromRole="Organisation" ToRole="OrderAttachment" />
+  </EntityType>
+  <EntityType Name="ProductCompany">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Type="Boolean" Name="Enable" />
+  </EntityType>
+  <EntityType Name="ProductGroup">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="Int32" Name="UpdatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="Int32" Name="ParentId" />
+    <NavigationProperty Name="UserProductGroups" Relationship="OrderManagementModel.FK_Table_PGid" FromRole="ProductGroup" ToRole="UserProductGroup" />
+    <Property Type="Int32" Name="Org_Id" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="XeroCode" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="ProductDescription" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="XeroItemDescription" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="SalesUnitPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SalesAccountCode" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="SalesTaxType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Type="Int32" Name="ProductGroupId" />
+    <Property Type="Boolean" Name="WebOrderable" />
+    <Property Type="String" Name="WebName" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="WebDescription" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="WebType" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="WebOptions" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="WebOptionMin" />
+    <Property Type="Int32" Name="WebOptionMax" />
+    <Property Type="Int32" Name="ProductSubGroupId" />
+    <Property Type="Int32" Name="OrgId" />
+  </EntityType>
+  <EntityType Name="ProductSchedule">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="XeroCode" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Value" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="Title" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+    <Property Name="ColorId" Type="Int32" />
+    <Property Type="Boolean" Name="CreateEvent" />
+    <Property Type="Boolean" Name="SendEmail" />
+    <Property Type="String" Name="EmailAddress" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="Int32" Name="UpdatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="ProductGroupId" />
+    <Property Type="Boolean" Name="WebOrderable" />
+    <Property Type="String" Name="WebName" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="WebDescription" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="WebType" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="WebOptions" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="WebOptionMin" />
+    <Property Type="Int32" Name="WebOptionMax" />
+  </EntityType>
+  <EntityType Name="ProductUser">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="User_Id" Type="Int32" />
+    <Property Name="Product_Id" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Property">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Company_Id" Type="Int32" />
+    <Property Name="Property_Id" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="Latitude" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Longitude" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Company" Relationship="OrderManagementModel.FK_Property_Company" FromRole="Property" ToRole="Company" />
+  </EntityType>
+  <EntityType Name="PropertyInvoice">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="PropertyId" Type="Int32" />
+    <Property Name="MailId" Type="Int32" />
+    <Property Name="InvoiceNo" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="Int32" />
+    <Property Name="UserType" Type="Int32" />
+    <Property Name="FirstName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="EmailAddress" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Password" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Updated" Type="DateTime" Precision="3" />
+    <Property Type="Int32" Name="CompanyId" />
+    <NavigationProperty Name="Company" Relationship="OrderManagementModel.FK_User_Company" FromRole="User" ToRole="Company" />
+    <NavigationProperty Name="UserProductGroups" Relationship="OrderManagementModel.FK_Table_UID" FromRole="User" ToRole="UserProductGroup" />
+    <Property Type="String" Name="AboutMe" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserType1" Relationship="OrderManagementModel.FK_User_UserType" FromRole="User" ToRole="UserType" />
+    <NavigationProperty Name="Attachments" Relationship="OrderManagementModel.FK_Attachment_User" FromRole="User" ToRole="Attachment" />
+    <Property Type="Boolean" Name="IsDeleted" />
+  </EntityType>
+  <EntityType Name="UserType">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="Users" Relationship="OrderManagementModel.FK_User_UserType" FromRole="UserType" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Visitor_Fact">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="OrgId" Type="Int32" />
+    <Property Name="ReceiverUDID" Type="Int32" />
+    <Property Name="VisitCount" Type="Int32" />
+    <Property Name="MessageCount" Type="Int32" />
+    <Property Name="CampaignId" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_Contacts_Company">
+    <End Role="Company" Type="OrderManagementModel.Company" Multiplicity="0..1" />
+    <End Role="Contacts" Type="OrderManagementModel.Contact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="Contacts">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Property_Company">
+    <End Role="Company" Type="OrderManagementModel.Company" Multiplicity="0..1" />
+    <End Role="Property" Type="OrderManagementModel.Property" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="Property">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItemEvents_Orders">
+    <End Role="Orders" Type="OrderManagementModel.Order" Multiplicity="0..1" />
+    <End Role="OrderEvents" Type="OrderManagementModel.OrderEvent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderEvents">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderItems_Order">
+    <End Role="Orders" Type="OrderManagementModel.Order" Multiplicity="0..1" />
+    <End Role="OrderItems" Type="OrderManagementModel.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderItems">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Company">
+    <End Type="OrderManagementModel.Company" Role="Company" Multiplicity="0..1" />
+    <End Type="OrderManagementModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserProductGroup">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="UserId" />
+    <Property Type="Int32" Name="ProductGroupId" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <NavigationProperty Name="ProductGroup" Relationship="OrderManagementModel.FK_Table_PGid" FromRole="UserProductGroup" ToRole="ProductGroup" />
+    <NavigationProperty Name="User" Relationship="OrderManagementModel.FK_Table_UID" FromRole="UserProductGroup" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Table_PGid">
+    <End Type="OrderManagementModel.ProductGroup" Role="ProductGroup" Multiplicity="0..1" />
+    <End Type="OrderManagementModel.UserProductGroup" Role="UserProductGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductGroup">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="UserProductGroup">
+        <PropertyRef Name="ProductGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_UID">
+    <End Type="OrderManagementModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="OrderManagementModel.UserProductGroup" Role="UserProductGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="UserProductGroup">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Attachment">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="UserId" />
+    <Property Type="Binary" Name="Buffer" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="User" Relationship="OrderManagementModel.FK_Attachment_User" FromRole="Attachment" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_EventTracking_Organisation">
+    <End Type="OrderManagementModel.Organisation" Role="Organisation" Multiplicity="0..1" />
+    <End Type="OrderManagementModel.EventTracking" Role="EventTracking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organisation">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="EventTracking">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_UserType">
+    <End Type="OrderManagementModel.UserType" Role="UserType" Multiplicity="0..1" />
+    <End Type="OrderManagementModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserType">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="UserType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderAttachment">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="Int32" Name="Order_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" MaxLength="225" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FileExtension" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="FileSize" />
+    <Property Type="Binary" Name="File" MaxLength="Max" FixedLength="false" />
+    <Property Type="String" Name="GroupType" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Type="String" Name="Folder" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="Int32" Name="UpdatedBy" />
+    <NavigationProperty Name="Order" Relationship="OrderManagementModel.FK_Order_OrderAttachment" FromRole="OrderAttachment" ToRole="Order" />
+    <NavigationProperty Name="Organisation" Relationship="OrderManagementModel.FK_Organisation_OrderAttachment" FromRole="OrderAttachment" ToRole="Organisation" />
+  </EntityType>
+  <Association Name="FK_Order_OrderAttachment">
+    <End Type="OrderManagementModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="OrderManagementModel.OrderAttachment" Role="OrderAttachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderAttachment">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Organisation_OrderAttachment">
+    <End Type="OrderManagementModel.Organisation" Role="Organisation" Multiplicity="1" />
+    <End Type="OrderManagementModel.OrderAttachment" Role="OrderAttachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organisation">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="OrderAttachment">
+        <PropertyRef Name="Org_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderStatus">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="String" Name="Order_Id" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="User_Id" />
+    <Property Type="String" Name="Status" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="UpdatedBy" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Type="String" Name="CreatedBy" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+  </EntityType>
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="CalendarId" />
+    <Property Type="String" Name="EventId" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RecurringEventId" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ColorId" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Attendees" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="AttendeesOmitted" />
+    <Property Type="Boolean" Name="AnyoneCanAddSelf" />
+    <Property Type="Boolean" Name="Locked" />
+    <Property Type="String" Name="Title" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Location" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Kind" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="StartDate" Precision="3" />
+    <Property Type="DateTime" Name="EndDate" Precision="3" />
+    <Property Type="DateTime" Name="MovedOn" Precision="3" />
+    <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Recurrence" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Organizer" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Creator" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Sequence" />
+    <Property Type="String" Name="Transperancy" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="String" Name="Visibility" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsAllDay" />
+    <Property Type="String" Name="RecurrenceID" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Attachment_User">
+    <End Type="OrderManagementModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="OrderManagementModel.Attachment" Role="Attachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Row_Id" />
+      </Principal>
+      <Dependent Role="Attachment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ForgotPwd">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="UserID" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ResetURL" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Isused" />
+    <Property Type="DateTime" Name="createddate" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="OrderSubItem">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="OrderItemId" />
+    <Property Type="Int32" Name="ProductSubGroupId" />
+    <Property Type="String" Name="OptionSelected" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+  </EntityType>
+  <EntityType Name="ProductSubGroup">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ProductGroupsID" />
+    <Property Type="String" Name="ProductSubGroupName" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="Int32" Name="UpdatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+  </EntityType>
+  <EntityType Name="ErrorLog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ErrorDetail" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="created" Precision="3" />
+  </EntityType>
+  <EntityType Name="EventException">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="EventId" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Exception" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <ComplexType Name="DailyScheduleDusk_Result">
+    <Property Type="String" Name="Date" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DayOfWeek" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Resource" Nullable="true" MaxLength="255" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="255" />
+    <Property Type="String" Name="Company" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SecondTime" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="ASSIGNEDTO" Nullable="true" MaxLength="255" />
+    <Property Type="String" Name="ADDRESS1" Nullable="true" MaxLength="255" />
+    <Property Type="DateTime" Name="STARTDATE" Nullable="true" Precision="23" />
+    <Property Type="String" Name="FirstTime" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="PACKAGE" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="DOUBLE_BOOK" Nullable="true" />
+    <Property Type="Int32" Name="KEYS" Nullable="true" />
+    <Property Type="Int32" Name="ANGLES" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetProductCategory_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="QFN_SPLIT_Result">
+    <Property Type="String" Name="COL" Nullable="true" />
+    <Property Type="Int32" Name="ID" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectCalendarsForPushNotification_Result">
+    <Property Type="String" Name="Column1" Nullable="true" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectClientCredentials_Result">
+    <Property Type="String" Name="ClientKey" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="SecretKey" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="RefreshToken" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="split_Result">
+    <Property Type="String" Name="VALUE" Nullable="true" />
+    <Property Type="String" Name="COST1" Nullable="true" />
+    <Property Type="String" Name="COST2" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ProductCategories">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="Job">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="String" Name="Title" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Order_Id" />
+    <Property Type="Int32" Name="Property_Id" />
+    <Property Type="String" Name="Status" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="Company_Id" />
+    <Property Type="Int32" Name="Primary_Contact_Id" />
+    <Property Type="Boolean" Name="IsDeleted" />
+    <Property Type="DateTime" Name="Required_By_Date" Precision="0" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="DateTime" Name="UpdatedBy" Precision="3" />
+  </EntityType>
+  <EntityType Name="JobAttachment">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" MaxLength="225" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FileExtension" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="FileSize" />
+    <Property Type="Binary" Name="File" MaxLength="Max" FixedLength="false" />
+    <Property Type="String" Name="GroupType" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Tags" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Folder" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Selected" />
+    <Property Type="Int32" Name="SelectedBy" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="Int32" Name="UpdatedBy" />
+    <Property Type="Boolean" Name="isDeleted" />
+    <Property Type="String" Name="FilePath" MaxLength="2000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="JobCopy">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="Int32" Name="Job_Id" />
+    <Property Type="Int32" Name="Job_Copy_Type_Id" />
+    <Property Type="String" Name="Title" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="TitleWordCount" />
+    <Property Type="String" Name="Body" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="BodyWordCount" />
+    <Property Type="Boolean" Name="IsDeleted" />
+    <Property Type="String" Name="Status" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="Int32" Name="UpdatedBy" />
+  </EntityType>
+  <EntityType Name="JobCopyType">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="String" Name="Type" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="IsDeleted" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="Int32" Name="UpdatedBy" />
+  </EntityType>
+  <EntityType Name="JobStatus">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="String" Name="Job_Id" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="User_Id" />
+    <Property Type="String" Name="Status" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CreatedBy" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="String" Name="UpdatedBy" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="GetAllUsersJobStatus_Result">
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Job_Id" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="GetOrders_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="OrderType_Id" Nullable="true" />
+    <Property Type="Int32" Name="Property_Id" Nullable="true" />
+    <Property Type="Int32" Name="Mail_Id" Nullable="true" />
+    <Property Type="String" Name="OrderId" Nullable="true" />
+    <Property Type="DateTime" Name="RequiredDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Keys" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SpecialInstructions" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentFolders_Result">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="FOLDER" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PARENT_FOLDER_ID" Nullable="true" />
+    <Property Type="String" Name="PARENT_FOLDER_NAME" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TAGS" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobCopy_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Job_Copy_Type_Id" Nullable="true" />
+    <Property Type="String" Name="Job_Copy_Type" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="Int32" Name="TitleWordCount" Nullable="true" />
+    <Property Type="String" Name="Body" Nullable="true" />
+    <Property Type="Int32" Name="BodyWordCount" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobCopyTypes_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Type" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SelectJobs_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="Order_Id" Nullable="true" />
+    <Property Type="Int32" Name="Property_Id" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="Completion_Percent" Nullable="false" MaxLength="3" />
+    <Property Type="Int32" Name="Company_Id" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="DateTime" Name="Required_By_Date" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Created_By" Nullable="true" />
+    <Property Type="String" Name="Created_By1" Nullable="true" />
+    <Property Type="String" Name="Status1" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Product_Group" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Resource" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Title1" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetAllUsersJobStatus">
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Job_Id" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="TrackJobs">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Title" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="Order_Id" Nullable="true" />
+    <Property Type="Int32" Name="Property_Id" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="Completion_Percent" Nullable="false" MaxLength="3" />
+    <Property Type="Int32" Name="Company_Id" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="DateTime" Name="Required_By_Date" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Created_By" Nullable="true" />
+    <Property Type="String" Name="Created_By1" Nullable="true" />
+    <Property Type="String" Name="Status1" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Product_Group" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Resource" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Title1" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectAllUsers_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsActive" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="CompanyId" Nullable="true" />
+    <Property Type="String" Name="XeroName" Nullable="true" />
+    <Property Type="String" Name="UserRoll" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ProductGroupId" Nullable="true" />
+    <Property Type="String" Name="GroupsName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SpGetAllUsers">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsActive" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="CompanyId" Nullable="true" />
+    <Property Type="String" Name="XeroName" Nullable="true" />
+    <Property Type="String" Name="UserRoll" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ProductGroupId" Nullable="true" />
+    <Property Type="String" Name="GroupsName" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SelectAllProduct_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="XeroCode" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="XeroItemDescription" Nullable="true" MaxLength="500" />
+    <Property Type="Decimal" Name="SalesUnitPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="SalesAccountCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SalesTaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="ProductGroupId" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentId" Nullable="true" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SpGetAllProduct">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="XeroCode" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="XeroItemDescription" Nullable="true" MaxLength="500" />
+    <Property Type="Decimal" Name="SalesUnitPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="SalesAccountCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SalesTaxType" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="ProductGroupId" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="ParentId" Nullable="true" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobs_Result1">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="Order_Id" Nullable="true" />
+    <Property Type="Int32" Name="Property_Id" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="Completion_Percent" Nullable="false" MaxLength="3" />
+    <Property Type="Int32" Name="Company_Id" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="DateTime" Name="Required_By_Date" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Created_ByName" Nullable="true" />
+    <Property Type="String" Name="Created_ByValue" Nullable="true" />
+    <Property Type="String" Name="JobEventStatus" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Product_Group" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Resource" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="EventTitle" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="TrackingJobs">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="JobTitle" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="Order_Id" Nullable="true" />
+    <Property Type="Int32" Name="Property_Id" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="Completion_Percent" Nullable="true" />
+    <Property Type="Int32" Name="Company_Id" Nullable="true" />
+    <Property Type="String" Name="Company_Name" Nullable="true" />
+    <Property Type="DateTime" Name="Required_By_Date" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Created_ByName" Nullable="true" />
+    <Property Type="String" Name="Created_ByValue" Nullable="true" />
+    <Property Type="String" Name="Product_Group" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Resource" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="EndDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="EventTitle" Nullable="true" />
+    <Property Type="String" Name="Description" Nullable="true" />
+    <Property Type="String" Name="Status_Colour" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="JobEventStatusColour" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="JobEventStatus" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="GetCalenderUsers_Result">
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetUserProductCalendar_Result">
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+    <Property Type="Int32" Name="ProductGroupId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetCalenderUsers">
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetUserProductCalendar">
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+    <Property Type="Int32" Name="ProductGroupId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetGroupCalendarUsers_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SplitUserList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Value" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="GetGroupCalendarUsers">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UserType" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="CalendarId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="InsertJobAttachment">
+    <Property Type="Decimal" Name="NEW_RECORD_ID" Nullable="true" Precision="38" Scale="0" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentFolders">
+    <Property Type="Int32" Name="ROW_ID" Nullable="false" />
+    <Property Type="String" Name="FOLDER" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="PARENT_FOLDER_ID" Nullable="true" />
+    <Property Type="String" Name="PARENT_FOLDER_NAME" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TAGS" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachment_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="String" Name="AllowedFileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="MaxFileSize" Nullable="true" />
+    <Property Type="Int32" Name="ProductGroup_Id" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachment">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="String" Name="AllowedFileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="MaxFileSize" Nullable="true" />
+    <Property Type="Int32" Name="ProductGroup_Id" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachments_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="Binary" Name="File" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachments">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="Binary" Name="File" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetJobAttachments_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentTypes_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="String" Name="AllowedFileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="MaxFileSize" Nullable="true" />
+    <Property Type="Int32" Name="ProductGroup_Id" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetJobAttachments">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="false" />
+    <Property Type="String" Name="FileName" Nullable="true" MaxLength="225" />
+    <Property Type="String" Name="FileExtension" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="FileSize" Nullable="true" />
+    <Property Type="String" Name="GroupType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Tags" Nullable="true" />
+    <Property Type="String" Name="Folder" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Selected" Nullable="true" />
+    <Property Type="Int32" Name="SelectedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="SelectJobAttachmentTypes">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Org_Id" Nullable="false" />
+    <Property Type="String" Name="AllowedFileExtension" Nullable="true" MaxLength="1000" />
+    <Property Type="Int32" Name="MaxFileSize" Nullable="true" />
+    <Property Type="Int32" Name="ProductGroup_Id" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+    <Property Type="Boolean" Name="isDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetAllEventException_Result">
+    <Property Type="String" Name="Eventid" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Exception" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetAllEventException">
+    <Property Type="String" Name="Eventid" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Exception" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetAllEventException_Result1">
+    <Property Type="String" Name="EventId" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Exception" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobCopy">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="Int32" Name="Job_Id" Nullable="true" />
+    <Property Type="Int32" Name="Job_Copy_Type_Id" Nullable="true" />
+    <Property Type="String" Name="Job_Copy_Type" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Title" Nullable="true" />
+    <Property Type="Int32" Name="TitleWordCount" Nullable="true" />
+    <Property Type="String" Name="Body" Nullable="true" />
+    <Property Type="Int32" Name="BodyWordCount" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+    <Property Type="DateTime" Name="Updated" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UpdatedBy" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectJobCopyType">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Type" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SelectOrderableProducts_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="PrimaryProductGroup" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CompanyName" Nullable="true" />
+    <Property Type="String" Name="WebName" Nullable="true" MaxLength="255" />
+    <Property Type="String" Name="WebDescription" Nullable="true" />
+    <Property Type="String" Name="WebType" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="WebOptions" Nullable="true" />
+    <Property Type="Int32" Name="WebOptionMin" Nullable="true" />
+    <Property Type="Int32" Name="WebOptionMax" Nullable="true" />
+    <Property Type="Decimal" Name="SalesUnitPrice" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="SelectOrderableProducts">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="PrimaryProductGroup" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CompanyName" Nullable="true" />
+    <Property Type="String" Name="WebName" Nullable="true" MaxLength="255" />
+    <Property Type="String" Name="WebDescription" Nullable="true" />
+    <Property Type="String" Name="WebType" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="WebOptions" Nullable="true" />
+    <Property Type="Int32" Name="WebOptionMin" Nullable="true" />
+    <Property Type="Int32" Name="WebOptionMax" Nullable="true" />
+    <Property Type="Decimal" Name="SalesUnitPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="SecondaryProductGroup" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="InsertWebProperty">
+    <Property Type="Decimal" Name="recidentity" Nullable="true" Precision="38" Scale="0" />
+  </ComplexType>
+  <ComplexType Name="InsertWebOrder">
+    <Property Type="Int32" Name="OrderRowId" Nullable="true" />
+    <Property Type="Int32" Name="InternalOrderId" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectProductGroupOptions">
+    <Property Type="String" Name="Options" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetStagingCalenderUsers_Result">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="2000" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Boolean" Name="StagingCalendar" Nullable="true" />
+    <Property Type="String" Name="TimeZone" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Kind" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="eTag" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="ColorId" Nullable="true" />
+    <Property Type="String" Name="Background" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Foreground" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="AccessRole" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsSelected" Nullable="true" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="GetStagingCalenderUsers">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="2000" />
+    <Property Type="Int32" Name="Org_Id" Nullable="true" />
+    <Property Type="Boolean" Name="StagingCalendar" Nullable="true" />
+    <Property Type="String" Name="TimeZone" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Kind" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="eTag" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="ColorId" Nullable="true" />
+    <Property Type="String" Name="Background" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Foreground" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="AccessRole" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsSelected" Nullable="true" />
+    <Property Type="String" Name="Color" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="Application">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="OrgId" />
+    <Property Type="String" Name="Name" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="CompanyId" />
+    <Property Type="String" Name="APIKey" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Status" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="JobEvent">
+    <Key>
+      <PropertyRef Name="Row_Id" />
+    </Key>
+    <Property Type="Int32" Name="Row_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="Org_Id" />
+    <Property Type="Int32" Name="Job_Id" />
+    <Property Type="Int32" Name="CalendarId" />
+    <Property Type="String" Name="EventId" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ProductGroupId" />
+    <Property Type="DateTime" Name="Created" Precision="3" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="Updated" Precision="3" />
+    <Property Type="Int32" Name="UpdatedBy" />
+  </EntityType>
+  <ComplexType Name="GetEventId">
+    <Property Type="Int32" Name="Row_Id" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GetEventRowId">
+    <Property Type="Int32" Name="EventRow_id" Nullable="true" />
+  </ComplexType>
+</Schema>

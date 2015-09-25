@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7AC14E45-FF70-4447-B738-08CE56D1748A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OrderManagement.DA</RootNamespace>
+    <AssemblyName>OrderManagement.DA</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Asset.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AssetAllocation.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AssetConfig.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AssetHealthMeasure.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AssetService.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AssetStatu.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessProcess.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Calendar.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CalendarUser.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Campaign.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignAsset.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignCollateral.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignNotification.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignSitting.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignTimeLine.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CancelledOrder.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Class1.cs" />
+    <Compile Include="ColorMaster.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Company.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyMail.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyOrder.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Contact.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Event.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventTracking.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mail.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Order.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderContact.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderEvent.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderItem.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderManagment.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderManagment.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderManagment.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderManagment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OrderManagment.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="OrderType.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Organisation.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCompany.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductGroup.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductSchedule.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductUser.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Property.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyInvoice.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="State.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Street.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Suburb.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tmp.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserType.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Visitor_Fact.cs">
+      <DependentUpon>OrderManagment.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="OrderManagment.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OrderManagment.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="OrderManagment.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OrderManagment.edmx</DependentUpon>
+      <LastGenOutput>OrderManagment.Context.cs</LastGenOutput>
+    </None>
+    <None Include="OrderManagment.edmx.diagram">
+      <DependentUpon>OrderManagment.edmx</DependentUpon>
+    </None>
+    <None Include="OrderManagment.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OrderManagment.edmx</DependentUpon>
+      <LastGenOutput>OrderManagment.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

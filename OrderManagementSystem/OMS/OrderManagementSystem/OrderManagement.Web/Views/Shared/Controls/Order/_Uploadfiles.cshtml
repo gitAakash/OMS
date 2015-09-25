@@ -1,0 +1,217 @@
+﻿@model OrderManagement.Web.Models.StatusModel
+@{
+   
+    Layout = null;
+}
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        div.k-dropzone {
+            border: 1px solid #c5c5c5; /* For Default; Different for each theme */
+        }
+
+        div.em {
+            visibility: visible;
+        }
+    </style>
+</head>
+
+
+<div class="col-lg-12 animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Upload Files </h5>
+                </div>
+                
+                <div class="ibox-content">
+                    <div align="right">
+                        <span>Status&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @if (Model != null && Model.OrderStatus == true)
+                        {
+                            @Html.CheckBoxFor(model => model.OrderStatus, new { @class = "js-switch", onchange = "UpdateOrderStatus();" }) <span>&nbsp;&nbsp;Complete</span>
+               
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(model => model.OrderStatus, new { @class = "js-switch", onchange = "UpdateOrderStatus();" }) <span>Pending</span>
+                        }
+
+
+                    </div>
+                    
+                    <br/>
+                    <div>
+
+                        @(Html.Kendo().Upload()
+                      .Name("files")
+                      .TemplateId("fileTemplate")
+
+                      .Async(a => a
+                          .Save("UploadFiles", "Order")
+                         // .Remove("Remove", "Staff")
+                          .AutoUpload(false)
+
+                      )
+                      .Events(events => events.Upload("onUpload")
+                          .Select("onSelect")
+                          .Success("onSuccess")
+                                // .Upload("onUpload")
+                      )
+                                // .Events(c => c.Success("onSuccess"))
+                      )
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<input type="hidden" id="hdngrpName" />
+
+
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, { color: '#1AB394' });
+        });
+    });
+
+
+
+    //  alert($("#GlobleOrderId").val());
+    function onUpload(e) {
+        var groupname = $("#hdngrpName").val();
+        var orderid = $("#GlobleOrderId").val();
+        // alert(orderitemid);
+        //  alert(groupname);
+
+        e.data = { orderid: orderid, groupname: groupname };
+    }
+
+    function showUpload(groupname) {
+        if (groupname == "Day" || groupname == "Dusk") {
+            // alert(groupname);
+            $("#hdngrpName").val("");
+            $("#hdngrpName").val(groupname);
+            $("#uploaddiv").show();
+        } else {
+            $("#uploaddiv").hide();
+        }
+
+    }
+
+    function onSuccess(e) {
+        //  alert("Status: " + e.response.status);
+        $("#hdngrpName").val("");
+        //reset all the upload things!
+        $(".k-upload-files").remove();
+        $(".k-upload-status").remove();
+        $(".k-upload.k-header").addClass("k-upload-empty");
+        $(".k-upload-button").removeClass("k-state-focused");
+    }
+
+    function onSelect(e) {
+        //var totalSize = 0;
+        var flag = false;
+        $.each(e.files, function (index, value) {
+
+            if (value.extension.toLowerCase() == ".jpeg" || value.extension.toLowerCase() == ".jpg" || value.extension.toLowerCase() == ".png") {
+                flag = true;
+                //alert(value.size/1024);
+                //var kb = (value.size / 1024);
+                //totalSize = totalSize + kb;
+
+                //if (totalSize / 1025 > 24)
+                //{
+                //    alert("You can upload maximum 24 MB");
+                //    value.destroy();
+
+                //}
+            }
+
+            if (!flag) {
+                alert("Please upload jpeg image files");
+                e.files.destroy();
+            }
+        });
+
+        //  alert(totalSize);
+    }
+
+
+
+
+
+
+
+
+    //function onUpload(e) {
+    //    // Array with information about the uploaded files
+
+    //    var totalSize = 0;
+    //    // Check the extension of each file and abort the upload if it is not .jpg
+    //    $.each(e.files, function (index, value) {
+
+    //        alert(value.size / 1024);
+    //        var kb = (value.size / 1024);
+    //        totalSize = totalSize + kb;
+
+    //        if (totalSize / 1024 > 25)
+    //        {
+    //            e.files.destroy();
+    //            value.destroy();
+    //            alert("You can upload maximum 24 MB");
+
+
+    //        }
+
+    //    });
+
+
+    //   // alert(totalSize);
+    //}
+
+    function UpdateOrderStatus() {
+        var status = $('#OrderStatus').is(":checked");
+        //  alert(status);
+
+        if (status) {
+            status = "Complete";
+        } else {
+            status = "Pending";
+        }
+        var orderid = $("#GlobleOrderId").val();
+        //  alert(orderid);
+        $.get('@Url.Action("UploadFiles", "Staff")', { orderid: orderid, status: status }, function (data) {
+            if (data != null) {
+                $("#spaUploadForm").text("");
+                $("#spaUploadForm").html(data);
+
+            }
+        }
+
+        );
+
+    }
+</script>
+
+

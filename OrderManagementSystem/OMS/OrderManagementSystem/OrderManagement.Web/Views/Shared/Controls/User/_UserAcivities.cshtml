@@ -1,0 +1,80 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model IList<OrderManagement.Web.GetAllUsersJobStatus>
+
+
+
+<div class="wrapper wrapper-content">
+    <div class="row fadeInRight">
+
+@if (Model.Count > 0)
+{
+    <div class="col-md-8" style="width:100%;">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Activites</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div>
+                        <div id="divshowmore" class="feed-activity-list">
+                            @if (Model.Count > 0)
+                            {
+
+
+                                foreach (var activity in Model)
+                                {
+
+                                    var fullName = "";
+
+                                    {
+                                        fullName = activity.FirstName + " " + @activity.LastName;
+
+                                    }
+                                    <div class="feed-element">
+                                        <a href="#" class="pull-left">
+                                            <img alt="image" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new {id = @activity.Row_Id})" />
+                                        </a>
+                                        @if (@activity.Status == "Inprogress")
+                                        {
+                                            <div  class="media-body ">
+                                                <small class="pull-right text-navy">@Html.TimeAgo(@activity.Created.Value)</small>
+                                                <strong>@fullName</strong> has  <b>started Work</b> on job no.&nbsp; <b>@activity.Job_Id</b> <strong></strong>.
+                                                <br>
+                                              
+                                                <small class="text-muted">@activity.Created.Value.ToString("MMM ddd d HH:mm tt yyyy")</small>
+                                             
+                                            </div>
+                                        }
+                                        else if (@activity.Status == "Complete")
+                                        {
+                                            <div  class="media-body ">
+                                                <small class="pull-right text-navy">@Html.TimeAgo(@activity.Updated.Value)</small>
+                                                <strong>@fullName</strong> has  <b>Completed Work</b> for job no.&nbsp; <b>@activity.Job_Id</b> <strong></strong>.
+                                                <br>
+                                             
+                                                <small class="text-muted">@activity.Updated.Value.ToString("MMM ddd d HH:mm tt yyyy")</small>
+                                           
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                               <span> No Activities Found.</span>
+                            }
+
+
+                        </div>
+
+                     @*   <button id="btnloadMore" class="btn btn-primary btn-block m"><i class="fa fa-arrow-down"></i>Show More</button>*@
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+}
+    </div>
+    </div>

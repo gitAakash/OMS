@@ -1,0 +1,404 @@
+﻿@model OrderManagement.Web.Models.UserModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")" type="text/javascript"></script>
+
+
+
+
+<!--Breadcrumbs--->
+<div class="wrapper wrapper-content order-form">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Create User</h2>
+            <div class="ibox float-e-margins">
+               
+                <div class="ibox-content">
+                               <div id="usersaveloader" align="center"></div>
+                    @using (Html.BeginForm("AddOrUpdate", "User", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", id = "CreateUserForm" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">&nbsp;</label>
+
+                            <div class="col-sm-10">
+                                <img id="fileimage" src="@Url.Action("GetDatabaseImage", "User", new { id = "", @class = "img-circle", width = 100, height = 100 })" alt="thumb" />
+                                <br/>
+                                <input type="file" id="theFile" name="theFile"  />
+                            </div>
+                           
+                        </div>
+
+                     
+                       
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First Name<span style="color: red">*</span></label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                <span style="color: red" id="FirstNameValidation"></span>
+                            </div>
+                           
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Last Name<span style="color: red">*</span></label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                <span style="color: red" id="LastNameValidation"></span>
+                            </div>
+
+                           
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email Address<span style="color: red">*</span></label>
+
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control" })
+                                <span style="color: red" id="EmailAddressValidation"></span>
+                            </div>
+                          
+                        </div>
+                        
+                       
+                                
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Password<span style="color: red">*</span></label>
+
+                            <div class="col-sm-10">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", MaxLength = 16 })
+                                <span style="color: red" id="PasswordValidation"></span>
+                            </div>
+
+                          
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Confirm Password<span style="color: red">*</span></label>
+
+                            <div class="col-sm-10">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", onpaste = "return false;", MaxLength = 16, placeholder = "", autocomplete = "off" })
+                                <span style="color: red" id="ConfirmPasswordValidation"></span>
+                            </div>
+
+                           
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Status</label>
+
+                            <div class="col-sm-10">
+                                @*  <input type="checkbox" class="js-switch" checked />*@
+
+                                @Html.CheckBoxFor(m => m.IsActive, new { @class = "js-switch" })
+
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">User Type<span style="color: red">*</span></label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(m => m.UserType, new SelectList(Model.UserTypelist, "Row_Id", "Name"), "Select", new { @class = "form-control m-b" })
+                                <span style="color: red" id="UserTypeValidation"></span>
+                            </div>
+                           
+                        </div>
+                        
+                        <div id="divCalendarId" class="form-group" style="display:none">
+                            <label class="col-sm-2 control-label">Calendar<span style="color: red">*</span></label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(m => m.Calendar, new SelectList(Model.Calendarlist, "Row_Id", "Name"), "Select", new { @class = "form-control m-b" })
+                                <span style="color: red" id="CalendarValidation"></span>
+                            </div>
+                            <label class="col-sm-2 control-label">Select Color<span style="color: red">*</span></label>
+                            <div class="col-sm-10" style="width:43%;">
+
+                                @if (@Model != null && @Model.ColorCode != null)
+                                {
+                                    <span id="spnselectedcolor" class="pull-right boxSelected" style="background-color:@Model.ColorCode" ></span>
+                                }
+
+
+                                else
+                                {
+                                    <span id="spnselectedcolor" class="pull-right boxSelected"></span>
+
+                                }
+
+
+                                <div class="boxContainer">
+                                    @foreach (var itemcolor in Model.Colorlist)
+                                    {
+
+                                        <span class="box" onclick="javascript:selectcolor('@itemcolor.Color');" style="background-color:@itemcolor.Color"></span>
+
+                                    }
+
+                                </div>
+
+                                <span style="color: red; font-weight: bold" id="ColorCodeValidation"></span>
+
+                             
+
+                            </div>
+                        </div>
+                        
+                        if (Model != null && Model.Companylist.Count > 0)
+                        {
+                            <div id="externelusercomp" class="form-group" style="display: none">
+                                <label class="col-sm-2 control-label">Company<span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(m => m.CompanyId, new SelectList(Model.Companylist, "Row_Id", "XeroName"), "Select", new { @class = "form-control m-b" })
+                                    <span style="color: red" id="CompanyIdValidation"></span>
+                                </div>
+                               
+                            </div>
+                        }
+
+
+                        <div  id="divchkProductGroup" style="display: none">
+
+                            <div class="form-group" >
+                                <label class="col-sm-2 control-label">Product Group<span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                    @if (Model.ProductGrouplist.Count > 0)
+                                    {
+                                        foreach (var value in Model.ProductGrouplist)
+                                        {
+                                            // var name = Enum.GetName(typeof(EnumHelper.EProductGroup), value);
+                                            <div class="col-sm-10">
+                                                <input class="i-checks" type="checkbox" id='@value.Row_Id' name="chkProductGroup" value='@value.Row_Id' onchange="javascript:GetgrpChecboxvalues();" />
+                                                <label>@value.Name</label><br />
+                                            </div>
+                                        }
+                                    
+                                        <span style="color: red" id="GroupValidation"></span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                            
+                         <div class="form-group">
+                            
+                              <label class="col-sm-2 control-label">About Self:</label>
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(m => m.AboutMe, new { @class = "form-control" })
+                                 <span style="color: red" id="AboutMeValidation"></span>
+                            </div>
+                        </div> 
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button type="submit" class="btn btn-primary" id="btnUpdate">Submit</button>
+                                <button type="button" class="btn btn-default" onclick="javascript:Cancel();" style="width: 82px" id="btnCancel">Cancel</button>
+                            </div>
+                        </div>
+
+                        @Html.HiddenFor(m => m.Group)
+                        @Html.HiddenFor(m=>m.ColorCode)
+                    }
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        //$('.i-checks').iCheck({
+        //    checkboxClass: 'icheckbox_square-green',
+        //    radioClass: 'iradio_square-green',
+        //});
+        $.validator.setDefaults({ ignore: [] });
+       
+        $(function() {
+            $('#theFile').change(function ()
+            {
+                var fileExtension = ['jpeg', 'jpg','jpe','jfif'];
+                if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1)
+                {
+                    alert("Only '.jpeg','.jpg','.jpe','.jfif' formats are allowed.");
+                    //alert("Only '.jpeg','.jpg', '.png', '.gif', '.bmp' formats are allowed.");
+                    $('#theFile').val("");
+                } else {
+                    if ($('#theFile').length > 0)
+                    {
+                        readImageurl(this);
+                       // alert("h");
+
+                    } 
+                }
+            });
+        });
+
+
+
+
+        function readImageurl(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                   // $('#uploadedimage').attr('src', e.target.result);
+                    $('#fileimage').attr('src', e.target.result);
+                    $('#fileimage').attr('src', e.target.result);
+                    $('#fileimage').attr('width',"100");
+                    $('#fileimage').attr('height',"100");
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, { color: '#1AB394' });
+        });
+        
+
+        $("#UserType").change(function () {
+
+
+            if ($('#UserType :selected').text() == "Client") {
+               // alert("1");
+                $("#externelusercomp").show();
+                $("#divchkProductGroup").hide();
+                $("#divCalendarId").hide();
+            }
+            else if ($('#UserType :selected').text() == "Staff") {
+               // alert("2");
+                $("#divchkProductGroup").show();
+                $("#externelusercomp").hide();
+                $("#divCalendarId").show();
+
+            }
+            else if ($('#UserType :selected').text() == "Admin") {
+               // alert("3");
+                $("#divchkProductGroup").hide();
+                $("#externelusercomp").hide();
+                $("#divCalendarId").show();
+
+            }
+
+        });
+
+
+        $("#CreateUserForm").validate({
+            rules: {
+                'FirstName': { required: true },
+                'LastName': { required: true },
+                 'EmailAddress': { required: true, email: true, remote: '@Url.Action("CheckUniqeEmail", "User")' },
+                'Password': { required: true, minlength: 5 },
+                'ConfirmPassword': { required: true, minlength: 5, equalTo: "#Password" },
+                'UserType': { required: true },
+                'Group': {
+                    required: function (element) {
+                        return $('#UserType :selected').text() == "Staff";
+
+
+                    },
+                },
+                'Calendar': {
+                    required: function (element) {
+                        return $('#UserType :selected').text() == "Staff" || $('#UserType :selected').text()=="Admin";
+
+
+                    },
+                },
+
+                'ColorCode':
+                    {
+                        required: function (element) {
+                            return $('#UserType :selected').text() == "Staff" || $('#UserType :selected').text() == "Admin";
+
+
+                        },
+                    },
+
+                'CompanyId': {
+                    required: function (element) {
+                        return $('#UserType :selected').text() == "Client";
+
+
+                    }
+                },
+                'AboutMe': {maxlength: 500 }
+            },
+            messages: {
+                'FirstName': { required: "First Name is required" },
+                'LastName': { required: "Last Name is required" },
+                'EmailAddress': { required: "Email address is required", email: "Email address is invalid", remote: jQuery.format("Email address is already in the system") },
+                'Password': { required: "Password is required", minlength: "Password is not valid. Please enter password between 5 -16 digits." },
+                'ConfirmPassword': { required: "Confirm password is required", minlength: "Confirm password is not valid. Please enter password between 5 -16 digits.", equalTo: "Password does not match. Please re-enter" },
+                'UserType': { required: "User Type is required" },
+                'Calendar': { required: "Calendar is required" },
+                'ColorCode': { required: "Color is required" },
+                'CompanyId': { required: "Company is required" },
+                'Group': { required: "Select atleast one group" },
+                'AboutMe': { maxlength: "Please enter no more than 500 characters." }
+            },
+            errorPlacement: function (error, element) {
+                //  alert(element.attr("id"));
+                error.appendTo("#" + element.attr("id") + "Validation");
+            }
+        });
+
+     
+
+
+        $("#btnUpdate").click(function () {
+            //alert("1");
+            if ($('#CreateUserForm').valid()) {
+               // alert("2");
+                $('#usersaveloader').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+            }
+        });
+
+
+
+        $('#CreateUserForm').ajaxForm(function (data) {
+            //  alert(data);
+            $('#usersaveloader').html("");
+            alert("Data has been saved successfully");
+            $('#divPageBody').html("");
+            $('#divPageBody').html(data);
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+           // alert("Thank you for your comment!");
+        });
+
+    });
+
+    function selectcolor(colorcode) {
+         // alert(colorcode);
+        if (colorcode != null && colorcode != "") {
+            $("#spnselectedcolor").removeAttr('style');
+            $("#spnselectedcolor").css('background-color', colorcode);
+            $("#ColorCode").val(colorcode);
+          //  alert($("#ColorCode").val());
+           // $("#hdnScheduleColorcodeValidation").hide();
+            // $("#spnColorcodeValidation").text(colorcode);
+            // $("#ColorcodeValidation").hide();
+        }
+    }
+
+    function Cancel() {
+        $("#spaCreateUserForm").text("");
+        var body = $("html, body");
+        body.animate({ scrollTop: 0 }, '500', 'swing', function () {
+            //alert("Finished animating");
+        });
+    }
+
+
+    function GetgrpChecboxvalues() {
+      //  alert("hi1");
+        var allVals = [];
+        $('[name=chkProductGroup]:checked').each(function () {
+            allVals.push($(this).val());
+        });
+        $("#Group").val("");
+        $("#Group").val(allVals);
+      //  alert(allVals);
+    }
+</script>

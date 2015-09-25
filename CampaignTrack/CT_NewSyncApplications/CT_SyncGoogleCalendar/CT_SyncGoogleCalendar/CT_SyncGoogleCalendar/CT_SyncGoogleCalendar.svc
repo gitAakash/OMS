@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="CT_SyncGoogleCalendar.CT_SyncGoogleCalendar" CodeBehind="CT_SyncGoogleCalendar.svc.cs" %>

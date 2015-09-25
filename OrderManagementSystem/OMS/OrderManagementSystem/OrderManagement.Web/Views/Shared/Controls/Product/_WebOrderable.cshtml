@@ -1,0 +1,256 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.ProductModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/switchery.js")" type="text/javascript"></script>
+<link type="text/css" href="@Url.Content("~/Content/switchery.css")" rel="stylesheet" />
+
+
+<div class="wrapper wrapper-content order-form">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Web Order</h5>
+                </div>
+                <div class="ibox-content">
+                    <div id="ProductWebOrdersave" align="center"></div>
+
+
+                    @using (Html.BeginForm("AddOrUpdateWebOrder", "product", FormMethod.Post, new { @class = "form-horizontal", id = "WebOrderableForm" }))
+                    {
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Web Orderable</label>
+
+                            <div class="col-sm-10">
+
+                                @Html.CheckBoxFor(m => m.WebOrderable, new { @class = "js-switch2" })
+
+                            </div>
+                        </div>
+                        <div id="divIsWebOrderable">
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Product Group<span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(m => m.ProductSubGroupId, new SelectList(Model.ProductSubGrouplist, "Row_Id", "Name"), "Select", new { @class = "form-control", @style = "width: 300px;" })
+                                    <span style="color: red" id="ProductSubGroupIdValidation"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.WebName)<span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(m => m.WebName, new { @class = "form-control" })
+                                    <span style="color: red" id="WebNameValidation"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Web Description<span style="color: red">*</span></label>
+
+                                <div class="col-sm-10">
+                                    @Html.TextAreaFor(m => m.WebDescription, new { @class = "form-control" })
+                                    <span style="color: red" id="WebDescriptionValidation"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.WebType)<span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(m => m.WebType, new SelectList(Enum.GetNames(typeof(EnumHelper.EWebOrderType))), "Select", new { @class = "form-control", @style = "width: 300px;" })
+                                    <span style="color: red" id="WebTypeValidation"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.WebOptions)<span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                   
+                                    @(Html.Kendo().MultiSelect()
+          .Name("MultiSelectWebOptions")
+          .Placeholder("Select Web Option")
+          .BindTo(Model.WebOptionslist)
+          .Value(Model.WebOptionValue)
+    )
+
+                                    <span style="color: red" id="WebOptionsValidation"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div style="float: left;">
+                                    <label style="float: left; margin-top: 9px; width: 163px; margin-left: 15px;">@Html.DisplayNameFor(m => m.WebOptionMin)<span style="color: red">*</span></label>
+                                    <div style="float: left; width: 200px;" class="col-sm-10">
+                                        @Html.TextBoxFor(m => m.WebOptionMin, new { @class = "form-control" })
+                                        <span style="color: red" id="WebOptionMinValidation"></span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </div>
+
+                                <div style="float: left;">
+                                    <label style="float: left; margin-top: 9px; margin-left: 20px;">@Html.DisplayNameFor(m => m.WebOptionMax)<span style="color: red">*</span></label>
+                                    <div style="float: left; width: 200px;" class="col-sm-10">
+                                        @Html.TextBoxFor(m => m.WebOptionMax, new { @class = "form-control" })
+                                        <span style="color: red" id="WebOptionMaxValidation"></span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </div>
+
+                                <div style="clear: both;"></div>
+                            </div>
+
+
+                            @*  <div class="form-group">
+                                <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.WebType)<span style="color: red">*</span></label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(m => m.WebOptions, new SelectList(Model.WebTypelist,"Row_Id","Name"), "Select", new { @class = "form-control", @style = "width: 300px;" })
+                                     <span style="color: red" id="WebOptionsValidation"></span>
+                                </div>
+                            </div>*@
+
+                        </div>
+                        
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-4">
+
+                                <button type="button" class="btn btn-primary" onclick="javascript:SubmitWebOrder();" id="btnWebOrder">Submit</button>
+                                <button type="button" class="btn btn-default" onclick="javascript:Cancel('@Model.Row_Id');" style="width:82px"  id="btnCancel">Cancel</button>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(m => m.Row_Id)
+                        @Html.HiddenFor(m => m.WebOptions)
+                        @Html.HiddenFor(m => m.WebType)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        var elem = document.querySelector('.js-switch2');
+        var switchery = new Switchery(elem, { color: '#1AB394' });
+
+        $.validator.setDefaults({
+            ignore: [],
+            // any other default options and/or rules
+        });
+        //$("#ddlWebOption").change(function () {
+        //    // $("#ddlWebOption option:selected").val();
+        //    //  alert($("#ddlWebOption option:selected").val());
+        //    $('#WebOptions').val($("#ddlWebOption option:selected").val());
+        //});
+
+        if ('@Model.WebOrderable' == 'True') {
+            $('#divIsWebOrderable').show();
+        }
+        else {
+
+            $('#divIsWebOrderable').hide();
+            $("#WebName").val("");
+            $("#WebDescription").val("");
+            $("#WebOptionMin").val("");
+            $("#WebOptionMax").val("");
+            $("#WebOptions").val("");
+            $("#ProductSubGroupId").val("");
+            $("#WebType").val("");
+        }
+
+        $("#WebOrderableForm").validate({
+            rules: {
+                'ProductSubGroupId': { required: true },
+                'WebName': { required: true },
+                'WebDescription': { required: true },
+                'WebType': { required: true },
+                'WebOptions': { required: true },
+                'WebOptionMin': { required: true, number: true },
+                'WebOptionMax': { required: true, number: true }
+            },
+            messages: {
+                'ProductSubGroupId': { required: "Product Group is required" },
+                'WebName': { required: "Web Name is required" },
+                'WebDescription': { required: "Web Description is required" },
+                'WebType': { required: "Web Type is required" },
+                'WebOptions': { required: "Web Options is required" },
+                'WebOptionMin': { required: "Minimum is required", number: "Please enter a valid number" },
+                'WebOptionMax': { required: "Maximum is required", number: "Please enter a valid number" }
+            },
+            errorPlacement: function (error, element) {
+                // alert(element.attr("id"));
+                error.appendTo("#" + element.attr("id") + "Validation");
+            }
+        });
+
+
+    });
+
+
+
+    $('#WebOrderable').on('change', function () {
+        // From the other examples
+        if (this.checked) {
+            $('#divIsWebOrderable').show();
+        }
+        else {
+            var validator = $("#WebOrderableForm").validate();
+            validator.resetForm();
+            $('#divIsWebOrderable').hide();
+        }
+
+    });
+
+
+    function SubmitWebOrder() {
+
+        
+       //alert($("#MultiSelectWebOptions").val());
+        $("#WebOptions").val("");
+        $("#WebOptions").val($("#MultiSelectWebOptions").val());
+
+        if ($('#WebOrderable').is(":checked")) {
+            // it is checked
+            var validate = $("#WebOrderableForm").valid();
+            if (validate) {
+                $.post('@Url.Action("SaveWebOrder", "Product")', $("#WebOrderableForm").serialize(), function (data) {
+                    if (data != null) {
+                        alert("Data has been saved successfully");
+                        $("#loadWebOrderable").html("");
+                        $("#loadWebOrderable").html(data);
+                    }
+                });
+            }
+        }
+        else {
+            $.post('@Url.Action("SaveWebOrder", "Product")', $("#WebOrderableForm").serialize(), function (data) {
+                if (data != null) {
+                    alert("Data has been saved successfully");
+                    $("#loadWebOrderable").html('');
+                    $("#loadWebOrderable").html(data);
+
+                }
+            });
+        }
+    }
+
+    function Cancel(prodid) {
+        $.get('@Url.Action("CancelWebOrder", "Product")', { prodid: prodid }, function (data) {
+            if (data != null) {
+                $("#loadWebOrderable").html("");
+                $("#loadWebOrderable").html(data);
+            }
+        });
+
+    }
+
+
+</script>

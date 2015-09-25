@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="GoogleNotificationService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://test.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://test.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://test.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGoogleNotificationService_CheckCalendarEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckCalendarEvents" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_CheckCalendarEvents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckCalendarEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_CreateEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateEvent" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_CreateEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_DeleteEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEvent" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_DeleteEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_DeleteEventInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEventInstance" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_DeleteEventInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteEventInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_UpdateEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEvent" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_UpdateEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_UpdateEventInstance_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEventInstance" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_UpdateEventInstance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEventInstanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_MoveEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:MoveEvent" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_MoveEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MoveEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_SubscribeCalendars_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeCalendars" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_SubscribeCalendars_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeCalendarsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_CheckCalendarMovements_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckCalendarMovements" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_CheckCalendarMovements_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckCalendarMovementsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_InsertGooglePushNotification_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertGooglePushNotification" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_InsertGooglePushNotification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertGooglePushNotificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_InsertGooglePushNotificationWatch_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertGooglePushNotificationWatch" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_InsertGooglePushNotificationWatch_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertGooglePushNotificationWatchResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_GetChannelInformation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChannelInformation" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_GetChannelInformation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChannelInformationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_GetCalendarInformation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCalendarInformation" />
+  </wsdl:message>
+  <wsdl:message name="IGoogleNotificationService_GetCalendarInformation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCalendarInformationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IGoogleNotificationService">
+    <wsdl:operation name="CheckCalendarEvents">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/CheckCalendarEvents" message="tns:IGoogleNotificationService_CheckCalendarEvents_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/CheckCalendarEventsResponse" message="tns:IGoogleNotificationService_CheckCalendarEvents_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/CreateEvent" message="tns:IGoogleNotificationService_CreateEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/CreateEventResponse" message="tns:IGoogleNotificationService_CreateEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/DeleteEvent" message="tns:IGoogleNotificationService_DeleteEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/DeleteEventResponse" message="tns:IGoogleNotificationService_DeleteEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEventInstance">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/DeleteEventInstance" message="tns:IGoogleNotificationService_DeleteEventInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/DeleteEventInstanceResponse" message="tns:IGoogleNotificationService_DeleteEventInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/UpdateEvent" message="tns:IGoogleNotificationService_UpdateEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/UpdateEventResponse" message="tns:IGoogleNotificationService_UpdateEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEventInstance">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/UpdateEventInstance" message="tns:IGoogleNotificationService_UpdateEventInstance_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/UpdateEventInstanceResponse" message="tns:IGoogleNotificationService_UpdateEventInstance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/MoveEvent" message="tns:IGoogleNotificationService_MoveEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/MoveEventResponse" message="tns:IGoogleNotificationService_MoveEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeCalendars">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/SubscribeCalendars" message="tns:IGoogleNotificationService_SubscribeCalendars_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/SubscribeCalendarsResponse" message="tns:IGoogleNotificationService_SubscribeCalendars_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckCalendarMovements">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/CheckCalendarMovements" message="tns:IGoogleNotificationService_CheckCalendarMovements_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/CheckCalendarMovementsResponse" message="tns:IGoogleNotificationService_CheckCalendarMovements_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertGooglePushNotification">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/InsertGooglePushNotification" message="tns:IGoogleNotificationService_InsertGooglePushNotification_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/InsertGooglePushNotificationResponse" message="tns:IGoogleNotificationService_InsertGooglePushNotification_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertGooglePushNotificationWatch">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/InsertGooglePushNotificationWatch" message="tns:IGoogleNotificationService_InsertGooglePushNotificationWatch_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/InsertGooglePushNotificationWatchResponse" message="tns:IGoogleNotificationService_InsertGooglePushNotificationWatch_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChannelInformation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/GetChannelInformation" message="tns:IGoogleNotificationService_GetChannelInformation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/GetChannelInformationResponse" message="tns:IGoogleNotificationService_GetChannelInformation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCalendarInformation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGoogleNotificationService/GetCalendarInformation" message="tns:IGoogleNotificationService_GetCalendarInformation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGoogleNotificationService/GetCalendarInformationResponse" message="tns:IGoogleNotificationService_GetCalendarInformation_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IGoogleNotificationService" type="tns:IGoogleNotificationService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckCalendarEvents">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/CheckCalendarEvents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateEvent">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/CreateEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEvent">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/DeleteEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteEventInstance">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/DeleteEventInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEvent">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/UpdateEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEventInstance">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/UpdateEventInstance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveEvent">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/MoveEvent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeCalendars">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/SubscribeCalendars" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCalendarMovements">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/CheckCalendarMovements" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertGooglePushNotification">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/InsertGooglePushNotification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertGooglePushNotificationWatch">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/InsertGooglePushNotificationWatch" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChannelInformation">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/GetChannelInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCalendarInformation">
+      <soap:operation soapAction="http://tempuri.org/IGoogleNotificationService/GetCalendarInformation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GoogleNotificationService">
+    <wsdl:port name="BasicHttpBinding_IGoogleNotificationService" binding="tns:BasicHttpBinding_IGoogleNotificationService">
+      <soap:address location="http://test.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

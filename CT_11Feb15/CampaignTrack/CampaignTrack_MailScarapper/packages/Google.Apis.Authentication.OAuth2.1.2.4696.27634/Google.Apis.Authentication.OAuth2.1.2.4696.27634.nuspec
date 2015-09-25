@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Google.Apis.Authentication.OAuth2</id>
+    <version>1.2.4696.27634</version>
+    <title>Google.Apis.Authentication.OAuth2</title>
+    <authors>Google Inc.</authors>
+    <owners>Google Inc.</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://code.google.com/p/google-api-dotnet-client/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Google APIs Client Library</description>
+    <summary>Google APIs Client Library</summary>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="4.0.2" />
+      <dependency id="Google.Apis" version="1.2.4696" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,38 @@
+﻿ 
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.js")" type="text/javascript"></script>
+
+
+
+<div>
+        <span id="loadCompanyGrid"></span>
+        <span id="loadCmpDetailsOrderHistory"></span>
+       @* <span id="loadCompanyContacts"></span>*@
+   
+    </div>
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+            companylist();
+    });
+
+    function companylist() {
+      
+        $.get('@Url.Action("Index", "Company")', function (data) {
+                if (data != null) {
+                    $("#loadCompanyGrid").text("");
+                    $("#loadCompanyGrid").html(data);
+                }
+            });
+    }
+
+    function getValueFromLocalStorage(keyParam) {
+        return localStorage.getItem(keyParam);
+    }
+
+    function setValueToLocalStorage(keyParam, valuePram) {
+        localStorage.setItem(keyParam, valuePram);
+    }
+</script>
+ 
+   

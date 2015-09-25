@@ -1,0 +1,68 @@
+﻿@model OrderManagement.Web.Models.ForgotPassword
+@{
+    ViewBag.Title = "Email Confirmation";
+    Layout = "~/Views/Shared/__LoginLayout.cshtml";
+}
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div class="top_login">
+        <div>
+
+           <img src= "@Url.Content("~/Images/DPIlogo.jpg")" alt="Image" width="200px" height="150px" />
+
+        </div>
+
+        @if (Model != null && Model.Msgtype == 1)
+        {
+        <div id="divError">
+               <h3 style="font-weight:600;"></h3>
+                @Model.ErrorMsg
+        </div>
+        }
+        else if (Model.Msgtype == 2)
+        {
+        <div id="divConfirm">
+
+            @using (Html.BeginForm("UpdatePassword", "Account"))
+            {
+            @Html.ValidationSummary()
+                  <h3>Change Password</h3>
+                
+                 <div class="form-group">
+                         @Html.PasswordFor(model => model.NewPassword, new { @class = "form-control",@placeholder = "New Password" })
+                         @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control",@placeholder = "Confirm New Password" })
+                         @Html.HiddenFor(m=> Model.UserID)
+                 </div>
+                             <button type="submit" class="btn btn-primary block full-width m-b">Submit</button>
+          
+        }
+
+        </div>
+        }
+        
+        else if (Model.Msgtype == 3)
+        {
+             <div id="divChangePasswordsuccess">
+                   <h3 style="font-weight:600;">Congratulation!!!</h3>
+                   You have successfully changed your password.
+               </div> 
+        }
+        else
+        {
+               <div id="divpwdSent">
+                   <h3 style="font-weight:600;">Password Sent</h3>
+                   Your password has been sent but please ensure you check your SPAM filters if it doesn't arrive. 
+               </div>
+        }
+        @Html.ActionLink("Return to Login screen?","ReturnToLogin","Account")
+        
+        <p class="m-t"><small></small></p>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+      
+    });
+</script>

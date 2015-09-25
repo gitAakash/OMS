@@ -1,0 +1,483 @@
+﻿@model TelerikMvcSchedulerPOC2.Models.SchedulerViewModel
+@using System.Web.UI.WebControls
+@using Kendo.Mvc.UI
+@using TelerikMvcSchedulerPOC2.Models;
+
+ @Scripts.Render("~/Scripts/CommonJS")
+<!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+
+@Styles.Render("~/Content/kendo/2014.2.716/KendoCss")
+@Scripts.Render("~/Scripts/kendo/2014.2.716/kendoScripts")
+
+<script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/jquery.metisMenu.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/inspinia.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Theme_Js/pace.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/Track/summernote.min.js")"></script>
+
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/font-awesome.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/animate.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/Track/summernote.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/Track/summernote-bs3.css")" rel="stylesheet" type="text/css"/>
+<link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")" type="text/javascript"></script>
+
+
+@*  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+
+
+ <style>
+        #search-text-input{
+            border-top:thin solid  #e5e5e5;
+            border-right:thin solid #e5e5e5;
+            border-bottom:0;
+            border-left:thin solid  #e5e5e5;
+            box-shadow:0px 1px 1px 1px #e5e5e5;
+            float:left;
+            height:26px;
+            margin:.8em 0 0 .5em; 
+            outline:0;
+            padding:.4em 0 .4em .6em; 
+            width:183px; 
+        }
+         
+        #button-holder{
+            background-color:#f1f1f1;
+            border-top:thin solid #e5e5e5;
+            box-shadow:1px 1px 1px 1px #e5e5e5;
+            cursor:pointer;
+            float:left;
+            height:26px;
+            margin:10px 0 0 0;
+            text-align:center;
+            width:50px;
+        }
+         
+        #button-holder img{
+            margin:4px;
+            width:20px; 
+        }
+
+   
+        </style>
+
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.timezones.min.js")"></script>
+
+@{
+    var culture =  System.Globalization.CultureInfo.CurrentCulture.ToString();
+}
+
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/cultures/kendo.culture." + culture + ".min.js")"></script>
+<script>
+    kendo.culture("@culture");
+</script>
+
+@{
+    
+    var allAttendees = Model.CalenderResources;
+   
+    var user1 = "";
+    var i = 0;
+    foreach (var userid in allAttendees)
+    {
+        if (i == 0)
+        {
+            user1 = userid.UserId;
+            i++;
+        }        
+        else
+        {
+            break;
+        }
+    }
+    //var AllCalendarUsers = Model.AllCalenderResources;
+    var calendarUsers = Model.AllUsers;
+    var photography = Model.UserProductCalendar.Where(m => m.UserProductGroup == "1").Select(l=>l.UserId).ToList();
+    string prodphotography = string.Join(",", photography.ToArray());
+    var copywriting = Model.UserProductCalendar.Where(m => m.UserProductGroup == "2").Select(l => l.UserId).ToList();
+    string prodcopywriting = string.Join(",", copywriting.ToArray());
+    var videoServices = Model.UserProductCalendar.Where(m => m.UserProductGroup == "3").Select(l => l.UserId).ToList();
+    string prodvideoServices = string.Join(",", videoServices.ToArray());
+    var floorPlan = Model.UserProductCalendar.Where(m => m.UserProductGroup == "4").Select(l => l.UserId).ToList();
+    string prodfloorPlan = string.Join(",", floorPlan.ToArray());
+    var arial = Model.UserProductCalendar.Where(m => m.UserProductGroup == "5").Select(l => l.UserId).ToList();
+    string prodArial = string.Join(",", arial.ToArray());
+    var usercheckbox = Model.AllUsers.Select(l => l.UserId).ToList();
+    string allusercheckbox = string.Join(",", usercheckbox.ToArray());
+}
+
+
+<table width="100%" class="scheM">
+    <tr>
+        <td><h3>Scheduler</h3></td>
+        <td>   
+         
+         <div id="divSearchBtn" style="display:none;" >   
+             <input type='text' placeholder='Search...' id='search-text-input' />
+                <div id='button-holder'>
+                    <img src='~/Images/magnifying_glass.png' data-btns="SearchEvent" id="btnSearch"  />
+                </div>
+         </div>       
+            <div id="schedulerBtns" class="btn-grp" align="right">
+    
+               
+
+                <button type="button" data-btns="1" class="btn btn-warning" id="btnPhotography">Photography</button>
+                <button type="button" data-btns="2" class="btn btn-info" id="btnCopywriting">Copywriting</button>
+                <button type="button" data-btns="3" class="btn btn-success" id="btnVideoServices">Video Services</button>
+                <button type="button" data-btns="4" class="btn btn-Floor" id="btnFloorplan">Floor Plan</button>
+                <button type="button" data-btns="14" class="btn btn-Aeriel" id="btnAerial">Aerial</button>
+                <button type="button" data-btns="5" class="btn btn-default" id="btnAllProd">All</button>
+            </div>
+        </td>
+    </tr>
+</table>
+<table class="unscheduleStyletd">
+    <tbody>
+        <tr>
+            <td >
+                <table >
+                    <tbody>
+                        <tr>
+                            <td >
+
+                                <div style="width: 200px;" >
+                                    <div align="right" class="k-grid-header" style=" float:left; height: 39px; padding:3px 5px; width:100%;">
+                                        <span style="color: #FFFFFF; line-height: 28px;">
+                                            <span style="margin:0 0 0 3px; float:left;">Unscheduled Jobs</span> <input type="button" id="btnRefresh" class="btn btn-primary" style="padding:3px 11px;" value="Refresh"/>
+                                            <div style="clear:both;"></div>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="float: left; width: 200px" id="unScheduleJobs">
+                                    @(Html.Kendo().Grid<TelerikMvcApp1.Models.CalEventViewModel>() //Grid initialization 
+                                          .Name("grid")
+                                          .Scrollable()
+                                          
+                                          .DataSource(d => d
+                                              .Ajax()
+                                              .Model(m =>
+                                              {
+                                                  m.Id(f => f.EventId);
+                                                  m.Field(f => f.Description);
+                                              })
+                                              .Events(e => e.Error("onError")) //Call events
+                                            //  .Events(e=>e.Change("schedulerEvent"))
+                                              .Read("Jobs_Read", "Scheduler") //Call events
+                                              .Destroy("Jobs_Destroy", "Scheduler") //Call events
+                                              
+                                          )
+                                          .Columns(columns =>
+                                          {
+                                              columns.Bound(c => c.EventId).Visible(false);
+                                              //columns.Bound(c => c.UnscheduledJobs).Width(60).HtmlAttributes(new { title = "#= UnScheduleToolTip #" });
+                                              columns.Bound(c => c.UnscheduledJobs).Width(60).HtmlAttributes(new { title = "#= UnScheduleToolTip #" });
+                                              columns.Command(command => { command.Destroy().Text("D"); }).Width(20);
+           
+                                          })
+                                          //.Editable(editable => editable.Mode(GridEditMode.InCell))
+
+                                          )
+                                </div>
+                                <div style="clear:both;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="width: 200px;" id="team-schedule">
+                                    <div class="k-grid-header" style="float: left; width: 100%; padding: 5px;">
+                                        <span style="color: #FFFFFF; line-height: 28px;">Calendars 
+                                            <button id="createGroup" style="float: right; padding: 3px 6px;" class="btn btn-primary">Apply filter</button>
+                                        </span>
+                                    </div>
+                                    <br />
+                                    <div id="divCalendarUsers" style="width: 200px;  overflow: scroll">
+
+                                            <input type="checkbox" id="AllUsers" value="" data-color="" /> <span>All</span> <br />
+                                           
+                                        <div id="people">
+                                            
+                                               @* //Render checkboxes for first time 
+                                              
+                                                //foreach (var item in allAttendees) 
+                                                    //Non-Selected User which are not present in group*@
+                                                @foreach (var item in calendarUsers) 
+                                                {
+                                                <input type="checkbox"  id="@item.UserId" value="@item.Value" />
+                                                @item.Text
+                                                <br />
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td >
+                <div id="example" >
+                    @{Html.RenderPartial("_Scheduler", Model);}
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#grid .k-grid-header").hide();
+
+        var height = $(window).outerHeight();
+        // var height = $(window).height();
+        // alert(height-281);
+        //var divheight = Number(height);
+        //if (divheight >= 900) {
+        //    alert("iniii indesx");
+        //    $("#divCalendarUsers").height(divheight);
+        //    $("#people").height(divheight);
+        //}
+        //else {
+        //    $("#divCalendarUsers").height(height);
+        //    $("#people").height(height);
+        //}
+
+        $("#divCalendarUsers").height(672);
+        $("#people").height(672);
+
+    });
+
+    $('#btnRefresh').click(function (e) {
+        var grid = $("#grid").data("kendoGrid");
+        grid.dataSource.read();
+    });
+
+
+    function additionalData(e) {
+        var userIds = [];
+        $("#people :checked").each(function () {
+            userIds.push($(this).val());
+        });
+        return {
+            userIds: userIds
+        }
+    }
+
+    $(document).ready(function () {
+        $('#' + '@user1').attr("checked", true);
+        filterCalendar();
+    });
+
+
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+
+                var scheduler = $("#scheduler").data("kendoScheduler");
+                scheduler.one("dataBinding", function () {
+                    //prevent saving if server error is thrown
+                    e.preventDefault();
+                });
+            }
+        }
+</script>
+
+<script>
+
+    $(function () {
+
+
+
+
+        $('#schedulerBtns [data-btns]').click(function () {
+            var serviceId = $(this).data('btns');
+            $('#search-text-input').val("");
+            // debugger;
+            if (serviceId == "1") {
+                //  alert('@prodphotography' + "     prodphotography ");
+                //  alert('@allusercheckbox');
+                uncheckbox('@allusercheckbox');
+                checkproductgroup('@prodphotography');
+            }
+            else if (serviceId == "2") {
+                // alert('@prodcopywriting' + "     prodcopywriting ");
+                uncheckbox('@allusercheckbox');
+                checkproductgroup('@prodcopywriting');
+            }
+            else if (serviceId == "3") {
+                uncheckbox('@allusercheckbox');
+                checkproductgroup('@prodvideoServices');
+            }
+            else if (serviceId == "4") {
+                uncheckbox('@allusercheckbox');
+                checkproductgroup('@prodfloorPlan');
+            }
+            else if (serviceId == "5") {
+                uncheckbox('@allusercheckbox');
+                checkproductgroup('@allusercheckbox');
+            }
+            else if (serviceId == "14") {
+                uncheckbox('@allusercheckbox');
+                checkproductgroup('@prodArial');
+            }
+
+            // $('#AllUsers').prop('checked', false);
+
+            if ($('#AllUsers').is(':checked')) {
+                $('#AllUsers').prop("checked", false);
+            }
+            setretainview();
+            setretaindate();
+            filterCalendar();
+        });
+
+
+
+
+        function checkproductgroup(productgrp) {
+
+            var data = productgrp;
+            var arrusers = data.split(',');
+            for (var i = 0; i < arrusers.length; i++) {
+                if (arrusers[i] != null && arrusers[i] != "") {
+                    if (!$('#' + arrusers[i]).is(':checked')) {
+                        $('#' + arrusers[i]).prop("checked", true);
+                    }
+                }
+            }
+        }
+
+
+
+        //All user check box click
+        $('#AllUsers').change(function () {
+
+            if ($('#AllUsers').prop('checked') == true) {
+                $('#people [type="checkbox"]').prop('checked', true);
+            } else {
+                $('#people [type="checkbox"]').prop('checked', false);
+            }
+
+        });
+
+        //Check box check function
+        $("#people :checkbox").change(function (e) {
+            if (!$(this).is('checked')) {
+                $('#AllUsers').prop('checked', false);
+            }
+        });
+
+
+        //Group click.
+        $('#createGroup').click(function () {
+            // debugger;
+            setretainview();
+            setretaindate();
+
+            $('#search-text-input').val("");
+
+
+            var userIds = [];
+
+            $("#people :checked").each(function () {
+                userIds.push($(this).val());
+            });
+
+            if (userIds.length != 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "../Scheduler/GroupCalendar",
+                    data: { userIds: userIds },
+                    contentType: "HTML",
+                    traditional: true,
+                    success: function (result) {
+                        $('#example').html('');
+                        $('#example').html(result);
+                    }
+                });
+
+
+            } else {
+                alert('Please select at least one user.');
+            }
+        });
+    });
+
+
+function filterCalendar() {
+    var userIds = [];
+
+    $("#people :checked").each(function () {
+        userIds.push($(this).val());
+    });
+
+    if (userIds.length != 0) {
+        $.ajax({
+            type: "GET",
+            url: "../Scheduler/GroupCalendar",
+            data: { userIds: userIds },
+            contentType: "HTML",
+            traditional: true,
+            success: function (result) {
+
+                $('#example').html('');
+                $('#example').html(result);
+            }
+        });
+    } else {
+        alert('Please select at least one user.');
+    }
+}
+
+
+function setretainview() {
+    var scheduler = $("#scheduler").data("kendoScheduler");
+    var slectedview = scheduler.view().name;
+  //  alert(slectedview);
+    localStorage.setItem("slectedview", slectedview);
+}
+
+function setretaindate() {
+    var scheduler = $("#scheduler").data("kendoScheduler");
+    var slecteddate = scheduler.date();
+    localStorage.setItem("slecteddate", slecteddate);
+}
+
+function uncheckbox(productgrp) {
+
+    var data = productgrp;
+    var arrusers = data.split(',');
+    for (var i = 0; i < arrusers.length; i++) {
+        if (arrusers[i] != null && arrusers[i] != "") {
+
+            if ($('#' + arrusers[i]).is(':checked')) {
+                // alert("hello");
+                $('#' + arrusers[i]).attr("checked", false);
+
+
+            } else {
+                // alert("hello12345");
+            }
+
+        }
+    }
+
+}
+</script>

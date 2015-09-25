@@ -1,0 +1,2020 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DevModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="DevModelStoreContainer">
+          <EntitySet Name="Application" EntityType="DevModel.Store.Application" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Asset" EntityType="DevModel.Store.Asset" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AssetAllocation" EntityType="DevModel.Store.AssetAllocation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AssetConfig" EntityType="DevModel.Store.AssetConfig" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AssetHealthMeasure" EntityType="DevModel.Store.AssetHealthMeasure" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AssetService" EntityType="DevModel.Store.AssetService" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AssetStatus" EntityType="DevModel.Store.AssetStatus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BusinessProcess" EntityType="DevModel.Store.BusinessProcess" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Calendars" EntityType="DevModel.Store.Calendars" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CalendarUser" EntityType="DevModel.Store.CalendarUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Campaign" EntityType="DevModel.Store.Campaign" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CampaignAssets" EntityType="DevModel.Store.CampaignAssets" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CampaignCollateral" EntityType="DevModel.Store.CampaignCollateral" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CampaignNotifications" EntityType="DevModel.Store.CampaignNotifications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CampaignSitting" EntityType="DevModel.Store.CampaignSitting" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CampaignTimeLine" EntityType="DevModel.Store.CampaignTimeLine" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CancelledOrders" EntityType="DevModel.Store.CancelledOrders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ColorMaster" EntityType="DevModel.Store.ColorMaster" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Company" EntityType="DevModel.Store.Company" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CompanyMail" EntityType="DevModel.Store.CompanyMail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CompanyOrders" EntityType="DevModel.Store.CompanyOrders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Contacts" EntityType="DevModel.Store.Contacts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Events" EntityType="DevModel.Store.Events" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EventTracking" EntityType="DevModel.Store.EventTracking" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Mail" EntityType="DevModel.Store.Mail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderContacts" EntityType="DevModel.Store.OrderContacts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderEvents" EntityType="DevModel.Store.OrderEvents" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderItems" EntityType="DevModel.Store.OrderItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Orders" EntityType="DevModel.Store.Orders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderType" EntityType="DevModel.Store.OrderType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Organisation" EntityType="DevModel.Store.Organisation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ProductCompany" EntityType="DevModel.Store.ProductCompany" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ProductGroups" EntityType="DevModel.Store.ProductGroups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Products" EntityType="DevModel.Store.Products" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ProductSchedules" EntityType="DevModel.Store.ProductSchedules" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ProductUser" EntityType="DevModel.Store.ProductUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Property" EntityType="DevModel.Store.Property" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PropertyInvoices" EntityType="DevModel.Store.PropertyInvoices" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="State" EntityType="DevModel.Store.State" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Street" EntityType="DevModel.Store.Street" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Suburb" EntityType="DevModel.Store.Suburb" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tmp" EntityType="DevModel.Store.tmp" store:Type="Tables" store:Schema="dbo" store:Name="tmp">
+            <DefiningQuery>SELECT 
+      [tmp].[ID] AS [ID], 
+      [tmp].[pmDescription] AS [pmDescription], 
+      [tmp].[smDescription] AS [smDescription], 
+      [tmp].[mstr_list_item_desc] AS [mstr_list_item_desc], 
+      [tmp].[delete_ind] AS [delete_ind], 
+      [tmp].[address_line_1] AS [address_line_1], 
+      [tmp].[limit_id] AS [limit_id], 
+      [tmp].[licType] AS [licType]
+      FROM [dbo].[tmp] AS [tmp]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="User" EntityType="DevModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserTypes" EntityType="DevModel.Store.UserTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Visitor-Fact" EntityType="DevModel.Store.Visitor-Fact" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Contacts_Company" Association="DevModel.Store.FK_Contacts_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Contacts" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItemEvents_Orders" Association="DevModel.Store.FK_OrderItemEvents_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderEvents" EntitySet="OrderEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItems_Order" Association="DevModel.Store.FK_OrderItems_Order">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_Company" Association="DevModel.Store.FK_Property_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Property" EntitySet="Property" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="1000" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="APIKey" Type="uniqueidentifier" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="AssetGUID" Type="uniqueidentifier" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="ManufactureId" Type="int" />
+          <Property Name="ManufactureModel" Type="varchar" MaxLength="100" />
+          <Property Name="Battery" Type="varchar" MaxLength="100" />
+          <Property Name="FactorySerialNo" Type="varchar" MaxLength="100" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="PurchasePriceExGST" Type="decimal" Scale="2" />
+          <Property Name="PurchaseCurrency" Type="varchar" MaxLength="100" />
+          <Property Name="PurchaseExchangeRate" Type="decimal" Scale="2" />
+          <Property Name="MaxRange" Type="varchar" MaxLength="100" />
+          <Property Name="Passcode" Type="varchar" MaxLength="255" />
+          <Property Name="PurchaseInvoiceId&#xD;&#xA;PurchaseInvoiceId" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetAllocation">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="AllocatedTo" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetConfig">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="AdvInterval" Type="decimal" Scale="2" />
+          <Property Name="AdvChannel" Type="varchar" MaxLength="1500" />
+          <Property Name="ProxUDID" Type="varchar" MaxLength="100" />
+          <Property Name="Major" Type="varchar" MaxLength="100" />
+          <Property Name="Minor" Type="varchar" MaxLength="100" />
+          <Property Name="Power" Type="varchar" MaxLength="100" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Range" Type="decimal" Scale="2" />
+          <Property Name="Firmware" Type="varchar" MaxLength="100" />
+          <Property Name="Location" Type="varchar" MaxLength="100" />
+          <Property Name="PassCode" Type="varchar" MaxLength="255" />
+          <Property Name="CampaignId" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetHealthMeasure">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="MeasureType" Type="varchar" MaxLength="100" />
+          <Property Name="Measurement" Type="decimal" Scale="2" />
+          <Property Name="CampaignId" Type="int" />
+        </EntityType>
+        <EntityType Name="AssetService">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="AssignedtoComp" Type="int" />
+          <Property Name="AssignedtoTech" Type="int" />
+          <Property Name="ActivityStartDate" Type="datetime" />
+          <Property Name="Type" Type="varchar" MaxLength="100" />
+          <Property Name="EstimatedEffort" Type="decimal" Scale="2" />
+          <Property Name="ActualEffort" Type="decimal" Scale="2" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Notes" Type="varchar(max)" />
+          <Property Name="Resolution" Type="varchar(max)" />
+          <Property Name="ReleaseDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AssetStatus">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+          <Property Name="Notes" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="BusinessProcess">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="Object" Type="varchar" MaxLength="1000" />
+          <Property Name="SPName" Type="varchar" MaxLength="1000" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="1000" />
+          <Property Name="ActiveRecord" Type="bit" />
+          <Property Name="ActiveRecordSet" Type="bit" />
+          <Property Name="RecordSet" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Calendars">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Org_Id" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="2000" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CalendarUser">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="CalendarId" Type="int" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Campaign">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="PropertyId" Type="int" />
+          <Property Name="ApplicationId" Type="int" />
+          <Property Name="Type" Type="int" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="AssignedTo" Type="int" />
+          <Property Name="AssetCountRequirement" Type="int" />
+        </EntityType>
+        <EntityType Name="CampaignAssets">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignId" Type="int" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="AssetConfigId" Type="int" />
+          <Property Name="ConfiguredBy" Type="int" />
+        </EntityType>
+        <EntityType Name="CampaignCollateral">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignId" Type="int" />
+          <Property Name="Type" Type="varchar" MaxLength="100" />
+          <Property Name="Content" Type="varchar" MaxLength="1000" />
+          <Property Name="CampaignTimeLineId" Type="int" />
+          <Property Name="DwellTimeMin" Type="decimal" Scale="2" />
+          <Property Name="DwellTimeMax" Type="decimal" Scale="2" />
+          <Property Name="VisitMin" Type="int" />
+          <Property Name="VisitMax" Type="int" />
+          <Property Name="MaxMessages" Type="int" />
+        </EntityType>
+        <EntityType Name="CampaignNotifications">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="CampaignId" Type="int" />
+          <Property Name="CampaignSittingId" Type="int" />
+          <Property Name="NotificationType" Type="varchar" MaxLength="100" />
+          <Property Name="NotificationMsg" Type="varchar" MaxLength="1000" />
+          <Property Name="ReceiverUDID" Type="varchar" MaxLength="100" />
+          <Property Name="FireDatetime" Type="datetime" />
+          <Property Name="Badge" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="CampaignSitting">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AssetProxUDID" Type="varchar" MaxLength="100" />
+          <Property Name="ReceiverUDID" Type="varchar" MaxLength="100" />
+          <Property Name="Event" Type="varchar" MaxLength="100" />
+          <Property Name="EventDatetime" Type="datetime" />
+          <Property Name="DwellTime" Type="datetime" />
+          <Property Name="Latitude" Type="varchar" MaxLength="100" />
+          <Property Name="Longitude" Type="varchar" MaxLength="100" />
+          <Property Name="SignalMeasure" Type="decimal" Scale="2" />
+          <Property Name="PowerMeasure" Type="decimal" Scale="2" />
+          <Property Name="TempMeasure" Type="decimal" Scale="2" />
+          <Property Name="ReceiverDevice" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CampaignTimeLine">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignId" Type="int" />
+          <Property Name="Activity" Type="varchar" MaxLength="100" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CancelledOrders">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="Property" Type="varchar(max)" />
+          <Property Name="Service" Type="varchar(max)" />
+          <Property Name="RequiredDate" Type="varchar" MaxLength="50" />
+          <Property Name="FileName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ColorMaster">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Org_Id" Type="int" />
+          <Property Name="CompanyCode" Type="varchar" MaxLength="50" />
+          <Property Name="XeroName" Type="varchar(max)" />
+          <Property Name="ScrappedName" Type="varchar(max)" />
+          <Property Name="CreateEvent" Type="bit" />
+          <Property Name="CreateInvoice" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CompanyMail">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Company_Id" Type="int" />
+          <Property Name="Mail_Id" Type="int" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CompanyOrders">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Contacts">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="Value" Type="varchar(max)" />
+          <Property Name="ContactType" Type="varchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CalendarId" Type="int" />
+          <Property Name="EventId" Type="varchar" MaxLength="500" />
+          <Property Name="RecurringEventId" Type="varchar" MaxLength="500" />
+          <Property Name="ColorId" Type="varchar" MaxLength="50" />
+          <Property Name="Attendees" Type="varchar" MaxLength="50" />
+          <Property Name="AttendeesOmitted" Type="bit" />
+          <Property Name="AnyoneCanAddSelf" Type="bit" />
+          <Property Name="Locked" Type="bit" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="Location" Type="varchar" MaxLength="500" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Kind" Type="varchar" MaxLength="50" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="MovedOn" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="Recurrence" Type="varchar" MaxLength="50" />
+          <Property Name="Organizer" Type="varchar" MaxLength="50" />
+          <Property Name="Creator" Type="varchar" MaxLength="50" />
+          <Property Name="Sequence" Type="int" />
+          <Property Name="Transperancy" Type="varchar" MaxLength="50" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="Visibility" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EventTracking">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CalendarId" Type="int" />
+          <Property Name="OrderId" Type="varchar(max)" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="MovedOn" Type="datetime" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Status" Type="varchar" MaxLength="500" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Mail">
+          <Key>
+            <PropertyRef Name="Row_ID" />
+          </Key>
+          <Property Name="Row_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Org_Id" Type="int" />
+          <Property Name="FileName" Type="varchar(max)" />
+          <Property Name="SentDate" Type="varchar(max)" />
+          <Property Name="Subject" Type="varchar(max)" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderContacts">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="ContactId" Type="int" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderEvents">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Id" Type="int" />
+          <Property Name="TimeZone" Type="varchar(max)" />
+          <Property Name="EventCreated" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderItems">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Id" Type="int" />
+          <Property Name="Xero_Id" Type="int" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="ClientPrice" Type="varchar(max)" />
+          <Property Name="CostPrice" Type="varchar" MaxLength="50" />
+          <Property Name="Comments" Type="varchar(max)" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderType_Id" Type="int" />
+          <Property Name="Property_Id" Type="int" />
+          <Property Name="Mail_Id" Type="int" />
+          <Property Name="OrderId" Type="varchar(max)" />
+          <Property Name="RequiredDate" Type="datetime" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="OrderType">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Organisation">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="ProductCompany">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="CompanyId" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductGroups">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="XeroCode" Type="varchar" MaxLength="100" />
+          <Property Name="ProductDescription" Type="varchar" MaxLength="500" />
+          <Property Name="XeroItemDescription" Type="varchar" MaxLength="500" />
+          <Property Name="SalesUnitPrice" Type="decimal" Scale="2" />
+          <Property Name="SalesAccountCode" Type="varchar" MaxLength="50" />
+          <Property Name="SalesTaxType" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ProductSchedules">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="XeroCode" Type="varchar(max)" />
+          <Property Name="Value" Type="varchar" MaxLength="100" />
+          <Property Name="Title" Type="varchar" MaxLength="500" />
+          <Property Name="ColorId" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductUser">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="User_Id" Type="int" />
+          <Property Name="Product_Id" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Company_Id" Type="int" />
+          <Property Name="Property_Id" Type="varchar(max)" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="Latitude" Type="varchar" MaxLength="50" />
+          <Property Name="Longitude" Type="varchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PropertyInvoices">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PropertyId" Type="int" />
+          <Property Name="MailId" Type="int" />
+          <Property Name="InvoiceNo" Type="varchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Street">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SuburbId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Suburb">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StateId" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Created" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'CampaignTrack_Dev.dbo.tmp' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="tmp">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="delete_ind" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="pmDescription" Type="varchar" MaxLength="75" />
+          <Property Name="smDescription" Type="varchar" MaxLength="40" />
+          <Property Name="mstr_list_item_desc" Type="varchar" MaxLength="100" />
+          <Property Name="delete_ind" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="address_line_1" Type="varchar" MaxLength="55" />
+          <Property Name="limit_id" Type="varchar" MaxLength="10" />
+          <Property Name="licType" Type="varchar" MaxLength="13" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="UserType" Type="int" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="Updated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserTypes">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Visitor-Fact">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="int" />
+          <Property Name="ReceiverUDID" Type="int" />
+          <Property Name="VisitCount" Type="int" />
+          <Property Name="MessageCount" Type="int" />
+          <Property Name="CampaignId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Contacts_Company">
+          <End Role="Company" Type="DevModel.Store.Company" Multiplicity="0..1" />
+          <End Role="Contacts" Type="DevModel.Store.Contacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="Contacts">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItemEvents_Orders">
+          <End Role="Orders" Type="DevModel.Store.Orders" Multiplicity="0..1" />
+          <End Role="OrderEvents" Type="DevModel.Store.OrderEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="OrderEvents">
+              <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItems_Order">
+          <End Role="Orders" Type="DevModel.Store.Orders" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="DevModel.Store.OrderItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_Company">
+          <End Role="Company" Type="DevModel.Store.Company" Multiplicity="0..1" />
+          <End Role="Property" Type="DevModel.Store.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetDataforCalenderEntry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetProductSchedules" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="XeroID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertCalendars" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Calendar" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertCancelledOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Service" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Property" Type="varchar(max)" Mode="In" />
+          <Parameter Name="RequiredDate" Type="varchar(max)" Mode="In" />
+          <Parameter Name="FileName" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="InsertEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Calendar" Type="varchar" Mode="In" />
+          <Parameter Name="OrderId" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Title" Type="varchar(max)" Mode="In" />
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="MovedOn" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertOtherEvents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Calendar" Type="varchar" Mode="In" />
+          <Parameter Name="EventId" Type="varchar" Mode="In" />
+          <Parameter Name="RecurringEventId" Type="varchar" Mode="In" />
+          <Parameter Name="ColorId" Type="varchar" Mode="In" />
+          <Parameter Name="Attendees" Type="varchar" Mode="In" />
+          <Parameter Name="AttendeesOmitted" Type="bit" Mode="In" />
+          <Parameter Name="AnyoneCanAddSelf" Type="bit" Mode="In" />
+          <Parameter Name="Locked" Type="bit" Mode="In" />
+          <Parameter Name="Title" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Location" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Kind" Type="varchar" Mode="In" />
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="MovedOn" Type="datetime" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+          <Parameter Name="Recurrence" Type="varchar" Mode="In" />
+          <Parameter Name="Organizer" Type="varchar" Mode="In" />
+          <Parameter Name="Creator" Type="varchar" Mode="In" />
+          <Parameter Name="Sequence" Type="int" Mode="In" />
+          <Parameter Name="Transperancy" Type="varchar" Mode="In" />
+          <Parameter Name="Updated" Type="datetime" Mode="In" />
+          <Parameter Name="Visibility" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertPropertyInvoiceNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PropertyId" Type="int" Mode="In" />
+          <Parameter Name="InvoiceNo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Processmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="X" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="QFN_SPLIT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="INPUTSTR" Type="varchar(max)" Mode="In" />
+          <Parameter Name="SEPRATOR" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="COL" Type="varchar(max)" />
+                <Property Name="ID" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="split" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="del" Type="char" Mode="In" />
+          <Parameter Name="str" Type="varchar(max)" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="VALUE" Type="varchar(max)" />
+                <Property Name="COST1" Type="varchar(max)" />
+                <Property Name="COST2" Type="varchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="SyncCompany" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="X" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SyncProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="X" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="UpdateOrderEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderId" Type="int" Mode="In" />
+        </Function>
+        <!--Errors Found During Generation:
+      warning 6013: The table/view 'CampaignTrack_Dev.dbo.TxnData' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+      
+      <EntityType Name="TxnData">
+        <Property Name="AcctId" Type="int" />
+        <Property Name="TxnDate" Type="date" />
+        <Property Name="Amount" Type="decimal" />
+      </EntityType>-->
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DevModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DevEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Applications" EntityType="DevModel.Application" />
+          <EntitySet Name="Assets" EntityType="DevModel.Asset" />
+          <EntitySet Name="AssetAllocations" EntityType="DevModel.AssetAllocation" />
+          <EntitySet Name="AssetConfigs" EntityType="DevModel.AssetConfig" />
+          <EntitySet Name="AssetHealthMeasures" EntityType="DevModel.AssetHealthMeasure" />
+          <EntitySet Name="AssetServices" EntityType="DevModel.AssetService" />
+          <EntitySet Name="AssetStatus" EntityType="DevModel.AssetStatu" />
+          <EntitySet Name="BusinessProcesses" EntityType="DevModel.BusinessProcess" />
+          <EntitySet Name="Calendars" EntityType="DevModel.Calendar" />
+          <EntitySet Name="CalendarUsers" EntityType="DevModel.CalendarUser" />
+          <EntitySet Name="Campaigns" EntityType="DevModel.Campaign" />
+          <EntitySet Name="CampaignAssets" EntityType="DevModel.CampaignAsset" />
+          <EntitySet Name="CampaignCollaterals" EntityType="DevModel.CampaignCollateral" />
+          <EntitySet Name="CampaignNotifications" EntityType="DevModel.CampaignNotification" />
+          <EntitySet Name="CampaignSittings" EntityType="DevModel.CampaignSitting" />
+          <EntitySet Name="CampaignTimeLines" EntityType="DevModel.CampaignTimeLine" />
+          <EntitySet Name="CancelledOrders" EntityType="DevModel.CancelledOrder" />
+          <EntitySet Name="ColorMasters" EntityType="DevModel.ColorMaster" />
+          <EntitySet Name="Companies" EntityType="DevModel.Company" />
+          <EntitySet Name="CompanyMails" EntityType="DevModel.CompanyMail" />
+          <EntitySet Name="CompanyOrders" EntityType="DevModel.CompanyOrder" />
+          <EntitySet Name="Contacts" EntityType="DevModel.Contact" />
+          <EntitySet Name="Events" EntityType="DevModel.Event" />
+          <EntitySet Name="EventTrackings" EntityType="DevModel.EventTracking" />
+          <EntitySet Name="Mails" EntityType="DevModel.Mail" />
+          <EntitySet Name="OrderContacts" EntityType="DevModel.OrderContact" />
+          <EntitySet Name="OrderEvents" EntityType="DevModel.OrderEvent" />
+          <EntitySet Name="OrderItems" EntityType="DevModel.OrderItem" />
+          <EntitySet Name="Orders" EntityType="DevModel.Order" />
+          <EntitySet Name="OrderTypes" EntityType="DevModel.OrderType" />
+          <EntitySet Name="Organisations" EntityType="DevModel.Organisation" />
+          <EntitySet Name="ProductCompanies" EntityType="DevModel.ProductCompany" />
+          <EntitySet Name="ProductGroups" EntityType="DevModel.ProductGroup" />
+          <EntitySet Name="Products" EntityType="DevModel.Product" />
+          <EntitySet Name="ProductSchedules" EntityType="DevModel.ProductSchedule" />
+          <EntitySet Name="ProductUsers" EntityType="DevModel.ProductUser" />
+          <EntitySet Name="Properties" EntityType="DevModel.Property" />
+          <EntitySet Name="PropertyInvoices" EntityType="DevModel.PropertyInvoice" />
+          <EntitySet Name="States" EntityType="DevModel.State" />
+          <EntitySet Name="Streets" EntityType="DevModel.Street" />
+          <EntitySet Name="Suburbs" EntityType="DevModel.Suburb" />
+          <EntitySet Name="tmps" EntityType="DevModel.tmp" />
+          <EntitySet Name="Users" EntityType="DevModel.User" />
+          <EntitySet Name="UserTypes" EntityType="DevModel.UserType" />
+          <EntitySet Name="Visitor_Fact" EntityType="DevModel.Visitor_Fact" />
+          <AssociationSet Name="FK_Contacts_Company" Association="DevModel.FK_Contacts_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Contacts" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Property_Company" Association="DevModel.FK_Property_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Property" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItemEvents_Orders" Association="DevModel.FK_OrderItemEvents_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderEvents" EntitySet="OrderEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItems_Order" Association="DevModel.FK_OrderItems_Order">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderItems" EntitySet="OrderItems" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="APIKey" Type="Guid" />
+          <Property Name="Status" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="AssetGUID" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="ManufactureId" Type="Int32" />
+          <Property Name="ManufactureModel" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Battery" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="FactorySerialNo" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="PurchasePriceExGST" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PurchaseCurrency" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="PurchaseExchangeRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MaxRange" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Passcode" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="PurchaseInvoiceId__PurchaseInvoiceId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AssetAllocation">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="AllocatedTo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AssetConfig">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="AdvInterval" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AdvChannel" Type="String" MaxLength="1500" Unicode="false" FixedLength="false" />
+          <Property Name="ProxUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Major" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Minor" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Power" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Range" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Firmware" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Location" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="PassCode" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="CampaignId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AssetHealthMeasure">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="MeasureType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Measurement" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CampaignId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AssetService">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="AssignedtoComp" Type="Int32" />
+          <Property Name="AssignedtoTech" Type="Int32" />
+          <Property Name="ActivityStartDate" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="EstimatedEffort" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ActualEffort" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Resolution" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ReleaseDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="AssetStatu">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="BusinessProcess">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="Object" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="SPName" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="ActiveRecord" Type="Boolean" />
+          <Property Name="ActiveRecordSet" Type="Boolean" />
+          <Property Name="RecordSet" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Calendar">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Org_Id" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CalendarUser">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="CalendarId" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Campaign">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="PropertyId" Type="Int32" />
+          <Property Name="ApplicationId" Type="Int32" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="AssignedTo" Type="Int32" />
+          <Property Name="AssetCountRequirement" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CampaignAsset">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignId" Type="Int32" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="AssetConfigId" Type="Int32" />
+          <Property Name="ConfiguredBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CampaignCollateral">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignId" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Content" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="CampaignTimeLineId" Type="Int32" />
+          <Property Name="DwellTimeMin" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DwellTimeMax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="VisitMin" Type="Int32" />
+          <Property Name="VisitMax" Type="Int32" />
+          <Property Name="MaxMessages" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CampaignNotification">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="CampaignId" Type="Int32" />
+          <Property Name="CampaignSittingId" Type="Int32" />
+          <Property Name="NotificationType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="NotificationMsg" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="ReceiverUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="FireDatetime" Type="DateTime" Precision="3" />
+          <Property Name="Badge" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CampaignSitting">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetProxUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="ReceiverUDID" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Event" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="EventDatetime" Type="DateTime" Precision="3" />
+          <Property Name="DwellTime" Type="DateTime" Precision="3" />
+          <Property Name="Latitude" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Longitude" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="SignalMeasure" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PowerMeasure" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TempMeasure" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReceiverDevice" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="CampaignTimeLine">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CampaignId" Type="Int32" />
+          <Property Name="Activity" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CancelledOrder">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="Property" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Service" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="RequiredDate" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FileName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="ColorMaster">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Org_Id" Type="Int32" />
+          <Property Name="CompanyCode" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="XeroName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ScrappedName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="CreateEvent" Type="Boolean" />
+          <Property Name="CreateInvoice" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Contacts" Relationship="DevModel.FK_Contacts_Company" FromRole="Company" ToRole="Contacts" />
+          <NavigationProperty Name="Properties" Relationship="DevModel.FK_Property_Company" FromRole="Company" ToRole="Property" />
+        </EntityType>
+        <EntityType Name="CompanyMail">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Company_Id" Type="Int32" />
+          <Property Name="Mail_Id" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CompanyOrder">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ContactType" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="DevModel.FK_Contacts_Company" FromRole="Contacts" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CalendarId" Type="Int32" />
+          <Property Name="EventId" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="RecurringEventId" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="ColorId" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Attendees" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="AttendeesOmitted" Type="Boolean" />
+          <Property Name="AnyoneCanAddSelf" Type="Boolean" />
+          <Property Name="Locked" Type="Boolean" />
+          <Property Name="Title" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Location" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Kind" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="MovedOn" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Recurrence" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Organizer" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Creator" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Sequence" Type="Int32" />
+          <Property Name="Transperancy" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Updated" Type="DateTime" Precision="3" />
+          <Property Name="Visibility" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="EventTracking">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CalendarId" Type="Int32" />
+          <Property Name="OrderId" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="MovedOn" Type="DateTime" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Mail">
+          <Key>
+            <PropertyRef Name="Row_ID" />
+          </Key>
+          <Property Name="Row_ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Org_Id" Type="Int32" />
+          <Property Name="FileName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="SentDate" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Subject" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OrderContact">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="ContactId" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="OrderEvent">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Id" Type="Int32" />
+          <Property Name="TimeZone" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="EventCreated" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Order" Relationship="DevModel.FK_OrderItemEvents_Orders" FromRole="OrderEvents" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Id" Type="Int32" />
+          <Property Name="Xero_Id" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ClientPrice" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="CostPrice" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Order" Relationship="DevModel.FK_OrderItems_Order" FromRole="OrderItems" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderType_Id" Type="Int32" />
+          <Property Name="Property_Id" Type="Int32" />
+          <Property Name="Mail_Id" Type="Int32" />
+          <Property Name="OrderId" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="RequiredDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="OrderEvents" Relationship="DevModel.FK_OrderItemEvents_Orders" FromRole="Orders" ToRole="OrderEvents" />
+          <NavigationProperty Name="OrderItems" Relationship="DevModel.FK_OrderItems_Order" FromRole="Orders" ToRole="OrderItems" />
+        </EntityType>
+        <EntityType Name="OrderType">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Organisation">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ProductCompany">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ProductGroup">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="XeroCode" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="XeroItemDescription" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="SalesUnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SalesAccountCode" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SalesTaxType" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="ProductSchedule">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="XeroCode" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Value" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="ColorId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ProductUser">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Id" Type="Int32" />
+          <Property Name="Product_Id" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Company_Id" Type="Int32" />
+          <Property Name="Property_Id" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Latitude" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Longitude" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="DevModel.FK_Property_Company" FromRole="Property" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="PropertyInvoice">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="PropertyId" Type="Int32" />
+          <Property Name="MailId" Type="Int32" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Street">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="SuburbId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Suburb">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="StateId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tmp">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="delete_ind" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="pmDescription" Type="String" MaxLength="75" Unicode="false" FixedLength="false" />
+          <Property Name="smDescription" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="mstr_list_item_desc" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="delete_ind" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="address_line_1" Type="String" MaxLength="55" Unicode="false" FixedLength="false" />
+          <Property Name="limit_id" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="licType" Type="String" MaxLength="13" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="UserType" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Updated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Visitor_Fact">
+          <Key>
+            <PropertyRef Name="Row_Id" />
+          </Key>
+          <Property Name="Row_Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgId" Type="Int32" />
+          <Property Name="ReceiverUDID" Type="Int32" />
+          <Property Name="VisitCount" Type="Int32" />
+          <Property Name="MessageCount" Type="Int32" />
+          <Property Name="CampaignId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Contacts_Company">
+          <End Role="Company" Type="DevModel.Company" Multiplicity="0..1" />
+          <End Role="Contacts" Type="DevModel.Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="Contacts">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Property_Company">
+          <End Role="Company" Type="DevModel.Company" Multiplicity="0..1" />
+          <End Role="Property" Type="DevModel.Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="Company_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItemEvents_Orders">
+          <End Role="Orders" Type="DevModel.Order" Multiplicity="0..1" />
+          <End Role="OrderEvents" Type="DevModel.OrderEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="OrderEvents">
+              <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItems_Order">
+          <End Role="Orders" Type="DevModel.Order" Multiplicity="0..1" />
+          <End Role="OrderItems" Type="DevModel.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Row_Id" />
+            </Principal>
+            <Dependent Role="OrderItems">
+              <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DevModelStoreContainer" CdmEntityContainer="DevEntities">
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="DevModel.Application">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="APIKey" ColumnName="APIKey" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Assets">
+            <EntityTypeMapping TypeName="DevModel.Asset">
+              <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="AssetGUID" ColumnName="AssetGUID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ManufactureId" ColumnName="ManufactureId" />
+                <ScalarProperty Name="ManufactureModel" ColumnName="ManufactureModel" />
+                <ScalarProperty Name="Battery" ColumnName="Battery" />
+                <ScalarProperty Name="FactorySerialNo" ColumnName="FactorySerialNo" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PurchasePriceExGST" ColumnName="PurchasePriceExGST" />
+                <ScalarProperty Name="PurchaseCurrency" ColumnName="PurchaseCurrency" />
+                <ScalarProperty Name="PurchaseExchangeRate" ColumnName="PurchaseExchangeRate" />
+                <ScalarProperty Name="MaxRange" ColumnName="MaxRange" />
+                <ScalarProperty Name="Passcode" ColumnName="Passcode" />
+                <ScalarProperty Name="PurchaseInvoiceId__PurchaseInvoiceId" ColumnName="PurchaseInvoiceId&#xD;&#xA;PurchaseInvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetAllocations">
+            <EntityTypeMapping TypeName="DevModel.AssetAllocation">
+              <MappingFragment StoreEntitySet="AssetAllocation">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="AllocatedTo" ColumnName="AllocatedTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetConfigs">
+            <EntityTypeMapping TypeName="DevModel.AssetConfig">
+              <MappingFragment StoreEntitySet="AssetConfig">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="AdvInterval" ColumnName="AdvInterval" />
+                <ScalarProperty Name="AdvChannel" ColumnName="AdvChannel" />
+                <ScalarProperty Name="ProxUDID" ColumnName="ProxUDID" />
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Minor" ColumnName="Minor" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Range" ColumnName="Range" />
+                <ScalarProperty Name="Firmware" ColumnName="Firmware" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="PassCode" ColumnName="PassCode" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetHealthMeasures">
+            <EntityTypeMapping TypeName="DevModel.AssetHealthMeasure">
+              <MappingFragment StoreEntitySet="AssetHealthMeasure">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="MeasureType" ColumnName="MeasureType" />
+                <ScalarProperty Name="Measurement" ColumnName="Measurement" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetServices">
+            <EntityTypeMapping TypeName="DevModel.AssetService">
+              <MappingFragment StoreEntitySet="AssetService">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="AssignedtoComp" ColumnName="AssignedtoComp" />
+                <ScalarProperty Name="AssignedtoTech" ColumnName="AssignedtoTech" />
+                <ScalarProperty Name="ActivityStartDate" ColumnName="ActivityStartDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EstimatedEffort" ColumnName="EstimatedEffort" />
+                <ScalarProperty Name="ActualEffort" ColumnName="ActualEffort" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Resolution" ColumnName="Resolution" />
+                <ScalarProperty Name="ReleaseDateTime" ColumnName="ReleaseDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetStatus">
+            <EntityTypeMapping TypeName="DevModel.AssetStatu">
+              <MappingFragment StoreEntitySet="AssetStatus">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BusinessProcesses">
+            <EntityTypeMapping TypeName="DevModel.BusinessProcess">
+              <MappingFragment StoreEntitySet="BusinessProcess">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="SPName" ColumnName="SPName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="ActiveRecord" ColumnName="ActiveRecord" />
+                <ScalarProperty Name="ActiveRecordSet" ColumnName="ActiveRecordSet" />
+                <ScalarProperty Name="RecordSet" ColumnName="RecordSet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Calendars">
+            <EntityTypeMapping TypeName="DevModel.Calendar">
+              <MappingFragment StoreEntitySet="Calendars">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CalendarUsers">
+            <EntityTypeMapping TypeName="DevModel.CalendarUser">
+              <MappingFragment StoreEntitySet="CalendarUser">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Campaigns">
+            <EntityTypeMapping TypeName="DevModel.Campaign">
+              <MappingFragment StoreEntitySet="Campaign">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="AssetCountRequirement" ColumnName="AssetCountRequirement" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignAssets">
+            <EntityTypeMapping TypeName="DevModel.CampaignAsset">
+              <MappingFragment StoreEntitySet="CampaignAssets">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="AssetConfigId" ColumnName="AssetConfigId" />
+                <ScalarProperty Name="ConfiguredBy" ColumnName="ConfiguredBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignCollaterals">
+            <EntityTypeMapping TypeName="DevModel.CampaignCollateral">
+              <MappingFragment StoreEntitySet="CampaignCollateral">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="CampaignTimeLineId" ColumnName="CampaignTimeLineId" />
+                <ScalarProperty Name="DwellTimeMin" ColumnName="DwellTimeMin" />
+                <ScalarProperty Name="DwellTimeMax" ColumnName="DwellTimeMax" />
+                <ScalarProperty Name="VisitMin" ColumnName="VisitMin" />
+                <ScalarProperty Name="VisitMax" ColumnName="VisitMax" />
+                <ScalarProperty Name="MaxMessages" ColumnName="MaxMessages" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignNotifications">
+            <EntityTypeMapping TypeName="DevModel.CampaignNotification">
+              <MappingFragment StoreEntitySet="CampaignNotifications">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+                <ScalarProperty Name="CampaignSittingId" ColumnName="CampaignSittingId" />
+                <ScalarProperty Name="NotificationType" ColumnName="NotificationType" />
+                <ScalarProperty Name="NotificationMsg" ColumnName="NotificationMsg" />
+                <ScalarProperty Name="ReceiverUDID" ColumnName="ReceiverUDID" />
+                <ScalarProperty Name="FireDatetime" ColumnName="FireDatetime" />
+                <ScalarProperty Name="Badge" ColumnName="Badge" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignSittings">
+            <EntityTypeMapping TypeName="DevModel.CampaignSitting">
+              <MappingFragment StoreEntitySet="CampaignSitting">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="AssetProxUDID" ColumnName="AssetProxUDID" />
+                <ScalarProperty Name="ReceiverUDID" ColumnName="ReceiverUDID" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="EventDatetime" ColumnName="EventDatetime" />
+                <ScalarProperty Name="DwellTime" ColumnName="DwellTime" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="SignalMeasure" ColumnName="SignalMeasure" />
+                <ScalarProperty Name="PowerMeasure" ColumnName="PowerMeasure" />
+                <ScalarProperty Name="TempMeasure" ColumnName="TempMeasure" />
+                <ScalarProperty Name="ReceiverDevice" ColumnName="ReceiverDevice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignTimeLines">
+            <EntityTypeMapping TypeName="DevModel.CampaignTimeLine">
+              <MappingFragment StoreEntitySet="CampaignTimeLine">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CancelledOrders">
+            <EntityTypeMapping TypeName="DevModel.CancelledOrder">
+              <MappingFragment StoreEntitySet="CancelledOrders">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="Property" ColumnName="Property" />
+                <ScalarProperty Name="Service" ColumnName="Service" />
+                <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ColorMasters">
+            <EntityTypeMapping TypeName="DevModel.ColorMaster">
+              <MappingFragment StoreEntitySet="ColorMaster">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="DevModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="XeroName" ColumnName="XeroName" />
+                <ScalarProperty Name="ScrappedName" ColumnName="ScrappedName" />
+                <ScalarProperty Name="CreateEvent" ColumnName="CreateEvent" />
+                <ScalarProperty Name="CreateInvoice" ColumnName="CreateInvoice" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyMails">
+            <EntityTypeMapping TypeName="DevModel.CompanyMail">
+              <MappingFragment StoreEntitySet="CompanyMail">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Mail_Id" ColumnName="Mail_Id" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyOrders">
+            <EntityTypeMapping TypeName="DevModel.CompanyOrder">
+              <MappingFragment StoreEntitySet="CompanyOrders">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="DevModel.Contact">
+              <MappingFragment StoreEntitySet="Contacts">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ContactType" ColumnName="ContactType" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="DevModel.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="RecurringEventId" ColumnName="RecurringEventId" />
+                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+                <ScalarProperty Name="Attendees" ColumnName="Attendees" />
+                <ScalarProperty Name="AttendeesOmitted" ColumnName="AttendeesOmitted" />
+                <ScalarProperty Name="AnyoneCanAddSelf" ColumnName="AnyoneCanAddSelf" />
+                <ScalarProperty Name="Locked" ColumnName="Locked" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Kind" ColumnName="Kind" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="MovedOn" ColumnName="MovedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Recurrence" ColumnName="Recurrence" />
+                <ScalarProperty Name="Organizer" ColumnName="Organizer" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Transperancy" ColumnName="Transperancy" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTrackings">
+            <EntityTypeMapping TypeName="DevModel.EventTracking">
+              <MappingFragment StoreEntitySet="EventTracking">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="CalendarId" ColumnName="CalendarId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MovedOn" ColumnName="MovedOn" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mails">
+            <EntityTypeMapping TypeName="DevModel.Mail">
+              <MappingFragment StoreEntitySet="Mail">
+                <ScalarProperty Name="Row_ID" ColumnName="Row_ID" />
+                <ScalarProperty Name="Org_Id" ColumnName="Org_Id" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="SentDate" ColumnName="SentDate" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderContacts">
+            <EntityTypeMapping TypeName="DevModel.OrderContact">
+              <MappingFragment StoreEntitySet="OrderContacts">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderEvents">
+            <EntityTypeMapping TypeName="DevModel.OrderEvent">
+              <MappingFragment StoreEntitySet="OrderEvents">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="EventCreated" ColumnName="EventCreated" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="DevModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItems">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+                <ScalarProperty Name="Xero_Id" ColumnName="Xero_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ClientPrice" ColumnName="ClientPrice" />
+                <ScalarProperty Name="CostPrice" ColumnName="CostPrice" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="DevModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrderType_Id" ColumnName="OrderType_Id" />
+                <ScalarProperty Name="Property_Id" ColumnName="Property_Id" />
+                <ScalarProperty Name="Mail_Id" ColumnName="Mail_Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderTypes">
+            <EntityTypeMapping TypeName="DevModel.OrderType">
+              <MappingFragment StoreEntitySet="OrderType">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organisations">
+            <EntityTypeMapping TypeName="DevModel.Organisation">
+              <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCompanies">
+            <EntityTypeMapping TypeName="DevModel.ProductCompany">
+              <MappingFragment StoreEntitySet="ProductCompany">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductGroups">
+            <EntityTypeMapping TypeName="DevModel.ProductGroup">
+              <MappingFragment StoreEntitySet="ProductGroups">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="DevModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="XeroCode" ColumnName="XeroCode" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="XeroItemDescription" ColumnName="XeroItemDescription" />
+                <ScalarProperty Name="SalesUnitPrice" ColumnName="SalesUnitPrice" />
+                <ScalarProperty Name="SalesAccountCode" ColumnName="SalesAccountCode" />
+                <ScalarProperty Name="SalesTaxType" ColumnName="SalesTaxType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSchedules">
+            <EntityTypeMapping TypeName="DevModel.ProductSchedule">
+              <MappingFragment StoreEntitySet="ProductSchedules">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="XeroCode" ColumnName="XeroCode" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductUsers">
+            <EntityTypeMapping TypeName="DevModel.ProductUser">
+              <MappingFragment StoreEntitySet="ProductUser">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="DevModel.Property">
+              <MappingFragment StoreEntitySet="Property">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Company_Id" ColumnName="Company_Id" />
+                <ScalarProperty Name="Property_Id" ColumnName="Property_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropertyInvoices">
+            <EntityTypeMapping TypeName="DevModel.PropertyInvoice">
+              <MappingFragment StoreEntitySet="PropertyInvoices">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="MailId" ColumnName="MailId" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="DevModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Streets">
+            <EntityTypeMapping TypeName="DevModel.Street">
+              <MappingFragment StoreEntitySet="Street">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="SuburbId" ColumnName="SuburbId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suburbs">
+            <EntityTypeMapping TypeName="DevModel.Suburb">
+              <MappingFragment StoreEntitySet="Suburb">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tmps">
+            <EntityTypeMapping TypeName="DevModel.tmp">
+              <MappingFragment StoreEntitySet="tmp">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="pmDescription" ColumnName="pmDescription" />
+                <ScalarProperty Name="smDescription" ColumnName="smDescription" />
+                <ScalarProperty Name="mstr_list_item_desc" ColumnName="mstr_list_item_desc" />
+                <ScalarProperty Name="delete_ind" ColumnName="delete_ind" />
+                <ScalarProperty Name="address_line_1" ColumnName="address_line_1" />
+                <ScalarProperty Name="limit_id" ColumnName="limit_id" />
+                <ScalarProperty Name="licType" ColumnName="licType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DevModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="DevModel.UserType">
+              <MappingFragment StoreEntitySet="UserTypes">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visitor_Fact">
+            <EntityTypeMapping TypeName="DevModel.Visitor_Fact">
+              <MappingFragment StoreEntitySet="Visitor-Fact">
+                <ScalarProperty Name="Row_Id" ColumnName="Row_Id" />
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="ReceiverUDID" ColumnName="ReceiverUDID" />
+                <ScalarProperty Name="VisitCount" ColumnName="VisitCount" />
+                <ScalarProperty Name="MessageCount" ColumnName="MessageCount" />
+                <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

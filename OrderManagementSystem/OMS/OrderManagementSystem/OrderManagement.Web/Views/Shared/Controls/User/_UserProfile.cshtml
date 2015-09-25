@@ -1,0 +1,290 @@
+﻿@using System.Web.UI.WebControls
+@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.ProfileModel
+
+@{
+    string fullname = "";
+    if (Model!=null)
+    {
+        fullname = @Model.User.FirstName + " " + @Model.User.LastName;
+    }
+}
+<head>
+
+    @* <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+
+    <title>Profile</title>
+    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" />
+</head>
+
+@* <div id="wrapper">
+ <div id="page-wrapper" class="gray-bg">*@
+     <div class="row wrapper border-bottom white-bg page-heading">
+         <div class="col-lg-10">
+             <h2>Profile</h2>
+             <ol class="breadcrumb">
+                 <li>
+                     <a href="index.html">Home</a>
+                 </li>
+                 <li>
+                     <a>Extra Pages</a>
+                 </li>
+                 <li class="active">
+                     <strong>Profile</strong>
+                 </li>
+             </ol>
+         </div>
+         <div class="col-lg-2">
+
+         </div>
+     </div>
+
+     <div class="wrapper wrapper-content">
+         <div class="row fadeInRight">
+             <div class="col-md-4">
+                 <div class="ibox float-e-margins">
+                     <div class="ibox-title">
+                         <h5>Profile Detail</h5>
+                     </div>
+                     <div>
+                         <div class="ibox-content no-padding border-left-right">
+                             <img id="fileimage" class="img-responsive" src="@Url.Action("GetDatabaseImage", "User", new { id = @Model.User.Row_Id, @class = "img-circle", width = 10, height = 10 })" alt="image" />
+                         </div>
+                         <div class="ibox-content profile-content">
+
+                             <h4><strong>@fullname</strong></h4>
+
+                             <p>
+                                 <i class="fa fa-map-marker"></i>
+                                 @if (Model.User.UserType == 3)
+                                 {
+                                     if (@Model.User.Company != null)
+                                     {
+                                         @Model.User.Company.XeroName
+                                     }
+                                 }
+                                 else
+                                 {
+                                     @Model.User.EmailAddress
+                                 }
+
+
+                             </p>
+                             <h5>About me
+                             </h5>
+                             <p>
+                                 @Model.User.AboutMe
+                             </p>
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="col-md-8">
+                 <div class="ibox float-e-margins">
+                     <div class="ibox-title">
+                         <h5>Activites</h5>
+                     </div>
+                     <div class="ibox-content">
+
+                         <div>
+                             <div id="divshowmore" class="feed-activity-list">
+                                 @if (Model.JobStatus.Count > 0)
+                                 {
+                               
+                                     foreach (var activity in Model.JobStatus)
+                                     {
+
+                                         <div class="feed-element">
+                                             <a href="#" class="pull-left">
+                                                 <img alt="image" class="img-circle" src="@Url.Action("GetDatabaseImage", "User", new {id = @Model.User.Row_Id})" />
+                                             </a>
+                                             @if (@activity.Status == "Inprogress")
+                                             {
+                                                 <div  class="media-body ">
+                                                     <small class="pull-right text-navy">@Html.TimeAgo(@activity.Created.Value)</small>
+                                                     <strong>@fullname</strong> has  <b>started Work</b> on job no.&nbsp; <b>@activity.Job_Id</b> <strong></strong>.
+                                                     <br>
+                                                     @* <small class="text-muted">Today 4:21 pm - 12.06.2014</small>*@
+                                                     <small class="text-muted">@activity.Created.Value.ToString("MMM ddd d HH:mm tt yyyy")</small>
+                                                     @*  <div class="actions">
+                                            <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i>Like </a>
+                                            <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i>Love</a>
+                                        </div>*@
+                                                 </div>
+                                             }
+                                             else if (@activity.Status == "Complete")
+                                             {
+                                                 <div  class="media-body ">
+                                                     <small class="pull-right text-navy">@Html.TimeAgo(@activity.Updated.Value)</small>
+                                                     <strong>@fullname</strong> has  <b>Completed Work</b> for job no.&nbsp; <b>@activity.Job_Id</b> <strong></strong>.
+                                                     <br>
+                                                     @* <small class="text-muted">Today 4:21 pm - 12.06.2014</small>*@
+                                                     <small class="text-muted">@activity.Created.Value.ToString("MMM ddd d HH:mm tt yyyy")</small>
+                                                     @*  <div class="actions">
+                                            <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i>Like </a>
+                                            <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i>Love</a>
+                                        </div>*@
+                                                 </div>
+                                             }
+                                         </div>
+                                     }
+                                 }
+                                 else
+                                 {
+                                     <div class="feed-element">
+                                         <span> No Activities found.</span>
+                                     </div>
+                                 }
+
+
+                             </div>
+
+                             @*   <button id="btnloadMore" class="btn btn-primary btn-block m"><i class="fa fa-arrow-down"></i>Show More</button>*@
+
+                         </div>
+
+                     </div>
+                 </div>
+
+             </div>
+         </div>
+     </div>
+
+@* </div>
+     </div>*@
+
+
+
+
+
+
+
+
+
+@*<div >
+    <img id="fileimage" class="img-responsive" src="@Url.Action("GetDatabaseImage", "User", new { id = @Model.User.Row_Id, @class = "img-circle", width = 10, height = 10 })" alt="image" />
+                      </div>
+
+                          <div class="ibox-content profile-content">
+                        @{
+                            var fullname = @Model.User.FirstName + " " + @Model.User.LastName;
+                        }
+
+                        <h4><strong>@fullname</strong></h4>
+                       
+                        <h5>About me
+                        </h5>
+                        <p>
+                            @Model.User.AboutMe
+                        </p>
+                       <div class="form-group">
+                            <label class="col-sm-2 control-label">Email:</label>
+
+                            <div class="col-sm-10">
+                                <span>
+                                    @Model.User.EmailAddress
+                                </span>
+
+                            </div>
+                           
+                        </div>
+                    </div>
+                    
+   @if (Model.User.UserType == 2)
+        {
+            <div class="col-md-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Activites</h5>
+                    </div>
+              
+                    @if (Model.OrderStatuslst.Count > 0)
+                    {
+                        foreach (var item in Model.OrderStatuslst)
+                        {
+                            if (item.Status == "Complete")
+                            {
+                                <div class="ibox-content">
+
+                                    <div>
+                                        <div class="feed-activity-list">
+
+                                            <div class="feed-element">
+
+                                                <div class="media-body ">
+
+                                                    <small class="pull-right text-navy">@Html.TimeAgo(@item.Created.Value)</small>
+                                                    <strong>@fullname</strong> Job Completed for Job Id - <strong>@item.Order_Id</strong>.<br/>
+                                                    @{
+                                                            var filecount = @Html.GetFiles(@item.Order_Id);
+                                                    }
+                                                    @if (filecount != null)
+                                                    {
+                                                        <span>Uploaded @filecount files for Job Id - <strong>@item.Order_Id</strong>.</span>
+                                                    }
+                                                   
+                                                    <br>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+                            }
+
+
+
+                        }
+                    }
+                
+                
+                
+               
+                </div>
+
+            </div>
+        }
+else if (Model.User.UserType == 3)
+        {
+            
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Company:</label>
+
+                <div class="col-sm-10">
+                    @Model.User.Company.XeroName
+
+                </div>
+                           
+            </div>
+          
+        }*@
+
+
+@*<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        alert("hi");
+        debugger;
+        var sizeDiv = $('#divshowmore').children().length;
+       // var sizeDiv = $("#divshowmore div").size();
+   var x=3;
+   $('#divshowmore div:lt(' + x + ')').show();
+   $('#btnloadMore').click(function () {
+       x = (x + 5 <= sizeDiv) ? x + 5 : sizeDiv;
+       $('#divshowmore div:lt(' + x + ')').show();
+    });
+    //$('#showLess').click(function () {
+    //    x=(x-5<0) ? 3 : x-5;
+    //    $('#myList li').not(':lt('+x+')').hide();
+    //});
+});
+
+</script>*@
+

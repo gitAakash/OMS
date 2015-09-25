@@ -1,0 +1,105 @@
+﻿@model IEnumerable<OrderManagement.Web.Models.CompanyModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.1.318/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.1.318/kendo.flat.min.css")" rel="stylesheet" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.1.318/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.1.318/kendo.web.min.js")" type="text/javascript"></script>
+
+<h2>Company</h2>
+@if (Model != null)
+{  
+   
+    <table id="grid">
+        <thead>
+            <tr>
+                <th>Company Code</th>
+                <th>Company Name</th>
+                <th>Create Event</th>
+                <th>Create Invoice</th>
+                <th>Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr >
+                    <td>
+                        @if (item.CompanyCode != null)
+                        {
+                            //Html.ActionLink(@item.CompanyCode, "CompanyDetails", "Company", new { id = item.Row_Id }, null)
+                            <span id="@item.Row_Id" onclick="javascript:loadCompanyDetails('@item.Row_Id');">@item.CompanyCode</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.XeroName != null)
+                        {
+                            @item.XeroName
+                        }
+
+
+                    </td>
+                    <td>
+                        @item.CreateEvent
+
+                    </td>
+                    <td>@item.CreateInvoice</td>
+
+                    <td>
+                        @item.Created
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    
+    <div id="CompanyPartialdiv"></div>
+
+</div>
+
+
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        alert("hi");
+        // $("#grid").kendoGrid();
+        $("#grid").kendoGrid({
+            scrollable: true,
+            sortable: true,
+            filterable: true,
+            //searchable : true,
+            pageable: {
+                pageSize: 10
+            }
+        });
+
+
+
+
+    });
+
+
+    function loadCompanyDetails(compid) {
+        alert(compid);
+        $.get('@Url.Action("CompanyDetails", "Company")', { id: compid }, function (data) {
+            if (data != null) {
+                alert("hi");
+                  // $("#CompanyPartialdiv").hide();
+                   //$("#applicationVersionPertialdiv").text("");
+                   $("#CompanyPartialdiv").html(data);
+                  // $("#applicationMenu").show();
+               }
+           });
+       }
+
+</script>
+

@@ -1,0 +1,65 @@
+﻿@*@model OrderManagement.Web.Models.JobTrackingViewModel*@
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+<div class="col-lg-12 animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Job Tracking </h5>
+                    </div>
+                    <div class="ibox-content">
+
+<div id="clientsDb">
+    @(Html.Kendo().Grid<OrderManagement.Web.Models.JobTrackingViewModel>()
+          .Name("gridjobTracking")
+          .Columns(columns =>
+          {
+              columns.Bound(c => c.Property).Width(140);
+              columns.Bound(c => c.FloorPlan).Width(140);
+              columns.Bound(c => c.Video).Width(140); 
+              columns.Bound(c => c.Copy).Width(110);
+              columns.Bound(c => c.FloorStatus).ClientTemplate("# if( FloorStatus == true) { # <img src='" + Url.Content("~/Images/Trackgreen.png") + "' onclick='CompleteJob()' /> # } else {# <img src='" + Url.Content("~/Images/Trackred.png") + "'/> # } #");
+              columns.Bound(c => c.VideoStatus).ClientTemplate("# if( VideoStatus == true) { # <img src='" + Url.Content("~/Images/Trackgreen.png") + "' /> # } else {# <img src='" + Url.Content("~/Images/Trackred.png") + "'/> # } #");
+              columns.Bound(c => c.CopyStatus).ClientTemplate("# if( CopyStatus == true) { # <img src='" + Url.Content("~/Images/Trackgreen.png") + "' /> # } else {# <img src='" + Url.Content("~/Images/Trackred.png") + "'/> # } #"); 
+          })
+          // .HtmlAttributes(new { style = "height: 380px;" })
+          // .Scrollable()
+          // .Groupable()
+          // .Sortable()
+          .Pageable(pageable => pageable
+              .Refresh(true)
+              .PageSizes(true)
+              .ButtonCount(5))
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Read(read => read.Action("JobTracking_Read", "Order"))
+          )
+          )
+</div>
+
+                       
+                          </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+            <br />   <br />                  
+ <div id="loadJobPanel"></div>
+
+
+<script language="javascript" type="text/javascript">
+    function CompleteJob() {
+        $.get('@Url.Action("Uploadjobs", "Order")', function (data) {
+            if (data != null) {
+                $("#loadJobPanel").html("");
+                $("#loadJobPanel").html(data);
+            }
+        });
+    }
+    </script>

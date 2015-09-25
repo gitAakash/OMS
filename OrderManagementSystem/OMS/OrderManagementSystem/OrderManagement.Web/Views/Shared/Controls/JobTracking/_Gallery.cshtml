@@ -1,0 +1,294 @@
+﻿@model OrderManagement.Web.Models.GalleryModel
+@*@model OrderManagement.Web.Models.JobTrackingModel*@
+
+<!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+
+<style type="text/css">
+.li-active-after a{background-color : #f00; }
+.li-active-after:after{background-color : #f00; }
+.folder-list li a { font-size:12px;  }
+.active-tab{ background-color:#f3f3f4; }
+
+  ul.folder-list li:hover, ul.folder-list li:focus,ul.folder-list li:active{
+   background-color:#f3f3f4;
+  }
+  
+  .editable{ background:#99FFCC}
+
+
+    
+
+
+</style>
+
+<div class="wrapper wrapper-content gray-bg">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="file-manager">
+                        <h5>Show:</h5>
+
+                       <div id="divSearchFilesExtwise" >
+                        <a class="file-control active" href="#" >All</a>
+                        <a class="file-control" href="#">Documents</a>
+                        <a class="file-control" href="#">Audio</a>
+                        <a class="file-control" href="#">Images</a>
+                      </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <button class="btn btn-primary btn-block" onclick="ShowFileUploadModelPopUp();">Upload Files</button>
+                        
+                        <div class="hr-line-dashed"></div>
+                        <h5>Folders</h5>
+                        <ul id="gallery" style="padding: 0" class="folder-list">
+
+                            @if (Model != null && Model.GalleryFolders.Count > 0)
+                            {
+                                foreach (var item in Model.GalleryFolders.Take(6))
+                                {
+                                <li><a href="javascript:;" onclick="showFolderContent('@item.FOLDER','@item.ROW_ID')"><i class="fa fa-folder"></i>@item.FOLDER</a></li>
+                                }
+                            }
+                                                    @*  <li><a href="#"><i class="fa fa-folder"></i>Pictures</a></li>
+                                                        <li><a href="#"><i class="fa fa-folder"></i>Web pages</a></li>
+                                                        <li><a href="#"><i class="fa fa-folder"></i>Illustrations</a></li>
+                                                        <li><a href="#"><i class="fa fa-folder"></i>Films</a></li>
+                                                        <li><a href="#"><i class="fa fa-folder"></i>Books</a></li>*@
+                        </ul>
+
+                        <div id="divTag" >
+                            <h5 class="tag-title">Tags</h5>
+
+                            <ul style="padding: 0" class="tag-list" id="ulTagContent">
+                            
+                               @* <li><a href="#">Family</a></li>
+                                <li><a href="#">Work</a></li>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Children</a></li>
+                                <li><a href="#">Holidays</a></li>
+                                <li><a href="#">Music</a></li>
+                                <li><a href="#">Photography</a></li>
+                                <li><a href="#">Film</a></li>*@
+                            </ul>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 animated fadeInRight">
+             <div id="showloadingimg" align="center" ></div>
+             <div id="showGalleryFloder" ></div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("GlobleFolderName")
+@Html.Hidden("GlobleGroupId")
+@Html.Hidden("GlobleFileExtensions")
+@Html.Hidden("GlobleFileSize")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#gallery li:nth-child(1) a').click();
+    });
+
+
+    //$(document).ready(function () {
+    //    $('#gallery li:nth-child(1) a').click(function () {
+         
+    //    });
+    //});
+
+
+  
+    //$(document).ready(function () {
+    //    $(".openDialog").live("click", function (e) {
+    //        e.preventDefault();
+
+    //        $("<div></div>")
+    //            .addClass("dialog")
+    //            .attr("id", $(this)
+    //            .attr("data-dialog-id"))
+    //            .appendTo("body")
+    //            .dialog({
+    //                title: $(this).attr("data-dialog-title"),
+    //                close: function () { $(this).remove(); },
+    //                modal: true,
+    //                height: 250,
+    //                width: 400,
+    //                left: 0
+
+    //            })
+    //        .load(this.href);
+    //    });
+
+    //    $(".close").live("click", function (e) {
+    //        e.preventDefault();
+    //        $(this).closest(".dialog").dialog("close");
+    //    });
+    //});
+
+    function ShowGalleryByTagName(folderName, groupid) {
+        // debugger;
+       
+       // $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        var job_Id = $("#GlobleJobId").val();
+        var ShowExtwiseGalleryFiles = false;
+        $.get('@Url.Action("TagBasisSearchContent", "JobTracking")', { folderName: folderName, groupid: groupid, job_Id: job_Id, ShowExtwiseGalleryFiles: ShowExtwiseGalleryFiles }, function (data) {
+            if (data != null) {
+                $('#showGalleryFloder').html("");
+                $('#showloadingimg').html("");
+                @*  //  var mn =  @{@Html.Raw(Json.Encode(Model.TagList));}*@
+              @*   var ArrTagList =  @{@Html.Raw(Json.Encode(ViewBag.TagList));}    ;*@
+                $('#showGalleryFloder').html(data);
+           
+            }
+        });
+    }
+
+
+    function ShowExtwiseGalleryFiles(folderName, groupid) {
+        //debugger;
+        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+       // $('#showGalleryFloder').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        var job_Id = $("#GlobleJobId").val();
+        var ShowExtwiseGalleryFiles = "true";
+
+        $.get('@Url.Action("TagBasisSearchContent", "JobTracking")', { folderName: folderName, groupid: groupid, job_Id: job_Id, ShowExtwiseGalleryFiles: ShowExtwiseGalleryFiles }, function (data) {
+            if (data != null) {
+                $('#showGalleryFloder').html("");
+                $('#showloadingimg').html("");
+             
+                $('#showGalleryFloder').html(data);
+            
+            }
+        });
+    }
+
+    function showFolderContent(folderName,groupid)
+    {
+        $("#showloadingimg").addClass("divTop250");
+        
+        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $("#GlobleFolderName").val("");
+        $("#GlobleGroupId").val("");
+        $("#GlobleFolderName").val("");
+        $("#GlobleGroupId").val("");
+        $("#GlobleFolderName").val(folderName);
+        $("#GlobleGroupId").val(groupid);
+        $('#showGalleryFloder').html("");
+        var job_Id = $("#GlobleJobId").val();
+
+        $.get('@Url.Action("FolderContent", "JobTracking")', { folderName: folderName, groupid: groupid, job_Id: job_Id }, function (data) {
+            if (data != null) {
+                $('#showGalleryFloder').html("");
+                $('#showloadingimg').html("");
+                
+              @*  //  var mn =  @{@Html.Raw(Json.Encode(Model.TagList));}*@
+              @*   var ArrTagList =  @{@Html.Raw(Json.Encode(ViewBag.TagList));}    ;*@
+                $('#showGalleryFloder').html(data);
+             
+            }
+        });
+
+      
+        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $.get('@Url.Action("GetTagInfoDataJson", "JobTracking")', { groupid: groupid }, function (TagListInfo) {
+            if (TagListInfo != null) {
+                // debugger;
+               
+                $('#ulTagContent').html("");
+                for (var i = 0; i < TagListInfo.length; i++) {
+
+                    var li = document.createElement('li');
+                    li.className = ''; // Class name
+                    // li.innerHTML = ; // Text inside
+                    li.id = "li"+i;
+                    $('#ulTagContent').append(li); // Append it
+                    //li.onclick = dynamicEvent; // Attach the event!
+                    
+                    var Anchor = document.createElement('a');
+                    Anchor.id = "anchor" + i;
+                    Anchor.innerHTML = TagListInfo[i].TagName;
+
+                    var TagName = TagListInfo[i].TagName.trim();
+
+                    Anchor.href = "javascript:;";
+                    var GroupId = TagListInfo[i].GroupId;
+                  
+                    Anchor.setAttribute("onclick", "ShowGalleryByTagName('" + TagName + "'," + GroupId + ");")
+                   
+                    $('#li' + i).append(Anchor);
+                }
+
+                var FileTypeList = [];
+                FileTypeList[ 0 ] = "All";
+                FileTypeList[ 1 ] = "Documents";
+                FileTypeList[ 2 ] = "Audio";
+                FileTypeList[ 3 ] = "Images";
+
+               
+                $('#divSearchFilesExtwise').html("");
+
+                for (var i = 0; i < FileTypeList.length; i++) {
+                    var Anchor = document.createElement('a');
+                    var FileType = FileTypeList[i];
+                    Anchor.id = "anchor" + i;
+                    Anchor.innerHTML = FileType;
+                    Anchor.href = "javascript:;";
+                    Anchor.className="file-control";
+                    var GroupId = groupid;
+                    Anchor.setAttribute("onclick", "ShowExtwiseGalleryFiles('" + FileType + "'," + GroupId + ");")
+                    $('#divSearchFilesExtwise').append(Anchor);
+                }
+
+            }
+        });
+
+      
+        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $.get('@Url.Action("GetFileTypesDataJson", "JobTracking")', { groupid: groupid }, function (data) {
+            if (data != null) {
+                for (var i = 0; i < data.length; i++) {
+                    $("#GlobleFileExtensions").val(data[i].AllowedFileExtensions);
+                    $("#GlobleFileSize").val(data[i].MaxFileSize);
+                }
+            }
+
+            $('#showloadingimg').removeClass("width200px");
+        });
+    }
+
+    function TagBasisSearchContent(folderName, groupid) {
+       
+        $('#showloadingimg').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Loading...');
+        $("#GlobleFolderName").val("");
+        $("#GlobleGroupId").val("");
+        $("#GlobleFolderName").val(folderName);
+        $("#GlobleGroupId").val(groupid);
+        var ShowExtwiseGalleryFiles = false;
+        $.get('@Url.Action("TagBasisSearchContent", "JobTracking")', { folderName: folderName, groupid: groupid, ShowExtwiseGalleryFiles: ShowExtwiseGalleryFiles }, function (data) {
+            if (data != null) {
+                $('#showGalleryFloder').html("");
+                $('#showloadingimg').html("");
+                
+                $('#showGalleryFloder').html(data);
+             
+            }
+        });
+    }
+  
+    function ShowFileUploadModelPopUp() {
+
+        $("#divNoRec").hide();
+        $('#divFolderUploadMessage').html("");
+        $('#divFolderUploadMessage').html("Your files will be uploaded inside <b>" +  $("#GlobleFolderName").val() + "</b> folder.");
+        $("#divdropzone").show();
+    }
+
+</script>

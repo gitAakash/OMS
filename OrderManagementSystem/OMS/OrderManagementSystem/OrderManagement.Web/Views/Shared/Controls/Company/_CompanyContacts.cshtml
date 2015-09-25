@@ -1,0 +1,214 @@
+﻿@model IList<OrderManagement.Web.Models.ContactModel>
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Contact List</h5>
+                </div>
+                <div class="ibox-content">
+                    <button id="btnNewContacts" class="btn btn-primary" onclick="javascript:AddNewContacts();">New</button>
+                    @if (Model != null && Model.Count>0)
+                    {
+                        <button id="btnEditContacts" class="btn btn-primary" onclick="javascript:editContacts();">Edit</button>
+                        <button id="btnDeleteContacts" class="btn btn-primary" onclick="javascript:deleteContacts();">Delete</button>
+                    }
+
+                    @if (Model != null)
+                    {  
+                        <table id="grid">
+                            <thead>
+                                <tr>
+                                    @* <th>Company Id</th>*@
+                                    <th>Contact Name</th>
+                                    <th>Value</th>
+                                    <th>Contact Type</th>
+                                    <th>Created Date</th>
+                                    @* <th>Edit</th>
+                                    <th>Delete</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @*<td>
+                                            @if (item.CompanyId != 0)
+                                            {
+                                                //Html.ActionLink(@item.CompanyCode, "CompanyDetails", "Company", new { id = item.Row_Id }, null)
+                                                <span id='@item.Row_Id' onclick="javascript:loadCompanyDetails('@item.Row_Id');">@item.CompanyId</span>
+                           
+                                                @Html.Hidden(Convert.ToString(@item.CompanyId), new { id = "hdncompanyid" })
+                                            }
+                                        </td>*@
+                                        <td>
+                                            @if (item.Name != null)
+                                            {
+                                                @item.Name
+                                                <span id='@item.Row_Id'></span>@*
+                                                <span id='@item.CompanyId'></span>*@
+                                                
+                                            }
+
+
+                                        </td>
+                                        <td>
+                                            @item.Value
+
+                                        </td>
+                                        <td>@item.ContactType</td>
+
+                                        <td>
+                                            @item.Created
+                                        </td>
+                                        @*<td>
+                                            <input type="checkbox" value="@item.Row_Id"  name="chkContactEdit" >
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" id="" value="@item.Row_Id"  name="chkdeletecontact" >
+                                        </td>*@
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+                @Html.Hidden("hdnCpmpanyContactId")
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div>
+    <span id="spnAddEditCompanyContacts"></span>
+</div>
+
+
+
+<script language="javascript" type="text/javascript">
+    //return confirm('Are you sure want to delete');
+    $(document).ready(function () {
+        // alert("hi");
+        // $("#grid").kendoGrid();
+        $("#grid").kendoGrid({
+            scrollable: true,
+            sortable: true,
+            filterable: true,
+            selectable: "single",
+            columns: [
+                     {
+                         field: "Name",
+                         title: "Contact Name",
+                         width: 45
+                     },
+                     {
+                         field: "Value",
+                         title: "Value",
+                         width: 55
+                     },
+                      {
+                          field: "ContactType",
+                          title: "Contact Type",
+                          width: 30
+                      },
+                       {
+                           field: "Created",
+                           title: "Created Date",
+                           width: 30
+                       }
+
+            ],
+            //searchable : true,
+            change: function (arg) {
+                var selected = $.map(this.select(), function (item) {
+                    $("#spnAddEditCompanyContacts").html("");
+                    var d = $(item).attr('data-uid');
+                    var spncontactid = $("tr[data-uid=" + d + "]").find("span").attr('id');
+                   // alert(spncontactid);
+                    $('#hdnCpmpanyContactId').val("");
+                    $('#hdnCpmpanyContactId').val(spncontactid);
+                  
+
+                });
+                // alert(selected);
+            },
+
+            pageable: {
+                pageSize: 05
+            }
+        });
+
+
+
+
+    });
+
+
+    function editContacts() {
+
+       //  alert($('#hdnCpmpanyContactId').val());
+        var id = $('#hdnCpmpanyContactId').val();
+        if (id != "") {
+            $.get('@Url.Action("EditCompanyContacts", "Company")', { id: id }, function(data) {
+                // alert("hiok");
+                if (data != null) {
+                    // alert("hi1");
+                    $("#spnAddEditCompanyContacts").html("");
+                    $("#spnAddEditCompanyContacts").html(data);
+                    var $elem = $('#grid');
+                    //  $('html, body').animate({ scrollTop: $elem.height() },800);
+                    $('html, body').animate({ scrollTop: $elem.offset().top }, 'slow');
+                }
+            });
+        } else alert("Please select row to Edit");
+
+    }
+
+    function AddNewContacts() {
+
+        $("#grid tr.k-state-selected").removeClass("k-state-selected");
+        //  $('#hdnCpmpanyContactId').val("");
+
+        var companyid = $("#hdncompanyid").val();
+       // alert(companyid);
+        var orderid = $("#hdnOrderId").val();
+       // alert(orderid);
+        $.get('@Url.Action("AddNewContact", "Company")', { orderid: orderid, cid: companyid }, function (data) {
+            if (data != null) {
+                $("#spnAddEditCompanyContacts").html("");
+                $("#spnAddEditCompanyContacts").html(data);
+                var $elem = $('#grid');
+                $('html, body').animate({ scrollTop: $elem.offset().top }, 'slow');
+            }
+        });
+    }
+
+
+    function deleteContacts() {
+       
+        var id = $('#hdnCpmpanyContactId').val();
+        var orderid = $("#hdnOrderId").val();
+        // alert(cid);
+        // alert(id);
+        if (id != "") {
+        if (confirm("Are you sure want to delete?")) {
+            $.get('@Url.Action("DeleteCompanyContacts", "Company")', { id: id, orderid: orderid }, function (data) {
+                if (data != null) {
+                    $("#loadCompanyContacts").text("");
+                    $("#spnAddEditCompanyContacts").text("");
+                    $("#loadCompanyContacts").html(data);
+
+                }
+            });
+        }
+        } else alert("Please select row to Delete");
+    }
+
+</script>

@@ -1,0 +1,1371 @@
+﻿
+@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.NewOrderModel
+
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/icheck.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.form.min.js")" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/Content/custom.css")"/>
+
+@using (Html.BeginForm("AddOrder", "NewOrder", FormMethod.Post, new { @class = "form-horizontal", id = "OrderForm" }))
+{
+  
+    <div class="ibox-content" id="divMainOrder" style="display: block;">
+
+        <div class="form-group ">
+            <label class="col-sm-2 control-label underlined">Project Details:</label>
+
+            <div class="col-sm-10"></div>
+        </div>
+
+        @if ((Model != null))
+        {
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Company:</label>
+                <div class="col-sm-4">
+                 @Html.DropDownListFor(m => m.Companyid, new SelectList(Model.Companylist, "Row_Id", "XeroName"), "Select", new { @class = "form-control m-b" })
+                     </div>
+                 <span style="color: red;font-weight:bold;margin-left:90px;" id="Companyid"></span>
+            </div>
+        }
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Admin Contact Name:</label>
+
+            <div class="col-sm-5">
+                @Html.TextBoxFor(m => m.OfficeContactName, new { @class = "form-control" })
+            </div>
+            <span style="color: red" id="OfficeContactNameValidation"></span>
+        </div>
+        <div class="form-group">
+
+            <label class="col-sm-2 control-label">Phone:</label>
+
+            <div class="col-sm-5">
+                 @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+            </div>
+            <span style="color: red" id="PhoneValidation"></span>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Email Id</label>
+
+            <div class="col-sm-5">
+                  @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+            <span style="color: red" id="EmailValidation"></span>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Property Address:</label>
+
+            <div class="col-sm-5">
+                   @Html.TextBoxFor(m => m.PropertyAddress, new { @class = "form-control" })
+            </div>
+            <span style="color: red" id="PropertyAddressValidation"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Primary Contact:</label>
+
+            <div class="col-sm-10">
+                <label class="checkbox-inline i-checks" data-relativediv="divAgentContent">
+                    <div class="icheckbox_square-green" style="position: relative;">
+                        <input type="checkbox" value="Agent" id="Agent" name="chkAgent" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+
+                    </div>
+                    Agent
+                </label>
+                <label class="checkbox-inline i-checks" data-relativediv="divOwnerContent">
+                    <div class="icheckbox_square-green" style="position: relative;">
+                        <input type="checkbox" value="Owner" id="Owner" name="chkOwner" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                    </div>
+                    Owner
+                </label>
+                <label class="checkbox-inline i-checks" data-relativediv="divTenentContent">
+                    <div class="icheckbox_square-green" style="position: relative;">
+                        <input type="checkbox" value="Tenant" id="Tenant" name="chkTenant" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                    </div>
+                    Tenant
+                </label>
+            </div>
+        </div>
+
+        <div id="divAgentContent" style="display: none;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Agent Name:</label>
+
+                <div class="col-sm-5">
+                      @Html.TextBoxFor(m => m.AgentName, new { @class = "form-control" })
+                </div>
+                <span style="color: red" id="AgentNameValidation"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Agent Phone</label>
+
+                <div class="col-sm-5">
+                       @Html.TextBoxFor(m => m.AgentPhone, new { @class = "form-control" })
+                </div>
+                <span style="color: red" id="AgentPhoneValidation"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Agent Email:</label>
+
+                <div class="col-sm-5">
+                     @Html.TextBoxFor(m => m.AgentEmail, new { @class = "form-control" })
+                </div>
+                <span style="color: red" id="AgentEmailValidation"></span>
+            </div>
+        </div>
+
+        <div id="divOwnerContent" style="display: none;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner Name: * </label>
+                <div class="col-sm-5">
+                      @Html.TextBoxFor(m => m.OwnerName, new { @class = "form-control" })
+                </div>
+                <span style="color: red" id="OwnerNameValidation"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Owner Phone: * </label>
+                <div class="col-sm-5">
+                      @Html.TextBoxFor(m => m.OwnerPhone, new { @class = "form-control" })
+                </div>
+                <span style="color: red" id="txt_OwnerPhoneValidation"></span>
+            </div>
+        </div>
+
+        <div id="divTenentContent" style="display: none;">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Tenant Name: * </label>
+                <div class="col-sm-5">
+                   @* <input type="text" id="txt_TenantName" name="txt_TenantName" class="form-control">*@
+                     @Html.TextBoxFor(m => m.TenantName, new { @class = "form-control" })
+                </div>
+                <span style="color: red" id="TenantNameValidation"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Tenant Phone: * </label>
+                <div class="col-sm-5">
+                    <input type="tel" id="txt_TenantPhone" name="txt_TenantPhone" class="form-control">
+                       @Html.TextBoxFor(m => m.TenantPhone, new { @class = "form-control" })
+                </div>
+                <span style="color: red" id="TenantPhoneValidation"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Property Ready:</label>
+
+            <div class="col-sm-5">
+                  @Html.TextBoxFor(m => m.PropertyReady, new { @id="Dt_PropertyReady", @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Property to have custom website:</label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="" name="Chk_CustomWeb" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Yes
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="divProjectReq">
+             @for (int i = 0; i < Model.ProductGoruplist.Count; i++)
+             {
+                    <div class="form-group">
+                        @if (i == 0)
+                        {
+                        <label class="col-sm-2 control-label">Project Requirements:</label>
+                        }
+                        else
+                        {
+                             <label class="col-sm-2 control-label"></label>
+                        }
+                        <div class="col-sm-10">
+                            <div class="checkbox i-checks">
+                                <label class="">
+                                    <div class="icheckbox_square-green for_ChkboxPhotoGraphy" data-relativediv="div_@i" style="position: relative;">
+
+                                           @*  <input type="checkbox" value="PhotoGraphy" name="Chk_PR_photography" style="">*@
+                                                    @Html.CheckBoxFor(m => Model.ProductGoruplist[i].CheckedStatus, new { name = "Chk_PR_" + @i, @class = "chkposition" })
+                                                    @Html.HiddenFor(m => Model.ProductGoruplist[i].Row_Id)
+                                                    @Html.HiddenFor(m => Model.ProductGoruplist[i].WebName)
+                                
+                                        <ins class="iCheck-helper orderchekbox"  ></ins>
+                                    </div>
+                                    <i></i>@Model.ProductGoruplist[i].WebName
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+             }
+
+@*        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divUavDroneContent" style="position: relative;">
+                            <input type="checkbox" value="" name="Chk_PR_UAVDrone" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>UAV Drone/Aerial Photography
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divFloorPlan" style="position: relative;">
+                            <input type="checkbox" value="Floor Plans/Land-boxes" name="Chk_PR_FloorPlan" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Floor Plans/Land-boxes
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divCopywritingContent" style="position: relative;">
+                            <input type="checkbox" value="" name="Chk_PR_CopyWriting" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Copy Writing
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" data-relativediv="divVideoImagetours" style="position: relative;">
+                            <input type="checkbox" value="Video and Image tours" name="Chk_PR_VideoImageTour" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Video and Image tours
+                    </label>
+                </div>
+            </div>
+        </div>*@
+	</div>
+
+
+
+   @* <div id="productgroupcontent"></div>*@
+
+       @*  @Html.Partial("Controls/Order/_photographyContent")*@
+
+
+
+       <div id="div_0" style="display: none;">
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Photography:</h5>
+
+                <div class="col-sm-10"></div>
+            </div>
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label underlined">Day Photography:</h5>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radio" style="position: relative;">
+                                <input type="radio" value="2ExternalImages" name="Rd_day_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>2 External Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radio2" style="position: relative;">
+                                <input id="" type="radio" value="5FinalImages" name="Rd_day_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>5 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radio3" style="position: relative;">
+                                <input id="" type="radio" value="8FinalImages" name="Rd_day_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>8 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+    
+            <div id="imageOptions2" class="form-group imgOpthide imageOptions2">
+                <label class="col-sm-2 control-label">Image Options 2:</label>
+
+                <div class="col-sm-10">
+                     @for (int i = 0; i < Model.orderableProductsDayPhoto2.Count; i++)
+                     {
+                    <label class="checkbox-inline i-checks">
+                                                    @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto2[i].CheckedStatus, new { name = "chk_DayPhotography" + @i, @class = @Model.orderableProductsDayPhoto2[i].cssClass })
+                                                    @Html.HiddenFor(m => Model.orderableProductsDayPhoto2[i].Row_Id)
+                                                    @Html.HiddenFor(m => Model.orderableProductsDayPhoto2[i].WebName)
+                       
+                        <span>@Model.orderableProductsDayPhoto2[i].WebName</span>
+                        
+                    </label>
+                     }
+                  
+                </div>
+            </div>
+    
+            <div id="imageOptions5" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Image Options 5:</label>
+
+                <div class="col-sm-10">
+                     @for (int i = 0; i < 4; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto5[i].WebName
+                        </label>
+                     }
+
+                   
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    
+                  @for (int i = 4; i < 8; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto5[i].WebName
+                        </label>
+                     }
+
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                 @for (int i = 8; i < 12; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto5[i].WebName
+                        </label>
+                     }
+                  </div>
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+               @for (int i = 12; i < Model.orderableProductsDayPhoto5.Count; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto5[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto5[i].WebName
+                        </label>
+                     }
+            </div>
+            </div>
+
+            <div id="imageOptions8" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Image Options 8:</label>
+
+                <div class="col-sm-10">
+                     @for (int i = 0; i < 4; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto8[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto8[i].WebName
+                        </label>
+                     }
+
+                   
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    
+                  @for (int i = 4; i < 8; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto8[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto8[i].WebName
+                        </label>
+                     }
+
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                 @for (int i = 8; i < 12; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto8[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto8[i].WebName
+                        </label>
+                     }
+                  </div>
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+               @for (int i = 12; i < Model.orderableProductsDayPhoto8.Count; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDayPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDayPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDayPhoto8[i].WebName
+                        </label>
+                     }
+            </div>
+            </div>
+
+            <div id="divDuskPhotoChkSection" style="">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label underlined">Dusk Photography:</label>
+                    <div class="col-sm-10">
+
+                         @for (int i = 0; i < Model.orderableProductsduskPhoto.Count; i++)
+                     {
+                         <div class="checkbox i-checks">
+                                 <label class="" data-relativediv="divDuskphotoCheckboxs">
+                                 <div style="position: relative;" class="icheckbox_square-green">
+                                                                @Html.CheckBoxFor(m => Model.orderableProductsduskPhoto[i].CheckedStatus, new { name = @Model.orderableProductsduskPhoto[i].ChkboxName, @class = "chkposition" })
+                                                                @Html.HiddenFor(m => Model.orderableProductsduskPhoto[i].Row_Id)
+                                                                @Html.HiddenFor(m => Model.orderableProductsduskPhoto[i].WebName)
+                                            <ins class="iCheck-helper orderchekbox"></ins>
+                                  </div>
+                                         <i></i>
+                            
+                                        @Model.orderableProductsduskPhoto[i].WebName
+                                </label>
+                         </div>
+                     }
+                    </div>
+                </div>
+                        
+            </div>
+
+            <div id="divDuskphotoCheckboxs" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Dusk Photography Options 8:</label>
+                <div class="col-sm-10">
+                     @for (int i = 0; i < 4; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDuskPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDuskPhoto8[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDuskPhoto8[i].WebName
+                        </label>
+                     }
+
+                   
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    
+                  @for (int i = 4; i < 8; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDuskPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDuskPhoto8[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDuskPhoto8[i].WebName
+                        </label>
+                     }
+
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                 @for (int i = 8; i < 12; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDuskPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDuskPhoto8[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDuskPhoto8[i].WebName
+                        </label>
+                     }
+                  </div>
+                <span class="col-sm-2"></span>
+				<div class="col-sm-10">
+               @for (int i = 12; i < Model.orderableProductsDuskPhoto8.Count; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsDuskPhoto8[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsDuskPhoto8[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsDuskPhoto8[i].WebName
+                        </label>
+                     }
+            </div>
+
+            </div>
+
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label underlined">Prestige Photography:</h5>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDay" style="position: relative;">
+                                <input type="radio" value="12DayFinalImages" name="Rd_day_presphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Day - Up to 12 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDusk" style="position: relative;">
+                                <input id="" type="radio" value="Dusk12FinalImages" name="Rd_day_presphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Dusk - Up to 12 Final Images</label>
+                    </div>
+                </div>
+            </div>
+
+            Complimentary proofing of images with all prestige packages
+         
+            <div id="divPrestigeDayOption" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Prestige Day Options:</label>
+                <div class="col-sm-10">
+                     @for (int i = 0; i < 4; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsPrestigeDayPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDayPhoto12[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsPrestigeDayPhoto12[i].WebName
+                        </label>
+                     }
+
+                   
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    
+                  @for (int i = 4; i < 8; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsPrestigeDayPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDayPhoto12[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsPrestigeDayPhoto12[i].WebName
+                        </label>
+                     }
+
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                 @for (int i = 8; i < 12; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsPrestigeDayPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDayPhoto12[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsPrestigeDayPhoto12[i].WebName
+                        </label>
+                     }
+                  </div>
+                <span class="col-sm-2"></span>
+				<div class="col-sm-10">
+
+					  @for (int i = 12; i < Model.orderableProductsPrestigeDayPhoto12.Count; i++)
+							 {
+								<label class="checkbox-inline i-checks">
+									<div style="position: relative;" class="icheckbox_square-green">
+										<div class="icheckbox_square-green" style="position: relative;">
+																@Html.CheckBoxFor(m => Model.orderableProductsPrestigeDayPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsDayPhoto5[i].ChkboxName, @class = "chkposition" })
+																@Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].Row_Id)
+																@Html.HiddenFor(m => Model.orderableProductsPrestigeDayPhoto12[i].WebName)
+											<ins class="iCheck-helper orderchekbox"></ins>
+										</div>
+										 <ins class="iCheck-helper orderchekbox"></ins>
+									 </div>
+										@Model.orderableProductsDayPhoto8[i].WebName
+								</label>
+							 }
+				</div>
+            </div>
+			
+			<div id="divPrestigeDuskOption" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Prestige Dusk Options:</label>
+                <div class="col-sm-10">
+                     @for (int i = 0; i < 4; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDuskPhoto12[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsPrestigeDuskPhoto12[i].WebName
+                        </label>
+                     }
+
+                   
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    
+                  @for (int i = 4; i < 8; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDuskPhoto12[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsPrestigeDuskPhoto12[i].WebName
+                        </label>
+                     }
+
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                 @for (int i = 8; i < 12; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDuskPhoto12[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsPrestigeDuskPhoto12[i].WebName
+                        </label>
+                     }
+                  </div>
+                <span class="col-sm-2"></span>
+				<div class="col-sm-10">
+
+					  @for (int i = 12; i < Model.orderableProductsPrestigeDuskPhoto12.Count; i++)
+							 {
+								<label class="checkbox-inline i-checks">
+									<div style="position: relative;" class="icheckbox_square-green">
+										<div class="icheckbox_square-green" style="position: relative;">
+																@Html.CheckBoxFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDuskPhoto12[i].ChkboxName, @class = "chkposition" })
+																@Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].Row_Id)
+																@Html.HiddenFor(m => Model.orderableProductsPrestigeDuskPhoto12[i].WebName)
+											<ins class="iCheck-helper orderchekbox"></ins>
+										</div>
+										 <ins class="iCheck-helper orderchekbox"></ins>
+									 </div>
+										@Model.orderableProductsPrestigeDuskPhoto12[i].WebName
+								</label>
+							 }
+				</div>
+            </div>
+			
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label underlined">Rental Photography:</h5>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_Rental_photography_5" style="position: relative;">
+                                <input type="radio" value="5FinalRentalPhotography" name="rd_day_Rental_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>5 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_Rental_photography_10" style="position: relative;">
+                                <input id="" type="radio" value="10FinalRentalPhotography" name="rd_day_Rental_photography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>10 Final Images
+                        </label>
+                    </div>
+                </div>
+            </div>
+            Low resolution images provided for rental marketing only
+
+            <div id="divRentalOption5" class="form-group imgOpthide">
+                    <label class="col-sm-2 control-label">Rental Options 5:</label>
+                 <div class="col-sm-10">
+                     @for (int i = 0; i < 4; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsRentalPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsRentalPhoto5[i].WebName
+                        </label>
+                     }
+
+                   
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    
+                  @for (int i = 4; i < 8; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsRentalPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsRentalPhoto5[i].WebName
+                        </label>
+                     }
+
+                </div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                 @for (int i = 8; i < 12; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsRentalPhoto5[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsRentalPhoto5[i].WebName
+                        </label>
+                     }
+                  </div>
+                <span class="col-sm-2"></span>
+				<div class="col-sm-10">
+
+					  @for (int i = 12; i < Model.orderableProductsRentalPhoto5.Count; i++)
+							 {
+								<label class="checkbox-inline i-checks">
+									<div style="position: relative;" class="icheckbox_square-green">
+										<div class="icheckbox_square-green" style="position: relative;">
+																@Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto5[i].CheckedStatus, new { name = @Model.orderableProductsPrestigeDuskPhoto12[i].ChkboxName, @class = "chkposition" })
+																@Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].Row_Id)
+																@Html.HiddenFor(m => Model.orderableProductsRentalPhoto5[i].WebName)
+											<ins class="iCheck-helper orderchekbox"></ins>
+										</div>
+										 <ins class="iCheck-helper orderchekbox"></ins>
+									 </div>
+										@Model.orderableProductsRentalPhoto5[i].WebName
+								</label>
+							 }
+				</div>
+ 
+ 
+ 
+ 
+ 
+                </div>
+
+            <div id="divRentalOption10" class="form-group imgOpthide">
+                <label class="col-sm-2 control-label">Rental Option 10:</label>
+                <div class="col-sm-10">
+                     @for (int i = 0; i < 4; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto10[i].CheckedStatus, new { name = @Model.orderableProductsRentalPhoto10[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsRentalPhoto10[i].WebName
+                        </label>
+                     }
+				</div>
+
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                    
+                  @for (int i = 4; i < 8; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto10[i].CheckedStatus, new { name = @Model.orderableProductsRentalPhoto10[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsRentalPhoto10[i].WebName
+                        </label>
+                     }
+
+                </div>
+                <span class="col-sm-2"></span>
+                <div class="col-sm-10">
+                 @for (int i = 8; i < 12; i++)
+                     {
+                        <label class="checkbox-inline i-checks">
+                            <div style="position: relative;" class="icheckbox_square-green">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                                        @Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto10[i].CheckedStatus, new { name = @Model.orderableProductsRentalPhoto10[i].ChkboxName, @class = "chkposition" })
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].Row_Id)
+                                                        @Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].WebName)
+                                    <ins class="iCheck-helper orderchekbox"></ins>
+                                </div>
+                                 <ins class="iCheck-helper orderchekbox"></ins>
+                             </div>
+                                @Model.orderableProductsRentalPhoto10[i].WebName
+                        </label>
+                     }
+                  </div>
+                <span class="col-sm-2"></span>
+				<div class="col-sm-10">
+
+					  @for (int i = 12; i < Model.orderableProductsRentalPhoto10.Count; i++)
+							 {
+								<label class="checkbox-inline i-checks">
+									<div style="position: relative;" class="icheckbox_square-green">
+										<div class="icheckbox_square-green" style="position: relative;">
+																@Html.CheckBoxFor(m => Model.orderableProductsRentalPhoto10[i].CheckedStatus, new { name = @Model.orderableProductsRentalPhoto10[i].ChkboxName, @class = "chkposition" })
+																@Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].Row_Id)
+																@Html.HiddenFor(m => Model.orderableProductsRentalPhoto10[i].WebName)
+											<ins class="iCheck-helper orderchekbox"></ins>
+										</div>
+										 <ins class="iCheck-helper orderchekbox"></ins>
+									 </div>
+										@Model.orderableProductsRentalPhoto10[i].WebName
+								</label>
+							 }
+				</div>
+			   
+            </div>
+
+</div>
+
+    <br />
+	
+	<!-- UAV Drone content -->
+        <div id="div_1" style="display: none">
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">UAV Drone / Aerial Photography</h5>
+                <div class="col-sm-10"></div>
+            </div>
+
+			@for (int i = 0; i < Model.orderableProductsUAVDrone.Count; i++)
+			{			 
+				<div class="form-group">
+					<label class="col-sm-2 control-label">@Model.orderableProductsUAVDrone[i].LabelText</label>
+					<div class="col-sm-10">
+						<div class="checkbox i-checks">
+							<label class="">
+								<div class="icheckbox_square-green" style="position: relative;">
+															@Html.CheckBoxFor(m => Model.orderableProductsUAVDrone[i].CheckedStatus, new { name = @Model.orderableProductsUAVDrone[i].ChkboxName, @class = "chkposition" })
+															@Html.HiddenFor(m => Model.orderableProductsUAVDrone[i].Row_Id)
+															@Html.HiddenFor(m => Model.orderableProductsUAVDrone[i].WebName)
+										<ins class="iCheck-helper orderchekbox"></ins>
+								 </div>
+								 
+								<i></i>@Model.orderableProductsUAVDrone[i].WebName
+							</label>
+							
+						</div>
+					</div>
+				</div>
+			}
+
+        </div>
+	
+	
+	   <!-- Floorplan and Landbox content -->
+
+        <div id="divFloorPlan" style="display: none">
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Floorplan and Landbox</h5>
+
+                <div class="col-sm-10"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">On-site Measure and Draw</label>
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDay" data-relativediv="divOnsiteMeasureDraw" style="position: relative;">
+                                <input type="radio" value="FloorPlan" name="Rd_day_Floorphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDusk" data-relativediv="divOnsiteMeasureDraw" style="position: relative;">
+                                <input id="" type="radio" value="FloorPlanandSite Plan" name="Rd_day_Floorphotography" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan and Site Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            Drawn to your corporate specifications - with one revision
+			<div id="divOnsiteMeasureDraw" style="display: none;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">On-site Colour</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox i-checks">
+                            <label class="">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" value="On-site Colour:Yes" name="chk_OnsiteColor" style="position: absolute; opacity: 0;">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <i></i>Yes
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Redraw Colour</label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDay" data-relativediv="divOnsiteMeasureReDraw" style="position: relative;">
+                                <input type="radio" value="FloorPlan" name="RedrawFloorSiteRadio" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10">
+                    <div class="radio i-checks">
+                        <label class="">
+                            <div class="iradio_square-green for_radioPrestigeDusk" data-relativediv="divOnsiteMeasureReDraw" style="position: relative;">
+                                <input id="" type="radio" value="FloorPlanSitePlan" name="RedrawFloorSiteRadio" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                            </div>
+                            <i></i>Floor Plan and Site Plan</label>
+                    </div>
+                </div>
+            </div>
+
+            Drawn to your corporate specifications - with one revision
+			<div id="divOnsiteMeasureReDraw" style="display: none;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Redraw Colour</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox i-checks">
+                            <label class="">
+                                <div class="icheckbox_square-green" style="position: relative;">
+                                    <input type="checkbox" value="Redraw Colour:Yes" name="chk_RedrawColor" style="position: absolute; opacity: 0;">
+                                    <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                                </div>
+                                <i></i>Yes
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Landbox</label>
+                <div class="col-sm-10">
+                    <div class="">
+                        <select name="ddlLandbox">
+                            <option value="None">None</option>
+                            <option value="Ongrassbackground">On grass background</option>
+                            <option value="Onpropbackground">On Property background</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+		 <!-- Video & Image -->
+		<div id="div_3" style="display: none;">
+
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Copy writing </h5>
+                <div class="col-sm-10"></div>
+            </div>
+
+			 @for (int i = 0; i < Model.orderableProductsCopyWriting.Count; i++)
+						{			 
+							<div class="form-group">
+								<label class="col-sm-2 control-label">@Model.orderableProductsCopyWriting[i].LabelText</label>
+								<div class="col-sm-10">
+									<div class="checkbox i-checks">
+										<label class="">
+											<div class="icheckbox_square-green" style="position: relative;">
+																		@Html.CheckBoxFor(m => Model.orderableProductsCopyWriting[i].CheckedStatus, new { name = @Model.orderableProductsCopyWriting[i].ChkboxName, @class = "chkposition" })
+																		@Html.HiddenFor(m => Model.orderableProductsCopyWriting[i].Row_Id)
+																		@Html.HiddenFor(m => Model.orderableProductsCopyWriting[i].WebName)
+													<ins class="iCheck-helper orderchekbox"></ins>
+											 </div>
+											 
+											<i></i>@Model.orderableProductsCopyWriting[i].WebName
+										</label>
+										
+									</div>
+								</div>
+							</div>
+						}
+
+        </div>
+		
+		<div id="div_4" style="display: none;">
+
+            <div class="form-group">
+                <h5 class="col-sm-2 control-label">Video & Image </h5>
+                <div class="col-sm-10"></div>
+            </div>
+
+			 @for (int i = 0; i < Model.orderableProductsVideoAndImage.Count; i++)
+						{			 
+							<div class="form-group">
+								<label class="col-sm-2 control-label">@Model.orderableProductsVideoAndImage[i].LabelText</label>
+								<div class="col-sm-10">
+									<div class="checkbox i-checks">
+										<label class="">
+											<div class="icheckbox_square-green" style="position: relative;">
+																		@Html.CheckBoxFor(m => Model.orderableProductsVideoAndImage[i].CheckedStatus, new { name = @Model.orderableProductsVideoAndImage[i].ChkboxName, @class = "chkposition" })
+																		@Html.HiddenFor(m => Model.orderableProductsVideoAndImage[i].Row_Id)
+																		@Html.HiddenFor(m => Model.orderableProductsVideoAndImage[i].WebName)
+													<ins class="iCheck-helper orderchekbox"></ins>
+											 </div>
+											 
+											<i></i>@Model.orderableProductsVideoAndImage[i].WebName
+										</label>
+										
+									</div>
+								</div>
+							</div>
+						}
+
+        </div>
+		
+		
+		
+		
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Keys in Safe at Property:</label>
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="Keys in Safe at Property:Yes" name="chk_KeyinsafeProp" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Yes
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Keys in Office:</label>
+            <div class="col-sm-10">
+                <div class="checkbox i-checks">
+                    <label class="">
+                        <div class="icheckbox_square-green" style="position: relative;">
+                            <input type="checkbox" value="Keys in Office:Yes" name="chk_KeyinOffice" style="position: absolute; opacity: 0;">
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 0px none; opacity: 0;"></ins>
+                        </div>
+                        <i></i>Yes
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Special Instructions:</label>
+            <div class="col-sm-10">
+
+                  @Html.TextAreaFor(m => m.SpecialInstruction, new { @class = "form-control", @rows="4" })
+               @* <textarea rows="4" name="txt_SpecialInsruction" class="form-control"></textarea>*@
+            </div>
+        </div>
+    </div> <!-- end div main order -->
+    
+
+    
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+            @*<a href="#" class="btn btn-primary btn-rounded"><i class="fa fa-check"></i>Submit</a>*@
+            <button type="submit" class="btn btn-primary block full-width m-b">Submit</button>
+        </div>
+    </div>
+
+       
+                       
+}
+
+
+  
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green'
+        });
+
+
+        $(function () {
+          
+            $('[data-relativediv]').click(function () {
+             
+                var relativeDivId = $(this).data('relativediv');
+                $('#' + relativeDivId).slideToggle();
+
+            });
+
+        });
+
+
+
+
+
+        $(".for_radio").click(function () {
+            $("#imageOptions2").show();
+            $("#imageOptions8").hide();
+            $("#imageOptions5").hide();
+        });
+        $(".for_radio2").click(function () {
+            $("#imageOptions5").show();
+            $("#imageOptions2").hide();
+            $("#imageOptions8").hide();
+        });
+        $(".for_radio3").click(function () {
+            $("#imageOptions8").show();
+            $("#imageOptions2").hide();
+            $("#imageOptions5").hide();
+        });
+
+        $(".for_radioPrestigeDay").click(function () {
+            $("#divPrestigeDayOption").show();
+            $("#divPrestigeDuskOption").hide();
+        });
+
+        $(".for_radioPrestigeDusk").click(function () {
+            $("#divPrestigeDuskOption").show();
+            $("#divPrestigeDayOption").hide();
+        });
+
+        $(".for_Rental_photography_5").click(function () {
+            $("#divRentalOption5").show();
+            $("#divRentalOption10").hide();
+        });
+
+        $(".for_Rental_photography_10").click(function () {
+            $("#divRentalOption10").show();
+            $("#divRentalOption5").hide();
+        });
+
+
+
+
+    });
+
+</script>
+
+
+
+
+
+

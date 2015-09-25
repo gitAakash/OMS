@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div>
+    <span id="spnOrdertracking"></span>
+</div>
+
+
+
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(function () {
+        Jobtracking();
+
+    });
+    function Jobtracking()
+    {
+        $.get('@Url.Action("Jobtracking", "Staff")', function(data) {
+            if (data != null) {
+              //  alert("hi");
+                $("#spnOrdertracking").text("");
+                $("#spnOrdertracking").html(data);
+
+            }
+        });
+
+    }
+       
+</script>
+

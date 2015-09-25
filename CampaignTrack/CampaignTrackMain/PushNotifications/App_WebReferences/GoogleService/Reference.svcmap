@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="86f1d34d-46bb-4ec0-b294-069d373d5cbb" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://dev.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="GoogleNotificationService.xsd" MetadataType="Schema" ID="c14c3c49-bd08-40a7-82dc-a7ab421fe144" SourceId="1" SourceUrl="http://dev.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?xsd=xsd0" />
+    <MetadataFile FileName="GoogleNotificationService2.xsd" MetadataType="Schema" ID="38e601dd-487e-4413-b387-b3b23b5cf7c5" SourceId="1" SourceUrl="http://dev.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?xsd=xsd2" />
+    <MetadataFile FileName="GoogleNotificationService3.xsd" MetadataType="Schema" ID="59449a83-3990-4919-9b4d-2a563a5ac8a6" SourceId="1" SourceUrl="http://dev.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?xsd=xsd3" />
+    <MetadataFile FileName="GoogleNotificationService1.xsd" MetadataType="Schema" ID="c00d156c-e86d-497f-bdb5-3f917f6e4a9c" SourceId="1" SourceUrl="http://dev.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?xsd=xsd1" />
+    <MetadataFile FileName="GoogleNotificationService.wsdl" MetadataType="Wsdl" ID="003fe419-2a10-4e7d-942b-22b11a794f7d" SourceId="1" SourceUrl="http://dev.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?wsdl" />
+    <MetadataFile FileName="GoogleNotificationService.disco" MetadataType="Disco" ID="ec259849-8f09-4628-878e-efcb507baca0" SourceId="1" SourceUrl="http://dev.zerofootprint.com.au/GoogleService/GoogleNotificationService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

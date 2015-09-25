@@ -1,0 +1,184 @@
+﻿@model OrderManagement.Web.Models.ProductModel
+@*@model IEnumerable<OrderManagement.Web.SpGetAllProduct>*@
+
+@*@using OrderManagement.Web.Helper.Utilitties
+@model IList<OrderManagement.Web.Models.ProductModel>*@
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/kendo/2014.2.716/jquery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/kendo/2014.2.716/kendo.web.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/kendo/2014.2.716/kendo.common.min.css")"  rel="stylesheet" type="text/css" />
+<link type="text/css" href="@Url.Content("~/Content/kendo/2014.2.716/kendo.flat.min.css")" rel="stylesheet" />
+
+
+
+@*<div id="clientsDb">
+    @(Html.Kendo().Grid<OrderManagement.Web.Models.ProductModel>()
+        .Name("grid")
+       .Selectable()
+                          .Sortable()
+                        //  .Events(events => events.Change("entSelChange"))
+                         // .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                          .Columns(columns =>
+                              {
+                                  columns.Bound(p => p.XeroCode);   //Create a column bound to the "ProductID" property
+                                  columns.Bound(p => p.ProductDescription); //Create a column bound to the "ProductName" property
+                                  columns.Bound(p => p.SalesUnitPrice);   //Create a column bound to the "UnitPrice" property
+                                  columns.Bound(p => p.SalesAccountCode);//Create a column bound to the "UnitsInStock" property
+                                  columns.Bound(p => p.Group);
+                                 // columns.Bound(p => p.Name).Title("Product Group");//Create a column bound to the "UnitsInStock" property
+                                
+                              })
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Products_Read", "Product"))
+        )
+    )
+</div>*@
+
+
+
+<div class="row">
+    <div class="col-lg-12 animated fadeInRight">
+
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Products</h5>
+                </div>
+                <div class="ibox-content">
+                    @(Html.Kendo().Grid<OrderManagement.Web.SpGetAllProduct>() // Bind the grid to the Model property of the view
+                          .Name("productgrid")
+                          // .Scrollable()
+                          .Selectable()
+                          .Sortable()
+                          .Events(events => events.Change("entSelChange"))
+                          .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+                          .Columns(columns =>
+                              {
+                                  columns.Bound(p => p.XeroCode);   //Create a column bound to the "ProductID" property
+                                  columns.Bound(p => p.ProductDescription); //Create a column bound to the "ProductName" property
+                                  columns.Bound(p => p.SalesUnitPrice);   //Create a column bound to the "UnitPrice" property
+                                  columns.Bound(p => p.SalesAccountCode);//Create a column bound to the "UnitsInStock" property
+                                  columns.Bound(p => p.Name).Title("Product Group");//Create a column bound to the "UnitsInStock" property
+                                  columns.Bound(p => p.ProductGroupId).Hidden(true);
+                                
+                              })
+     
+                          .Pageable(pager => pager  
+                                                 .PageSizes(new int[]{10,25,50})   
+                                                 .Refresh(true)
+                          )
+//Enable paging
+                          .DataSource(dataSource => dataSource        
+                                                        .Ajax()
+                                                        .PageSize(10)
+                                                        .Read(read => read.Action("Products_Read", "Product"))
+                                                        //.ServerOperation(false)  
+                                                        .Model(model => model.Id(e => e.Row_Id))      
+                          )
+                          )
+                </div>
+                   
+                
+
+                    <div class="btn-grp">
+
+                        <button type="button" class="btn btn-warning" onclick="javascript:loadProductbygroup('1');" id="btnPhotography">Photography</button>
+                        <button type="button" class="btn btn-info" onclick="javascript:loadProductbygroup('2');" id="btnCopywriting">Copywriting</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:loadProductbygroup('3');" id="btnVideoServices">Video Services</button>
+                        <button type="button" class="btn .btn-Floor" onclick="javascript:loadProductbygroup('4');" id="btnFloorplan">Floor Plan</button>
+                        <button type="button" class="btn btn-danger" onclick="javascript:loadProductbygroup('5');" id="btnAerial">Aerial</button>
+                        <button type="button" class="btn btn-success" onclick="javascript:loadProductbygroup('7');" id="btnPackage">Package</button>
+                        <button type="button" class="btn btn-default" onclick="javascript:loadProductbygroup('');" id="btnAllProd">All</button>
+
+
+                    </div>
+                </div>
+        </div>
+
+    </div>
+</div>
+<div id='scrol'></div>
+
+@Html.Hidden("globlePtoductid")
+<span id="loadCompaniesforProduct"></span>
+<span id="loadProductgroup"></span>
+<span id="loadWebOrderable" style="display:none;" ></span>
+<script language="javascript" type="text/javascript">
+
+    function entSelChange() {
+        $("#globlePtoductid").val("");
+        var entityGrid = $("#productgrid").data("kendoGrid");
+        var selectedItem = entityGrid.dataItem(entityGrid.select());
+        if (selectedItem != null && selectedItem != 'undefined') {
+          //  alert("The Row Id : " + selectedItem.id);
+            $("#globlePtoductid").val(selectedItem.id);
+          //  alert($("#globlePtoductid").val());
+            // alert(spnProdId);
+            loadProducyCompanylst(selectedItem.id);
+
+
+        } else {
+            // alert("NO Row Is SELECTED");
+            $("#globlePtoductid").val("");
+        }
+
+    }
+
+    function loadProductbygroup(filterby) {
+        $filter = new Array();
+        $filterName = filterby;
+        if ($filterName) {
+            $filter.push({ field: "ProductGroupId", operator: "contains", value: $filterName });
+        }
+        var grid = $("#productgrid").data("kendoGrid");
+        grid.dataSource.filter($filter);
+
+    };
+
+ 
+ 
+    function loadProducyCompanylst(id) {
+
+        $.get('@Url.Action("ProductCompanyList", "Product")', { id: id }, function (data) {
+            if (data != null) {
+                $("#loadCompaniesforProduct").html("");
+                $("#loadCompaniesforProduct").html(data.Data.productCompanyPartialView);
+
+                $("#loadWebOrderable").html("");
+                $("#loadWebOrderable").html(data.Data.productWebOrderPartialView);
+
+                
+               // $("#loadCompaniesforProduct").html(data);
+                loadProductGroup(id);
+                // $("#applicationMenu").show();
+
+                // $("#_TotalValues").html(response.totalValuesPartialView);
+              //  $("#_SummaryValues").html(response.summaryValuesPartialView);
+            }
+        });
+    }
+
+
+    // This get the values from product Schedule table apr per product code.
+
+    function loadProductGroup(id) {
+        ///  alert("hi");
+        if (id != null) {
+            $.get('@Url.Action("ProductGroup", "Product")', { id: id }, function (data) {
+                if (data != null) {
+                    //  alert("hi123");
+                    $('#loadProductgroup').html("");
+                    $('#loadProductgroup').html(data);
+                    // $("html, body").animate({ scrollTop: 0 }, "slow");
+                }
+            });
+
+        }
+    }
+
+</script>

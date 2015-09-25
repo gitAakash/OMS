@@ -1,0 +1,124 @@
+﻿@using OrderManagement.Web.Helper.Utilitties
+@model OrderManagement.Web.Models.ContactModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/FormValidation.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.alphanumeric.js")" type="text/javascript"></script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                @if (Model != null && Model.Row_Id != 0)
+                {
+                    <h5>Update Contacts</h5>
+                }
+                else
+                {
+                    <h5>Add new Contacts</h5>
+                }
+            </div>
+            <div class="ibox-content">
+
+                 <div id="Companycontactsloader" align="center"></div>
+                @using (Html.BeginForm("AddOrUpdateContacts", "Company", FormMethod.Post, new { @class = "form-horizontal", id = "UpdateCompanyContactsForm" }))
+                {
+                    @*<div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.CompanyId)</label>
+
+                        <div class="col-sm-10">
+                            <p class="form-control-static">@Html.DisplayTextFor(m => m.CompanyId)</p>
+                        </div>
+                    </div>*@
+                               
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Name)<span style="color:red">*</span></label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Name, new { maxlength = 100, @class = "form-control Alphanumeric" })
+                            <span style="color:red" id="NameValidation"></span>
+                        </div>
+                    </div>
+                         
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.Value)<span style="color:red">*</span></label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Value, new { maxlength = 100, @class = "form-control" })
+                            <span style="color:red" id="ValueValidation"></span>
+                        </div>
+                    </div>
+                         
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@Html.DisplayNameFor(m => m.ContactType)<span style="color:red">*</span></label>
+                        <div class="col-sm-10">
+                      @*   @Html.TextBoxFor(m => m.ContactType, new { maxlength = 100, @class = "form-control Alphanumeric" })*@
+                            
+                            
+                             @Html.DropDownListFor(m => m.ContactType, new SelectList(Enum.GetNames(typeof(EnumHelper.EContactType))), "Select Contact Type", new { @class = "form-control m-b" })
+
+                            <span style="color:red" id="ContactTypeValidation"></span>
+                        </div>
+                    </div>
+
+                  
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            @if (Model != null && Model.Row_Id != 0)
+                            {
+                                 <span id="spnmsg" style="display: none">Contact has been Updated.</span>
+                                <button type="button" class="btn btn-primary" onclick="javascript:AddUpdateContacts();">Update Contact</button>
+                            }
+                            else
+                            {
+                                 <span id="spnmsg" style="display: none">Contact has been Saved.</span>
+                                <button type="button" class="btn btn-primary" onclick="javascript:AddUpdateContacts();">Add Contact</button>
+                            }
+                            <button type="button" class="btn btn-w-m btn-default" onclick="javascript:Cancel();">Cancel</button>
+                             
+
+                        </div>
+                    </div>
+                    
+                    @Html.HiddenFor(model => model.Orderid)
+                     @Html.HiddenFor(model => model.CompanyId)
+                    @Html.HiddenFor(model => model.Row_Id)
+                    @Html.HiddenFor(model => model.Created)
+                  
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+    function AddUpdateContacts() {
+
+        var validate = $("#UpdateCompanyContactsForm").valid();
+        if (validate) {
+
+            $("#Orderid").val($("#hdnOrderId").val());
+            $('#Companycontactsloader').html('<img src="@Url.Content("~/Images/LoadingImage.gif")"> Saving...');
+        $.post('@Url.Action("AddOrUpdateContacts", "Company")', $("#UpdateCompanyContactsForm").serialize(), function (data) {
+            if (data != null) {
+                $('#Companycontactsloader').html("");
+                $("#loadCompanyContacts").text("");
+                $("#spnAddEditCompanyContacts").text("");
+                $('#hdnCpmpanyContactId').val("");
+                $("#loadCompanyContacts").html(data);
+               // alert($("#spnmsg").text());
+            }
+        });
+
+        }
+
+    }
+
+    function Cancel() {
+        $("#spnAddEditCompanyContacts").text("");
+    }
+   
+    $(document).ready(function () {
+        $('.Alphanumeric').alphanumeric();
+    });
+</script>
